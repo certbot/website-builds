@@ -1,0 +1,853 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>certbot.reverter &mdash; Certbot 0.16.0.dev0 documentation</title>
+  
+<!--
+
+ ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
+╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
+
+Like looking at code? Help us! https://github.com/certbot/certbot
+-->
+
+  
+  
+
+  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@EFF">
+<meta name="twitter:title" content="certbot.reverter &mdash; Certbot 0.16.0.dev0 documentation">
+<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Certbot 0.16.0.dev0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <nav class="main-nav fixed">
+  <ul>
+    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Certbot</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/docs/">Documentation</a></li>
+    <li><a href="/support/">Support</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
+    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../" class="icon icon-home"> Certbot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.16
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Get Certbot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../">Certbot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>certbot.reverter</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/reverter" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for certbot.reverter</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Reverter class saves configuration checkpoints and allows for recovery.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+
+<span class="kn">import</span> <span class="nn">six</span>
+<span class="kn">import</span> <span class="nn">zope.component</span>
+
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Reverter"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter">[docs]</a><span class="k">class</span> <span class="nc">Reverter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Reverter Class - save and revert configuration checkpoints.</span>
+
+<span class="sd">    This class can be used by the plugins, especially Installers, to</span>
+<span class="sd">    undo changes made to the user&#39;s system. Modifications to files and</span>
+<span class="sd">    commands to do undo actions taken by the plugin should be registered</span>
+<span class="sd">    with this class before the action is taken.</span>
+
+<span class="sd">    Once a change has been registered with this class, there are three</span>
+<span class="sd">    states the change can be in. First, the change can be a temporary</span>
+<span class="sd">    change. This should be used for changes that will soon be reverted,</span>
+<span class="sd">    such as config changes for the purpose of solving a challenge.</span>
+<span class="sd">    Changes are added to this state through calls to</span>
+<span class="sd">    :func:`~add_to_temp_checkpoint` and reverted when</span>
+<span class="sd">    :func:`~revert_temporary_config` or :func:`~recovery_routine` is</span>
+<span class="sd">    called.</span>
+
+<span class="sd">    The second state a change can be in is in progress. These changes</span>
+<span class="sd">    are not temporary, however, they also have not been finalized in a</span>
+<span class="sd">    checkpoint. A change must become in progress before it can be</span>
+<span class="sd">    finalized. Changes are added to this state through calls to</span>
+<span class="sd">    :func:`~add_to_checkpoint` and reverted when</span>
+<span class="sd">    :func:`~recovery_routine` is called.</span>
+
+<span class="sd">    The last state a change can be in is finalized in a checkpoint. A</span>
+<span class="sd">    change is put into this state by first becoming an in progress</span>
+<span class="sd">    change and then calling :func:`~finalize_checkpoint`. Changes</span>
+<span class="sd">    in this state can be reverted through calls to</span>
+<span class="sd">    :func:`~rollback_checkpoints`.</span>
+
+<span class="sd">    As a final note, creating new files and registering undo commands</span>
+<span class="sd">    are handled specially and use the methods</span>
+<span class="sd">    :func:`~register_file_creation` and :func:`~register_undo_command`</span>
+<span class="sd">    respectively. Both of these methods can be used to create either</span>
+<span class="sd">    temporary or in progress changes.</span>
+
+<span class="sd">    .. note:: Consider moving everything over to CSV format.</span>
+
+<span class="sd">    :param config: Configuration.</span>
+<span class="sd">    :type config: :class:`certbot.interfaces.IConfig`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+
+        <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Reverter.revert_temporary_config"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.revert_temporary_config">[docs]</a>    <span class="k">def</span> <span class="nf">revert_temporary_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reload users original configuration files after a temporary save.</span>
+
+<span class="sd">        This function should reinstall the users original configuration files</span>
+<span class="sd">        for all saves with temporary=True</span>
+
+<span class="sd">        :raises .ReverterError: when unable to revert config</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_recover_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">:</span>
+                <span class="c1"># We have a partial or incomplete recovery</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">&quot;Incomplete or failed recovery for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span><span class="s2">&quot;Unable to revert temporary config&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Reverter.rollback_checkpoints"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.rollback_checkpoints">[docs]</a>    <span class="k">def</span> <span class="nf">rollback_checkpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rollback</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Revert &#39;rollback&#39; number of configuration checkpoints.</span>
+
+<span class="sd">        :param int rollback: Number of checkpoints to reverse. A str num will be</span>
+<span class="sd">           cast to an integer. So &quot;2&quot; is also acceptable.</span>
+
+<span class="sd">        :raises .ReverterError:</span>
+<span class="sd">            if there is a problem with the input or if the function is</span>
+<span class="sd">            unable to correctly revert the configuration checkpoints</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">rollback</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rollback</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Rollback argument must be a positive integer&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span><span class="s2">&quot;Invalid Input&quot;</span><span class="p">)</span>
+        <span class="c1"># Sanity check input</span>
+        <span class="k">if</span> <span class="n">rollback</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Rollback argument must be a positive integer&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span><span class="s2">&quot;Invalid Input&quot;</span><span class="p">)</span>
+
+        <span class="n">backups</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">)</span>
+        <span class="n">backups</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">backups</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Certbot hasn&#39;t modified your configuration, so rollback &quot;</span>
+                <span class="s2">&quot;isn&#39;t available.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">backups</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">rollback</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Unable to rollback </span><span class="si">%d</span><span class="s2"> checkpoints, only </span><span class="si">%d</span><span class="s2"> exist&quot;</span><span class="p">,</span>
+                           <span class="n">rollback</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">backups</span><span class="p">))</span>
+
+        <span class="k">while</span> <span class="n">rollback</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">backups</span><span class="p">:</span>
+            <span class="n">cp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">backups</span><span class="o">.</span><span class="n">pop</span><span class="p">())</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_recover_checkpoint</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">&quot;Failed to load checkpoint during rollback&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
+                    <span class="s2">&quot;Unable to load checkpoint during rollback&quot;</span><span class="p">)</span>
+            <span class="n">rollback</span> <span class="o">-=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="Reverter.view_config_changes"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.view_config_changes">[docs]</a>    <span class="k">def</span> <span class="nf">view_config_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_logging</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Displays all saved checkpoints.</span>
+
+<span class="sd">        All checkpoints are printed by</span>
+<span class="sd">        :meth:`certbot.interfaces.IDisplay.notification`.</span>
+
+<span class="sd">        .. todo:: Decide on a policy for error handling, OSError IOError...</span>
+
+<span class="sd">        :raises .errors.ReverterError: If invalid directory structure.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">backups</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">)</span>
+        <span class="n">backups</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num</span><span class="p">:</span>
+            <span class="n">backups</span> <span class="o">=</span> <span class="n">backups</span><span class="p">[:</span><span class="n">num</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">backups</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Certbot has not saved backups of your configuration&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span>
+        <span class="c1"># Make sure there isn&#39;t anything unexpected in the backup folder</span>
+        <span class="c1"># There should only be timestamped (float) directories</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">bkup</span> <span class="ow">in</span> <span class="n">backups</span><span class="p">:</span>
+                <span class="nb">float</span><span class="p">(</span><span class="n">bkup</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
+                <span class="s2">&quot;Invalid directories in </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">))</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">bkup</span> <span class="ow">in</span> <span class="n">backups</span><span class="p">:</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">bkup</span><span class="p">)))</span>
+            <span class="n">cur_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">bkup</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s2">&quot;CHANGES_SINCE&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">changes_fd</span><span class="p">:</span>
+                <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">changes_fd</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Affected files:&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s2">&quot;FILEPATHS&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">paths_fd</span><span class="p">:</span>
+                <span class="n">filepaths</span> <span class="o">=</span> <span class="n">paths_fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">filepaths</span><span class="p">:</span>
+                    <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s2">&quot;NEW_FILES&quot;</span><span class="p">)):</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s2">&quot;NEW_FILES&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">new_fd</span><span class="p">:</span>
+                    <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;New Configuration Files:&quot;</span><span class="p">)</span>
+                    <span class="n">filepaths</span> <span class="o">=</span> <span class="n">new_fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">filepaths</span><span class="p">:</span>
+                        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">for_logging</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Reverter.add_to_temp_checkpoint"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.add_to_temp_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_temp_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add files to temporary checkpoint.</span>
+
+<span class="sd">        :param set save_files: set of filepaths to save</span>
+<span class="sd">        :param str save_notes: notes about changes during the save</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_to_checkpoint_dir</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Reverter.add_to_checkpoint"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.add_to_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add files to a permanent checkpoint.</span>
+
+<span class="sd">        :param set save_files: set of filepaths to save</span>
+<span class="sd">        :param str save_notes: notes about changes during the save</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check to make sure we are not overwriting a temp file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_tempfile_saves</span><span class="p">(</span><span class="n">save_files</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_to_checkpoint_dir</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Reverter._add_to_checkpoint_dir"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._add_to_checkpoint_dir">[docs]</a>    <span class="k">def</span> <span class="nf">_add_to_checkpoint_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cp_dir</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add save files to checkpoint directory.</span>
+
+<span class="sd">        :param str cp_dir: Checkpoint directory filepath</span>
+<span class="sd">        :param set save_files: set of files to save</span>
+<span class="sd">        :param str save_notes: notes about changes made during the save</span>
+
+<span class="sd">        :raises IOError: if unable to open cp_dir + FILEPATHS file</span>
+<span class="sd">        :raises .ReverterError: if unable to add checkpoint</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
+            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+
+        <span class="n">op_fd</span><span class="p">,</span> <span class="n">existing_filepaths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_and_append</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">,</span> <span class="s2">&quot;FILEPATHS&quot;</span><span class="p">))</span>
+
+        <span class="n">idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">existing_filepaths</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">save_files</span><span class="p">:</span>
+            <span class="c1"># No need to copy/index already existing files</span>
+            <span class="c1"># The oldest copy already exists in the directory...</span>
+            <span class="k">if</span> <span class="n">filename</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">existing_filepaths</span><span class="p">:</span>
+                <span class="c1"># Tag files with index so multiple files can</span>
+                <span class="c1"># have the same filename</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Creating backup of </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                        <span class="n">cp_dir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)))</span>
+                    <span class="n">op_fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+                <span class="c1"># http://stackoverflow.com/questions/4726260/effective-use-of-python-shutil-copy2</span>
+                <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+                    <span class="n">op_fd</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                        <span class="s2">&quot;Unable to add file </span><span class="si">%s</span><span class="s2"> to checkpoint </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">filename</span><span class="p">,</span> <span class="n">cp_dir</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
+                        <span class="s2">&quot;Unable to add file </span><span class="si">{0}</span><span class="s2"> to checkpoint &quot;</span>
+                        <span class="s2">&quot;</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">cp_dir</span><span class="p">))</span>
+                <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">op_fd</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">,</span> <span class="s2">&quot;CHANGES_SINCE&quot;</span><span class="p">),</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">notes_fd</span><span class="p">:</span>
+            <span class="n">notes_fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">save_notes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Reverter._read_and_append"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._read_and_append">[docs]</a>    <span class="k">def</span> <span class="nf">_read_and_append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;Reads the file lines and returns a file obj.</span>
+
+<span class="sd">        Read the file returning the lines, and a pointer to the end of the file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Open up filepath differently depending on if it already exists</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+            <span class="n">op_fd</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r+&quot;</span><span class="p">)</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">op_fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">op_fd</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">op_fd</span><span class="p">,</span> <span class="n">lines</span></div>
+
+<div class="viewcode-block" id="Reverter._recover_checkpoint"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._recover_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">_recover_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cp_dir</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Recover a specific checkpoint.</span>
+
+<span class="sd">        Recover a specific checkpoint provided by cp_dir</span>
+<span class="sd">        Note: this function does not reload augeas.</span>
+
+<span class="sd">        :param str cp_dir: checkpoint directory file path</span>
+
+<span class="sd">        :raises errors.ReverterError: If unable to recover checkpoint</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Undo all commands</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">,</span> <span class="s2">&quot;COMMANDS&quot;</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_run_undo_commands</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">,</span> <span class="s2">&quot;COMMANDS&quot;</span><span class="p">))</span>
+        <span class="c1"># Revert all changed files</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">,</span> <span class="s2">&quot;FILEPATHS&quot;</span><span class="p">)):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">,</span> <span class="s2">&quot;FILEPATHS&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">paths_fd</span><span class="p">:</span>
+                    <span class="n">filepaths</span> <span class="o">=</span> <span class="n">paths_fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+                    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filepaths</span><span class="p">):</span>
+                        <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                            <span class="n">cp_dir</span><span class="p">,</span>
+                            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)),</span> <span class="n">path</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
+                <span class="c1"># This file is required in all checkpoints.</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unable to recover files from </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cp_dir</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
+                    <span class="s2">&quot;Unable to recover files from </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cp_dir</span><span class="p">)</span>
+
+        <span class="c1"># Remove any newly added files if they exist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_remove_contained_files</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">,</span> <span class="s2">&quot;NEW_FILES&quot;</span><span class="p">))</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unable to remove directory: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cp_dir</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to remove directory: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cp_dir</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Reverter._run_undo_commands"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._run_undo_commands">[docs]</a>    <span class="k">def</span> <span class="nf">_run_undo_commands</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;Run all commands in a file.&quot;&quot;&quot;</span>
+        <span class="c1"># NOTE: csv module uses native strings. That is, bytes on Python 2 and</span>
+        <span class="c1"># unicode on Python 3</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
+            <span class="n">csvreader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">csvreader</span><span class="p">)):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">util</span><span class="o">.</span><span class="n">run_script</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">SubprocessError</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                        <span class="s2">&quot;Unable to run undo command: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">command</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Reverter._check_tempfile_saves"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._check_tempfile_saves">[docs]</a>    <span class="k">def</span> <span class="nf">_check_tempfile_saves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verify save isn&#39;t overwriting any temporary files.</span>
+
+<span class="sd">        :param set save_files: Set of files about to be saved.</span>
+
+<span class="sd">        :raises certbot.errors.ReverterError:</span>
+<span class="sd">            when save is attempting to overwrite a temporary file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">protected_files</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Get temp modified files</span>
+        <span class="n">temp_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">,</span> <span class="s2">&quot;FILEPATHS&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">temp_path</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">protected_fd</span><span class="p">:</span>
+                <span class="n">protected_files</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">protected_fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
+
+        <span class="c1"># Get temp new files</span>
+        <span class="n">new_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">,</span> <span class="s2">&quot;NEW_FILES&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">new_path</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">new_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">protected_fd</span><span class="p">:</span>
+                <span class="n">protected_files</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">protected_fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
+
+        <span class="c1"># Verify no save_file is in protected_files</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">protected_files</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">save_files</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
+                    <span class="s2">&quot;Attempting to overwrite challenge &quot;</span>
+                    <span class="s2">&quot;file - </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Reverter.register_file_creation"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.register_file_creation">[docs]</a>    <span class="k">def</span> <span class="nf">register_file_creation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temporary</span><span class="p">,</span> <span class="o">*</span><span class="n">files</span><span class="p">):</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Register the creation of all files during certbot execution.</span>
+
+<span class="sd">        Call this method before writing to the file to make sure that the</span>
+<span class="sd">        file will be cleaned up if the program exits unexpectedly.</span>
+<span class="sd">        (Before a save occurs)</span>
+
+<span class="sd">        :param bool temporary: If the file creation registry is for</span>
+<span class="sd">            a temp or permanent save.</span>
+<span class="sd">        :param \*files: file paths (str) to be registered</span>
+
+<span class="sd">        :raises certbot.errors.ReverterError: If</span>
+<span class="sd">            call does not contain necessary parameters or if the file creation</span>
+<span class="sd">            is unable to be registered.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Make sure some files are provided... as this is an error</span>
+        <span class="c1"># Made this mistake in my initial implementation of apache.dvsni.py</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">files</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span><span class="s2">&quot;Forgot to provide files to registration call&quot;</span><span class="p">)</span>
+
+        <span class="n">cp_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cp_dir</span><span class="p">(</span><span class="n">temporary</span><span class="p">)</span>
+
+        <span class="c1"># Append all new files (that aren&#39;t already registered)</span>
+        <span class="n">new_fd</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">new_fd</span><span class="p">,</span> <span class="n">ex_files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_and_append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">,</span> <span class="s2">&quot;NEW_FILES&quot;</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ex_files</span><span class="p">:</span>
+                    <span class="n">new_fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">))</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unable to register file creation(s) - </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">files</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to register file creation(s) - </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">files</span><span class="p">))</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">new_fd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">new_fd</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Reverter.register_undo_command"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.register_undo_command">[docs]</a>    <span class="k">def</span> <span class="nf">register_undo_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temporary</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Register a command to be run to undo actions taken.</span>
+
+<span class="sd">        .. warning:: This function does not enforce order of operations in terms</span>
+<span class="sd">            of file modification vs. command registration.  All undo commands</span>
+<span class="sd">            are run first before all normal files are reverted to their previous</span>
+<span class="sd">            state.  If you need to maintain strict order, you may create</span>
+<span class="sd">            checkpoints before and after the the command registration. This</span>
+<span class="sd">            function may be improved in the future based on demand.</span>
+
+<span class="sd">        :param bool temporary: Whether the command should be saved in the</span>
+<span class="sd">            IN_PROGRESS or TEMPORARY checkpoints.</span>
+<span class="sd">        :param command: Command to be run.</span>
+<span class="sd">        :type command: list of str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">commands_fp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_cp_dir</span><span class="p">(</span><span class="n">temporary</span><span class="p">),</span> <span class="s2">&quot;COMMANDS&quot;</span><span class="p">)</span>
+        <span class="n">command_file</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">):</span>
+                <span class="n">command_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">command_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+
+            <span class="n">csvwriter</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">command_file</span><span class="p">)</span>
+            <span class="n">csvwriter</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unable to register undo command&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to register undo command.&quot;</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">command_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">command_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Reverter._get_cp_dir"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._get_cp_dir">[docs]</a>    <span class="k">def</span> <span class="nf">_get_cp_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temporary</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the proper reverter directory.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">temporary</span><span class="p">:</span>
+            <span class="n">cp_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cp_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span>
+
+        <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
+            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">(),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cp_dir</span></div>
+
+<div class="viewcode-block" id="Reverter.recovery_routine"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.recovery_routine">[docs]</a>    <span class="k">def</span> <span class="nf">recovery_routine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Revert configuration to most recent finalized checkpoint.</span>
+
+<span class="sd">        Remove all changes (temporary and permanent) that have not been</span>
+<span class="sd">        finalized. This is useful to protect against crashes and other</span>
+<span class="sd">        execution interruptions.</span>
+
+<span class="sd">        :raises .errors.ReverterError: If unable to recover the configuration</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># First, any changes found in IConfig.temp_checkpoint_dir are removed,</span>
+        <span class="c1"># then IN_PROGRESS changes are removed The order is important.</span>
+        <span class="c1"># IN_PROGRESS is unable to add files that are already added by a TEMP</span>
+        <span class="c1"># change.  Thus TEMP must be rolled back first because that will be the</span>
+        <span class="c1"># &#39;latest&#39; occurrence of the file.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">revert_temporary_config</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_recover_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">:</span>
+                <span class="c1"># We have a partial or incomplete recovery</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">&quot;Incomplete or failed recovery for IN_PROGRESS &quot;</span>
+                             <span class="s2">&quot;checkpoint - </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
+                    <span class="s2">&quot;Incomplete or failed recovery for IN_PROGRESS checkpoint &quot;</span>
+                    <span class="s2">&quot;- </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Reverter._remove_contained_files"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._remove_contained_files">[docs]</a>    <span class="k">def</span> <span class="nf">_remove_contained_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_list</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;Erase all files contained within file_list.</span>
+
+<span class="sd">        :param str file_list: file containing list of file paths to be deleted</span>
+
+<span class="sd">        :returns: Success</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        :raises certbot.errors.ReverterError: If</span>
+<span class="sd">            all files within file_list cannot be removed</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check to see that file exists to differentiate can&#39;t find file_list</span>
+        <span class="c1"># and can&#39;t remove filepaths within file_list errors.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_list</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_list</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">list_fd</span><span class="p">:</span>
+                <span class="n">filepaths</span> <span class="o">=</span> <span class="n">list_fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">filepaths</span><span class="p">:</span>
+                    <span class="c1"># Files are registered before they are added... so</span>
+                    <span class="c1"># check to see if file exists first</span>
+                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">lexists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                            <span class="s2">&quot;File: </span><span class="si">%s</span><span class="s2"> - Could not be found to be deleted </span><span class="si">%s</span><span class="s2"> - &quot;</span>
+                            <span class="s2">&quot;Certbot probably shut down unexpectedly&quot;</span><span class="p">,</span>
+                            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to remove filepaths contained within </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file_list</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
+                <span class="s2">&quot;Unable to remove filepaths contained within &quot;</span>
+                <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_list</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Reverter.finalize_checkpoint"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.finalize_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">finalize_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Finalize the checkpoint.</span>
+
+<span class="sd">        Timestamps and permanently saves all changes made through the use</span>
+<span class="sd">        of :func:`~add_to_checkpoint` and :func:`~register_file_creation`</span>
+
+<span class="sd">        :param str title: Title describing checkpoint</span>
+
+<span class="sd">        :raises certbot.errors.ReverterError: when the</span>
+<span class="sd">            checkpoint is not able to be finalized.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check to make sure an &quot;in progress&quot; directory exists</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="n">changes_since_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">,</span> <span class="s2">&quot;CHANGES_SINCE&quot;</span><span class="p">)</span>
+        <span class="n">changes_since_tmp_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">,</span> <span class="s2">&quot;CHANGES_SINCE.tmp&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">changes_since_path</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Rollback checkpoint is empty (no changes made?)&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">changes_since_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;No changes</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add title to self.config.in_progress_dir CHANGES_SINCE</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">changes_since_tmp_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">changes_tmp</span><span class="p">:</span>
+                <span class="n">changes_tmp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;-- </span><span class="si">%s</span><span class="s2"> --</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">title</span><span class="p">)</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">changes_since_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">changes_orig</span><span class="p">:</span>
+                    <span class="n">changes_tmp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">changes_orig</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+        <span class="c1"># Move self.config.in_progress_dir to Backups directory</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">changes_since_tmp_path</span><span class="p">,</span> <span class="n">changes_since_path</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unable to finalize checkpoint - adding title&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Exception was:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span><span class="s2">&quot;Unable to add title&quot;</span><span class="p">)</span>
+
+        <span class="c1"># rename the directory as a timestamp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timestamp_progress_dir</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Reverter._checkpoint_timestamp"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._checkpoint_timestamp">[docs]</a>    <span class="k">def</span> <span class="nf">_checkpoint_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;Determine the timestamp of the checkpoint, enforcing monotonicity.&quot;</span>
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+        <span class="n">others</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="s2">&quot;[0-9]*&quot;</span><span class="p">))</span>
+        <span class="n">others</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">others</span><span class="p">]</span>
+        <span class="n">others</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span>
+        <span class="n">others</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">others</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">timestamp</span><span class="p">:</span>
+            <span class="n">timetravel</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">others</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Current timestamp </span><span class="si">%s</span><span class="s2"> does not correspond to newest reverter &quot;</span>
+                <span class="s2">&quot;checkpoint; your clock probably jumped. Time travelling to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">timestamp</span><span class="p">,</span> <span class="n">timetravel</span><span class="p">)</span>
+            <span class="n">timestamp</span> <span class="o">=</span> <span class="n">timetravel</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">others</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">others</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">timestamp</span><span class="p">:</span>
+            <span class="c1"># It is possible if the checkpoints are made extremely quickly</span>
+            <span class="c1"># that will result in a name collision.</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Race condition with timestamp </span><span class="si">%s</span><span class="s2">, incrementing by 0.01&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+            <span class="n">timetravel</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">others</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
+            <span class="n">timestamp</span> <span class="o">=</span> <span class="n">timetravel</span>
+        <span class="k">return</span> <span class="n">timestamp</span></div>
+
+<div class="viewcode-block" id="Reverter._timestamp_progress_dir"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._timestamp_progress_dir">[docs]</a>    <span class="k">def</span> <span class="nf">_timestamp_progress_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Timestamp the checkpoint.&quot;&quot;&quot;</span>
+        <span class="c1"># It is possible save checkpoints faster than 1 per second resulting in</span>
+        <span class="c1"># collisions in the naming convention.</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">six</span><span class="o">.</span><span class="n">moves</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+            <span class="n">timestamp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint_timestamp</span><span class="p">()</span>
+            <span class="n">final_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">,</span> <span class="n">final_dir</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Extreme, unexpected race condition, retrying (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+
+        <span class="c1"># After 10 attempts... something is probably wrong here...</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+            <span class="s2">&quot;Unable to finalize checkpoint, </span><span class="si">%s</span><span class="s2"> -&gt; </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">,</span> <span class="n">final_dir</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
+            <span class="s2">&quot;Unable to finalize checkpoint renaming&quot;</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+
+    </p>
+  </div>
+  <!-- Built with Sphinx using a custom theme. --> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Downloads</dt>
+        <dd><a href="../../certbot.pdf">PDF</a></dd>
+        <dd><a href="../../certbot.zip">HTML</a></dd>
+        <dd><a href="../../certbot.epub">Epub</a></dd>
+      </dl>
+      <hr/>
+
+    </div>
+  </div>
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.16.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%E2%80%94%20Certbot%200.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+</body>
+</html>

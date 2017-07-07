@@ -1,0 +1,708 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Developer Guide &mdash; Certbot 0.16.0.dev0 documentation</title>
+  
+<!--
+
+ ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
+╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
+
+Like looking at code? Help us! https://github.com/certbot/certbot
+-->
+
+  
+  
+
+  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@EFF">
+<meta name="twitter:title" content="Developer Guide &mdash; Certbot 0.16.0.dev0 documentation">
+<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Certbot 0.16.0.dev0 documentation" href="index.html"/>
+        <link rel="next" title="Packaging Guide" href="packaging.html"/>
+        <link rel="prev" title="User Guide" href="using.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <nav class="main-nav fixed">
+  <ul>
+    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Certbot</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/docs/">Documentation</a></li>
+    <li><a href="/support/">Support</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
+    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../" class="icon icon-home"> Certbot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.16
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Get Certbot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developer Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#running-a-local-copy-of-the-client">Running a local copy of the client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#find-issues-to-work-on">Find issues to work on</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#testing">Testing</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#integration-testing-with-the-boulder-ca">Integration testing with the Boulder CA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#code-components-and-layout">Code components and layout</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#plugin-architecture">Plugin-architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#authenticators">Authenticators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installer">Installer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installer-development">Installer Development</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#writing-your-own-plugin">Writing your own plugin</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#coding-style">Coding style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#submitting-a-pull-request">Submitting a pull request</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#updating-certbot-auto-and-letsencrypt-auto">Updating certbot-auto and letsencrypt-auto</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#updating-the-scripts">Updating the scripts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-letsencrypt-auto-source-letsencrypt-auto">Building letsencrypt-auto-source/letsencrypt-auto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#opening-a-pr">Opening a PR</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#updating-the-documentation">Updating the documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-client-with-docker">Running the client with Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notes-on-os-dependencies">Notes on OS dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#debian">Debian</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#freebsd">FreeBSD</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html">Resources</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../">Certbot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Developer Guide</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/certbot/certbot/blob/master/docs/contributing.rst" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="developer-guide">
+<h1>Developer Guide<a class="headerlink" href="#developer-guide" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="table-of-contents">
+<p class="topic-title first">Table of Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#getting-started" id="id4">Getting Started</a><ul>
+<li><a class="reference internal" href="#running-a-local-copy-of-the-client" id="id5">Running a local copy of the client</a></li>
+<li><a class="reference internal" href="#find-issues-to-work-on" id="id6">Find issues to work on</a></li>
+<li><a class="reference internal" href="#testing" id="id7">Testing</a><ul>
+<li><a class="reference internal" href="#integration-testing-with-the-boulder-ca" id="id8">Integration testing with the Boulder CA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#code-components-and-layout" id="id9">Code components and layout</a><ul>
+<li><a class="reference internal" href="#plugin-architecture" id="id10">Plugin-architecture</a></li>
+<li><a class="reference internal" href="#authenticators" id="id11">Authenticators</a></li>
+<li><a class="reference internal" href="#installer" id="id12">Installer</a></li>
+<li><a class="reference internal" href="#installer-development" id="id13">Installer Development</a><ul>
+<li><a class="reference internal" href="#writing-your-own-plugin" id="id14">Writing your own plugin</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#coding-style" id="id15">Coding style</a></li>
+<li><a class="reference internal" href="#submitting-a-pull-request" id="id16">Submitting a pull request</a></li>
+<li><a class="reference internal" href="#updating-certbot-auto-and-letsencrypt-auto" id="id17">Updating certbot-auto and letsencrypt-auto</a><ul>
+<li><a class="reference internal" href="#updating-the-scripts" id="id18">Updating the scripts</a></li>
+<li><a class="reference internal" href="#building-letsencrypt-auto-source-letsencrypt-auto" id="id19">Building letsencrypt-auto-source/letsencrypt-auto</a></li>
+<li><a class="reference internal" href="#opening-a-pr" id="id20">Opening a PR</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#updating-the-documentation" id="id21">Updating the documentation</a></li>
+<li><a class="reference internal" href="#running-the-client-with-docker" id="id22">Running the client with Docker</a></li>
+<li><a class="reference internal" href="#notes-on-os-dependencies" id="id23">Notes on OS dependencies</a><ul>
+<li><a class="reference internal" href="#debian" id="id24">Debian</a></li>
+<li><a class="reference internal" href="#freebsd" id="id25">FreeBSD</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="getting-started">
+<span id="id1"></span><h2><a class="toc-backref" href="#id4">Getting Started</a><a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="running-a-local-copy-of-the-client">
+<h3><a class="toc-backref" href="#id5">Running a local copy of the client</a><a class="headerlink" href="#running-a-local-copy-of-the-client" title="Permalink to this headline">¶</a></h3>
+<p>Running the client in developer mode from your local tree is a little different
+than running Certbot as a user. To get set up, clone our git repository by
+running:</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>git clone https://github.com/certbot/certbot
+</pre></div>
+</div>
+<p>If you&#8217;re on macOS, we recommend you skip the rest of this section and instead
+run Certbot in Docker. You can find instructions for how to do this <a class="reference internal" href="#docker"><span class="std std-ref">here</span></a>. If you&#8217;re running on Linux, you can run the following commands to
+install dependencies and set up a virtual environment where you can run
+Certbot. You will need to repeat this when Certbot&#8217;s dependencies change or when
+a new plugin is introduced.</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="nb">cd</span> certbot
+./certbot-auto --os-packages-only
+./tools/venv.sh
+</pre></div>
+</div>
+<p>Then in each shell where you&#8217;re working on the client, do:</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="nb">source</span> ./venv/bin/activate
+<span class="nb">export</span> <span class="nv">SERVER</span><span class="o">=</span>https://acme-staging.api.letsencrypt.org/directory
+<span class="nb">source</span> tests/integration/_common.sh
+</pre></div>
+</div>
+<p>After that, your shell will be using the virtual environment, and you run the
+client by typing <a class="reference internal" href="api/index.html#module-certbot" title="certbot"><code class="xref py py-obj docutils literal"><span class="pre">certbot</span></code></a> or <code class="xref py py-obj docutils literal"><span class="pre">certbot_test</span></code>. The latter is an alias that
+includes several flags useful for testing. For instance, it sets various output
+directories to point to /tmp/, and uses non-privileged ports for challenges, so
+root privileges are not required.</p>
+<p>Activating a shell with <code class="xref py py-obj docutils literal"><span class="pre">venv/bin/activate</span></code> sets environment variables so that
+Python pulls in the correct versions of various packages needed by Certbot.
+More information can be found in the <a class="reference external" href="https://virtualenv.pypa.io">virtualenv docs</a>.</p>
+</div>
+<div class="section" id="find-issues-to-work-on">
+<h3><a class="toc-backref" href="#id6">Find issues to work on</a><a class="headerlink" href="#find-issues-to-work-on" title="Permalink to this headline">¶</a></h3>
+<p>You can find the open issues in the <a class="reference external" href="https://github.com/certbot/certbot/issues">github issue tracker</a>.  Comparatively
+easy ones are marked <a class="reference external" href="https://github.com/certbot/certbot/issues?q=is%3Aopen+is%3Aissue+label%3A%22Good+Volunteer+Task%22">Good Volunteer Task</a>.  If you&#8217;re starting work on
+something, post a comment to let others know and seek feedback on your plan
+where appropriate.</p>
+<p>Once you&#8217;ve got a working branch, you can open a pull request.  All changes in
+your pull request must have thorough unit test coverage, pass our
+tests, and be compliant with the <a class="reference internal" href="#coding-style"><span class="std std-ref">coding style</span></a>.</p>
+</div>
+<div class="section" id="testing">
+<span id="id2"></span><h3><a class="toc-backref" href="#id7">Testing</a><a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
+<p>When you are working in a file <code class="docutils literal"><span class="pre">foo.py</span></code>, there should also be a file <code class="docutils literal"><span class="pre">foo_test.py</span></code>
+either in the same directory as <code class="docutils literal"><span class="pre">foo.py</span></code> or in the <code class="docutils literal"><span class="pre">tests</span></code> subdirectory
+(if there isn&#8217;t, make one). While you are working on your code and tests, run
+<code class="docutils literal"><span class="pre">python</span> <span class="pre">foo_test.py</span></code> to run the relevant tests.</p>
+<p>For debugging, we recommend putting
+<code class="docutils literal"><span class="pre">import</span> <span class="pre">ipdb;</span> <span class="pre">ipdb.set_trace()</span></code> statements inside the source code.</p>
+<p>Once you are done with your code changes, and the tests in <code class="docutils literal"><span class="pre">foo_test.py</span></code> pass,
+run all of the unittests for Certbot with <code class="docutils literal"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">py27</span></code> (this uses Python
+2.7).</p>
+<p>Once all the unittests pass, check for sufficient test coverage using
+<code class="docutils literal"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">cover</span></code>, and then check for code style with <code class="docutils literal"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">lint</span></code> (all files)
+or <code class="docutils literal"><span class="pre">pylint</span> <span class="pre">--rcfile=.pylintrc</span> <span class="pre">path/to/file.py</span></code> (single file at a time).</p>
+<p>Once all of the above is successful, you may run the full test suite,
+including integration tests, using <code class="docutils literal"><span class="pre">tox</span></code>. We recommend running the
+commands above first, because running all tests with <code class="docutils literal"><span class="pre">tox</span></code> is very
+slow, and the large amount of <code class="docutils literal"><span class="pre">tox</span></code> output can make it hard to find
+specific failures when they happen. Also note that the full test suite
+will attempt to modify your system&#8217;s Apache config if your user has sudo
+permissions, so it should not be run on a production Apache server.</p>
+<p>If you have trouble getting the full <code class="docutils literal"><span class="pre">tox</span></code> suite to run locally, it is
+generally sufficient to open a pull request and let Github and Travis run
+integration tests for you.</p>
+<div class="section" id="integration-testing-with-the-boulder-ca">
+<span id="integration"></span><h4><a class="toc-backref" href="#id8">Integration testing with the Boulder CA</a><a class="headerlink" href="#integration-testing-with-the-boulder-ca" title="Permalink to this headline">¶</a></h4>
+<p>To run integration tests locally, you need Docker and docker-compose installed
+and working. Fetch and start Boulder using:</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>./tests/boulder-fetch.sh
+</pre></div>
+</div>
+<p>If you have problems with Docker, you may want to try <a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes">removing all containers and
+volumes</a> and making sure you have at least 1GB of memory.</p>
+<p>Set up a certbot_test alias that enables easily running against the local
+Boulder:</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">SERVER</span><span class="o">=</span>http://localhost:4000/directory
+<span class="nb">source</span> tests/integration/_common.sh
+</pre></div>
+</div>
+<p>Run the integration tests using:</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>./tests/boulder-integration.sh
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="code-components-and-layout">
+<h2><a class="toc-backref" href="#id9">Code components and layout</a><a class="headerlink" href="#code-components-and-layout" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>acme</dt>
+<dd>contains all protocol specific code</dd>
+<dt>certbot</dt>
+<dd>main client code</dd>
+<dt>certbot-apache and certbot-nginx</dt>
+<dd>client code to configure specific web servers</dd>
+<dt>certbot.egg-info</dt>
+<dd>configuration for packaging Certbot</dd>
+</dl>
+<div class="section" id="plugin-architecture">
+<h3><a class="toc-backref" href="#id10">Plugin-architecture</a><a class="headerlink" href="#plugin-architecture" title="Permalink to this headline">¶</a></h3>
+<p>Certbot has a plugin architecture to facilitate support for
+different webservers, other TLS servers, and operating systems.
+The interfaces available for plugins to implement are defined in
+<a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot/interfaces.py">interfaces.py</a> and <a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot/plugins/common.py#L34">plugins/common.py</a>.</p>
+<p>The main two plugin interfaces are <a class="reference internal" href="api/interfaces.html#certbot.interfaces.IAuthenticator" title="certbot.interfaces.IAuthenticator"><code class="xref py py-obj docutils literal"><span class="pre">IAuthenticator</span></code></a>, which
+implements various ways of proving domain control to a certificate authority,
+and <a class="reference internal" href="api/interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal"><span class="pre">IInstaller</span></code></a>, which configures a server to use a
+certificate once it is issued. Some plugins, like the built-in Apache and Nginx
+plugins, implement both interfaces and perform both tasks. Others, like the
+built-in Standalone authenticator, implement just one interface.</p>
+<p>There are also <a class="reference internal" href="api/interfaces.html#certbot.interfaces.IDisplay" title="certbot.interfaces.IDisplay"><code class="xref py py-obj docutils literal"><span class="pre">IDisplay</span></code></a> plugins,
+which can change how prompts are displayed to a user.</p>
+</div>
+<div class="section" id="authenticators">
+<h3><a class="toc-backref" href="#id11">Authenticators</a><a class="headerlink" href="#authenticators" title="Permalink to this headline">¶</a></h3>
+<p>Authenticators are plugins that prove control of a domain name by solving a
+challenge provided by the ACME server. ACME currently defines three types of
+challenges: HTTP, TLS-SNI, and DNS, represented by classes in <a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#module-acme.challenges" title="(in acme-python v0)"><code class="xref py py-obj docutils literal"><span class="pre">acme.challenges</span></code></a>.
+An authenticator plugin should implement support for at least one challenge type.</p>
+<p>An Authenticator indicates which challenges it supports by implementing
+<code class="xref py py-obj docutils literal"><span class="pre">get_chall_pref(domain)</span></code> to return a sorted list of challenge types in
+preference order.</p>
+<p>An Authenticator must also implement <code class="xref py py-obj docutils literal"><span class="pre">perform(achalls)</span></code>, which &#8220;performs&#8221; a list
+of challenges by, for instance, provisioning a file on an HTTP server, or
+setting a TXT record in DNS. Once all challenges have succeeded or failed,
+Certbot will call the plugin&#8217;s <code class="xref py py-obj docutils literal"><span class="pre">cleanup(achalls)</span></code> method to remove any files or
+DNS records that were needed only during authentication.</p>
+</div>
+<div class="section" id="installer">
+<h3><a class="toc-backref" href="#id12">Installer</a><a class="headerlink" href="#installer" title="Permalink to this headline">¶</a></h3>
+<p>Installers plugins exist to actually setup the certificate in a server,
+possibly tweak the security configuration to make it more correct and secure
+(Fix some mixed content problems, turn on HSTS, redirect to HTTPS, etc).
+Installer plugins tell the main client about their abilities to do the latter
+via the <a class="reference internal" href="api/interfaces.html#certbot.interfaces.IInstaller.supported_enhancements" title="certbot.interfaces.IInstaller.supported_enhancements"><code class="xref py py-meth docutils literal"><span class="pre">supported_enhancements()</span></code></a> call. We currently
+have two Installers in the tree, the <code class="xref py py-obj docutils literal"><span class="pre">ApacheConfigurator</span></code>. and the
+<code class="xref py py-obj docutils literal"><span class="pre">NginxConfigurator</span></code>.  External projects have made some progress toward
+support for IIS, Icecast and Plesk.</p>
+<p>Installers and Authenticators will oftentimes be the same class/object
+(because for instance both tasks can be performed by a webserver like nginx)
+though this is not always the case (the standalone plugin is an authenticator
+that listens on port 443, but it cannot install certs; a postfix plugin would
+be an installer but not an authenticator).</p>
+<p>Installers and Authenticators are kept separate because
+it should be possible to use the <code class="xref py py-obj docutils literal"><span class="pre">StandaloneAuthenticator</span></code> (it sets
+up its own Python server to perform challenges) with a program that
+cannot solve challenges itself (Such as MTA installers).</p>
+</div>
+<div class="section" id="installer-development">
+<h3><a class="toc-backref" href="#id13">Installer Development</a><a class="headerlink" href="#installer-development" title="Permalink to this headline">¶</a></h3>
+<p>There are a few existing classes that may be beneficial while
+developing a new <a class="reference internal" href="api/interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal"><span class="pre">IInstaller</span></code></a>.
+Installers aimed to reconfigure UNIX servers may use Augeas for
+configuration parsing and can inherit from <code class="xref py py-obj docutils literal"><span class="pre">AugeasConfigurator</span></code> class
+to handle much of the interface. Installers that are unable to use
+Augeas may still find the <a class="reference internal" href="api/reverter.html#certbot.reverter.Reverter" title="certbot.reverter.Reverter"><code class="xref py py-obj docutils literal"><span class="pre">Reverter</span></code></a> class helpful in handling
+configuration checkpoints and rollback.</p>
+<div class="section" id="writing-your-own-plugin">
+<span id="dev-plugin"></span><h4><a class="toc-backref" href="#id14">Writing your own plugin</a><a class="headerlink" href="#writing-your-own-plugin" title="Permalink to this headline">¶</a></h4>
+<p>Certbot client supports dynamic discovery of plugins through the
+<a class="reference external" href="http://setuptools.readthedocs.io/en/latest/pkg_resources.html#entry-points">setuptools entry points</a> using the <code class="xref py py-obj docutils literal"><span class="pre">certbot.plugins</span></code> group. This
+way you can, for example, create a custom implementation of
+<a class="reference internal" href="api/interfaces.html#certbot.interfaces.IAuthenticator" title="certbot.interfaces.IAuthenticator"><code class="xref py py-obj docutils literal"><span class="pre">IAuthenticator</span></code></a> or the
+<a class="reference internal" href="api/interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal"><span class="pre">IInstaller</span></code></a> without having to merge it
+with the core upstream source code. An example is provided in
+<code class="docutils literal"><span class="pre">examples/plugins/</span></code> directory.</p>
+<p>While developing, you can install your plugin into a Certbot development
+virtualenv like this:</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>. venv/bin/activate
+. tests/integration/_common.sh
+pip install -e examples/plugins/
+certbot_test plugins
+</pre></div>
+</div>
+<p>Your plugin should show up in the output of the last command. If not,
+it was not installed properly.</p>
+<p>Once you&#8217;ve finished your plugin and published it, you can have your
+users install it system-wide with <code class="xref py py-obj docutils literal"><span class="pre">pip</span> <span class="pre">install</span></code>. Note that this will
+only work for users who have Certbot installed from OS packages or via
+pip. Users who run <code class="xref py py-obj docutils literal"><span class="pre">certbot-auto</span></code> are currently unable to use third-party
+plugins. It&#8217;s technically possible to install third-party plugins into
+the virtualenv used by <code class="xref py py-obj docutils literal"><span class="pre">certbot-auto</span></code>, but they will be wiped away when
+<code class="xref py py-obj docutils literal"><span class="pre">certbot-auto</span></code> upgrades.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Please be aware though that as this client is still in a
+developer-preview stage, the API may undergo a few changes. If you
+believe the plugin will be beneficial to the community, please
+consider submitting a pull request to the repo and we will update
+it with any necessary API changes.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="coding-style">
+<span id="id3"></span><h2><a class="toc-backref" href="#id15">Coding style</a><a class="headerlink" href="#coding-style" title="Permalink to this headline">¶</a></h2>
+<p>Please:</p>
+<ol class="arabic">
+<li><p class="first"><strong>Be consistent with the rest of the code</strong>.</p>
+</li>
+<li><p class="first">Read <a class="reference external" href="https://www.python.org/dev/peps/pep-0008">PEP 8 - Style Guide for Python Code</a>.</p>
+</li>
+<li><p class="first">Follow the <a class="reference external" href="https://google.github.io/styleguide/pyguide.html">Google Python Style Guide</a>, with the exception that we
+use <a class="reference external" href="http://sphinx-doc.org/">Sphinx-style</a> documentation:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Short description.</span>
+
+<span class="sd">    :param int arg: Some number.</span>
+
+<span class="sd">    :returns: Argument</span>
+<span class="sd">    :rtype: int</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">arg</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Remember to use <code class="docutils literal"><span class="pre">pylint</span></code>.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="submitting-a-pull-request">
+<h2><a class="toc-backref" href="#id16">Submitting a pull request</a><a class="headerlink" href="#submitting-a-pull-request" title="Permalink to this headline">¶</a></h2>
+<p>Steps:</p>
+<ol class="arabic simple">
+<li>Write your code!</li>
+<li>Make sure your environment is set up properly and that you&#8217;re in your
+virtualenv. You can do this by running <code class="docutils literal"><span class="pre">./tools/venv.sh</span></code>.
+(this is a <strong>very important</strong> step)</li>
+<li>Run <code class="docutils literal"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">lint</span></code> to check for pylint errors. Fix any errors.</li>
+<li>Run <code class="docutils literal"><span class="pre">tox</span> <span class="pre">--skip-missing-interpreters</span></code> to run the entire test suite
+including coverage. The <code class="docutils literal"><span class="pre">--skip-missing-interpreters</span></code> argument ignores
+missing versions of Python needed for running the tests. Fix any errors.</li>
+<li>If your code touches communication with an ACME server/Boulder, you
+should run the integration tests, see <a class="reference internal" href="#integration">integration</a>.</li>
+<li>Submit the PR.</li>
+<li>Did your tests pass on Travis? If they didn&#8217;t, fix any errors.</li>
+</ol>
+</div>
+<div class="section" id="updating-certbot-auto-and-letsencrypt-auto">
+<h2><a class="toc-backref" href="#id17">Updating certbot-auto and letsencrypt-auto</a><a class="headerlink" href="#updating-certbot-auto-and-letsencrypt-auto" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="updating-the-scripts">
+<h3><a class="toc-backref" href="#id18">Updating the scripts</a><a class="headerlink" href="#updating-the-scripts" title="Permalink to this headline">¶</a></h3>
+<p>Developers should <em>not</em> modify the <code class="docutils literal"><span class="pre">certbot-auto</span></code> and <code class="docutils literal"><span class="pre">letsencrypt-auto</span></code> files
+in the root directory of the repository.  Rather, modify the
+<code class="docutils literal"><span class="pre">letsencrypt-auto.template</span></code> and associated platform-specific shell scripts in
+the <code class="docutils literal"><span class="pre">letsencrypt-auto-source</span></code> and
+<code class="docutils literal"><span class="pre">letsencrypt-auto-source/pieces/bootstrappers</span></code> directory, respectively.</p>
+</div>
+<div class="section" id="building-letsencrypt-auto-source-letsencrypt-auto">
+<h3><a class="toc-backref" href="#id19">Building letsencrypt-auto-source/letsencrypt-auto</a><a class="headerlink" href="#building-letsencrypt-auto-source-letsencrypt-auto" title="Permalink to this headline">¶</a></h3>
+<p>Once changes to any of the aforementioned files have been made, the
+<code class="docutils literal"><span class="pre">letsencrypt-auto-source/letsencrypt-auto</span></code> script should be updated.  In lieu of
+manually updating this script, run the build script, which lives at
+<code class="docutils literal"><span class="pre">letsencrypt-auto-source/build.py</span></code>:</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>python letsencrypt-auto-source/build.py
+</pre></div>
+</div>
+<p>Running <code class="docutils literal"><span class="pre">build.py</span></code> will update the <code class="docutils literal"><span class="pre">letsencrypt-auto-source/letsencrypt-auto</span></code>
+script.  Note that the <code class="docutils literal"><span class="pre">certbot-auto</span></code> and <code class="docutils literal"><span class="pre">letsencrypt-auto</span></code> scripts in the root
+directory of the repository will remain <strong>unchanged</strong> after this script is run.
+Your changes will be propagated to these files during the next release of
+Certbot.</p>
+</div>
+<div class="section" id="opening-a-pr">
+<h3><a class="toc-backref" href="#id20">Opening a PR</a><a class="headerlink" href="#opening-a-pr" title="Permalink to this headline">¶</a></h3>
+<p>When opening a PR, ensure that the following files are committed:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">letsencrypt-auto-source/letsencrypt-auto.template</span></code> and
+<code class="docutils literal"><span class="pre">letsencrypt-auto-source/pieces/bootstrappers/*</span></code></li>
+<li><code class="docutils literal"><span class="pre">letsencrypt-auto-source/letsencrypt-auto</span></code> (generated by <code class="docutils literal"><span class="pre">build.py</span></code>)</li>
+</ol>
+<p>It might also be a good idea to double check that <strong>no</strong> changes were
+inadvertently made to the <code class="docutils literal"><span class="pre">certbot-auto</span></code> or <code class="docutils literal"><span class="pre">letsencrypt-auto</span></code> scripts in the
+root of the repository.  These scripts will be updated by the core developers
+during the next release.</p>
+</div>
+</div>
+<div class="section" id="updating-the-documentation">
+<h2><a class="toc-backref" href="#id21">Updating the documentation</a><a class="headerlink" href="#updating-the-documentation" title="Permalink to this headline">¶</a></h2>
+<p>In order to generate the Sphinx documentation, run the following
+commands:</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>make -C docs clean html man
+</pre></div>
+</div>
+<p>This should generate documentation in the <code class="docutils literal"><span class="pre">docs/_build/html</span></code>
+directory.</p>
+</div>
+<div class="section" id="running-the-client-with-docker">
+<span id="docker"></span><h2><a class="toc-backref" href="#id22">Running the client with Docker</a><a class="headerlink" href="#running-the-client-with-docker" title="Permalink to this headline">¶</a></h2>
+<p>You can use Docker Compose to quickly set up an environment for running and
+testing Certbot. This is especially useful for macOS users. To install Docker
+Compose, follow the instructions at <a class="reference external" href="https://docs.docker.com/compose/install/">https://docs.docker.com/compose/install/</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Linux users can simply run <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">docker-compose</span></code> to get
+Docker Compose after installing Docker Engine and activating your shell as
+described in the <a class="reference internal" href="#getting-started"><span class="std std-ref">Getting Started</span></a> section.</p>
+</div>
+<p>Now you can develop on your host machine, but run Certbot and test your changes
+in Docker. When using <code class="docutils literal"><span class="pre">docker-compose</span></code> make sure you are inside your clone of
+the Certbot repository. As an example, you can run the following command to
+check for linting errors:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span><span class="o">-</span><span class="n">compose</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="o">--</span><span class="n">service</span><span class="o">-</span><span class="n">ports</span> <span class="n">development</span> <span class="n">bash</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;tox -e lint&#39;</span>
+</pre></div>
+</div>
+<p>You can also leave a terminal open running a shell in the Docker container and
+modify Certbot code in another window. The Certbot repo on your host machine is
+mounted inside of the container so any changes you make immediately take
+effect. To do this, run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docker</span><span class="o">-</span><span class="n">compose</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="o">--</span><span class="n">service</span><span class="o">-</span><span class="n">ports</span> <span class="n">development</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p>Now running the check for linting errors described above is as easy as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tox</span> <span class="o">-</span><span class="n">e</span> <span class="n">lint</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="notes-on-os-dependencies">
+<span id="prerequisites"></span><h2><a class="toc-backref" href="#id23">Notes on OS dependencies</a><a class="headerlink" href="#notes-on-os-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>OS-level dependencies can be installed like so:</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span>letsencrypt-auto-source/letsencrypt-auto --os-packages-only
+</pre></div>
+</div>
+<p>In general...</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">sudo</span></code> is required as a suggested way of running privileged process</li>
+<li><a class="reference external" href="https://wiki.python.org/moin/BeginnersGuide/Download">Python</a> 2.6/2.7 is required</li>
+<li><a class="reference external" href="http://augeas.net/">Augeas</a> is required for the Python bindings</li>
+<li><code class="docutils literal"><span class="pre">virtualenv</span></code> and <code class="docutils literal"><span class="pre">pip</span></code> are used for managing other python library
+dependencies</li>
+</ul>
+<div class="section" id="debian">
+<h3><a class="toc-backref" href="#id24">Debian</a><a class="headerlink" href="#debian" title="Permalink to this headline">¶</a></h3>
+<p>For squeeze you will need to:</p>
+<ul class="simple">
+<li>Use <code class="docutils literal"><span class="pre">virtualenv</span> <span class="pre">--no-site-packages</span> <span class="pre">-p</span> <span class="pre">python</span></code> instead of <code class="docutils literal"><span class="pre">-p</span> <span class="pre">python2</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="freebsd">
+<h3><a class="toc-backref" href="#id25">FreeBSD</a><a class="headerlink" href="#freebsd" title="Permalink to this headline">¶</a></h3>
+<p>Packages can be installed on FreeBSD using <code class="docutils literal"><span class="pre">pkg</span></code>,
+or any other port-management tool (<code class="docutils literal"><span class="pre">portupgrade</span></code>, <code class="docutils literal"><span class="pre">portmanager</span></code>, etc.)
+from the pre-built package or can be built and installed from ports.
+Either way will ensure proper installation of all the dependencies required
+for the package.</p>
+<p>FreeBSD by default uses <code class="docutils literal"><span class="pre">tcsh</span></code>. In order to activate virtualenv (see
+above), you will need a compatible shell, e.g. <code class="docutils literal"><span class="pre">pkg</span> <span class="pre">install</span> <span class="pre">bash</span> <span class="pre">&amp;&amp;</span>
+<span class="pre">bash</span></code>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="packaging.html" class="btn btn-neutral float-right" title="Packaging Guide" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="using.html" class="btn btn-neutral" title="User Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+
+    </p>
+  </div>
+  <!-- Built with Sphinx using a custom theme. --> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Downloads</dt>
+        <dd><a href="certbot.pdf">PDF</a></dd>
+        <dd><a href="certbot.zip">HTML</a></dd>
+        <dd><a href="certbot.epub">Epub</a></dd>
+      </dl>
+      <hr/>
+
+    </div>
+  </div>
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.16.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Developer%20Guide%E2%80%94%20Certbot%200.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+</body>
+</html>
