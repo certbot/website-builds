@@ -1,0 +1,616 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>certbot.display.ops &mdash; Certbot 0.16.0.dev0 documentation</title>
+  
+<!--
+
+ ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
+╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
+
+Like looking at code? Help us! https://github.com/certbot/certbot
+-->
+
+  
+  
+
+  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@EFF">
+<meta name="twitter:title" content="certbot.display.ops &mdash; Certbot 0.16.0.dev0 documentation">
+<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Certbot 0.16.0.dev0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <nav class="main-nav fixed">
+  <ul>
+    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Certbot</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/docs/">Documentation</a></li>
+    <li><a href="/support/">Support</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
+    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../" class="icon icon-home"> Certbot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.16
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Get Certbot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../using.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../resources.html">Resources</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../">Certbot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>certbot.display.ops</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/display/ops" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for certbot.display.ops</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Contains UI methods for LE user operations.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">zope.component</span>
+
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">display_util</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># Define a helper function to avoid verbose code</span>
+<span class="n">z_util</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span>
+
+
+<div class="viewcode-block" id="get_email"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.get_email">[docs]</a><span class="k">def</span> <span class="nf">get_email</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prompt for valid email address.</span>
+
+<span class="sd">    :param bool invalid: True if an invalid address was provided by the user</span>
+<span class="sd">    :param bool optional: True if the user can use</span>
+<span class="sd">        --register-unsafely-without-email to avoid providing an e-mail</span>
+
+<span class="sd">    :returns: e-mail address</span>
+<span class="sd">    :rtype: str</span>
+
+<span class="sd">    :raises errors.Error: if the user cancels</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">invalid_prefix</span> <span class="o">=</span> <span class="s2">&quot;There seem to be problems with that address. &quot;</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Enter email address (used for urgent renewal and security notices)&quot;</span>
+    <span class="n">unsafe_suggestion</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">If you really want to skip this, you can run &quot;</span>
+                         <span class="s2">&quot;the client with --register-unsafely-without-email &quot;</span>
+                         <span class="s2">&quot;but make sure you then backup your account key from &quot;</span>
+                         <span class="s2">&quot;/etc/letsencrypt/accounts</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">optional</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">invalid</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="n">unsafe_suggestion</span>
+            <span class="n">suggest_unsafe</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">suggest_unsafe</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">suggest_unsafe</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">code</span><span class="p">,</span> <span class="n">email</span> <span class="o">=</span> <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span>
+                <span class="n">invalid_prefix</span> <span class="o">+</span> <span class="n">msg</span> <span class="k">if</span> <span class="n">invalid</span> <span class="k">else</span> <span class="n">msg</span><span class="p">,</span>
+                <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">MissingCommandlineFlag</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;You should register before running non-interactively, &quot;</span>
+                   <span class="s2">&quot;or provide --agree-tos and --email &lt;email_address&gt; flags.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">MissingCommandlineFlag</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">code</span> <span class="o">!=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">optional</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span>
+                    <span class="s2">&quot;An e-mail address or &quot;</span>
+                    <span class="s2">&quot;--register-unsafely-without-email must be provided.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;An e-mail address must be provided.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_email</span><span class="p">(</span><span class="n">email</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">email</span>
+        <span class="k">elif</span> <span class="n">suggest_unsafe</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="n">unsafe_suggestion</span>
+            <span class="n">suggest_unsafe</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># add this message at most once</span>
+
+        <span class="n">invalid</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">email</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="choose_account"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.choose_account">[docs]</a><span class="k">def</span> <span class="nf">choose_account</span><span class="p">(</span><span class="n">accounts</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Choose an account.</span>
+
+<span class="sd">    :param list accounts: Containing at least one</span>
+<span class="sd">        :class:`~certbot.account.Account`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Note this will get more complicated once we start recording authorizations</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">acc</span><span class="o">.</span><span class="n">slug</span> <span class="k">for</span> <span class="n">acc</span> <span class="ow">in</span> <span class="n">accounts</span><span class="p">]</span>
+
+    <span class="n">code</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">menu</span><span class="p">(</span>
+        <span class="s2">&quot;Please choose an account&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">accounts</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="choose_names"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.choose_names">[docs]</a><span class="k">def</span> <span class="nf">choose_names</span><span class="p">(</span><span class="n">installer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Display screen to select domains to validate.</span>
+
+<span class="sd">    :param installer: An installer object</span>
+<span class="sd">    :type installer: :class:`certbot.interfaces.IInstaller`</span>
+
+<span class="sd">    :returns: List of selected names</span>
+<span class="sd">    :rtype: `list` of `str`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">installer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;No installer, picking names manually&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_choose_names_manually</span><span class="p">()</span>
+
+    <span class="n">domains</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">installer</span><span class="o">.</span><span class="n">get_all_names</span><span class="p">())</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">get_valid_domains</span><span class="p">(</span><span class="n">domains</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">names</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_choose_names_manually</span><span class="p">(</span>
+            <span class="s2">&quot;No names were found in your configuration files. &quot;</span><span class="p">)</span>
+
+    <span class="n">code</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="n">_filter_names</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span> <span class="ow">and</span> <span class="n">names</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">names</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+
+<div class="viewcode-block" id="get_valid_domains"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.get_valid_domains">[docs]</a><span class="k">def</span> <span class="nf">get_valid_domains</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper method for choose_names that implements basic checks</span>
+<span class="sd">     on domain names</span>
+
+<span class="sd">    :param list domains: Domain names to validate</span>
+<span class="sd">    :return: List of valid domains</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">valid_domains</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">domain</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">valid_domains</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">enforce_domain_sanity</span><span class="p">(</span><span class="n">domain</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">:</span>
+            <span class="k">continue</span>
+    <span class="k">return</span> <span class="n">valid_domains</span></div>
+
+<div class="viewcode-block" id="_sort_names"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops._sort_names">[docs]</a><span class="k">def</span> <span class="nf">_sort_names</span><span class="p">(</span><span class="n">FQDNs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sort FQDNs by SLD (and if many, by their subdomains)</span>
+
+<span class="sd">    :param list FQDNs: list of domain names</span>
+
+<span class="sd">    :returns: Sorted list of domain names</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">FQDNs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">fqdn</span><span class="p">:</span> <span class="n">fqdn</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span></div>
+
+
+<div class="viewcode-block" id="_filter_names"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops._filter_names">[docs]</a><span class="k">def</span> <span class="nf">_filter_names</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Determine which names the user would like to select from a list.</span>
+
+<span class="sd">    :param list names: domain names</span>
+
+<span class="sd">    :returns: tuple of the form (`code`, `names`) where</span>
+<span class="sd">        `code` - str display exit code</span>
+<span class="sd">        `names` - list of names selected</span>
+<span class="sd">    :rtype: tuple</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Sort by domain first, and then by subdomain</span>
+    <span class="n">sorted_names</span> <span class="o">=</span> <span class="n">_sort_names</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+
+    <span class="n">code</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">checklist</span><span class="p">(</span>
+        <span class="s2">&quot;Which names would you like to activate HTTPS for?&quot;</span><span class="p">,</span>
+        <span class="n">tags</span><span class="o">=</span><span class="n">sorted_names</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="s2">&quot;--domains&quot;</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="_choose_names_manually"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops._choose_names_manually">[docs]</a><span class="k">def</span> <span class="nf">_choose_names_manually</span><span class="p">(</span><span class="n">prompt_prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Manually input names for those without an installer.</span>
+
+<span class="sd">    :param str prompt_prefix: string to prepend to prompt for domains</span>
+
+<span class="sd">    :returns: list of provided names</span>
+<span class="sd">    :rtype: `list` of `str`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">code</span><span class="p">,</span> <span class="n">input_</span> <span class="o">=</span> <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span>
+        <span class="n">prompt_prefix</span> <span class="o">+</span>
+        <span class="s2">&quot;Please enter in your domain name(s) (comma and/or space separated) &quot;</span><span class="p">,</span>
+        <span class="n">cli_flag</span><span class="o">=</span><span class="s2">&quot;--domains&quot;</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+        <span class="n">invalid_domains</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">retry_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">domain_list</span> <span class="o">=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">separate_list_input</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">UnicodeEncodeError</span><span class="p">:</span>
+            <span class="n">domain_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">retry_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Internationalized domain names are not presently &quot;</span>
+                <span class="s2">&quot;supported.</span><span class="si">{0}{0}</span><span class="s2">Would you like to re-enter the &quot;</span>
+                <span class="s2">&quot;names?</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">domain</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">domain_list</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">domain_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">enforce_domain_sanity</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ConfigurationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">invalid_domains</span><span class="p">[</span><span class="n">domain</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">invalid_domains</span><span class="p">):</span>
+            <span class="n">retry_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;One or more of the entered domain names was not valid:&quot;</span>
+                <span class="s2">&quot;</span><span class="si">{0}{0}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">domain</span> <span class="ow">in</span> <span class="n">invalid_domains</span><span class="p">:</span>
+                <span class="n">retry_message</span> <span class="o">=</span> <span class="n">retry_message</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{1}</span><span class="s2">: </span><span class="si">{2}{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">invalid_domains</span><span class="p">[</span><span class="n">domain</span><span class="p">])</span>
+            <span class="n">retry_message</span> <span class="o">=</span> <span class="n">retry_message</span> <span class="o">+</span> <span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">Would you like to re-enter the names?</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">retry_message</span><span class="p">:</span>
+            <span class="c1"># We had error in input</span>
+            <span class="n">retry</span> <span class="o">=</span> <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">yesno</span><span class="p">(</span><span class="n">retry_message</span><span class="p">,</span>
+                                                      <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">retry</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">_choose_names_manually</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">domain_list</span>
+    <span class="k">return</span> <span class="p">[]</span></div>
+
+
+<div class="viewcode-block" id="success_installation"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.success_installation">[docs]</a><span class="k">def</span> <span class="nf">success_installation</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Display a box confirming the installation of HTTPS.</span>
+
+<span class="sd">    :param list domains: domain names which were enabled</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
+        <span class="s2">&quot;Congratulations! You have successfully enabled </span><span class="si">{0}{1}{1}</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;You should test your configuration at:</span><span class="si">{1}{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">_gen_https_names</span><span class="p">(</span><span class="n">domains</span><span class="p">),</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_gen_ssl_lab_urls</span><span class="p">(</span><span class="n">domains</span><span class="p">))),</span>
+        <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="success_renewal"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.success_renewal">[docs]</a><span class="k">def</span> <span class="nf">success_renewal</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Display a box confirming the renewal of an existing certificate.</span>
+
+<span class="sd">    :param list domains: domain names which were renewed</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
+        <span class="s2">&quot;Your existing certificate has been successfully renewed, and the &quot;</span>
+        <span class="s2">&quot;new certificate has been installed.</span><span class="si">{1}{1}</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;The new certificate covers the following domains: </span><span class="si">{0}{1}{1}</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;You should test your configuration at:</span><span class="si">{1}{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">_gen_https_names</span><span class="p">(</span><span class="n">domains</span><span class="p">),</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_gen_ssl_lab_urls</span><span class="p">(</span><span class="n">domains</span><span class="p">))),</span>
+        <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="success_revocation"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.success_revocation">[docs]</a><span class="k">def</span> <span class="nf">success_revocation</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Display a box confirming a certificate has been revoked.</span>
+
+<span class="sd">    :param list cert_path: path to certificate which was revoked.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
+        <span class="s2">&quot;Congratulations! You have successfully revoked the certificate &quot;</span>
+        <span class="s2">&quot;that was located at </span><span class="si">{0}{1}{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">cert_path</span><span class="p">,</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">),</span>
+        <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="_gen_ssl_lab_urls"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops._gen_ssl_lab_urls">[docs]</a><span class="k">def</span> <span class="nf">_gen_ssl_lab_urls</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of urls.</span>
+
+<span class="sd">    :param list domains: Each domain is a &#39;str&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;https://www.ssllabs.com/ssltest/analyze.html?d=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">dom</span> <span class="k">for</span> <span class="n">dom</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="_gen_https_names"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops._gen_https_names">[docs]</a><span class="k">def</span> <span class="nf">_gen_https_names</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a string of the https domains.</span>
+
+<span class="sd">    Domains are formatted nicely with https:// prepended to each.</span>
+
+<span class="sd">    :param list domains: Each domain is a &#39;str&#39;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">domains</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;https://</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">domains</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">domains</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;https://</span><span class="si">{dom[0]}</span><span class="s2"> and https://</span><span class="si">{dom[1]}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dom</span><span class="o">=</span><span class="n">domains</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">domains</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{0}{1}{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;https://</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">dom</span> <span class="k">for</span> <span class="n">dom</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="s2">&quot;, and https://&quot;</span><span class="p">,</span>
+            <span class="n">domains</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_validated</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">validator</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">validator</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Encountered invalid default value &quot;</span><span class="si">%s</span><span class="s1">&quot; when prompting for &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+                         <span class="n">default</span><span class="p">,</span>
+                         <span class="n">message</span><span class="p">,</span>
+                         <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;Invalid default &quot;</span><span class="si">{0}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">default</span><span class="p">))</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">code</span><span class="p">,</span> <span class="n">raw</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">validator</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="n">raw</span>
+            <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Validator rejected &quot;</span><span class="si">%s</span><span class="s1">&quot; when prompting for &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+                             <span class="n">raw</span><span class="p">,</span>
+                             <span class="n">message</span><span class="p">,</span>
+                             <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="n">raw</span>
+
+
+<div class="viewcode-block" id="validated_input"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.validated_input">[docs]</a><span class="k">def</span> <span class="nf">validated_input</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Like `~certbot.interfaces.IDisplay.input`, but with validation.</span>
+
+<span class="sd">    :param callable validator: A method which will be called on the</span>
+<span class="sd">        supplied input. If the method raises a `errors.Error`, its</span>
+<span class="sd">        text will be displayed and the user will be re-prompted.</span>
+<span class="sd">    :param list `*args`: Arguments to be passed to `~certbot.interfaces.IDisplay.input`.</span>
+<span class="sd">    :param dict `**kwargs`: Arguments to be passed to `~certbot.interfaces.IDisplay.input`.</span>
+<span class="sd">    :return: as `~certbot.interfaces.IDisplay.input`</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_get_validated</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">,</span>
+                          <span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="validated_directory"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.validated_directory">[docs]</a><span class="k">def</span> <span class="nf">validated_directory</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Like `~certbot.interfaces.IDisplay.directory_select`, but with validation.</span>
+
+<span class="sd">    :param callable validator: A method which will be called on the</span>
+<span class="sd">        supplied input. If the method raises a `errors.Error`, its</span>
+<span class="sd">        text will be displayed and the user will be re-prompted.</span>
+<span class="sd">    :param list `*args`: Arguments to be passed to `~certbot.interfaces.IDisplay.directory_select`.</span>
+<span class="sd">    :param dict `**kwargs`: Arguments to be passed to</span>
+<span class="sd">        `~certbot.interfaces.IDisplay.directory_select`.</span>
+<span class="sd">    :return: as `~certbot.interfaces.IDisplay.directory_select`</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_get_validated</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">directory_select</span><span class="p">,</span>
+                          <span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+
+    </p>
+  </div>
+  <!-- Built with Sphinx using a custom theme. --> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Downloads</dt>
+        <dd><a href="../../../certbot.pdf">PDF</a></dd>
+        <dd><a href="../../../certbot.zip">HTML</a></dd>
+        <dd><a href="../../../certbot.epub">Epub</a></dd>
+      </dl>
+      <hr/>
+
+    </div>
+  </div>
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.16.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.ops%E2%80%94%20Certbot%200.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+</body>
+</html>

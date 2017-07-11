@@ -1,0 +1,856 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>acme.challenges &mdash; Certbot 0.16.0.dev0 documentation</title>
+  
+<!--
+
+ ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
+╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
+
+Like looking at code? Help us! https://github.com/certbot/certbot
+-->
+
+  
+  
+
+  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@EFF">
+<meta name="twitter:title" content="acme.challenges &mdash; Certbot 0.16.0.dev0 documentation">
+<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Certbot 0.16.0.dev0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <nav class="main-nav fixed">
+  <ul>
+    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Certbot</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/docs/">Documentation</a></li>
+    <li><a href="/support/">Support</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
+    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../" class="icon icon-home"> Certbot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.16
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Get Certbot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../">Certbot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>acme.challenges</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/acme/challenges" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for acme.challenges</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;ACME Identifier Validation Challenges.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="k">import</span> <span class="n">hashes</span>  <span class="c1"># type: ignore</span>
+<span class="kn">import</span> <span class="nn">OpenSSL</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">crypto_util</span>
+<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">fields</span>
+<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">jose</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1"># pylint: disable=too-few-public-methods</span>
+
+
+<span class="k">class</span> <span class="nc">Challenge</span><span class="p">(</span><span class="n">jose</span><span class="o">.</span><span class="n">TypedJSONObjectWithFields</span><span class="p">):</span>
+    <span class="c1"># _fields_to_partial_json | pylint: disable=abstract-method</span>
+    <span class="sd">&quot;&quot;&quot;ACME challenge.&quot;&quot;&quot;</span>
+    <span class="n">TYPES</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: dict</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">jobj</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Challenge</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">jobj</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">jose</span><span class="o">.</span><span class="n">UnrecognizedTypeError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">UnrecognizedChallenge</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">jobj</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ChallengeResponse</span><span class="p">(</span><span class="n">jose</span><span class="o">.</span><span class="n">TypedJSONObjectWithFields</span><span class="p">):</span>
+    <span class="c1"># _fields_to_partial_json | pylint: disable=abstract-method</span>
+    <span class="sd">&quot;&quot;&quot;ACME challenge response.&quot;&quot;&quot;</span>
+    <span class="n">TYPES</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: dict</span>
+    <span class="n">resource_type</span> <span class="o">=</span> <span class="s1">&#39;challenge&#39;</span>
+    <span class="n">resource</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Resource</span><span class="p">(</span><span class="n">resource_type</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">UnrecognizedChallenge</span><span class="p">(</span><span class="n">Challenge</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Unrecognized challenge.</span>
+
+<span class="sd">    ACME specification defines a generic framework for challenges and</span>
+<span class="sd">    defines some standard challenges that are implemented in this</span>
+<span class="sd">    module. However, other implementations (including peers) might</span>
+<span class="sd">    define additional challenge types, which should be ignored if</span>
+<span class="sd">    unrecognized.</span>
+
+<span class="sd">    :ivar jobj: Original JSON decoded object.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jobj</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">UnrecognizedChallenge</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;jobj&quot;</span><span class="p">,</span> <span class="n">jobj</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">to_partial_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># pylint: disable=no-member</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jobj</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">jobj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">jobj</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_TokenChallenge</span><span class="p">(</span><span class="n">Challenge</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Challenge with token.</span>
+
+<span class="sd">    :ivar bytes token:</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TOKEN_SIZE</span> <span class="o">=</span> <span class="mi">128</span> <span class="o">/</span> <span class="mi">8</span>  <span class="c1"># Based on the entropy value from the spec</span>
+    <span class="sd">&quot;&quot;&quot;Minimum size of the :attr:`token` in bytes.&quot;&quot;&quot;</span>
+
+    <span class="c1"># TODO: acme-spec doesn&#39;t specify token as base64-encoded value</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">jose</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span>
+        <span class="s2">&quot;token&quot;</span><span class="p">,</span> <span class="n">encoder</span><span class="o">=</span><span class="n">jose</span><span class="o">.</span><span class="n">encode_b64jose</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span>
+            <span class="n">jose</span><span class="o">.</span><span class="n">decode_b64jose</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">TOKEN_SIZE</span><span class="p">,</span> <span class="n">minimum</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+    <span class="c1"># XXX: rename to ~token_good_for_url</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">good_token</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># XXX: @token.decoder</span>
+        <span class="sd">&quot;&quot;&quot;Is `token` good?</span>
+
+<span class="sd">        .. todo:: acme-spec wants &quot;It MUST NOT contain any non-ASCII</span>
+<span class="sd">           characters&quot;, but it should also warrant that it doesn&#39;t</span>
+<span class="sd">           contain &quot;..&quot; or &quot;/&quot;...</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: check that path combined with uri does not go above</span>
+        <span class="c1"># URI_ROOT_PATH!</span>
+        <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;..&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="ow">and</span> <span class="sa">b</span><span class="s1">&#39;/&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span>
+
+
+<span class="k">class</span> <span class="nc">KeyAuthorizationChallengeResponse</span><span class="p">(</span><span class="n">ChallengeResponse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Response to Challenges based on Key Authorization.</span>
+
+<span class="sd">    :param unicode key_authorization:</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">key_authorization</span> <span class="o">=</span> <span class="n">jose</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s2">&quot;keyAuthorization&quot;</span><span class="p">)</span>
+    <span class="n">thumbprint_hash_function</span> <span class="o">=</span> <span class="n">hashes</span><span class="o">.</span><span class="n">SHA256</span>
+
+    <span class="k">def</span> <span class="nf">verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chall</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verify the key authorization.</span>
+
+<span class="sd">        :param KeyAuthorization chall: Challenge that corresponds to</span>
+<span class="sd">            this response.</span>
+<span class="sd">        :param JWK account_public_key:</span>
+
+<span class="sd">        :return: ``True`` iff verification of the key authorization was</span>
+<span class="sd">            successful.</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>  <span class="c1"># pylint: disable=no-member</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Key authorization (</span><span class="si">%r</span><span class="s2">) is not well formed&quot;</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">chall</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Mismatching token in key authorization: &quot;</span>
+                         <span class="s2">&quot;</span><span class="si">%r</span><span class="s2"> instead of </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">chall</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">thumbprint</span> <span class="o">=</span> <span class="n">jose</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">account_public_key</span><span class="o">.</span><span class="n">thumbprint</span><span class="p">(</span>
+            <span class="n">hash_function</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">thumbprint_hash_function</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">thumbprint</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Mismatching thumbprint in key authorization: &quot;</span>
+                         <span class="s2">&quot;</span><span class="si">%r</span><span class="s2"> instead of </span><span class="si">%r</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">thumbprint</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">class</span> <span class="nc">KeyAuthorizationChallenge</span><span class="p">(</span><span class="n">_TokenChallenge</span><span class="p">):</span>
+    <span class="c1"># pylint: disable=abstract-class-little-used,too-many-ancestors</span>
+    <span class="sd">&quot;&quot;&quot;Challenge based on Key Authorization.</span>
+
+<span class="sd">    :param response_cls: Subclass of `KeyAuthorizationChallengeResponse`</span>
+<span class="sd">        that will be used to generate `response`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span>
+
+    <span class="n">response_cls</span> <span class="o">=</span> <span class="bp">NotImplemented</span>
+    <span class="n">thumbprint_hash_function</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">KeyAuthorizationChallengeResponse</span><span class="o">.</span><span class="n">thumbprint_hash_function</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">key_authorization</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate Key Authorization.</span>
+
+<span class="sd">        :param JWK account_key:</span>
+<span class="sd">        :rtype unicode:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">jose</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span>
+            <span class="n">account_key</span><span class="o">.</span><span class="n">thumbprint</span><span class="p">(</span>
+                <span class="n">hash_function</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">thumbprint_hash_function</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate response to the challenge.</span>
+
+<span class="sd">        :param JWK account_key:</span>
+
+<span class="sd">        :returns: Response (initialized `response_cls`) to the challenge.</span>
+<span class="sd">        :rtype: KeyAuthorizationChallengeResponse</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response_cls</span><span class="p">(</span>
+            <span class="n">key_authorization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span><span class="p">(</span><span class="n">account_key</span><span class="p">))</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate validation for the challenge.</span>
+
+<span class="sd">        Subclasses must implement this method, but they are likely to</span>
+<span class="sd">        return completely different data structures, depending on what&#39;s</span>
+<span class="sd">        necessary to complete the challenge. Interpretation of that</span>
+<span class="sd">        return value must be known to the caller.</span>
+
+<span class="sd">        :param JWK account_key:</span>
+<span class="sd">        :returns: Challenge-specific validation.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>  <span class="c1"># pragma: no cover</span>
+
+    <span class="k">def</span> <span class="nf">response_and_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_key</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate response and validation.</span>
+
+<span class="sd">        Convenience function that return results of `response` and</span>
+<span class="sd">        `validation`.</span>
+
+<span class="sd">        :param JWK account_key:</span>
+<span class="sd">        :rtype: tuple</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">account_key</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">validation</span><span class="p">(</span><span class="n">account_key</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+
+<span class="nd">@ChallengeResponse</span><span class="o">.</span><span class="n">register</span>
+<span class="k">class</span> <span class="nc">DNS01Response</span><span class="p">(</span><span class="n">KeyAuthorizationChallengeResponse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ACME dns-01 challenge response.&quot;&quot;&quot;</span>
+    <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;dns-01&quot;</span>
+
+    <span class="k">def</span> <span class="nf">simple_verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chall</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Simple verify.</span>
+
+<span class="sd">        This method no longer checks DNS records and is a simple wrapper</span>
+<span class="sd">        around `KeyAuthorizationChallengeResponse.verify`.</span>
+
+<span class="sd">        :param challenges.DNS01 chall: Corresponding challenge.</span>
+<span class="sd">        :param unicode domain: Domain name being verified.</span>
+<span class="sd">        :param JWK account_public_key: Public key for the key pair</span>
+<span class="sd">            being authorized.</span>
+
+<span class="sd">        :return: ``True`` iff verification of the key authorization was</span>
+<span class="sd">            successful.</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="n">verified</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">chall</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">verified</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Verification of key authorization in response failed&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">verified</span>
+
+
+<span class="nd">@Challenge</span><span class="o">.</span><span class="n">register</span>  <span class="c1"># pylint: disable=too-many-ancestors</span>
+<span class="k">class</span> <span class="nc">DNS01</span><span class="p">(</span><span class="n">KeyAuthorizationChallenge</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ACME dns-01 challenge.&quot;&quot;&quot;</span>
+    <span class="n">response_cls</span> <span class="o">=</span> <span class="n">DNS01Response</span>
+    <span class="n">typ</span> <span class="o">=</span> <span class="n">response_cls</span><span class="o">.</span><span class="n">typ</span>
+
+    <span class="n">LABEL</span> <span class="o">=</span> <span class="s2">&quot;_acme-challenge&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Label clients prepend to the domain name being validated.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_key</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate validation.</span>
+
+<span class="sd">        :param JWK account_key:</span>
+<span class="sd">        :rtype: unicode</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">jose</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span><span class="p">(</span>
+            <span class="n">account_key</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">validation_domain_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Domain name for TXT validation record.</span>
+
+<span class="sd">        :param unicode name: Domain name being validated.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">.</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+
+<span class="nd">@ChallengeResponse</span><span class="o">.</span><span class="n">register</span>
+<span class="k">class</span> <span class="nc">HTTP01Response</span><span class="p">(</span><span class="n">KeyAuthorizationChallengeResponse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ACME http-01 challenge response.&quot;&quot;&quot;</span>
+    <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;http-01&quot;</span>
+
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">80</span>
+    <span class="sd">&quot;&quot;&quot;Verification port as defined by the protocol.</span>
+
+<span class="sd">    You can override it (e.g. for testing) by passing ``port`` to</span>
+<span class="sd">    `simple_verify`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">WHITESPACE_CUTSET</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n\r\t</span><span class="s2"> &quot;</span>
+    <span class="sd">&quot;&quot;&quot;Whitespace characters which should be ignored at the end of the body.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">simple_verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chall</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Simple verify.</span>
+
+<span class="sd">        :param challenges.SimpleHTTP chall: Corresponding challenge.</span>
+<span class="sd">        :param unicode domain: Domain name being verified.</span>
+<span class="sd">        :param JWK account_public_key: Public key for the key pair</span>
+<span class="sd">            being authorized.</span>
+<span class="sd">        :param int port: Port used in the validation.</span>
+
+<span class="sd">        :returns: ``True`` iff validation with the files currently served by the</span>
+<span class="sd">            HTTP server is successful.</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">chall</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Verification of key authorization in response failed&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># TODO: ACME specification defines URI template that doesn&#39;t</span>
+        <span class="c1"># allow to use a custom port... Make sure port is not in the</span>
+        <span class="c1"># request URI, if it&#39;s standard.</span>
+        <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">port</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PORT</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Using non-standard port for http-01 verification: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+            <span class="n">domain</span> <span class="o">+=</span> <span class="s2">&quot;:</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
+
+        <span class="n">uri</span> <span class="o">=</span> <span class="n">chall</span><span class="o">.</span><span class="n">uri</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Verifying </span><span class="si">%s</span><span class="s2"> at </span><span class="si">%s</span><span class="s2">...&quot;</span><span class="p">,</span> <span class="n">chall</span><span class="o">.</span><span class="n">typ</span><span class="p">,</span> <span class="n">uri</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">http_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unable to reach </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Received </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">. Headers: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">http_response</span><span class="p">,</span>
+                     <span class="n">http_response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">http_response</span><span class="o">.</span><span class="n">headers</span><span class="p">)</span>
+
+        <span class="n">challenge_response</span> <span class="o">=</span> <span class="n">http_response</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">WHITESPACE_CUTSET</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span> <span class="o">!=</span> <span class="n">challenge_response</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Key authorization from response (</span><span class="si">%r</span><span class="s2">) doesn&#39;t match &quot;</span>
+                         <span class="s2">&quot;HTTP response (</span><span class="si">%r</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span><span class="p">,</span>
+                         <span class="n">challenge_response</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="nd">@Challenge</span><span class="o">.</span><span class="n">register</span>  <span class="c1"># pylint: disable=too-many-ancestors</span>
+<span class="k">class</span> <span class="nc">HTTP01</span><span class="p">(</span><span class="n">KeyAuthorizationChallenge</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ACME http-01 challenge.&quot;&quot;&quot;</span>
+    <span class="n">response_cls</span> <span class="o">=</span> <span class="n">HTTP01Response</span>
+    <span class="n">typ</span> <span class="o">=</span> <span class="n">response_cls</span><span class="o">.</span><span class="n">typ</span>
+
+    <span class="n">URI_ROOT_PATH</span> <span class="o">=</span> <span class="s2">&quot;.well-known/acme-challenge&quot;</span>
+    <span class="sd">&quot;&quot;&quot;URI root path for the server provisioned resource.&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Path (starting with &#39;/&#39;) for provisioned resource.</span>
+
+<span class="sd">        :rtype: string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">URI_ROOT_PATH</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">uri</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create an URI to the provisioned resource.</span>
+
+<span class="sd">        Forms an URI to the HTTPS server provisioned resource</span>
+<span class="sd">        (containing :attr:`~SimpleHTTP.token`).</span>
+
+<span class="sd">        :param unicode domain: Domain name being verified.</span>
+<span class="sd">        :rtype: string</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;http://&quot;</span> <span class="o">+</span> <span class="n">domain</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+
+    <span class="k">def</span> <span class="nf">validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_key</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate validation.</span>
+
+<span class="sd">        :param JWK account_key:</span>
+<span class="sd">        :rtype: unicode</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span><span class="p">(</span><span class="n">account_key</span><span class="p">)</span>
+
+
+<span class="nd">@ChallengeResponse</span><span class="o">.</span><span class="n">register</span>
+<span class="k">class</span> <span class="nc">TLSSNI01Response</span><span class="p">(</span><span class="n">KeyAuthorizationChallengeResponse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ACME tls-sni-01 challenge response.&quot;&quot;&quot;</span>
+    <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;tls-sni-01&quot;</span>
+
+    <span class="n">DOMAIN_SUFFIX</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;.acme.invalid&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Domain name suffix.&quot;&quot;&quot;</span>
+
+    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">443</span>
+    <span class="sd">&quot;&quot;&quot;Verification port as defined by the protocol.</span>
+
+<span class="sd">    You can override it (e.g. for testing) by passing ``port`` to</span>
+<span class="sd">    `simple_verify`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pylint: disable=invalid-name</span>
+        <span class="sd">&quot;&quot;&quot;``z`` value used for verification.</span>
+
+<span class="sd">        :rtype bytes:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">z_domain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Domain name used for verification, generated from `z`.</span>
+
+<span class="sd">        :rtype bytes:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[:</span><span class="mi">32</span><span class="p">]</span> <span class="o">+</span> <span class="sa">b</span><span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">[</span><span class="mi">32</span><span class="p">:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">DOMAIN_SUFFIX</span>
+
+    <span class="k">def</span> <span class="nf">gen_cert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bits</span><span class="o">=</span><span class="mi">2048</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate tls-sni-01 certificate.</span>
+
+<span class="sd">        :param OpenSSL.crypto.PKey key: Optional private key used in</span>
+<span class="sd">            certificate generation. If not provided (``None``), then</span>
+<span class="sd">            fresh key will be generated.</span>
+<span class="sd">        :param int bits: Number of bits for newly generated key.</span>
+
+<span class="sd">        :rtype: `tuple` of `OpenSSL.crypto.X509` and `OpenSSL.crypto.PKey`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">PKey</span><span class="p">()</span>
+            <span class="n">key</span><span class="o">.</span><span class="n">generate_key</span><span class="p">(</span><span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">TYPE_RSA</span><span class="p">,</span> <span class="n">bits</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">gen_ss_cert</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">[</span>
+            <span class="c1"># z_domain is too big to fit into CN, hence first dummy domain</span>
+            <span class="s1">&#39;dummy&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_domain</span><span class="o">.</span><span class="n">decode</span><span class="p">()],</span> <span class="n">force_san</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">key</span>
+
+    <span class="k">def</span> <span class="nf">probe_cert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Probe tls-sni-01 challenge certificate.</span>
+
+<span class="sd">        :param unicode domain:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: domain is not necessary if host is provided</span>
+        <span class="k">if</span> <span class="s2">&quot;host&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">host</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> resolved to </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">host</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;host&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">host</span>
+
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;port&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PORT</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_domain</span>
+        <span class="c1"># TODO: try different methods?</span>
+        <span class="c1"># pylint: disable=protected-access</span>
+        <span class="k">return</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">probe_sni</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">verify_cert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verify tls-sni-01 challenge certificate.</span>
+
+<span class="sd">        :param OpensSSL.crypto.X509 cert: Challenge certificate.</span>
+
+<span class="sd">        :returns: Whether the certificate was successfully verified.</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=protected-access</span>
+        <span class="n">sans</span> <span class="o">=</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">_pyopenssl_cert_or_req_san</span><span class="p">(</span><span class="n">cert</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Certificate </span><span class="si">%s</span><span class="s1">. SANs: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cert</span><span class="o">.</span><span class="n">digest</span><span class="p">(</span><span class="s1">&#39;sha256&#39;</span><span class="p">),</span> <span class="n">sans</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_domain</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span> <span class="ow">in</span> <span class="n">sans</span>
+
+    <span class="k">def</span> <span class="nf">simple_verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chall</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">,</span>
+                      <span class="n">cert</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Simple verify.</span>
+
+<span class="sd">        Verify ``validation`` using ``account_public_key``, optionally</span>
+<span class="sd">        probe tls-sni-01 certificate and check using `verify_cert`.</span>
+
+<span class="sd">        :param .challenges.TLSSNI01 chall: Corresponding challenge.</span>
+<span class="sd">        :param str domain: Domain name being validated.</span>
+<span class="sd">        :param JWK account_public_key:</span>
+<span class="sd">        :param OpenSSL.crypto.X509 cert: Optional certificate. If not</span>
+<span class="sd">            provided (``None``) certificate will be retrieved using</span>
+<span class="sd">            `probe_cert`.</span>
+<span class="sd">        :param int port: Port used to probe the certificate.</span>
+
+
+<span class="sd">        :returns: ``True`` iff client&#39;s control of the domain has been</span>
+<span class="sd">            verified.</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">chall</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Verification of key authorization in response failed&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">cert</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">cert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">probe_cert</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify_cert</span><span class="p">(</span><span class="n">cert</span><span class="p">)</span>
+
+
+<span class="nd">@Challenge</span><span class="o">.</span><span class="n">register</span>  <span class="c1"># pylint: disable=too-many-ancestors</span>
+<span class="k">class</span> <span class="nc">TLSSNI01</span><span class="p">(</span><span class="n">KeyAuthorizationChallenge</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ACME tls-sni-01 challenge.&quot;&quot;&quot;</span>
+    <span class="n">response_cls</span> <span class="o">=</span> <span class="n">TLSSNI01Response</span>
+    <span class="n">typ</span> <span class="o">=</span> <span class="n">response_cls</span><span class="o">.</span><span class="n">typ</span>
+
+    <span class="c1"># boulder#962, ietf-wg-acme#22</span>
+    <span class="c1">#n = jose.Field(&quot;n&quot;, encoder=int, decoder=int)</span>
+
+    <span class="k">def</span> <span class="nf">validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate validation.</span>
+
+<span class="sd">        :param JWK account_key:</span>
+<span class="sd">        :param OpenSSL.crypto.PKey cert_key: Optional private key used</span>
+<span class="sd">            in certificate generation. If not provided (``None``), then</span>
+<span class="sd">            fresh key will be generated.</span>
+
+<span class="sd">        :rtype: `tuple` of `OpenSSL.crypto.X509` and `OpenSSL.crypto.PKey`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">account_key</span><span class="p">)</span><span class="o">.</span><span class="n">gen_cert</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cert_key&#39;</span><span class="p">))</span>
+
+
+<span class="nd">@Challenge</span><span class="o">.</span><span class="n">register</span>  <span class="c1"># pylint: disable=too-many-ancestors</span>
+<span class="k">class</span> <span class="nc">DNS</span><span class="p">(</span><span class="n">_TokenChallenge</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ACME &quot;dns&quot; challenge.&quot;&quot;&quot;</span>
+    <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;dns&quot;</span>
+
+    <span class="n">LABEL</span> <span class="o">=</span> <span class="s2">&quot;_acme-challenge&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Label clients prepend to the domain name being validated.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">gen_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_key</span><span class="p">,</span> <span class="n">alg</span><span class="o">=</span><span class="n">jose</span><span class="o">.</span><span class="n">RS256</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate validation.</span>
+
+<span class="sd">        :param .JWK account_key: Private account key.</span>
+<span class="sd">        :param .JWA alg:</span>
+
+<span class="sd">        :returns: This challenge wrapped in `.JWS`</span>
+<span class="sd">        :rtype: .JWS</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">jose</span><span class="o">.</span><span class="n">JWS</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span>
+            <span class="n">payload</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">json_dumps</span><span class="p">(</span><span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">account_key</span><span class="p">,</span> <span class="n">alg</span><span class="o">=</span><span class="n">alg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validation</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check validation.</span>
+
+<span class="sd">        :param JWS validation:</span>
+<span class="sd">        :param JWK account_public_key:</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">validation</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">account_public_key</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_loads</span><span class="p">(</span>
+                <span class="n">validation</span><span class="o">.</span><span class="n">payload</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">jose</span><span class="o">.</span><span class="n">DeserializationError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Checking validation for DNS failed: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">gen_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate response.</span>
+
+<span class="sd">        :param .JWK account_key: Private account key.</span>
+<span class="sd">        :param .JWA alg:</span>
+
+<span class="sd">        :rtype: DNSResponse</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">DNSResponse</span><span class="p">(</span><span class="n">validation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gen_validation</span><span class="p">(</span>
+            <span class="n">account_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">validation_domain_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Domain name for TXT validation record.</span>
+
+<span class="sd">        :param unicode name: Domain name being validated.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">.</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">LABEL</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+
+<span class="nd">@ChallengeResponse</span><span class="o">.</span><span class="n">register</span>
+<span class="k">class</span> <span class="nc">DNSResponse</span><span class="p">(</span><span class="n">ChallengeResponse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ACME &quot;dns&quot; challenge response.</span>
+
+<span class="sd">    :param JWS validation:</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;dns&quot;</span>
+
+    <span class="n">validation</span> <span class="o">=</span> <span class="n">jose</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s2">&quot;validation&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="n">jose</span><span class="o">.</span><span class="n">JWS</span><span class="o">.</span><span class="n">from_json</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check_validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chall</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Check validation.</span>
+
+<span class="sd">        :param challenges.DNS chall:</span>
+<span class="sd">        :param JWK account_public_key:</span>
+
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">chall</span><span class="o">.</span><span class="n">check_validation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+
+    </p>
+  </div>
+  <!-- Built with Sphinx using a custom theme. --> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Downloads</dt>
+        <dd><a href="../../certbot.pdf">PDF</a></dd>
+        <dd><a href="../../certbot.zip">HTML</a></dd>
+        <dd><a href="../../certbot.epub">Epub</a></dd>
+      </dl>
+      <hr/>
+
+    </div>
+  </div>
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.16.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=acme.challenges%E2%80%94%20Certbot%200.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+</body>
+</html>

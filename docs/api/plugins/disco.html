@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>certbot.plugins.disco &mdash; Certbot 0.16.0.dev0 documentation</title>
+  
+<!--
+
+ ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
+╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
+
+Like looking at code? Help us! https://github.com/certbot/certbot
+-->
+
+  
+  
+
+  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@EFF">
+<meta name="twitter:title" content="certbot.plugins.disco &mdash; Certbot 0.16.0.dev0 documentation">
+<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Certbot 0.16.0.dev0 documentation" href="../../index.html"/>
+        <link rel="up" title="API Documentation" href="../../api.html"/>
+        <link rel="next" title="certbot.plugins.dns_common" href="dns_common.html"/>
+        <link rel="prev" title="certbot.plugins.common" href="common.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <nav class="main-nav fixed">
+  <ul>
+    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Certbot</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/docs/">Documentation</a></li>
+    <li><a href="/support/">Support</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
+    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../" class="icon icon-home"> Certbot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.16
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Get Certbot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../account.html"><code class="docutils literal"><span class="pre">certbot.account</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../achallenges.html"><code class="docutils literal"><span class="pre">certbot.achallenges</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auth_handler.html"><code class="docutils literal"><span class="pre">certbot.auth_handler</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../client.html"><code class="docutils literal"><span class="pre">certbot.client</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../configuration.html"><code class="docutils literal"><span class="pre">certbot.configuration</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../constants.html"><code class="docutils literal"><span class="pre">certbot.constants</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../crypto_util.html"><code class="docutils literal"><span class="pre">certbot.crypto_util</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../display.html"><code class="docutils literal"><span class="pre">certbot.display</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../errors.html"><code class="docutils literal"><span class="pre">certbot.errors</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html"><code class="docutils literal"><span class="pre">certbot</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces.html"><code class="docutils literal"><span class="pre">certbot.interfaces</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html"><code class="docutils literal"><span class="pre">certbot.plugins.common</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">certbot.plugins.disco</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="dns_common.html"><code class="docutils literal"><span class="pre">certbot.plugins.dns_common</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="dns_common_lexicon.html"><code class="docutils literal"><span class="pre">certbot.plugins.dns_common_lexicon</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="manual.html"><code class="docutils literal"><span class="pre">certbot.plugins.manual</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="standalone.html"><code class="docutils literal"><span class="pre">certbot.plugins.standalone</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html"><code class="docutils literal"><span class="pre">certbot.plugins.util</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="webroot.html"><code class="docutils literal"><span class="pre">certbot.plugins.webroot</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reporter.html"><code class="docutils literal"><span class="pre">certbot.reporter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reverter.html"><code class="docutils literal"><span class="pre">certbot.reverter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage.html"><code class="docutils literal"><span class="pre">certbot.storage</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util.html"><code class="docutils literal"><span class="pre">certbot.util</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../">Certbot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="../../api.html">API Documentation</a> &raquo;</li>
+      
+    <li><code class="docutils literal"><span class="pre">certbot.plugins.disco</span></code></li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/certbot/certbot/blob/master/docs/api/plugins/disco.rst" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-certbot.plugins.disco">
+<span id="certbot-plugins-disco"></span><h1><a class="reference internal" href="#module-certbot.plugins.disco" title="certbot.plugins.disco"><code class="xref py py-mod docutils literal"><span class="pre">certbot.plugins.disco</span></code></a><a class="headerlink" href="#module-certbot.plugins.disco" title="Permalink to this headline">¶</a></h1>
+<p>Utilities for plugins discovery and selection.</p>
+<dl class="class">
+<dt id="certbot.plugins.disco.PluginEntryPoint">
+<em class="property">class </em><code class="descclassname">certbot.plugins.disco.</code><code class="descname">PluginEntryPoint</code><span class="sig-paren">(</span><em>entry_point</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginEntryPoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Plugin entry point.</p>
+<dl class="attribute">
+<dt id="certbot.plugins.disco.PluginEntryPoint.PREFIX_FREE_DISTRIBUTIONS">
+<code class="descname">PREFIX_FREE_DISTRIBUTIONS</code><em class="property"> = ['certbot', 'certbot-apache', 'certbot-dns-cloudflare', 'certbot-dns-cloudxns', 'certbot-dns-digitalocean', 'certbot-dns-dnsimple', 'certbot-dns-google', 'certbot-dns-nsone', 'certbot-dns-route53', 'certbot-nginx']</em><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.PREFIX_FREE_DISTRIBUTIONS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distributions for which prefix will be omitted.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="certbot.plugins.disco.PluginEntryPoint.entry_point_to_plugin_name">
+<em class="property">classmethod </em><code class="descname">entry_point_to_plugin_name</code><span class="sig-paren">(</span><em>entry_point</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginEntryPoint.entry_point_to_plugin_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.entry_point_to_plugin_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unique plugin name for an <code class="docutils literal"><span class="pre">entry_point</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.plugins.disco.PluginEntryPoint.description">
+<code class="descname">description</code><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description of the plugin.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.plugins.disco.PluginEntryPoint.description_with_name">
+<code class="descname">description_with_name</code><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.description_with_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description with name. Handy for UI.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.plugins.disco.PluginEntryPoint.long_description">
+<code class="descname">long_description</code><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.long_description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Long description of the plugin.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.plugins.disco.PluginEntryPoint.hidden">
+<code class="descname">hidden</code><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.hidden" title="Permalink to this definition">¶</a></dt>
+<dd><p>Should this plugin be hidden from UI?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.disco.PluginEntryPoint.ifaces">
+<code class="descname">ifaces</code><span class="sig-paren">(</span><em>*ifaces_groups</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginEntryPoint.ifaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.ifaces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does plugin implements specified interface groups?</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.plugins.disco.PluginEntryPoint.initialized">
+<code class="descname">initialized</code><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.initialized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Has the plugin been initialized already?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.disco.PluginEntryPoint.init">
+<code class="descname">init</code><span class="sig-paren">(</span><em>config=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginEntryPoint.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Memoized plugin initialization.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.disco.PluginEntryPoint.verify">
+<code class="descname">verify</code><span class="sig-paren">(</span><em>ifaces</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginEntryPoint.verify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that the plugin conforms to the specified interfaces.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.plugins.disco.PluginEntryPoint.prepared">
+<code class="descname">prepared</code><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.prepared" title="Permalink to this definition">¶</a></dt>
+<dd><p>Has the plugin been prepared already?</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.disco.PluginEntryPoint.prepare">
+<code class="descname">prepare</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginEntryPoint.prepare"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.prepare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Memoized plugin preparation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.plugins.disco.PluginEntryPoint.misconfigured">
+<code class="descname">misconfigured</code><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.misconfigured" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is plugin misconfigured?</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.plugins.disco.PluginEntryPoint.problem">
+<code class="descname">problem</code><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.problem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Exception raised during plugin setup, or None if all is well</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.plugins.disco.PluginEntryPoint.available">
+<code class="descname">available</code><a class="headerlink" href="#certbot.plugins.disco.PluginEntryPoint.available" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is plugin available, i.e. prepared or misconfigured?</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="certbot.plugins.disco.PluginsRegistry">
+<em class="property">class </em><code class="descclassname">certbot.plugins.disco.</code><code class="descname">PluginsRegistry</code><span class="sig-paren">(</span><em>plugins</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginsRegistry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginsRegistry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">_abcoll.Mapping</span></code></p>
+<p>Plugins registry.</p>
+<dl class="classmethod">
+<dt id="certbot.plugins.disco.PluginsRegistry.find_all">
+<em class="property">classmethod </em><code class="descname">find_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginsRegistry.find_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginsRegistry.find_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find plugins using setuptools entry points.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.disco.PluginsRegistry.init">
+<code class="descname">init</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginsRegistry.init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginsRegistry.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize all plugins in the registry.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.disco.PluginsRegistry.filter">
+<code class="descname">filter</code><span class="sig-paren">(</span><em>pred</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginsRegistry.filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginsRegistry.filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter plugins based on predicate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.disco.PluginsRegistry.visible">
+<code class="descname">visible</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginsRegistry.visible"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginsRegistry.visible" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter plugins based on visibility.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.disco.PluginsRegistry.ifaces">
+<code class="descname">ifaces</code><span class="sig-paren">(</span><em>*ifaces_groups</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginsRegistry.ifaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginsRegistry.ifaces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter plugins based on interfaces.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.disco.PluginsRegistry.verify">
+<code class="descname">verify</code><span class="sig-paren">(</span><em>ifaces</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginsRegistry.verify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginsRegistry.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter plugins based on verification.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.disco.PluginsRegistry.prepare">
+<code class="descname">prepare</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginsRegistry.prepare"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginsRegistry.prepare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare all plugins in the registry.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.disco.PluginsRegistry.available">
+<code class="descname">available</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginsRegistry.available"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginsRegistry.available" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter plugins based on availability.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.disco.PluginsRegistry.find_init">
+<code class="descname">find_init</code><span class="sig-paren">(</span><em>plugin</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/disco.html#PluginsRegistry.find_init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.disco.PluginsRegistry.find_init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find an initialized plugin.</p>
+<p>This is particularly useful for finding a name for the plugin
+(although <a class="reference internal" href="../interfaces.html#certbot.interfaces.IPluginFactory.__call__" title="certbot.interfaces.IPluginFactory.__call__"><code class="xref py py-obj docutils literal"><span class="pre">IPluginFactory.__call__</span></code></a> takes <code class="docutils literal"><span class="pre">name</span></code> as one of
+the arguments, <code class="docutils literal"><span class="pre">IPlugin.name</span></code> is not part of the interface):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># plugin is an instance providing IPlugin, initialized</span>
+<span class="c1"># somewhere else in the code</span>
+<span class="n">plugin_registry</span><span class="o">.</span><span class="n">find_init</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+</div>
+<p>Returns <code class="docutils literal"><span class="pre">None</span></code> if <code class="docutils literal"><span class="pre">plugin</span></code> is not found in the registry.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dns_common.html" class="btn btn-neutral float-right" title="certbot.plugins.dns_common" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="common.html" class="btn btn-neutral" title="certbot.plugins.common" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+
+    </p>
+  </div>
+  <!-- Built with Sphinx using a custom theme. --> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Downloads</dt>
+        <dd><a href="../../certbot.pdf">PDF</a></dd>
+        <dd><a href="../../certbot.zip">HTML</a></dd>
+        <dd><a href="../../certbot.epub">Epub</a></dd>
+      </dl>
+      <hr/>
+
+    </div>
+  </div>
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.16.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.disco%E2%80%94%20Certbot%200.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+</body>
+</html>

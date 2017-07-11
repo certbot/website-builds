@@ -1,0 +1,424 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>certbot.plugins.manual &mdash; Certbot 0.16.0.dev0 documentation</title>
+  
+<!--
+
+ ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
+╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
+
+Like looking at code? Help us! https://github.com/certbot/certbot
+-->
+
+  
+  
+
+  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@EFF">
+<meta name="twitter:title" content="certbot.plugins.manual &mdash; Certbot 0.16.0.dev0 documentation">
+<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Certbot 0.16.0.dev0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <nav class="main-nav fixed">
+  <ul>
+    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Certbot</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/docs/">Documentation</a></li>
+    <li><a href="/support/">Support</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
+    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../" class="icon icon-home"> Certbot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.16
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Get Certbot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../using.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../resources.html">Resources</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../">Certbot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>certbot.plugins.manual</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/plugins/manual" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for certbot.plugins.manual</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Manual authenticator plugin&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">zope.component</span>
+<span class="kn">import</span> <span class="nn">zope.interface</span>
+
+<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">challenges</span>
+
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">hooks</span>
+<span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">common</span>
+
+
+<span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IAuthenticator</span><span class="p">)</span>
+<span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">provider</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IPluginFactory</span><span class="p">)</span>
+<div class="viewcode-block" id="Authenticator"><a class="viewcode-back" href="../../../api/plugins/manual.html#certbot.plugins.manual.Authenticator">[docs]</a><span class="k">class</span> <span class="nc">Authenticator</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">Plugin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Manual authenticator</span>
+
+<span class="sd">    This plugin allows the user to perform the domain validation</span>
+<span class="sd">    challenge(s) themselves. This either be done manually by the user or</span>
+<span class="sd">    through shell scripts provided to Certbot.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;Manual configuration or run your own shell scripts&#39;</span>
+    <span class="n">hidden</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">long_description</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s1">&#39;Authenticate through manual configuration or custom shell scripts. &#39;</span>
+        <span class="s1">&#39;When using shell scripts, an authenticator script must be provided. &#39;</span>
+        <span class="s1">&#39;The environment variables available to this script are &#39;</span>
+        <span class="s1">&#39;$CERTBOT_DOMAIN which contains the domain being authenticated, &#39;</span>
+        <span class="s1">&#39;$CERTBOT_VALIDATION which is the validation string, and &#39;</span>
+        <span class="s1">&#39;$CERTBOT_TOKEN which is the filename of the resource requested when &#39;</span>
+        <span class="s1">&#39;performing an HTTP-01 challenge. An additional cleanup script can &#39;</span>
+        <span class="s1">&#39;also be provided and can use the additional variable &#39;</span>
+        <span class="s1">&#39;$CERTBOT_AUTH_OUTPUT which contains the stdout output from the auth &#39;</span>
+        <span class="s1">&#39;script.&#39;</span><span class="p">)</span>
+    <span class="n">_DNS_INSTRUCTIONS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">Please deploy a DNS TXT record under the name</span>
+<span class="si">{domain}</span><span class="s2"> with the following value:</span>
+
+<span class="si">{validation}</span><span class="s2"></span>
+
+<span class="s2">Before continuing, verify the record is deployed.&quot;&quot;&quot;</span>
+    <span class="n">_HTTP_INSTRUCTIONS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">Create a file containing just this data:</span>
+
+<span class="si">{validation}</span><span class="s2"></span>
+
+<span class="s2">And make it available on your web server at this URL:</span>
+
+<span class="si">{uri}</span><span class="s2"></span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Authenticator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">add_parser_arguments</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">add</span><span class="p">):</span>
+        <span class="n">add</span><span class="p">(</span><span class="s1">&#39;auth-hook&#39;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path or command to execute for the authentication script&#39;</span><span class="p">)</span>
+        <span class="n">add</span><span class="p">(</span><span class="s1">&#39;cleanup-hook&#39;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path or command to execute for the cleanup script&#39;</span><span class="p">)</span>
+        <span class="n">add</span><span class="p">(</span><span class="s1">&#39;public-ip-logging-ok&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Automatically allows public IP logging (default: Ask)&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">noninteractive_mode</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s1">&#39;auth-hook&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span>
+                <span class="s1">&#39;An authentication script must be provided with --</span><span class="si">{0}</span><span class="s1"> when &#39;</span>
+                <span class="s1">&#39;using the manual plugin non-interactively.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">option_name</span><span class="p">(</span><span class="s1">&#39;auth-hook&#39;</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_hooks</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_validate_hooks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">validate_hooks</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;auth-hook&#39;</span><span class="p">,</span> <span class="s1">&#39;cleanup-hook&#39;</span><span class="p">):</span>
+                <span class="n">hook</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">hook</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">hook_prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">option_name</span><span class="p">(</span><span class="n">name</span><span class="p">)[:</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="s1">&#39;-hook&#39;</span><span class="p">)]</span>
+                    <span class="n">hooks</span><span class="o">.</span><span class="n">validate_hook</span><span class="p">(</span><span class="n">hook</span><span class="p">,</span> <span class="n">hook_prefix</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">more_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring,no-self-use</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="s1">&#39;This plugin allows the user to customize setup for domain &#39;</span>
+            <span class="s1">&#39;validation challenges either through shell scripts provided by &#39;</span>
+            <span class="s1">&#39;the user or by performing the setup manually.&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_chall_pref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+        <span class="c1"># pylint: disable=missing-docstring,no-self-use,unused-argument</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">challenges</span><span class="o">.</span><span class="n">HTTP01</span><span class="p">,</span> <span class="n">challenges</span><span class="o">.</span><span class="n">DNS01</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achalls</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_verify_ip_logging_ok</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s1">&#39;auth-hook&#39;</span><span class="p">):</span>
+            <span class="n">perform_achall</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_perform_achall_with_script</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">perform_achall</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_perform_achall_manually</span>
+
+        <span class="n">responses</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">achall</span> <span class="ow">in</span> <span class="n">achalls</span><span class="p">:</span>
+            <span class="n">perform_achall</span><span class="p">(</span><span class="n">achall</span><span class="p">)</span>
+            <span class="n">responses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">account_key</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">responses</span>
+
+    <span class="k">def</span> <span class="nf">_verify_ip_logging_ok</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s1">&#39;public-ip-logging-ok&#39;</span><span class="p">):</span>
+            <span class="n">cli_flag</span> <span class="o">=</span> <span class="s1">&#39;--</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">option_name</span><span class="p">(</span><span class="s1">&#39;public-ip-logging-ok&#39;</span><span class="p">))</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;NOTE: The IP of this machine will be publicly logged as &#39;</span>
+                   <span class="s2">&quot;having requested this certificate. If you&#39;re running &quot;</span>
+                   <span class="s1">&#39;certbot in manual mode on a machine that is not your &#39;</span>
+                   <span class="s2">&quot;server, please ensure you&#39;re okay with that.</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+                   <span class="s1">&#39;Are you OK with your IP being logged?&#39;</span><span class="p">)</span>
+            <span class="n">display</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">display</span><span class="o">.</span><span class="n">yesno</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">(</span><span class="s1">&#39;public-ip-logging-ok&#39;</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;Must agree to IP logging to proceed&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_perform_achall_with_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">):</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">CERTBOT_DOMAIN</span><span class="o">=</span><span class="n">achall</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span>
+                   <span class="n">CERTBOT_VALIDATION</span><span class="o">=</span><span class="n">achall</span><span class="o">.</span><span class="n">validation</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">account_key</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">chall</span><span class="p">,</span> <span class="n">challenges</span><span class="o">.</span><span class="n">HTTP01</span><span class="p">):</span>
+            <span class="n">env</span><span class="p">[</span><span class="s1">&#39;CERTBOT_TOKEN&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">achall</span><span class="o">.</span><span class="n">chall</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;CERTBOT_TOKEN&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">hooks</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s1">&#39;auth-hook&#39;</span><span class="p">))</span>
+        <span class="n">env</span><span class="p">[</span><span class="s1">&#39;CERTBOT_AUTH_OUTPUT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="n">achall</span><span class="o">.</span><span class="n">domain</span><span class="p">]</span> <span class="o">=</span> <span class="n">env</span>
+
+    <span class="k">def</span> <span class="nf">_perform_achall_manually</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">):</span>
+        <span class="n">validation</span> <span class="o">=</span> <span class="n">achall</span><span class="o">.</span><span class="n">validation</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">account_key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">chall</span><span class="p">,</span> <span class="n">challenges</span><span class="o">.</span><span class="n">HTTP01</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_HTTP_INSTRUCTIONS</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">achall</span><span class="o">=</span><span class="n">achall</span><span class="p">,</span> <span class="n">encoded_token</span><span class="o">=</span><span class="n">achall</span><span class="o">.</span><span class="n">chall</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">),</span>
+                <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">http01_port</span><span class="p">,</span>
+                <span class="n">uri</span><span class="o">=</span><span class="n">achall</span><span class="o">.</span><span class="n">chall</span><span class="o">.</span><span class="n">uri</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">domain</span><span class="p">),</span> <span class="n">validation</span><span class="o">=</span><span class="n">validation</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">chall</span><span class="p">,</span> <span class="n">challenges</span><span class="o">.</span><span class="n">DNS01</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_DNS_INSTRUCTIONS</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">domain</span><span class="o">=</span><span class="n">achall</span><span class="o">.</span><span class="n">validation_domain_name</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">domain</span><span class="p">),</span>
+                <span class="n">validation</span><span class="o">=</span><span class="n">validation</span><span class="p">)</span>
+        <span class="n">display</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
+        <span class="n">display</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achalls</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s1">&#39;cleanup-hook&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">achall</span> <span class="ow">in</span> <span class="n">achalls</span><span class="p">:</span>
+                <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">domain</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s1">&#39;CERTBOT_TOKEN&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">env</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;CERTBOT_TOKEN&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+                <span class="n">hooks</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s1">&#39;cleanup-hook&#39;</span><span class="p">))</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+
+    </p>
+  </div>
+  <!-- Built with Sphinx using a custom theme. --> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Downloads</dt>
+        <dd><a href="../../../certbot.pdf">PDF</a></dd>
+        <dd><a href="../../../certbot.zip">HTML</a></dd>
+        <dd><a href="../../../certbot.epub">Epub</a></dd>
+      </dl>
+      <hr/>
+
+    </div>
+  </div>
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.16.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.manual%E2%80%94%20Certbot%200.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+</body>
+</html>

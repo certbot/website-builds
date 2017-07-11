@@ -1,0 +1,371 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>certbot.errors &mdash; Certbot 0.16.0.dev0 documentation</title>
+  
+<!--
+
+ ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
+╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
+
+Like looking at code? Help us! https://github.com/certbot/certbot
+-->
+
+  
+  
+
+  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@EFF">
+<meta name="twitter:title" content="certbot.errors &mdash; Certbot 0.16.0.dev0 documentation">
+<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Certbot 0.16.0.dev0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <nav class="main-nav fixed">
+  <ul>
+    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Certbot</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/docs/">Documentation</a></li>
+    <li><a href="/support/">Support</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
+    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../" class="icon icon-home"> Certbot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.16
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Get Certbot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../">Certbot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>certbot.errors</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/errors" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for certbot.errors</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Certbot client errors.&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="Error"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.Error">[docs]</a><span class="k">class</span> <span class="nc">Error</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generic Certbot client error.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="AccountStorageError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.AccountStorageError">[docs]</a><span class="k">class</span> <span class="nc">AccountStorageError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generic `.AccountStorage` error.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="AccountNotFound"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.AccountNotFound">[docs]</a><span class="k">class</span> <span class="nc">AccountNotFound</span><span class="p">(</span><span class="n">AccountStorageError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Account not found error.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="ReverterError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.ReverterError">[docs]</a><span class="k">class</span> <span class="nc">ReverterError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Certbot Reverter error.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="SubprocessError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.SubprocessError">[docs]</a><span class="k">class</span> <span class="nc">SubprocessError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Subprocess handling error.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="CertStorageError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.CertStorageError">[docs]</a><span class="k">class</span> <span class="nc">CertStorageError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generic `.CertStorage` error.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="HookCommandNotFound"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.HookCommandNotFound">[docs]</a><span class="k">class</span> <span class="nc">HookCommandNotFound</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Failed to find a hook command in the PATH.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="SignalExit"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.SignalExit">[docs]</a><span class="k">class</span> <span class="nc">SignalExit</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A Unix signal was received while in the ErrorHandler context manager.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="LockError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.LockError">[docs]</a><span class="k">class</span> <span class="nc">LockError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;File locking error.&quot;&quot;&quot;</span></div>
+
+
+<span class="c1"># Auth Handler Errors</span>
+<div class="viewcode-block" id="AuthorizationError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.AuthorizationError">[docs]</a><span class="k">class</span> <span class="nc">AuthorizationError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Authorization error.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="FailedChallenges"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.FailedChallenges">[docs]</a><span class="k">class</span> <span class="nc">FailedChallenges</span><span class="p">(</span><span class="n">AuthorizationError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Failed challenges error.</span>
+
+<span class="sd">    :ivar set failed_achalls: Failed `.AnnotatedChallenge` instances.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failed_achalls</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">failed_achalls</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">failed_achalls</span> <span class="o">=</span> <span class="n">failed_achalls</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FailedChallenges</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;Failed authorization procedure. </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> (</span><span class="si">{1}</span><span class="s2">): </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">achall</span><span class="o">.</span><span class="n">typ</span><span class="p">,</span> <span class="n">achall</span><span class="o">.</span><span class="n">error</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">achall</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">failed_achalls</span> <span class="k">if</span> <span class="n">achall</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">))</span></div>
+
+
+<span class="c1"># Plugin Errors</span>
+<div class="viewcode-block" id="PluginError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.PluginError">[docs]</a><span class="k">class</span> <span class="nc">PluginError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Certbot Plugin error.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="PluginEnhancementAlreadyPresent"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.PluginEnhancementAlreadyPresent">[docs]</a><span class="k">class</span> <span class="nc">PluginEnhancementAlreadyPresent</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Enhancement was already set &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="PluginSelectionError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.PluginSelectionError">[docs]</a><span class="k">class</span> <span class="nc">PluginSelectionError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A problem with plugin/configurator selection or setup&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="NoInstallationError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.NoInstallationError">[docs]</a><span class="k">class</span> <span class="nc">NoInstallationError</span><span class="p">(</span><span class="n">PluginError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Certbot No Installation error.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="MisconfigurationError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.MisconfigurationError">[docs]</a><span class="k">class</span> <span class="nc">MisconfigurationError</span><span class="p">(</span><span class="n">PluginError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Certbot Misconfiguration error.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="NotSupportedError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.NotSupportedError">[docs]</a><span class="k">class</span> <span class="nc">NotSupportedError</span><span class="p">(</span><span class="n">PluginError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Certbot Plugin function not supported error.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="StandaloneBindError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.StandaloneBindError">[docs]</a><span class="k">class</span> <span class="nc">StandaloneBindError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Standalone plugin bind error.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">socket_error</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">StandaloneBindError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="s2">&quot;Problem binding to port </span><span class="si">{0}</span><span class="s2">: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">socket_error</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">socket_error</span> <span class="o">=</span> <span class="n">socket_error</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span></div>
+
+
+<div class="viewcode-block" id="ConfigurationError"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.ConfigurationError">[docs]</a><span class="k">class</span> <span class="nc">ConfigurationError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Configuration sanity error.&quot;&quot;&quot;</span></div>
+
+<span class="c1"># NoninteractiveDisplay iDisplay plugin error:</span>
+
+<div class="viewcode-block" id="MissingCommandlineFlag"><a class="viewcode-back" href="../../api/errors.html#certbot.errors.MissingCommandlineFlag">[docs]</a><span class="k">class</span> <span class="nc">MissingCommandlineFlag</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A command line argument was missing in noninteractive usage&quot;&quot;&quot;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+
+    </p>
+  </div>
+  <!-- Built with Sphinx using a custom theme. --> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Downloads</dt>
+        <dd><a href="../../certbot.pdf">PDF</a></dd>
+        <dd><a href="../../certbot.zip">HTML</a></dd>
+        <dd><a href="../../certbot.epub">Epub</a></dd>
+      </dl>
+      <hr/>
+
+    </div>
+  </div>
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.16.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.errors%E2%80%94%20Certbot%200.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+</body>
+</html>
