@@ -1,0 +1,933 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>certbot.client &mdash; Certbot 0.16.0.dev0 documentation</title>
+  
+<!--
+
+ ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
+╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
+
+Like looking at code? Help us! https://github.com/certbot/certbot
+-->
+
+  
+  
+
+  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@EFF">
+<meta name="twitter:title" content="certbot.client &mdash; Certbot 0.16.0.dev0 documentation">
+<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Certbot 0.16.0.dev0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <nav class="main-nav fixed">
+  <ul>
+    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Certbot</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/docs/">Documentation</a></li>
+    <li><a href="/support/">Support</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
+    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../" class="icon icon-home"> Certbot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.16
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Get Certbot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../using.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../">Certbot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>certbot.client</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/client" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for certbot.client</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Certbot client API.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.backends</span> <span class="k">import</span> <span class="n">default_backend</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.asymmetric</span> <span class="k">import</span> <span class="n">rsa</span>
+<span class="kn">import</span> <span class="nn">OpenSSL</span>
+<span class="kn">import</span> <span class="nn">zope.component</span>
+
+<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">client</span> <span class="k">as</span> <span class="n">acme_client</span>
+<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">errors</span> <span class="k">as</span> <span class="n">acme_errors</span>
+<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">jose</span>
+<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">messages</span>
+
+<span class="kn">import</span> <span class="nn">certbot</span>
+
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">account</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">auth_handler</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">cli</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">eff</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">error_handler</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">reverter</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">storage</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
+
+<span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">ops</span> <span class="k">as</span> <span class="n">display_ops</span>
+<span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">enhancements</span>
+<span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">selection</span> <span class="k">as</span> <span class="n">plugin_selection</span>
+
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="acme_from_config_key"><a class="viewcode-back" href="../../api/client.html#certbot.client.acme_from_config_key">[docs]</a><span class="k">def</span> <span class="nf">acme_from_config_key</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="s2">&quot;Wrangle ACME client construction&quot;</span>
+    <span class="c1"># TODO: Allow for other alg types besides RS256</span>
+    <span class="n">net</span> <span class="o">=</span> <span class="n">acme_client</span><span class="o">.</span><span class="n">ClientNetwork</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">verify_ssl</span><span class="o">=</span><span class="p">(</span><span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">no_verify_ssl</span><span class="p">),</span>
+                                    <span class="n">user_agent</span><span class="o">=</span><span class="n">determine_user_agent</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">acme_client</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">net</span><span class="o">=</span><span class="n">net</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="determine_user_agent"><a class="viewcode-back" href="../../api/client.html#certbot.client.determine_user_agent">[docs]</a><span class="k">def</span> <span class="nf">determine_user_agent</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set a user_agent string in the config based on the choice of plugins.</span>
+<span class="sd">    (this wasn&#39;t knowable at construction time)</span>
+
+<span class="sd">    :returns: the client&#39;s User-Agent string</span>
+<span class="sd">    :rtype: `str`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">user_agent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ua</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;CertbotACMEClient/</span><span class="si">{0}</span><span class="s2"> (</span><span class="si">{1}</span><span class="s2">; </span><span class="si">{2}</span><span class="s2">) Authenticator/</span><span class="si">{3}</span><span class="s2"> Installer/</span><span class="si">{4}</span><span class="s2"> &quot;</span>
+              <span class="s2">&quot;(</span><span class="si">{5}</span><span class="s2">; flags: </span><span class="si">{6}</span><span class="s2">) Py/</span><span class="si">{7}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">ua</span> <span class="o">=</span> <span class="n">ua</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">certbot</span><span class="o">.</span><span class="n">__version__</span><span class="p">,</span> <span class="n">cli</span><span class="o">.</span><span class="n">cli_command</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">get_os_info_ua</span><span class="p">(),</span>
+                       <span class="n">config</span><span class="o">.</span><span class="n">authenticator</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">installer</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">verb</span><span class="p">,</span>
+                       <span class="n">ua_flags</span><span class="p">(</span><span class="n">config</span><span class="p">),</span> <span class="n">platform</span><span class="o">.</span><span class="n">python_version</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ua</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">user_agent</span>
+    <span class="k">return</span> <span class="n">ua</span></div>
+
+<div class="viewcode-block" id="ua_flags"><a class="viewcode-back" href="../../api/client.html#certbot.client.ua_flags">[docs]</a><span class="k">def</span> <span class="nf">ua_flags</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="s2">&quot;Turn some very important CLI flags into clues in the user agent.&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">DummyConfig</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;FLAGS&quot;</span>
+    <span class="n">flags</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">duplicate</span><span class="p">:</span>
+        <span class="n">flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;dup&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">renew_by_default</span><span class="p">:</span>
+        <span class="n">flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;frn&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">allow_subset_of_names</span><span class="p">:</span>
+        <span class="n">flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;asn&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">noninteractive_mode</span><span class="p">:</span>
+        <span class="n">flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;n&quot;</span><span class="p">)</span>
+    <span class="n">hook_names</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;pre&quot;</span><span class="p">,</span> <span class="s2">&quot;post&quot;</span><span class="p">,</span> <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;manual_auth&quot;</span><span class="p">,</span> <span class="s2">&quot;manual_cleanup&quot;</span><span class="p">)</span>
+    <span class="n">hooks</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">h</span> <span class="o">+</span> <span class="s2">&quot;_hook&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">hook_names</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">hooks</span><span class="p">):</span>
+        <span class="n">flags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;hook&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">flags</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DummyConfig"><a class="viewcode-back" href="../../api/client.html#certbot.client.DummyConfig">[docs]</a><span class="k">class</span> <span class="nc">DummyConfig</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="s2">&quot;Shim for computing a sample user agent.&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span> <span class="o">=</span> <span class="s2">&quot;XXX&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">installer</span> <span class="o">=</span> <span class="s2">&quot;YYY&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verb</span> <span class="o">=</span> <span class="s2">&quot;SUBCOMMAND&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="s2">&quot;Any config properties we might have are None.&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="sample_user_agent"><a class="viewcode-back" href="../../api/client.html#certbot.client.sample_user_agent">[docs]</a><span class="k">def</span> <span class="nf">sample_user_agent</span><span class="p">():</span>
+    <span class="s2">&quot;Document what this Certbot&#39;s user agent string will be like.&quot;</span>
+
+    <span class="k">return</span> <span class="n">determine_user_agent</span><span class="p">(</span><span class="n">DummyConfig</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="register"><a class="viewcode-back" href="../../api/client.html#certbot.client.register">[docs]</a><span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">account_storage</span><span class="p">,</span> <span class="n">tos_cb</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Register new account with an ACME CA.</span>
+
+<span class="sd">    This function takes care of generating fresh private key,</span>
+<span class="sd">    registering the account, optionally accepting CA Terms of Service</span>
+<span class="sd">    and finally saving the account. It should be called prior to</span>
+<span class="sd">    initialization of `Client`, unless account has already been created.</span>
+
+<span class="sd">    :param .IConfig config: Client configuration.</span>
+
+<span class="sd">    :param .AccountStorage account_storage: Account storage where newly</span>
+<span class="sd">        registered account will be saved to. Save happens only after TOS</span>
+<span class="sd">        acceptance step, so any account private keys or</span>
+<span class="sd">        `.RegistrationResource` will not be persisted if `tos_cb`</span>
+<span class="sd">        returns ``False``.</span>
+
+<span class="sd">    :param tos_cb: If ACME CA requires the user to accept a Terms of</span>
+<span class="sd">        Service before registering account, client action is</span>
+<span class="sd">        necessary. For example, a CLI tool would prompt the user</span>
+<span class="sd">        acceptance. `tos_cb` must be a callable that should accept</span>
+<span class="sd">        `.RegistrationResource` and return a `bool`: ``True`` iff the</span>
+<span class="sd">        Terms of Service present in the contained</span>
+<span class="sd">        `.Registration.terms_of_service` is accepted by the client, and</span>
+<span class="sd">        ``False`` otherwise. ``tos_cb`` will be called only if the</span>
+<span class="sd">        client action is necessary, i.e. when ``terms_of_service is not</span>
+<span class="sd">        None``. This argument is optional, if not supplied it will</span>
+<span class="sd">        default to automatic acceptance!</span>
+
+<span class="sd">    :raises certbot.errors.Error: In case of any client problems, in</span>
+<span class="sd">        particular registration failure, or unaccepted Terms of Service.</span>
+<span class="sd">    :raises acme.errors.Error: In case of any protocol problems.</span>
+
+<span class="sd">    :returns: Newly registered and saved account, as well as protocol</span>
+<span class="sd">        API handle (should be used in `Client` initialization).</span>
+<span class="sd">    :rtype: `tuple` of `.Account` and `acme.client.Client`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Log non-standard actions, potentially wrong API calls</span>
+    <span class="k">if</span> <span class="n">account_storage</span><span class="o">.</span><span class="n">find_all</span><span class="p">():</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;There are already existing accounts for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">server</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">email</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">register_unsafely_without_email</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;No email was provided and &quot;</span>
+                   <span class="s2">&quot;--register-unsafely-without-email was not present.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">dry_run</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Registering without email!&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Each new registration shall use a fresh new key</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">jose</span><span class="o">.</span><span class="n">JWKRSA</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">jose</span><span class="o">.</span><span class="n">ComparableRSAKey</span><span class="p">(</span>
+        <span class="n">rsa</span><span class="o">.</span><span class="n">generate_private_key</span><span class="p">(</span>
+            <span class="n">public_exponent</span><span class="o">=</span><span class="mi">65537</span><span class="p">,</span>
+            <span class="n">key_size</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">rsa_key_size</span><span class="p">,</span>
+            <span class="n">backend</span><span class="o">=</span><span class="n">default_backend</span><span class="p">())))</span>
+    <span class="n">acme</span> <span class="o">=</span> <span class="n">acme_from_config_key</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+    <span class="c1"># TODO: add phone?</span>
+    <span class="n">regr</span> <span class="o">=</span> <span class="n">perform_registration</span><span class="p">(</span><span class="n">acme</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">regr</span><span class="o">.</span><span class="n">terms_of_service</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">tos_cb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">tos_cb</span><span class="p">(</span><span class="n">regr</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span>
+                <span class="s2">&quot;Registration cannot proceed without accepting &quot;</span>
+                <span class="s2">&quot;Terms of Service.&quot;</span><span class="p">)</span>
+        <span class="n">regr</span> <span class="o">=</span> <span class="n">acme</span><span class="o">.</span><span class="n">agree_to_tos</span><span class="p">(</span><span class="n">regr</span><span class="p">)</span>
+
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">account</span><span class="o">.</span><span class="n">Account</span><span class="p">(</span><span class="n">regr</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+    <span class="n">account</span><span class="o">.</span><span class="n">report_new_account</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">account_storage</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">acc</span><span class="p">,</span> <span class="n">acme</span><span class="p">)</span>
+
+    <span class="n">eff</span><span class="o">.</span><span class="n">handle_subscription</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">acc</span><span class="p">,</span> <span class="n">acme</span></div>
+
+
+<div class="viewcode-block" id="perform_registration"><a class="viewcode-back" href="../../api/client.html#certbot.client.perform_registration">[docs]</a><span class="k">def</span> <span class="nf">perform_registration</span><span class="p">(</span><span class="n">acme</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Actually register new account, trying repeatedly if there are email</span>
+<span class="sd">    problems</span>
+
+<span class="sd">    :param .IConfig config: Client configuration.</span>
+<span class="sd">    :param acme.client.Client client: ACME client object.</span>
+
+<span class="sd">    :returns: Registration Resource.</span>
+<span class="sd">    :rtype: `acme.messages.RegistrationResource`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">acme</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">messages</span><span class="o">.</span><span class="n">NewRegistration</span><span class="o">.</span><span class="n">from_data</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">email</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">messages</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;invalidEmail&quot;</span> <span class="ow">or</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;invalidContact&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">noninteractive_mode</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;The ACME server believes </span><span class="si">%s</span><span class="s2"> is an invalid email address. &quot;</span>
+                       <span class="s2">&quot;Please ensure it is a valid email and attempt &quot;</span>
+                       <span class="s2">&quot;registration again.&quot;</span> <span class="o">%</span> <span class="n">config</span><span class="o">.</span><span class="n">email</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">config</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">display_ops</span><span class="o">.</span><span class="n">get_email</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">perform_registration</span><span class="p">(</span><span class="n">acme</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span></div>
+
+
+<div class="viewcode-block" id="Client"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client">[docs]</a><span class="k">class</span> <span class="nc">Client</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Certbot&#39;s client.</span>
+
+<span class="sd">    :ivar .IConfig config: Client configuration.</span>
+<span class="sd">    :ivar .Account account: Account registered with `register`.</span>
+<span class="sd">    :ivar .AuthHandler auth_handler: Authorizations handler that will</span>
+<span class="sd">        dispatch DV challenges to appropriate authenticators</span>
+<span class="sd">        (providing `.IAuthenticator` interface).</span>
+<span class="sd">    :ivar .IAuthenticator auth: Prepared (`.IAuthenticator.prepare`)</span>
+<span class="sd">        authenticator that can solve ACME challenges.</span>
+<span class="sd">    :ivar .IInstaller installer: Installer.</span>
+<span class="sd">    :ivar acme.client.Client acme: Optional ACME client API handle.</span>
+<span class="sd">       You might already have one from `register`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">account_</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">installer</span><span class="p">,</span> <span class="n">acme</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a client.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">account</span> <span class="o">=</span> <span class="n">account_</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="n">auth</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">installer</span> <span class="o">=</span> <span class="n">installer</span>
+
+        <span class="c1"># Initialize ACME if account is provided</span>
+        <span class="k">if</span> <span class="n">acme</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">account</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">acme</span> <span class="o">=</span> <span class="n">acme_from_config_key</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">acme</span> <span class="o">=</span> <span class="n">acme</span>
+
+        <span class="k">if</span> <span class="n">auth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">auth_handler</span> <span class="o">=</span> <span class="n">auth_handler</span><span class="o">.</span><span class="n">AuthHandler</span><span class="p">(</span>
+                <span class="n">auth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">acme</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pref_challs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">auth_handler</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Client.obtain_certificate_from_csr"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client.obtain_certificate_from_csr">[docs]</a>    <span class="k">def</span> <span class="nf">obtain_certificate_from_csr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">csr</span><span class="p">,</span> <span class="n">authzr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Obtain certificate.</span>
+
+<span class="sd">        Internal function with precondition that `domains` are</span>
+<span class="sd">        consistent with identifiers present in the `csr`.</span>
+
+<span class="sd">        :param list domains: Domain names.</span>
+<span class="sd">        :param .util.CSR csr: PEM-encoded Certificate Signing</span>
+<span class="sd">            Request. The key used to generate this CSR can be different</span>
+<span class="sd">            than `authkey`.</span>
+<span class="sd">        :param list authzr: List of</span>
+<span class="sd">            :class:`acme.messages.AuthorizationResource`</span>
+
+<span class="sd">        :returns: `.CertificateResource` and certificate chain (as</span>
+<span class="sd">            returned by `.fetch_chain`).</span>
+<span class="sd">        :rtype: tuple</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_handler</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Unable to obtain certificate because authenticator is &quot;</span>
+                   <span class="s2">&quot;not set.&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">account</span><span class="o">.</span><span class="n">regr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;Please register with the ACME server first.&quot;</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;CSR: </span><span class="si">%s</span><span class="s2">, domains: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">csr</span><span class="p">,</span> <span class="n">domains</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">authzr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">authzr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_handler</span><span class="o">.</span><span class="n">get_authorizations</span><span class="p">(</span><span class="n">domains</span><span class="p">)</span>
+
+        <span class="n">certr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acme</span><span class="o">.</span><span class="n">request_issuance</span><span class="p">(</span>
+            <span class="n">jose</span><span class="o">.</span><span class="n">ComparableX509</span><span class="p">(</span>
+                <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate_request</span><span class="p">(</span><span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">csr</span><span class="o">.</span><span class="n">data</span><span class="p">)),</span>
+                <span class="n">authzr</span><span class="p">)</span>
+
+        <span class="n">notify</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span>
+        <span class="n">retries</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">chain</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">while</span> <span class="n">retries</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">retries</span><span class="p">:</span>
+                <span class="n">notify</span><span class="p">(</span><span class="s1">&#39;Failed to fetch chain, please check your network &#39;</span>
+                       <span class="s1">&#39;and continue&#39;</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">chain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">acme</span><span class="o">.</span><span class="n">fetch_chain</span><span class="p">(</span><span class="n">certr</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">except</span> <span class="n">acme_errors</span><span class="o">.</span><span class="n">Error</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Failed to fetch chain&#39;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">retries</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">chain</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">acme_errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span>
+                <span class="s1">&#39;Failed to fetch chain. You should not deploy the generated &#39;</span>
+                <span class="s1">&#39;certificate, please rerun the command for a new one.&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">certr</span><span class="p">,</span> <span class="n">chain</span></div>
+
+<div class="viewcode-block" id="Client.obtain_certificate"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client.obtain_certificate">[docs]</a>    <span class="k">def</span> <span class="nf">obtain_certificate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domains</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Obtains a certificate from the ACME server.</span>
+
+<span class="sd">        `.register` must be called before `.obtain_certificate`</span>
+
+<span class="sd">        :param list domains: domains to get a certificate</span>
+
+<span class="sd">        :returns: `.CertificateResource`, certificate chain (as</span>
+<span class="sd">            returned by `.fetch_chain`), and newly generated private key</span>
+<span class="sd">            (`.util.Key`) and DER-encoded Certificate Signing Request</span>
+<span class="sd">            (`.util.CSR`).</span>
+<span class="sd">        :rtype: tuple</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">authzr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auth_handler</span><span class="o">.</span><span class="n">get_authorizations</span><span class="p">(</span>
+                <span class="n">domains</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">allow_subset_of_names</span><span class="p">)</span>
+
+        <span class="n">auth_domains</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">identifier</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">authzr</span><span class="p">)</span>
+        <span class="n">domains</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">domains</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">auth_domains</span><span class="p">]</span>
+
+        <span class="c1"># Create CSR from names</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">init_save_key</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">rsa_key_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">key_dir</span><span class="p">)</span>
+        <span class="n">csr</span> <span class="o">=</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">init_save_csr</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">csr_dir</span><span class="p">)</span>
+        <span class="n">certr</span><span class="p">,</span> <span class="n">chain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obtain_certificate_from_csr</span><span class="p">(</span>
+            <span class="n">domains</span><span class="p">,</span> <span class="n">csr</span><span class="p">,</span> <span class="n">authzr</span><span class="o">=</span><span class="n">authzr</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">certr</span><span class="p">,</span> <span class="n">chain</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">csr</span></div>
+
+    <span class="c1"># pylint: disable=no-member</span>
+<div class="viewcode-block" id="Client.obtain_and_enroll_certificate"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client.obtain_and_enroll_certificate">[docs]</a>    <span class="k">def</span> <span class="nf">obtain_and_enroll_certificate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">certname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Obtain and enroll certificate.</span>
+
+<span class="sd">        Get a new certificate for the specified domains using the specified</span>
+<span class="sd">        authenticator and installer, and then create a new renewable lineage</span>
+<span class="sd">        containing it.</span>
+
+<span class="sd">        :param list domains: Domains to request.</span>
+<span class="sd">        :param plugins: A PluginsFactory object.</span>
+<span class="sd">        :param str certname: Name of new cert</span>
+
+<span class="sd">        :returns: A new :class:`certbot.storage.RenewableCert` instance</span>
+<span class="sd">            referred to the enrolled cert lineage, False if the cert could not</span>
+<span class="sd">            be obtained, or None if doing a successful dry run.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">certr</span><span class="p">,</span> <span class="n">chain</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obtain_certificate</span><span class="p">(</span><span class="n">domains</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">config_dir</span> <span class="o">!=</span> <span class="n">constants</span><span class="o">.</span><span class="n">CLI_DEFAULTS</span><span class="p">[</span><span class="s2">&quot;config_dir&quot;</span><span class="p">]</span> <span class="ow">or</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">work_dir</span> <span class="o">!=</span> <span class="n">constants</span><span class="o">.</span><span class="n">CLI_DEFAULTS</span><span class="p">[</span><span class="s2">&quot;work_dir&quot;</span><span class="p">]):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Non-standard path(s), might not work with crontab installed &quot;</span>
+                <span class="s2">&quot;by your operating system package manager&quot;</span><span class="p">)</span>
+
+        <span class="n">new_name</span> <span class="o">=</span> <span class="n">certname</span> <span class="k">if</span> <span class="n">certname</span> <span class="k">else</span> <span class="n">domains</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">dry_run</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Dry run: Skipping creating new lineage for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="n">new_name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">storage</span><span class="o">.</span><span class="n">RenewableCert</span><span class="o">.</span><span class="n">new_lineage</span><span class="p">(</span>
+                <span class="n">new_name</span><span class="p">,</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">dump_certificate</span><span class="p">(</span>
+                    <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">certr</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">wrapped</span><span class="p">),</span>
+                <span class="n">key</span><span class="o">.</span><span class="n">pem</span><span class="p">,</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">dump_pyopenssl_chain</span><span class="p">(</span><span class="n">chain</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Client.save_certificate"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client.save_certificate">[docs]</a>    <span class="k">def</span> <span class="nf">save_certificate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">certr</span><span class="p">,</span> <span class="n">chain_cert</span><span class="p">,</span>
+                         <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">fullchain_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Saves the certificate received from the ACME server.</span>
+
+<span class="sd">        :param certr: ACME &quot;certificate&quot; resource.</span>
+<span class="sd">        :type certr: :class:`acme.messages.Certificate`</span>
+
+<span class="sd">        :param list chain_cert:</span>
+<span class="sd">        :param str cert_path: Candidate path to a certificate.</span>
+<span class="sd">        :param str chain_path: Candidate path to a certificate chain.</span>
+<span class="sd">        :param str fullchain_path: Candidate path to a full cert chain.</span>
+
+<span class="sd">        :returns: cert_path, chain_path, and fullchain_path as absolute</span>
+<span class="sd">            paths to the actual files</span>
+<span class="sd">        :rtype: `tuple` of `str`</span>
+
+<span class="sd">        :raises IOError: If unable to find room to write the cert files</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">fullchain_path</span><span class="p">:</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="mo">0o755</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">(),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+
+        <span class="n">cert_pem</span> <span class="o">=</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">dump_certificate</span><span class="p">(</span>
+            <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">certr</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">wrapped</span><span class="p">)</span>
+
+        <span class="n">cert_file</span><span class="p">,</span> <span class="n">abs_cert_path</span> <span class="o">=</span> <span class="n">_open_pem_file</span><span class="p">(</span><span class="s1">&#39;cert_path&#39;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">cert_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cert_pem</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">cert_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Server issued certificate; certificate written to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">abs_cert_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">chain_cert</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">abs_cert_path</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">chain_pem</span> <span class="o">=</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">dump_pyopenssl_chain</span><span class="p">(</span><span class="n">chain_cert</span><span class="p">)</span>
+
+            <span class="n">chain_file</span><span class="p">,</span> <span class="n">abs_chain_path</span> <span class="o">=</span>\
+                    <span class="n">_open_pem_file</span><span class="p">(</span><span class="s1">&#39;chain_path&#39;</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">)</span>
+            <span class="n">fullchain_file</span><span class="p">,</span> <span class="n">abs_fullchain_path</span> <span class="o">=</span>\
+                    <span class="n">_open_pem_file</span><span class="p">(</span><span class="s1">&#39;fullchain_path&#39;</span><span class="p">,</span> <span class="n">fullchain_path</span><span class="p">)</span>
+
+            <span class="n">_save_chain</span><span class="p">(</span><span class="n">chain_pem</span><span class="p">,</span> <span class="n">chain_file</span><span class="p">)</span>
+            <span class="n">_save_chain</span><span class="p">(</span><span class="n">cert_pem</span> <span class="o">+</span> <span class="n">chain_pem</span><span class="p">,</span> <span class="n">fullchain_file</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">abs_cert_path</span><span class="p">,</span> <span class="n">abs_chain_path</span><span class="p">,</span> <span class="n">abs_fullchain_path</span></div>
+
+<div class="viewcode-block" id="Client.deploy_certificate"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client.deploy_certificate">[docs]</a>    <span class="k">def</span> <span class="nf">deploy_certificate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">privkey_path</span><span class="p">,</span>
+                           <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">fullchain_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Install certificate</span>
+
+<span class="sd">        :param list domains: list of domains to install the certificate</span>
+<span class="sd">        :param str privkey_path: path to certificate private key</span>
+<span class="sd">        :param str cert_path: certificate file path (optional)</span>
+<span class="sd">        :param str chain_path: chain file path</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">installer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No installer specified, client is unable to deploy&quot;</span>
+                           <span class="s2">&quot;the certificate&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;No installer available&quot;</span><span class="p">)</span>
+
+        <span class="n">chain_path</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">chain_path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">chain_path</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Unable to install the certificate&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">error_handler</span><span class="o">.</span><span class="n">ErrorHandler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_recovery_routine_with_msg</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">dom</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">installer</span><span class="o">.</span><span class="n">deploy_cert</span><span class="p">(</span>
+                    <span class="n">domain</span><span class="o">=</span><span class="n">dom</span><span class="p">,</span> <span class="n">cert_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">cert_path</span><span class="p">),</span>
+                    <span class="n">key_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">privkey_path</span><span class="p">),</span>
+                    <span class="n">chain_path</span><span class="o">=</span><span class="n">chain_path</span><span class="p">,</span>
+                    <span class="n">fullchain_path</span><span class="o">=</span><span class="n">fullchain_path</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">installer</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>  <span class="c1"># needed by the Apache plugin</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">installer</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;Deployed ACME Certificate&quot;</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;We were unable to install your certificate, &quot;</span>
+               <span class="s2">&quot;however, we successfully restored your &quot;</span>
+               <span class="s2">&quot;server to its prior configuration.&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">error_handler</span><span class="o">.</span><span class="n">ErrorHandler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rollback_and_restart</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+            <span class="c1"># sites may have been enabled / final cleanup</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">installer</span><span class="o">.</span><span class="n">restart</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Client.enhance_config"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client.enhance_config">[docs]</a>    <span class="k">def</span> <span class="nf">enhance_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Enhance the configuration.</span>
+
+<span class="sd">        :param list domains: list of domains to configure</span>
+<span class="sd">        :param chain_path: chain file path</span>
+<span class="sd">        :type chain_path: `str` or `None`</span>
+
+<span class="sd">        :raises .errors.Error: if no installer is specified in the</span>
+<span class="sd">            client.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">installer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No installer is specified, there isn&#39;t any &quot;</span>
+                           <span class="s2">&quot;configuration to enhance.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;No installer available&quot;</span><span class="p">)</span>
+
+        <span class="n">enhanced</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">enhancement_info</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s2">&quot;hsts&quot;</span><span class="p">,</span> <span class="s2">&quot;ensure-http-header&quot;</span><span class="p">,</span> <span class="s2">&quot;Strict-Transport-Security&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;redirect&quot;</span><span class="p">,</span> <span class="s2">&quot;redirect&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;staple&quot;</span><span class="p">,</span> <span class="s2">&quot;staple-ocsp&quot;</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;uir&quot;</span><span class="p">,</span> <span class="s2">&quot;ensure-http-header&quot;</span><span class="p">,</span> <span class="s2">&quot;Upgrade-Insecure-Requests&quot;</span><span class="p">),)</span>
+        <span class="n">supported</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">installer</span><span class="o">.</span><span class="n">supported_enhancements</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">config_name</span><span class="p">,</span> <span class="n">enhancement_name</span><span class="p">,</span> <span class="n">option</span> <span class="ow">in</span> <span class="n">enhancement_info</span><span class="p">:</span>
+            <span class="n">config_value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">config_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">enhancement_name</span> <span class="ow">in</span> <span class="n">supported</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">config_name</span> <span class="o">==</span> <span class="s2">&quot;redirect&quot;</span> <span class="ow">and</span> <span class="n">config_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">config_value</span> <span class="o">=</span> <span class="n">enhancements</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="n">enhancement_name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">config_value</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">apply_enhancement</span><span class="p">(</span><span class="n">domains</span><span class="p">,</span> <span class="n">enhancement_name</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+                    <span class="n">enhanced</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="n">config_value</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Option </span><span class="si">%s</span><span class="s2"> is not supported by the selected installer. &quot;</span>
+                    <span class="s2">&quot;Skipping enhancement.&quot;</span><span class="p">,</span> <span class="n">config_name</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;We were unable to restart web server&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">enhanced</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">error_handler</span><span class="o">.</span><span class="n">ErrorHandler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rollback_and_restart</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">installer</span><span class="o">.</span><span class="n">restart</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Client.apply_enhancement"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client.apply_enhancement">[docs]</a>    <span class="k">def</span> <span class="nf">apply_enhancement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">enhancement</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Applies an enhancement on all domains.</span>
+
+<span class="sd">        :param list domains: list of ssl_vhosts (as strings)</span>
+<span class="sd">        :param str enhancement: name of enhancement, e.g. ensure-http-header</span>
+<span class="sd">        :param str options: options to enhancement, e.g. Strict-Transport-Security</span>
+
+<span class="sd">            .. note:: When more `options` are needed, make options a list.</span>
+
+<span class="sd">        :raises .errors.PluginError: If Enhancement is not supported, or if</span>
+<span class="sd">            there is any other problem with the enhancement.</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;We were unable to set up enhancement </span><span class="si">%s</span><span class="s2"> for your server, &quot;</span>
+               <span class="s2">&quot;however, we successfully installed your certificate.&quot;</span>
+               <span class="o">%</span> <span class="p">(</span><span class="n">enhancement</span><span class="p">))</span>
+        <span class="k">with</span> <span class="n">error_handler</span><span class="o">.</span><span class="n">ErrorHandler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_recovery_routine_with_msg</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">dom</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">installer</span><span class="o">.</span><span class="n">enhance</span><span class="p">(</span><span class="n">dom</span><span class="p">,</span> <span class="n">enhancement</span><span class="p">,</span> <span class="n">options</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginEnhancementAlreadyPresent</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Enhancement </span><span class="si">%s</span><span class="s2"> was already set.&quot;</span><span class="p">,</span>
+                            <span class="n">enhancement</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Unable to set enhancement </span><span class="si">%s</span><span class="s2"> for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                            <span class="n">enhancement</span><span class="p">,</span> <span class="n">dom</span><span class="p">)</span>
+                    <span class="k">raise</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">installer</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;Add enhancement </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">enhancement</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Client._recovery_routine_with_msg"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client._recovery_routine_with_msg">[docs]</a>    <span class="k">def</span> <span class="nf">_recovery_routine_with_msg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">success_msg</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calls the installer&#39;s recovery routine and prints success_msg</span>
+
+<span class="sd">        :param str success_msg: message to show on successful recovery</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">installer</span><span class="o">.</span><span class="n">recovery_routine</span><span class="p">()</span>
+        <span class="n">reporter</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IReporter</span><span class="p">)</span>
+        <span class="n">reporter</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">success_msg</span><span class="p">,</span> <span class="n">reporter</span><span class="o">.</span><span class="n">HIGH_PRIORITY</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Client._rollback_and_restart"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client._rollback_and_restart">[docs]</a>    <span class="k">def</span> <span class="nf">_rollback_and_restart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">success_msg</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Rollback the most recent checkpoint and restart the webserver</span>
+
+<span class="sd">        :param str success_msg: message to show on successful rollback</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Rolling back to previous server configuration...&quot;</span><span class="p">)</span>
+        <span class="n">reporter</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IReporter</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">installer</span><span class="o">.</span><span class="n">rollback_checkpoints</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">installer</span><span class="o">.</span><span class="n">restart</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="c1"># TODO: suggest letshelp-letsencrypt here</span>
+            <span class="n">reporter</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span>
+                <span class="s2">&quot;An error occurred and we failed to restore your config and &quot;</span>
+                <span class="s2">&quot;restart your server. Please submit a bug report to &quot;</span>
+                <span class="s2">&quot;https://github.com/letsencrypt/letsencrypt&quot;</span><span class="p">,</span>
+                <span class="n">reporter</span><span class="o">.</span><span class="n">HIGH_PRIORITY</span><span class="p">)</span>
+            <span class="k">raise</span>
+        <span class="n">reporter</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">success_msg</span><span class="p">,</span> <span class="n">reporter</span><span class="o">.</span><span class="n">HIGH_PRIORITY</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="validate_key_csr"><a class="viewcode-back" href="../../api/client.html#certbot.client.validate_key_csr">[docs]</a><span class="k">def</span> <span class="nf">validate_key_csr</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">csr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Validate Key and CSR files.</span>
+
+<span class="sd">    Verifies that the client key and csr arguments are valid and correspond to</span>
+<span class="sd">    one another. This does not currently check the names in the CSR due to</span>
+<span class="sd">    the inability to read SANs from CSRs in python crypto libraries.</span>
+
+<span class="sd">    If csr is left as None, only the key will be validated.</span>
+
+<span class="sd">    :param privkey: Key associated with CSR</span>
+<span class="sd">    :type privkey: :class:`certbot.util.Key`</span>
+
+<span class="sd">    :param .util.CSR csr: CSR</span>
+
+<span class="sd">    :raises .errors.Error: when validation fails</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: Handle all of these problems appropriately</span>
+    <span class="c1"># The client can eventually do things like prompt the user</span>
+    <span class="c1"># and allow the user to take more appropriate actions</span>
+
+    <span class="c1"># Key must be readable and valid.</span>
+    <span class="k">if</span> <span class="n">privkey</span><span class="o">.</span><span class="n">pem</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">valid_privkey</span><span class="p">(</span><span class="n">privkey</span><span class="o">.</span><span class="n">pem</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;The provided key is not a valid key&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">csr</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">csr</span><span class="o">.</span><span class="n">form</span> <span class="o">==</span> <span class="s2">&quot;der&quot;</span><span class="p">:</span>
+            <span class="n">csr_obj</span> <span class="o">=</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate_request</span><span class="p">(</span>
+                <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_ASN1</span><span class="p">,</span> <span class="n">csr</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">csr</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">CSR</span><span class="p">(</span><span class="n">csr</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">dump_certificate</span><span class="p">(</span>
+                <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">csr_obj</span><span class="p">),</span> <span class="s2">&quot;pem&quot;</span><span class="p">)</span>
+
+        <span class="c1"># If CSR is provided, it must be readable and valid.</span>
+        <span class="k">if</span> <span class="n">csr</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">valid_csr</span><span class="p">(</span><span class="n">csr</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;The provided CSR is not a valid CSR&quot;</span><span class="p">)</span>
+
+        <span class="c1"># If both CSR and key are provided, the key must be the same key used</span>
+        <span class="c1"># in the CSR.</span>
+        <span class="k">if</span> <span class="n">csr</span><span class="o">.</span><span class="n">data</span> <span class="ow">and</span> <span class="n">privkey</span><span class="o">.</span><span class="n">pem</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">csr_matches_pubkey</span><span class="p">(</span>
+                    <span class="n">csr</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">privkey</span><span class="o">.</span><span class="n">pem</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;The key and CSR do not match&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rollback"><a class="viewcode-back" href="../../api/client.html#certbot.client.rollback">[docs]</a><span class="k">def</span> <span class="nf">rollback</span><span class="p">(</span><span class="n">default_installer</span><span class="p">,</span> <span class="n">checkpoints</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Revert configuration the specified number of checkpoints.</span>
+
+<span class="sd">    :param int checkpoints: Number of checkpoints to revert.</span>
+
+<span class="sd">    :param config: Configuration.</span>
+<span class="sd">    :type config: :class:`certbot.interfaces.IConfig`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Misconfigurations are only a slight problems... allow the user to rollback</span>
+    <span class="n">installer</span> <span class="o">=</span> <span class="n">plugin_selection</span><span class="o">.</span><span class="n">pick_installer</span><span class="p">(</span>
+        <span class="n">config</span><span class="p">,</span> <span class="n">default_installer</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="s2">&quot;Which installer &quot;</span>
+        <span class="s2">&quot;should be used for rollback?&quot;</span><span class="p">)</span>
+
+    <span class="c1"># No Errors occurred during init... proceed normally</span>
+    <span class="c1"># If installer is None... couldn&#39;t find an installer... there shouldn&#39;t be</span>
+    <span class="c1"># anything to rollback</span>
+    <span class="k">if</span> <span class="n">installer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">installer</span><span class="o">.</span><span class="n">rollback_checkpoints</span><span class="p">(</span><span class="n">checkpoints</span><span class="p">)</span>
+        <span class="n">installer</span><span class="o">.</span><span class="n">restart</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="view_config_changes"><a class="viewcode-back" href="../../api/client.html#certbot.client.view_config_changes">[docs]</a><span class="k">def</span> <span class="nf">view_config_changes</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;View checkpoints and associated configuration changes.</span>
+
+<span class="sd">    .. note:: This assumes that the installation is using a Reverter object.</span>
+
+<span class="sd">    :param config: Configuration.</span>
+<span class="sd">    :type config: :class:`certbot.interfaces.IConfig`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rev</span> <span class="o">=</span> <span class="n">reverter</span><span class="o">.</span><span class="n">Reverter</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">rev</span><span class="o">.</span><span class="n">recovery_routine</span><span class="p">()</span>
+    <span class="n">rev</span><span class="o">.</span><span class="n">view_config_changes</span><span class="p">(</span><span class="n">num</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_open_pem_file"><a class="viewcode-back" href="../../api/client.html#certbot.client._open_pem_file">[docs]</a><span class="k">def</span> <span class="nf">_open_pem_file</span><span class="p">(</span><span class="n">cli_arg_path</span><span class="p">,</span> <span class="n">pem_path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Open a pem file.</span>
+
+<span class="sd">    If cli_arg_path was set by the client, open that.</span>
+<span class="sd">    Otherwise, uniquify the file path.</span>
+
+<span class="sd">    :param str cli_arg_path: the cli arg name, e.g. cert_path</span>
+<span class="sd">    :param str pem_path: the pem file path to open</span>
+
+<span class="sd">    :returns: a tuple of file object and its absolute file path</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cli</span><span class="o">.</span><span class="n">set_by_cli</span><span class="p">(</span><span class="n">cli_arg_path</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_open</span><span class="p">(</span><span class="n">pem_path</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="mo">0o644</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;wb&quot;</span><span class="p">),</span>\
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">pem_path</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">uniq</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">unique_file</span><span class="p">(</span><span class="n">pem_path</span><span class="p">,</span> <span class="mo">0o644</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">uniq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">uniq</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="_save_chain"><a class="viewcode-back" href="../../api/client.html#certbot.client._save_chain">[docs]</a><span class="k">def</span> <span class="nf">_save_chain</span><span class="p">(</span><span class="n">chain_pem</span><span class="p">,</span> <span class="n">chain_file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Saves chain_pem at a unique path based on chain_path.</span>
+
+<span class="sd">    :param str chain_pem: certificate chain in PEM format</span>
+<span class="sd">    :param str chain_file: chain file object</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">chain_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chain_pem</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">chain_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cert chain written to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">chain_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+
+    </p>
+  </div>
+  <!-- Built with Sphinx using a custom theme. --> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Downloads</dt>
+        <dd><a href="../../certbot.pdf">PDF</a></dd>
+        <dd><a href="../../certbot.zip">HTML</a></dd>
+        <dd><a href="../../certbot.epub">Epub</a></dd>
+      </dl>
+      <hr/>
+
+    </div>
+  </div>
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.16.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.client%E2%80%94%20Certbot%200.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+</body>
+</html>

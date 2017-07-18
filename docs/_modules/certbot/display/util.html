@@ -1,0 +1,875 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>certbot.display.util &mdash; Certbot 0.16.0.dev0 documentation</title>
+  
+<!--
+
+ ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
+╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
+
+Like looking at code? Help us! https://github.com/certbot/certbot
+-->
+
+  
+  
+
+  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@EFF">
+<meta name="twitter:title" content="certbot.display.util &mdash; Certbot 0.16.0.dev0 documentation">
+<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Certbot 0.16.0.dev0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <nav class="main-nav fixed">
+  <ul>
+    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Certbot</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/docs/">Documentation</a></li>
+    <li><a href="/support/">Support</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
+    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../../" class="icon icon-home"> Certbot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.16
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Get Certbot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../using.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../resources.html">Resources</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../">Certbot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>certbot.display.util</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/display/util" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for certbot.display.util</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Certbot display.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">select</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+
+<span class="kn">import</span> <span class="nn">zope.interface</span>
+
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">completer</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">WIDTH</span> <span class="o">=</span> <span class="mi">72</span>
+
+<span class="c1"># Display exit codes</span>
+<span class="n">OK</span> <span class="o">=</span> <span class="s2">&quot;ok&quot;</span>
+<span class="sd">&quot;&quot;&quot;Display exit code indicating user acceptance.&quot;&quot;&quot;</span>
+
+<span class="n">CANCEL</span> <span class="o">=</span> <span class="s2">&quot;cancel&quot;</span>
+<span class="sd">&quot;&quot;&quot;Display exit code for a user canceling the display.&quot;&quot;&quot;</span>
+
+<span class="n">HELP</span> <span class="o">=</span> <span class="s2">&quot;help&quot;</span>
+<span class="sd">&quot;&quot;&quot;Display exit code when for when the user requests more help.&quot;&quot;&quot;</span>
+
+<span class="n">ESC</span> <span class="o">=</span> <span class="s2">&quot;esc&quot;</span>
+<span class="sd">&quot;&quot;&quot;Display exit code when the user hits Escape&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="_wrap_lines"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util._wrap_lines">[docs]</a><span class="k">def</span> <span class="nf">_wrap_lines</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format lines nicely to 80 chars.</span>
+
+<span class="sd">    :param str msg: Original message</span>
+
+<span class="sd">    :returns: Formatted message respecting newlines in message</span>
+<span class="sd">    :rtype: str</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="n">fixed_l</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="n">fixed_l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span>
+            <span class="n">line</span><span class="p">,</span>
+            <span class="mi">80</span><span class="p">,</span>
+            <span class="n">break_long_words</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">break_on_hyphens</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fixed_l</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="input_with_timeout"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.input_with_timeout">[docs]</a><span class="k">def</span> <span class="nf">input_with_timeout</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">36000.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get user input with a timeout.</span>
+
+<span class="sd">    Behaves the same as six.moves.input, however, an error is raised if</span>
+<span class="sd">    a user doesn&#39;t answer after timeout seconds. The default timeout</span>
+<span class="sd">    value was chosen to place it just under 12 hours for users following</span>
+<span class="sd">    our advice and running Certbot twice a day.</span>
+
+<span class="sd">    :param str prompt: prompt to provide for input</span>
+<span class="sd">    :param float timeout: maximum number of seconds to wait for input</span>
+
+<span class="sd">    :returns: user response</span>
+<span class="sd">    :rtype: str</span>
+
+<span class="sd">    :raises errors.Error if no answer is given before the timeout</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># use of sys.stdin and sys.stdout to mimic six.moves.input based on</span>
+    <span class="c1"># https://github.com/python/cpython/blob/baf7bb30a02aabde260143136bdf5b3738a1d409/Lib/getpass.py#L129</span>
+    <span class="k">if</span> <span class="n">prompt</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+    <span class="c1"># select can only be used like this on UNIX</span>
+    <span class="n">rlist</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">select</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="n">timeout</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">rlist</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span>
+            <span class="s2">&quot;Timed out waiting for answer to prompt &#39;</span><span class="si">{0}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prompt</span><span class="p">))</span>
+
+    <span class="n">line</span> <span class="o">=</span> <span class="n">rlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">EOFError</span>
+    <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
+<div class="viewcode-block" id="FileDisplay"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay">[docs]</a><span class="k">class</span> <span class="nc">FileDisplay</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;File-based display.&quot;&quot;&quot;</span>
+    <span class="c1"># pylint: disable=too-many-arguments</span>
+    <span class="c1"># see https://github.com/certbot/certbot/issues/3915</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FileDisplay</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span> <span class="o">=</span> <span class="n">outfile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">force_interactive</span> <span class="o">=</span> <span class="n">force_interactive</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skipped_interaction</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="FileDisplay.notification"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay.notification">[docs]</a>    <span class="k">def</span> <span class="nf">notification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                     <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Displays a notification and waits for user acceptance.</span>
+
+<span class="sd">        :param str message: Message to display</span>
+<span class="sd">        :param bool pause: Whether or not the program should pause for the</span>
+<span class="sd">            user&#39;s confirmation</span>
+<span class="sd">        :param bool wrap: Whether or not the application should wrap text</span>
+<span class="sd">        :param bool force_interactive: True if it&#39;s safe to prompt the user</span>
+<span class="sd">            because it won&#39;t cause any workflow regressions</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">side_frame</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">79</span>
+        <span class="k">if</span> <span class="n">wrap</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="n">_wrap_lines</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{line}{frame}{line}{msg}{line}{frame}{line}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">line</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">side_frame</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">message</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">pause</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_can_interact</span><span class="p">(</span><span class="n">force_interactive</span><span class="p">):</span>
+                <span class="n">input_with_timeout</span><span class="p">(</span><span class="s2">&quot;Press Enter to Continue&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Not pausing for user confirmation&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FileDisplay.menu"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay.menu">[docs]</a>    <span class="k">def</span> <span class="nf">menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">ok_label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">cancel_label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+             <span class="n">help_label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="sd">&quot;&quot;&quot;Display a menu.</span>
+
+<span class="sd">        .. todo:: This doesn&#39;t enable the help label/button (I wasn&#39;t sold on</span>
+<span class="sd">           any interface I came up with for this). It would be a nice feature</span>
+
+<span class="sd">        :param str message: title of menu</span>
+<span class="sd">        :param choices: Menu lines, len must be &gt; 0</span>
+<span class="sd">        :type choices: list of tuples (tag, item) or</span>
+<span class="sd">            list of descriptions (tags will be enumerated)</span>
+<span class="sd">        :param default: default value to return (if one exists)</span>
+<span class="sd">        :param str cli_flag: option used to set this value with the CLI</span>
+<span class="sd">        :param bool force_interactive: True if it&#39;s safe to prompt the user</span>
+<span class="sd">            because it won&#39;t cause any workflow regressions</span>
+
+<span class="sd">        :returns: tuple of (`code`, `index`) where</span>
+<span class="sd">            `code` - str display exit code</span>
+<span class="sd">            `index` - int index of the user&#39;s selection</span>
+
+<span class="sd">        :rtype: tuple</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_return_default</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">default</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_print_menu</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">choices</span><span class="p">)</span>
+
+        <span class="n">code</span><span class="p">,</span> <span class="n">selection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_valid_int_ans</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="n">selection</span> <span class="o">-</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="FileDisplay.input"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay.input">[docs]</a>    <span class="k">def</span> <span class="nf">input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Accept input from the user.</span>
+
+<span class="sd">        :param str message: message to display to the user</span>
+<span class="sd">        :param default: default value to return (if one exists)</span>
+<span class="sd">        :param str cli_flag: option used to set this value with the CLI</span>
+<span class="sd">        :param bool force_interactive: True if it&#39;s safe to prompt the user</span>
+<span class="sd">            because it won&#39;t cause any workflow regressions</span>
+
+<span class="sd">        :returns: tuple of (`code`, `input`) where</span>
+<span class="sd">            `code` - str display exit code</span>
+<span class="sd">            `input` - str of the user&#39;s input</span>
+<span class="sd">        :rtype: tuple</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_return_default</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">default</span>
+
+        <span class="c1"># Trailing space must be added outside of _wrap_lines to be preserved</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">_wrap_lines</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> (Enter &#39;c&#39; to cancel):&quot;</span> <span class="o">%</span> <span class="n">message</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+        <span class="n">ans</span> <span class="o">=</span> <span class="n">input_with_timeout</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ans</span> <span class="o">==</span> <span class="s2">&quot;c&quot;</span> <span class="ow">or</span> <span class="n">ans</span> <span class="o">==</span> <span class="s2">&quot;C&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">CANCEL</span><span class="p">,</span> <span class="s2">&quot;-1&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">ans</span></div>
+
+<div class="viewcode-block" id="FileDisplay.yesno"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay.yesno">[docs]</a>    <span class="k">def</span> <span class="nf">yesno</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">yes_label</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="n">no_label</span><span class="o">=</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Query the user with a yes/no question.</span>
+
+<span class="sd">        Yes and No label must begin with different letters, and must contain at</span>
+<span class="sd">        least one letter each.</span>
+
+<span class="sd">        :param str message: question for the user</span>
+<span class="sd">        :param str yes_label: Label of the &quot;Yes&quot; parameter</span>
+<span class="sd">        :param str no_label: Label of the &quot;No&quot; parameter</span>
+<span class="sd">        :param default: default value to return (if one exists)</span>
+<span class="sd">        :param str cli_flag: option used to set this value with the CLI</span>
+<span class="sd">        :param bool force_interactive: True if it&#39;s safe to prompt the user</span>
+<span class="sd">            because it won&#39;t cause any workflow regressions</span>
+
+<span class="sd">        :returns: True for &quot;Yes&quot;, False for &quot;No&quot;</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_return_default</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">default</span>
+
+        <span class="n">side_frame</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">79</span><span class="p">)</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span>
+
+        <span class="n">message</span> <span class="o">=</span> <span class="n">_wrap_lines</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}{frame}{msg}{0}{frame}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">side_frame</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">message</span><span class="p">))</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="n">input_with_timeout</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{yes}</span><span class="s2">/</span><span class="si">{no}</span><span class="s2">: &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">yes</span><span class="o">=</span><span class="n">_parens_around_char</span><span class="p">(</span><span class="n">yes_label</span><span class="p">),</span>
+                <span class="n">no</span><span class="o">=</span><span class="n">_parens_around_char</span><span class="p">(</span><span class="n">no_label</span><span class="p">)))</span>
+
+            <span class="c1"># Couldn&#39;t get pylint indentation right with elif</span>
+            <span class="c1"># elif doesn&#39;t matter in this situation</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ans</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">yes_label</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="ow">or</span>
+                    <span class="n">ans</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">yes_label</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">())):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">ans</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">no_label</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="ow">or</span>
+                    <span class="n">ans</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">no_label</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">())):</span>
+                <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="FileDisplay.checklist"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay.checklist">[docs]</a>    <span class="k">def</span> <span class="nf">checklist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">default_status</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="sd">&quot;&quot;&quot;Display a checklist.</span>
+
+<span class="sd">        :param str message: Message to display to user</span>
+<span class="sd">        :param list tags: `str` tags to select, len(tags) &gt; 0</span>
+<span class="sd">        :param bool default_status: Not used for FileDisplay</span>
+<span class="sd">        :param default: default value to return (if one exists)</span>
+<span class="sd">        :param str cli_flag: option used to set this value with the CLI</span>
+<span class="sd">        :param bool force_interactive: True if it&#39;s safe to prompt the user</span>
+<span class="sd">            because it won&#39;t cause any workflow regressions</span>
+
+<span class="sd">        :returns: tuple of (`code`, `tags`) where</span>
+<span class="sd">            `code` - str display exit code</span>
+<span class="sd">            `tags` - list of selected tags</span>
+<span class="sd">        :rtype: tuple</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_return_default</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">default</span>
+
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_print_menu</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">tags</span><span class="p">)</span>
+
+            <span class="n">code</span><span class="p">,</span> <span class="n">ans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="s2">&quot;Select the appropriate numbers separated &quot;</span>
+                                   <span class="s2">&quot;by commas and/or spaces, or leave input &quot;</span>
+                                   <span class="s2">&quot;blank to select all options shown&quot;</span><span class="p">,</span>
+                                   <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">OK</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">ans</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+                <span class="n">indices</span> <span class="o">=</span> <span class="n">separate_list_input</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
+                <span class="n">selected_tags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scrub_checklist_input</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">tags</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">selected_tags</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="n">selected_tags</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                        <span class="s2">&quot;** Error - Invalid selection **</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="FileDisplay._return_default"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay._return_default">[docs]</a>    <span class="k">def</span> <span class="nf">_return_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Should we return the default instead of prompting the user?</span>
+
+<span class="sd">        :param str prompt: prompt for the user</span>
+<span class="sd">        :param default: default answer to prompt</span>
+<span class="sd">        :param str cli_flag: command line option for setting an answer</span>
+<span class="sd">            to this question</span>
+<span class="sd">        :param bool force_interactive: if interactivity is forced by the</span>
+<span class="sd">            IDisplay call</span>
+
+<span class="sd">        :returns: True if we should return the default without prompting</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># assert_valid_call(prompt, default, cli_flag, force_interactive)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_can_interact</span><span class="p">(</span><span class="n">force_interactive</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Unable to get an answer for the question:</span><span class="se">\n</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cli_flag</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">You can provide an answer on the &quot;</span>
+                    <span class="s2">&quot;command line with the </span><span class="si">{0}</span><span class="s2"> flag.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cli_flag</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">&quot;Falling back to default </span><span class="si">%s</span><span class="s2"> for the prompt:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">default</span><span class="p">,</span> <span class="n">prompt</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="FileDisplay._can_interact"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay._can_interact">[docs]</a>    <span class="k">def</span> <span class="nf">_can_interact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Can we safely interact with the user?</span>
+
+<span class="sd">        :param bool force_interactive: if interactivity is forced by the</span>
+<span class="sd">            IDisplay call</span>
+
+<span class="sd">        :returns: True if the display can interact with the user</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">force_interactive</span> <span class="ow">or</span> <span class="n">force_interactive</span> <span class="ow">or</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">isatty</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">isatty</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">skipped_interaction</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Skipped user interaction because Certbot doesn&#39;t appear to &quot;</span>
+                <span class="s2">&quot;be running in a terminal. You should probably include &quot;</span>
+                <span class="s2">&quot;--non-interactive or </span><span class="si">%s</span><span class="s2"> on the command line.&quot;</span><span class="p">,</span>
+                <span class="n">constants</span><span class="o">.</span><span class="n">FORCE_INTERACTIVE_FLAG</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">skipped_interaction</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="FileDisplay.directory_select"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay.directory_select">[docs]</a>    <span class="k">def</span> <span class="nf">directory_select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Display a directory selection screen.</span>
+
+<span class="sd">        :param str message: prompt to give the user</span>
+<span class="sd">        :param default: default value to return (if one exists)</span>
+<span class="sd">        :param str cli_flag: option used to set this value with the CLI</span>
+<span class="sd">        :param bool force_interactive: True if it&#39;s safe to prompt the user</span>
+<span class="sd">            because it won&#39;t cause any workflow regressions</span>
+
+<span class="sd">        :returns: tuple of the form (`code`, `string`) where</span>
+<span class="sd">            `code` - display exit code</span>
+<span class="sd">            `string` - input entered by the user</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">completer</span><span class="o">.</span><span class="n">Completer</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FileDisplay._scrub_checklist_input"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay._scrub_checklist_input">[docs]</a>    <span class="k">def</span> <span class="nf">_scrub_checklist_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
+        <span class="c1"># pylint: disable=no-self-use</span>
+        <span class="sd">&quot;&quot;&quot;Validate input and transform indices to appropriate tags.</span>
+
+<span class="sd">        :param list indices: input</span>
+<span class="sd">        :param list tags: Original tags of the checklist</span>
+
+<span class="sd">        :returns: valid tags the user selected</span>
+<span class="sd">        :rtype: :class:`list` of :class:`str`</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># They should all be of type int</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="c1"># Remove duplicates</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">indices</span><span class="p">))</span>
+
+        <span class="c1"># Check all input is within range</span>
+        <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">[]</span>
+        <span class="c1"># Transform indices to appropriate tags</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">tags</span><span class="p">[</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="FileDisplay._print_menu"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay._print_menu">[docs]</a>    <span class="k">def</span> <span class="nf">_print_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">choices</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Print a menu on the screen.</span>
+
+<span class="sd">        :param str message: title of menu</span>
+<span class="sd">        :param choices: Menu lines</span>
+<span class="sd">        :type choices: list of tuples (tag, item) or</span>
+<span class="sd">            list of descriptions (tags will be enumerated)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Can take either tuples or single items in choices list</span>
+        <span class="k">if</span> <span class="n">choices</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> - </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">]</span>
+
+        <span class="c1"># Write out the message to the user</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{new}{msg}{new}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">message</span><span class="p">))</span>
+        <span class="n">side_frame</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">79</span><span class="p">)</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">side_frame</span><span class="p">)</span>
+
+        <span class="c1"># Write out the menu choices</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">desc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{num}</span><span class="s2">: </span><span class="si">{desc}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="n">desc</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_wrap_lines</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span>
+
+            <span class="c1"># Keep this outside of the textwrap</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">side_frame</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FileDisplay._get_valid_int_ans"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay._get_valid_int_ans">[docs]</a>    <span class="k">def</span> <span class="nf">_get_valid_int_ans</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get a numerical selection.</span>
+
+<span class="sd">        :param int max: The maximum entry (len of choices), must be positive</span>
+
+<span class="sd">        :returns: tuple of the form (`code`, `selection`) where</span>
+<span class="sd">            `code` - str display exit code (&#39;ok&#39; or cancel&#39;)</span>
+<span class="sd">            `selection` - int user&#39;s selection</span>
+<span class="sd">        :rtype: tuple</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">max_</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">input_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Select the appropriate number &quot;</span>
+                         <span class="s2">&quot;[1-</span><span class="si">{max_}</span><span class="s2">] then [enter] (press &#39;c&#39; to &quot;</span>
+                         <span class="s2">&quot;cancel): &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_</span><span class="o">=</span><span class="n">max_</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">input_msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Press 1 [enter] to confirm the selection &quot;</span>
+                         <span class="s2">&quot;(press &#39;c&#39; to cancel): &quot;</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">selection</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="n">input_with_timeout</span><span class="p">(</span><span class="n">input_msg</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ans</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">ans</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">CANCEL</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">selection</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">selection</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">selection</span> <span class="o">&gt;</span> <span class="n">max_</span><span class="p">:</span>
+                    <span class="n">selection</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span>
+
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">** Invalid input **</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">selection</span></div></div>
+
+
+<div class="viewcode-block" id="assert_valid_call"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.assert_valid_call">[docs]</a><span class="k">def</span> <span class="nf">assert_valid_call</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verify that provided arguments is a valid IDisplay call.</span>
+
+<span class="sd">    :param str prompt: prompt for the user</span>
+<span class="sd">    :param default: default answer to prompt</span>
+<span class="sd">    :param str cli_flag: command line option for setting an answer</span>
+<span class="sd">        to this question</span>
+<span class="sd">    :param bool force_interactive: if interactivity is forced by the</span>
+<span class="sd">        IDisplay call</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Invalid IDisplay call for this prompt:</span><span class="se">\n</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cli_flag</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">You can set an answer to &quot;</span>
+                <span class="s2">&quot;this prompt with the </span><span class="si">{0}</span><span class="s2"> flag&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cli_flag</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">force_interactive</span><span class="p">,</span> <span class="n">msg</span></div>
+
+
+<span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
+<div class="viewcode-block" id="NoninteractiveDisplay"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay">[docs]</a><span class="k">class</span> <span class="nc">NoninteractiveDisplay</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An iDisplay implementation that never asks for interactive user input&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="o">*</span><span class="n">unused_args</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NoninteractiveDisplay</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span> <span class="o">=</span> <span class="n">outfile</span>
+
+<div class="viewcode-block" id="NoninteractiveDisplay._interaction_fail"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay._interaction_fail">[docs]</a>    <span class="k">def</span> <span class="nf">_interaction_fail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="s2">&quot;Error out in case of an attempt to interact in noninteractive mode&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Missing command line flag or config entry for this setting:</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="n">message</span>
+        <span class="k">if</span> <span class="n">extra</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">extra</span>
+        <span class="k">if</span> <span class="n">cli_flag</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">(You can set this with the </span><span class="si">{0}</span><span class="s2"> flag)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cli_flag</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">MissingCommandlineFlag</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NoninteractiveDisplay.notification"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay.notification">[docs]</a>    <span class="k">def</span> <span class="nf">notification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="sd">&quot;&quot;&quot;Displays a notification without waiting for user acceptance.</span>
+
+<span class="sd">        :param str message: Message to display to stdout</span>
+<span class="sd">        :param bool pause: The NoninteractiveDisplay waits for no keyboard</span>
+<span class="sd">        :param bool wrap: Whether or not the application should wrap text</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">side_frame</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">79</span>
+        <span class="k">if</span> <span class="n">wrap</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="n">_wrap_lines</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{line}{frame}{line}{msg}{line}{frame}{line}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">line</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">side_frame</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">message</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="NoninteractiveDisplay.menu"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay.menu">[docs]</a>    <span class="k">def</span> <span class="nf">menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">ok_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cancel_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">help_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="c1"># pylint: disable=unused-argument,too-many-arguments</span>
+        <span class="sd">&quot;&quot;&quot;Avoid displaying a menu.</span>
+
+<span class="sd">        :param str message: title of menu</span>
+<span class="sd">        :param choices: Menu lines, len must be &gt; 0</span>
+<span class="sd">        :type choices: list of tuples (tag, item) or</span>
+<span class="sd">            list of descriptions (tags will be enumerated)</span>
+<span class="sd">        :param int default: the default choice</span>
+<span class="sd">        :param dict kwargs: absorbs various irrelevant labelling arguments</span>
+
+<span class="sd">        :returns: tuple of (`code`, `index`) where</span>
+<span class="sd">            `code` - str display exit code</span>
+<span class="sd">            `index` - int index of the user&#39;s selection</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        :raises errors.MissingCommandlineFlag: if there was no default</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_interaction_fail</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="s2">&quot;Choices: &quot;</span> <span class="o">+</span> <span class="nb">repr</span><span class="p">(</span><span class="n">choices</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">default</span></div>
+
+<div class="viewcode-block" id="NoninteractiveDisplay.input"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay.input">[docs]</a>    <span class="k">def</span> <span class="nf">input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Accept input from the user.</span>
+
+<span class="sd">        :param str message: message to display to the user</span>
+
+<span class="sd">        :returns: tuple of (`code`, `input`) where</span>
+<span class="sd">            `code` - str display exit code</span>
+<span class="sd">            `input` - str of the user&#39;s input</span>
+<span class="sd">        :rtype: tuple</span>
+<span class="sd">        :raises errors.MissingCommandlineFlag: if there was no default</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_interaction_fail</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">default</span></div>
+
+<div class="viewcode-block" id="NoninteractiveDisplay.yesno"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay.yesno">[docs]</a>    <span class="k">def</span> <span class="nf">yesno</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">yes_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="c1"># pylint: disable=unused-argument</span>
+        <span class="sd">&quot;&quot;&quot;Decide Yes or No, without asking anybody</span>
+
+<span class="sd">        :param str message: question for the user</span>
+<span class="sd">        :param dict kwargs: absorbs yes_label, no_label</span>
+
+<span class="sd">        :raises errors.MissingCommandlineFlag: if there was no default</span>
+<span class="sd">        :returns: True for &quot;Yes&quot;, False for &quot;No&quot;</span>
+<span class="sd">        :rtype: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_interaction_fail</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">default</span></div>
+
+<div class="viewcode-block" id="NoninteractiveDisplay.checklist"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay.checklist">[docs]</a>    <span class="k">def</span> <span class="nf">checklist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Display a checklist.</span>
+
+<span class="sd">        :param str message: Message to display to user</span>
+<span class="sd">        :param list tags: `str` tags to select, len(tags) &gt; 0</span>
+<span class="sd">        :param dict kwargs: absorbs default_status arg</span>
+
+<span class="sd">        :returns: tuple of (`code`, `tags`) where</span>
+<span class="sd">            `code` - str display exit code</span>
+<span class="sd">            `tags` - list of selected tags</span>
+<span class="sd">        :rtype: tuple</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_interaction_fail</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="s2">&quot;? &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tags</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">default</span></div>
+
+<div class="viewcode-block" id="NoninteractiveDisplay.directory_select"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay.directory_select">[docs]</a>    <span class="k">def</span> <span class="nf">directory_select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Simulate prompting the user for a directory.</span>
+
+<span class="sd">        This function returns default if it is not ``None``, otherwise,</span>
+<span class="sd">        an exception is raised explaining the problem. If cli_flag is</span>
+<span class="sd">        not ``None``, the error message will include the flag that can</span>
+<span class="sd">        be used to set this value with the CLI.</span>
+
+<span class="sd">        :param str message: prompt to give the user</span>
+<span class="sd">        :param default: default value to return (if one exists)</span>
+<span class="sd">        :param str cli_flag: option used to set this value with the CLI</span>
+
+<span class="sd">        :returns: tuple of the form (`code`, `string`) where</span>
+<span class="sd">            `code` - int display exit code</span>
+<span class="sd">            `string` - input entered by the user</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="separate_list_input"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.separate_list_input">[docs]</a><span class="k">def</span> <span class="nf">separate_list_input</span><span class="p">(</span><span class="n">input_</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Separate a comma or space separated list.</span>
+
+<span class="sd">    :param str input_: input from the user</span>
+
+<span class="sd">    :returns: strings</span>
+<span class="sd">    :rtype: list</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">no_commas</span> <span class="o">=</span> <span class="n">input_</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="c1"># Each string is naturally unicode, this causes problems with M2Crypto SANs</span>
+    <span class="c1"># TODO: check if above is still true when M2Crypto is gone ^</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="n">no_commas</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span></div>
+
+
+<div class="viewcode-block" id="_parens_around_char"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util._parens_around_char">[docs]</a><span class="k">def</span> <span class="nf">_parens_around_char</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Place parens around first character of label.</span>
+
+<span class="sd">    :param str label: Must contain at least one character</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;(</span><span class="si">{first}</span><span class="s2">)</span><span class="si">{rest}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">first</span><span class="o">=</span><span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rest</span><span class="o">=</span><span class="n">label</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+
+    </p>
+  </div>
+  <!-- Built with Sphinx using a custom theme. --> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Downloads</dt>
+        <dd><a href="../../../certbot.pdf">PDF</a></dd>
+        <dd><a href="../../../certbot.zip">HTML</a></dd>
+        <dd><a href="../../../certbot.epub">Epub</a></dd>
+      </dl>
+      <hr/>
+
+    </div>
+  </div>
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.16.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.util%E2%80%94%20Certbot%200.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+</body>
+</html>
