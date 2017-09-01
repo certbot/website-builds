@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.webroot &mdash; Certbot 0.16.0.dev0 documentation</title>
+  <title>certbot.plugins.webroot &mdash; Certbot 0.18.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.webroot &mdash; Certbot 0.16.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.webroot &mdash; Certbot 0.18.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 0.16.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.16
+                0.18
               </div>
             
           
@@ -120,6 +120,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../what.html">What is a Certificate?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Get Certbot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Developer Guide</a></li>
@@ -300,22 +301,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">code</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">display</span><span class="o">.</span><span class="n">menu</span><span class="p">(</span>
                 <span class="s2">&quot;Select the webroot for </span><span class="si">{0}</span><span class="s2">:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">domain</span><span class="p">),</span>
                 <span class="p">[</span><span class="s2">&quot;Enter a new webroot&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">known_webroots</span><span class="p">,</span>
-                <span class="n">help_label</span><span class="o">=</span><span class="s2">&quot;Help&quot;</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="n">path_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">cli_flag</span><span class="o">=</span><span class="n">path_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">CANCEL</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span>
                     <span class="s2">&quot;Every requested domain must have a &quot;</span>
                     <span class="s2">&quot;webroot when using the webroot plugin.&quot;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">HELP</span><span class="p">:</span>
-                <span class="n">display</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
-                    <span class="s2">&quot;To use the webroot plugin, you need to have an &quot;</span>
-                    <span class="s2">&quot;HTTP server running on this system serving files &quot;</span>
-                    <span class="s2">&quot;for the requested domain. Additionally, this &quot;</span>
-                    <span class="s2">&quot;server should be serving all files contained in a &quot;</span>
-                    <span class="s2">&quot;public_html or webroot directory. The webroot &quot;</span>
-                    <span class="s2">&quot;plugin works by temporarily saving necessary &quot;</span>
-                    <span class="s2">&quot;resources in the HTTP server&#39;s webroot directory &quot;</span>
-                    <span class="s2">&quot;to pass domain validation challenges.&quot;</span><span class="p">,</span>
-                    <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># code == display_util.OK</span>
                 <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">known_webroots</span><span class="p">[</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
 
@@ -324,10 +314,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">_validate_webroot</span><span class="p">,</span>
             <span class="s2">&quot;Input the webroot for </span><span class="si">{0}</span><span class="s2">:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">domain</span><span class="p">),</span>
             <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">HELP</span><span class="p">:</span>
-            <span class="c1"># Displaying help is not currently implemented</span>
-            <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">elif</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">CANCEL</span> <span class="ow">or</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">ESC</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">CANCEL</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># code == display_util.OK</span>
             <span class="k">return</span> <span class="n">_validate_webroot</span><span class="p">(</span><span class="n">webroot</span><span class="p">)</span>
@@ -515,7 +502,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.16.0.dev0',
+            VERSION:'0.18.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -542,7 +529,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.webroot%E2%80%94%20Certbot%200.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.webroot%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

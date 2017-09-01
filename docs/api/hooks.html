@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>certbot.hooks &mdash; Certbot 0.18.0.dev0 documentation</title>
+  
+<!--
+
+ ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
+╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
+
+Like looking at code? Help us! https://github.com/certbot/certbot
+-->
+
+  
+  
+
+  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@EFF">
+<meta name="twitter:title" content="certbot.hooks &mdash; Certbot 0.18.0.dev0 documentation">
+<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="API Documentation" href="../api.html"/>
+        <link rel="next" title="certbot" href="index.html"/>
+        <link rel="prev" title="certbot.errors" href="errors.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <nav class="main-nav fixed">
+  <ul>
+    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Certbot</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/docs/">Documentation</a></li>
+    <li><a href="/support/">Support</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
+    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../" class="icon icon-home"> Certbot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.18
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../what.html">What is a Certificate?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Get Certbot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="account.html"><code class="docutils literal"><span class="pre">certbot.account</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="achallenges.html"><code class="docutils literal"><span class="pre">certbot.achallenges</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="auth_handler.html"><code class="docutils literal"><span class="pre">certbot.auth_handler</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cert_manager.html"><code class="docutils literal"><span class="pre">certbot.cert_manager</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html"><code class="docutils literal"><span class="pre">certbot.cli</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">certbot.client</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html"><code class="docutils literal"><span class="pre">certbot.configuration</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="constants.html"><code class="docutils literal"><span class="pre">certbot.constants</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="crypto_util.html"><code class="docutils literal"><span class="pre">certbot.crypto_util</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html"><code class="docutils literal"><span class="pre">certbot.display</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="eff.html"><code class="docutils literal"><span class="pre">certbot.eff</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="error_handler.html"><code class="docutils literal"><span class="pre">certbot.error_handler</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="errors.html"><code class="docutils literal"><span class="pre">certbot.errors</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">certbot.hooks</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html"><code class="docutils literal"><span class="pre">certbot</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="interfaces.html"><code class="docutils literal"><span class="pre">certbot.interfaces</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="lock.html"><code class="docutils literal"><span class="pre">certbot.lock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="log.html"><code class="docutils literal"><span class="pre">certbot.log</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html"><code class="docutils literal"><span class="pre">certbot.main</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="notify.html"><code class="docutils literal"><span class="pre">certbot.notify</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ocsp.html"><code class="docutils literal"><span class="pre">certbot.ocsp</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/common.html"><code class="docutils literal"><span class="pre">certbot.plugins.common</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/disco.html"><code class="docutils literal"><span class="pre">certbot.plugins.disco</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/dns_common.html"><code class="docutils literal"><span class="pre">certbot.plugins.dns_common</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/dns_common_lexicon.html"><code class="docutils literal"><span class="pre">certbot.plugins.dns_common_lexicon</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/manual.html"><code class="docutils literal"><span class="pre">certbot.plugins.manual</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/selection.html"><code class="docutils literal"><span class="pre">certbot.plugins.selection</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/standalone.html"><code class="docutils literal"><span class="pre">certbot.plugins.standalone</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/util.html"><code class="docutils literal"><span class="pre">certbot.plugins.util</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/webroot.html"><code class="docutils literal"><span class="pre">certbot.plugins.webroot</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="renewal.html"><code class="docutils literal"><span class="pre">certbot.renewal</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reporter.html"><code class="docutils literal"><span class="pre">certbot.reporter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="reverter.html"><code class="docutils literal"><span class="pre">certbot.reverter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html"><code class="docutils literal"><span class="pre">certbot.storage</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="util.html"><code class="docutils literal"><span class="pre">certbot.util</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../">Certbot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="../api.html">API Documentation</a> &raquo;</li>
+      
+    <li><code class="docutils literal"><span class="pre">certbot.hooks</span></code></li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/certbot/certbot/blob/master/docs/api/hooks.rst" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-certbot.hooks">
+<span id="certbot-hooks"></span><h1><a class="reference internal" href="#module-certbot.hooks" title="certbot.hooks"><code class="xref py py-mod docutils literal"><span class="pre">certbot.hooks</span></code></a><a class="headerlink" href="#module-certbot.hooks" title="Permalink to this headline">¶</a></h1>
+<p>Facilities for implementing hooks that call shell commands.</p>
+<dl class="function">
+<dt id="certbot.hooks.validate_hooks">
+<code class="descclassname">certbot.hooks.</code><code class="descname">validate_hooks</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#validate_hooks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.validate_hooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check hook commands are executable.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks._prog">
+<code class="descclassname">certbot.hooks.</code><code class="descname">_prog</code><span class="sig-paren">(</span><em>shell_cmd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#_prog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks._prog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the program run by a shell command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>shell_cmd</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; command to be executed</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">basename of command or None if the command isn&#8217;t found</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a> or <a class="reference external" href="https://docs.python.org/2/library/constants.html#None" title="(in Python v2.7)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks.validate_hook">
+<code class="descclassname">certbot.hooks.</code><code class="descname">validate_hook</code><span class="sig-paren">(</span><em>shell_cmd</em>, <em>hook_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#validate_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.validate_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that a command provided as a hook is plausibly executable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="errors.html#certbot.errors.HookCommandNotFound" title="certbot.errors.HookCommandNotFound"><strong>errors.HookCommandNotFound</strong></a> &#8211; if the command is not found</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks.pre_hook">
+<code class="descclassname">certbot.hooks.</code><code class="descname">pre_hook</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#pre_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.pre_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run pre-hook if it&#8217;s defined and hasn&#8217;t been run.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks.post_hook">
+<code class="descclassname">certbot.hooks.</code><code class="descname">post_hook</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#post_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.post_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run post hook if defined.</p>
+<p>If the verb is renew, we might have more certs to renew, so we wait until
+run_saved_post_hooks() is called.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks.run_saved_post_hooks">
+<code class="descclassname">certbot.hooks.</code><code class="descname">run_saved_post_hooks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#run_saved_post_hooks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.run_saved_post_hooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run any post hooks that were saved up in the course of the &#8216;renew&#8217; verb</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks.deploy_hook">
+<code class="descclassname">certbot.hooks.</code><code class="descname">deploy_hook</code><span class="sig-paren">(</span><em>config</em>, <em>domains</em>, <em>lineage_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#deploy_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.deploy_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run post-issuance hook if defined.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>config</strong> (<a class="reference internal" href="configuration.html#certbot.configuration.NamespaceConfig" title="certbot.configuration.NamespaceConfig"><em>configuration.NamespaceConfig</em></a>) &#8211; Certbot settings</li>
+<li><strong>domains</strong> (<code class="xref py py-obj docutils literal"><span class="pre">list</span></code> of <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; domains in the obtained certificate</li>
+<li><strong>lineage_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; live directory path for the new cert</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks.renew_hook">
+<code class="descclassname">certbot.hooks.</code><code class="descname">renew_hook</code><span class="sig-paren">(</span><em>config</em>, <em>domains</em>, <em>lineage_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#renew_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.renew_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run post-renewal hook if defined.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks._run_hook">
+<code class="descclassname">certbot.hooks.</code><code class="descname">_run_hook</code><span class="sig-paren">(</span><em>shell_cmd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#_run_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks._run_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a hook command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">stderr if there was any</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks.execute">
+<code class="descclassname">certbot.hooks.</code><code class="descname">execute</code><span class="sig-paren">(</span><em>shell_cmd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">tuple</span></code></a> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a> stderr, <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a> stdout)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="index.html" class="btn btn-neutral float-right" title="certbot" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="errors.html" class="btn btn-neutral" title="certbot.errors" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+
+    </p>
+  </div>
+  <!-- Built with Sphinx using a custom theme. --> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Downloads</dt>
+        <dd><a href="../certbot.pdf">PDF</a></dd>
+        <dd><a href="../certbot.zip">HTML</a></dd>
+        <dd><a href="../certbot.epub">Epub</a></dd>
+      </dl>
+      <hr/>
+
+    </div>
+  </div>
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.18.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.hooks%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+</body>
+</html>

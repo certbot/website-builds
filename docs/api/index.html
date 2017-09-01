@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot &mdash; Certbot 0.16.0.dev0 documentation</title>
+  <title>certbot &mdash; Certbot 0.18.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot &mdash; Certbot 0.16.0.dev0 documentation">
+<meta name="twitter:title" content="certbot &mdash; Certbot 0.18.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,10 +53,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 0.16.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Documentation" href="../api.html"/>
         <link rel="next" title="certbot.interfaces" href="interfaces.html"/>
-        <link rel="prev" title="certbot.errors" href="errors.html"/> 
+        <link rel="prev" title="certbot.hooks" href="hooks.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.16
+                0.18
               </div>
             
           
@@ -122,6 +122,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../what.html">What is a Certificate?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Get Certbot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Developer Guide</a></li>
@@ -133,22 +134,34 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l2"><a class="reference internal" href="account.html"><code class="docutils literal"><span class="pre">certbot.account</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="achallenges.html"><code class="docutils literal"><span class="pre">certbot.achallenges</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="auth_handler.html"><code class="docutils literal"><span class="pre">certbot.auth_handler</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cert_manager.html"><code class="docutils literal"><span class="pre">certbot.cert_manager</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html"><code class="docutils literal"><span class="pre">certbot.cli</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="client.html"><code class="docutils literal"><span class="pre">certbot.client</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="configuration.html"><code class="docutils literal"><span class="pre">certbot.configuration</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="constants.html"><code class="docutils literal"><span class="pre">certbot.constants</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="crypto_util.html"><code class="docutils literal"><span class="pre">certbot.crypto_util</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="display.html"><code class="docutils literal"><span class="pre">certbot.display</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="eff.html"><code class="docutils literal"><span class="pre">certbot.eff</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="error_handler.html"><code class="docutils literal"><span class="pre">certbot.error_handler</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors.html"><code class="docutils literal"><span class="pre">certbot.errors</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hooks.html"><code class="docutils literal"><span class="pre">certbot.hooks</span></code></a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal"><span class="pre">certbot</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="interfaces.html"><code class="docutils literal"><span class="pre">certbot.interfaces</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="lock.html"><code class="docutils literal"><span class="pre">certbot.lock</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="log.html"><code class="docutils literal"><span class="pre">certbot.log</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html"><code class="docutils literal"><span class="pre">certbot.main</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="notify.html"><code class="docutils literal"><span class="pre">certbot.notify</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ocsp.html"><code class="docutils literal"><span class="pre">certbot.ocsp</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/common.html"><code class="docutils literal"><span class="pre">certbot.plugins.common</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/disco.html"><code class="docutils literal"><span class="pre">certbot.plugins.disco</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/dns_common.html"><code class="docutils literal"><span class="pre">certbot.plugins.dns_common</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/dns_common_lexicon.html"><code class="docutils literal"><span class="pre">certbot.plugins.dns_common_lexicon</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/manual.html"><code class="docutils literal"><span class="pre">certbot.plugins.manual</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugins/selection.html"><code class="docutils literal"><span class="pre">certbot.plugins.selection</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/standalone.html"><code class="docutils literal"><span class="pre">certbot.plugins.standalone</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/util.html"><code class="docutils literal"><span class="pre">certbot.plugins.util</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/webroot.html"><code class="docutils literal"><span class="pre">certbot.plugins.webroot</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="renewal.html"><code class="docutils literal"><span class="pre">certbot.renewal</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="reporter.html"><code class="docutils literal"><span class="pre">certbot.reporter</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="reverter.html"><code class="docutils literal"><span class="pre">certbot.reverter</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="storage.html"><code class="docutils literal"><span class="pre">certbot.storage</span></code></a></li>
@@ -222,7 +235,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <a href="interfaces.html" class="btn btn-neutral float-right" title="certbot.interfaces" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="errors.html" class="btn btn-neutral" title="certbot.errors" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="hooks.html" class="btn btn-neutral" title="certbot.hooks" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -270,7 +283,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.16.0.dev0',
+            VERSION:'0.18.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -297,7 +310,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot%E2%80%94%20Certbot%200.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

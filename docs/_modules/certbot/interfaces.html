@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.interfaces &mdash; Certbot 0.16.0.dev0 documentation</title>
+  <title>certbot.interfaces &mdash; Certbot 0.18.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.interfaces &mdash; Certbot 0.16.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.interfaces &mdash; Certbot 0.18.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.16.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.16
+                0.18
               </div>
             
           
@@ -120,6 +120,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../what.html">What is a Certificate?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Get Certbot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Developer Guide</a></li>
@@ -579,8 +580,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">menu</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">ok_label</span><span class="o">=</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span>
-             <span class="n">cancel_label</span><span class="o">=</span><span class="s2">&quot;Cancel&quot;</span><span class="p">,</span> <span class="n">help_label</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">menu</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">ok_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">cancel_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">help_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Displays a generic menu.</span>
 
@@ -592,9 +593,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        :param choices: choices</span>
 <span class="sd">        :type choices: :class:`list` of :func:`tuple` or :class:`str`</span>
 
-<span class="sd">        :param str ok_label: label for OK button</span>
-<span class="sd">        :param str cancel_label: label for Cancel button</span>
-<span class="sd">        :param str help_label: label for Help button</span>
+<span class="sd">        :param str ok_label: label for OK button (UNUSED)</span>
+<span class="sd">        :param str cancel_label: label for Cancel button (UNUSED)</span>
+<span class="sd">        :param str help_label: label for Help button (UNUSED)</span>
 <span class="sd">        :param int default: default (non-interactive) choice from the menu</span>
 <span class="sd">        :param str cli_flag: to automate choice from the menu, eg &quot;--keep&quot;</span>
 <span class="sd">        :param bool force_interactive: True if it&#39;s safe to prompt the user</span>
@@ -653,8 +654,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">checklist</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">default_state</span><span class="p">,</span>
-                  <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cli_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">checklist</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cli_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Allow for multiple selections from a menu.</span>
 
 <span class="sd">        When not setting force_interactive=True, you must provide a</span>
@@ -662,7 +662,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        :param str message: message to display to the user</span>
 <span class="sd">        :param list tags: where each is of type :class:`str` len(tags) &gt; 0</span>
-<span class="sd">        :param bool default_status: If True, items are in a selected state by default.</span>
 <span class="sd">        :param str default: default (non-interactive) state of the checklist</span>
 <span class="sd">        :param str cli_flag: to automate choice from the menu, eg &quot;--domains&quot;</span>
 <span class="sd">        :param bool force_interactive: True if it&#39;s safe to prompt the user</span>
@@ -826,7 +825,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.16.0.dev0',
+            VERSION:'0.18.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -853,7 +852,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.interfaces%E2%80%94%20Certbot%200.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.interfaces%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
