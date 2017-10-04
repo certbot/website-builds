@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.cert_manager &mdash; Certbot 0.18.0.dev0 documentation</title>
+  <title>certbot.cert_manager &mdash; Certbot 0.19.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.cert_manager &mdash; Certbot 0.18.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.cert_manager &mdash; Certbot 0.19.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.18
+                0.19
               </div>
             
           
@@ -187,6 +187,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pytz</span>
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
 <span class="kn">import</span> <span class="nn">zope.component</span>
 
@@ -229,7 +230,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">disp</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
 
-    <span class="n">certname</span> <span class="o">=</span> <span class="n">_get_certname</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;rename&quot;</span><span class="p">)</span>
+    <span class="n">certname</span> <span class="o">=</span> <span class="n">_get_certnames</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;rename&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="n">new_certname</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">new_certname</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">new_certname</span><span class="p">:</span>
@@ -271,11 +272,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <div class="viewcode-block" id="delete"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager.delete">[docs]</a><span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Delete Certbot files associated with a certificate lineage.&quot;&quot;&quot;</span>
-    <span class="n">certname</span> <span class="o">=</span> <span class="n">_get_certname</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;delete&quot;</span><span class="p">)</span>
-    <span class="n">storage</span><span class="o">.</span><span class="n">delete_files</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">certname</span><span class="p">)</span>
-    <span class="n">disp</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
-    <span class="n">disp</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span><span class="s2">&quot;Deleted all files relating to certificate </span><span class="si">{0}</span><span class="s2">.&quot;</span>
-        <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">certname</span><span class="p">),</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+    <span class="n">certnames</span> <span class="o">=</span> <span class="n">_get_certnames</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="n">allow_multiple</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">certname</span> <span class="ow">in</span> <span class="n">certnames</span><span class="p">:</span>
+        <span class="n">storage</span><span class="o">.</span><span class="n">delete_files</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">certname</span><span class="p">)</span>
+        <span class="n">disp</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
+        <span class="n">disp</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span><span class="s2">&quot;Deleted all files relating to certificate </span><span class="si">{0}</span><span class="s2">.&quot;</span>
+            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">certname</span><span class="p">),</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <span class="c1">###################</span>
 <span class="c1"># Public Helpers</span>
@@ -325,28 +327,162 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="k">return</span> <span class="n">_search_lineages</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">update_certs_for_domain_matches</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span></div>
 
+<div class="viewcode-block" id="_archive_files"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager._archive_files">[docs]</a><span class="k">def</span> <span class="nf">_archive_files</span><span class="p">(</span><span class="n">candidate_lineage</span><span class="p">,</span> <span class="n">filetype</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; In order to match things like:</span>
+<span class="sd">        /etc/letsencrypt/archive/example.com/chain1.pem.</span>
+
+<span class="sd">        Anonymous functions which call this function are eventually passed (in a list) to</span>
+<span class="sd">        `match_and_check_overlaps` to help specify the acceptable_matches.</span>
+
+<span class="sd">        :param `.storage.RenewableCert` candidate_lineage: Lineage whose archive dir is to</span>
+<span class="sd">            be searched.</span>
+<span class="sd">        :param str filetype: main file name prefix e.g. &quot;fullchain&quot; or &quot;chain&quot;.</span>
+
+<span class="sd">        :returns: Files in candidate_lineage&#39;s archive dir that match the provided filetype.</span>
+<span class="sd">        :rtype: list of str or None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">archive_dir</span> <span class="o">=</span> <span class="n">candidate_lineage</span><span class="o">.</span><span class="n">archive_dir</span>
+    <span class="n">pattern</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">archive_dir</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">archive_dir</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">[0-9]*.pem&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filetype</span><span class="p">),</span> <span class="n">f</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pattern</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="_acceptable_matches"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager._acceptable_matches">[docs]</a><span class="k">def</span> <span class="nf">_acceptable_matches</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Generates the list that&#39;s passed to match_and_check_overlaps. Is its own function to</span>
+<span class="sd">    make unit testing easier.</span>
+
+<span class="sd">    :returns: list of functions</span>
+<span class="sd">    :rtype: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">fullchain_path</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">cert_path</span><span class="p">,</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_archive_files</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;cert&quot;</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_archive_files</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;fullchain&quot;</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="cert_path_to_lineage"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager.cert_path_to_lineage">[docs]</a><span class="k">def</span> <span class="nf">cert_path_to_lineage</span><span class="p">(</span><span class="n">cli_config</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; If config.cert_path is defined, try to find an appropriate value for config.certname.</span>
+
+<span class="sd">    :param `configuration.NamespaceConfig` cli_config: parsed command line arguments</span>
+
+<span class="sd">    :returns: a lineage name</span>
+<span class="sd">    :rtype: str</span>
+
+<span class="sd">    :raises `errors.Error`: If the specified cert path can&#39;t be matched to a lineage name.</span>
+<span class="sd">    :raises `errors.OverlappingMatchFound`: If the matched lineage&#39;s archive is shared.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">acceptable_matches</span> <span class="o">=</span> <span class="n">_acceptable_matches</span><span class="p">()</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">match_and_check_overlaps</span><span class="p">(</span><span class="n">cli_config</span><span class="p">,</span> <span class="n">acceptable_matches</span><span class="p">,</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">cli_config</span><span class="o">.</span><span class="n">cert_path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">lineagename</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="match_and_check_overlaps"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager.match_and_check_overlaps">[docs]</a><span class="k">def</span> <span class="nf">match_and_check_overlaps</span><span class="p">(</span><span class="n">cli_config</span><span class="p">,</span> <span class="n">acceptable_matches</span><span class="p">,</span> <span class="n">match_func</span><span class="p">,</span> <span class="n">rv_func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Searches through all lineages for a match, and checks for duplicates.</span>
+<span class="sd">    If a duplicate is found, an error is raised, as performing operations on lineages</span>
+<span class="sd">    that have their properties incorrectly duplicated elsewhere is probably a bad idea.</span>
+
+<span class="sd">    :param `configuration.NamespaceConfig` cli_config: parsed command line arguments</span>
+<span class="sd">    :param list acceptable_matches: a list of functions that specify acceptable matches</span>
+<span class="sd">    :param function match_func: specifies what to match</span>
+<span class="sd">    :param function rv_func: specifies what to return</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">find_matches</span><span class="p">(</span><span class="n">candidate_lineage</span><span class="p">,</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">acceptable_matches</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a list of matches using _search_lineages.&quot;&quot;&quot;</span>
+        <span class="n">acceptable_matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">candidate_lineage</span><span class="p">)</span> <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">acceptable_matches</span><span class="p">]</span>
+        <span class="n">acceptable_matches_rv</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">acceptable_matches</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">acceptable_matches_rv</span> <span class="o">+=</span> <span class="n">item</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">acceptable_matches_rv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">match_func</span><span class="p">(</span><span class="n">candidate_lineage</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">acceptable_matches_rv</span><span class="p">:</span>
+            <span class="n">return_value</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rv_func</span><span class="p">(</span><span class="n">candidate_lineage</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">return_value</span>
+
+    <span class="n">matched</span> <span class="o">=</span> <span class="n">_search_lineages</span><span class="p">(</span><span class="n">cli_config</span><span class="p">,</span> <span class="n">find_matches</span><span class="p">,</span> <span class="p">[],</span> <span class="n">acceptable_matches</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">matched</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;No match found for cert-path </span><span class="si">{0}</span><span class="s2">!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cli_config</span><span class="o">.</span><span class="n">cert_path</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">matched</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">OverlappingMatchFound</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">matched</span></div>
+
+<div class="viewcode-block" id="human_readable_cert_info"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager.human_readable_cert_info">[docs]</a><span class="k">def</span> <span class="nf">human_readable_cert_info</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">cert</span><span class="p">,</span> <span class="n">skip_filter_checks</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Returns a human readable description of info about a RenewableCert object&quot;&quot;&quot;</span>
+    <span class="n">certinfo</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">checker</span> <span class="o">=</span> <span class="n">ocsp</span><span class="o">.</span><span class="n">RevocationChecker</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">certname</span> <span class="ow">and</span> <span class="n">cert</span><span class="o">.</span><span class="n">lineagename</span> <span class="o">!=</span> <span class="n">config</span><span class="o">.</span><span class="n">certname</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">skip_filter_checks</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">domains</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">domains</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">cert</span><span class="o">.</span><span class="n">names</span><span class="p">()):</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="o">.</span><span class="n">fromutc</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">())</span>
+
+    <span class="n">reasons</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">cert</span><span class="o">.</span><span class="n">is_test_cert</span><span class="p">:</span>
+        <span class="n">reasons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;TEST_CERT&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cert</span><span class="o">.</span><span class="n">target_expiry</span> <span class="o">&lt;=</span> <span class="n">now</span><span class="p">:</span>
+        <span class="n">reasons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;EXPIRED&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">checker</span><span class="o">.</span><span class="n">ocsp_revoked</span><span class="p">(</span><span class="n">cert</span><span class="o">.</span><span class="n">cert</span><span class="p">,</span> <span class="n">cert</span><span class="o">.</span><span class="n">chain</span><span class="p">):</span>
+        <span class="n">reasons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;REVOKED&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">reasons</span><span class="p">:</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;INVALID: &quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reasons</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">cert</span><span class="o">.</span><span class="n">target_expiry</span> <span class="o">-</span> <span class="n">now</span>
+        <span class="k">if</span> <span class="n">diff</span><span class="o">.</span><span class="n">days</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;VALID: 1 day&quot;</span>
+        <span class="k">elif</span> <span class="n">diff</span><span class="o">.</span><span class="n">days</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;VALID: </span><span class="si">{0}</span><span class="s2"> hour(s)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">seconds</span> <span class="o">//</span> <span class="mi">3600</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;VALID: </span><span class="si">{0}</span><span class="s2"> days&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">days</span><span class="p">)</span>
+
+    <span class="n">valid_string</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> (</span><span class="si">{1}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cert</span><span class="o">.</span><span class="n">target_expiry</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+    <span class="n">certinfo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  Certificate Name: </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;    Domains: </span><span class="si">{1}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;    Expiry Date: </span><span class="si">{2}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;    Certificate Path: </span><span class="si">{3}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;    Private Key Path: </span><span class="si">{4}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                         <span class="n">cert</span><span class="o">.</span><span class="n">lineagename</span><span class="p">,</span>
+                         <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cert</span><span class="o">.</span><span class="n">names</span><span class="p">()),</span>
+                         <span class="n">valid_string</span><span class="p">,</span>
+                         <span class="n">cert</span><span class="o">.</span><span class="n">fullchain</span><span class="p">,</span>
+                         <span class="n">cert</span><span class="o">.</span><span class="n">privkey</span><span class="p">))</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">certinfo</span><span class="p">)</span></div>
 
 <span class="c1">###################</span>
 <span class="c1"># Private Helpers</span>
 <span class="c1">###################</span>
 
-<div class="viewcode-block" id="_get_certname"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager._get_certname">[docs]</a><span class="k">def</span> <span class="nf">_get_certname</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">verb</span><span class="p">):</span>
+<div class="viewcode-block" id="_get_certnames"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager._get_certnames">[docs]</a><span class="k">def</span> <span class="nf">_get_certnames</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">verb</span><span class="p">,</span> <span class="n">allow_multiple</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get certname from flag, interactively, or error out.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">certname</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">certname</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">certname</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">certname</span><span class="p">:</span>
+        <span class="n">certnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">certname</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
         <span class="n">disp</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
         <span class="n">filenames</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">renewal_conf_files</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="n">storage</span><span class="o">.</span><span class="n">lineagename_for_filename</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">choices</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;No existing certificates found.&quot;</span><span class="p">)</span>
-        <span class="n">code</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">menu</span><span class="p">(</span><span class="s2">&quot;Which certificate would you like to </span><span class="si">{0}</span><span class="s2">?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">verb</span><span class="p">),</span>
-                                <span class="n">choices</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="s2">&quot;--cert-name&quot;</span><span class="p">,</span>
-                                <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">code</span> <span class="o">!=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;User ended interaction.&quot;</span><span class="p">)</span>
-        <span class="n">certname</span> <span class="o">=</span> <span class="n">choices</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">certname</span></div>
+        <span class="k">if</span> <span class="n">allow_multiple</span><span class="p">:</span>
+            <span class="n">code</span><span class="p">,</span> <span class="n">certnames</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">checklist</span><span class="p">(</span>
+                                    <span class="s2">&quot;Which certificate(s) would you like to </span><span class="si">{0}</span><span class="s2">?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">verb</span><span class="p">),</span>
+                                    <span class="n">choices</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="s2">&quot;--cert-name&quot;</span><span class="p">,</span>
+                                    <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">code</span> <span class="o">!=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;User ended interaction.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">code</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">disp</span><span class="o">.</span><span class="n">menu</span><span class="p">(</span><span class="s2">&quot;Which certificate would you like to </span><span class="si">{0}</span><span class="s2">?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">verb</span><span class="p">),</span>
+                                    <span class="n">choices</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="s2">&quot;--cert-name&quot;</span><span class="p">,</span>
+                                    <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">code</span> <span class="o">!=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span> <span class="ow">or</span> <span class="n">index</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;User ended interaction.&quot;</span><span class="p">)</span>
+            <span class="n">certnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">choices</span><span class="p">[</span><span class="n">index</span><span class="p">]]</span>
+    <span class="k">return</span> <span class="n">certnames</span></div>
 
 <div class="viewcode-block" id="_report_lines"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager._report_lines">[docs]</a><span class="k">def</span> <span class="nf">_report_lines</span><span class="p">(</span><span class="n">msgs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Format a results report for a category of single-line renewal outcomes&quot;&quot;&quot;</span>
@@ -355,44 +491,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="viewcode-block" id="_report_human_readable"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager._report_human_readable">[docs]</a><span class="k">def</span> <span class="nf">_report_human_readable</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">parsed_certs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Format a results report for a parsed cert&quot;&quot;&quot;</span>
     <span class="n">certinfo</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">checker</span> <span class="o">=</span> <span class="n">ocsp</span><span class="o">.</span><span class="n">RevocationChecker</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">cert</span> <span class="ow">in</span> <span class="n">parsed_certs</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">certname</span> <span class="ow">and</span> <span class="n">cert</span><span class="o">.</span><span class="n">lineagename</span> <span class="o">!=</span> <span class="n">config</span><span class="o">.</span><span class="n">certname</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">domains</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">domains</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">cert</span><span class="o">.</span><span class="n">names</span><span class="p">()):</span>
-            <span class="k">continue</span>
-        <span class="n">now</span> <span class="o">=</span> <span class="n">pytz</span><span class="o">.</span><span class="n">UTC</span><span class="o">.</span><span class="n">fromutc</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">())</span>
-
-        <span class="n">reasons</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">cert</span><span class="o">.</span><span class="n">is_test_cert</span><span class="p">:</span>
-            <span class="n">reasons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;TEST_CERT&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">cert</span><span class="o">.</span><span class="n">target_expiry</span> <span class="o">&lt;=</span> <span class="n">now</span><span class="p">:</span>
-            <span class="n">reasons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;EXPIRED&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">checker</span><span class="o">.</span><span class="n">ocsp_revoked</span><span class="p">(</span><span class="n">cert</span><span class="o">.</span><span class="n">cert</span><span class="p">,</span> <span class="n">cert</span><span class="o">.</span><span class="n">chain</span><span class="p">):</span>
-            <span class="n">reasons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;REVOKED&#39;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">reasons</span><span class="p">:</span>
-            <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;INVALID: &quot;</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reasons</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">diff</span> <span class="o">=</span> <span class="n">cert</span><span class="o">.</span><span class="n">target_expiry</span> <span class="o">-</span> <span class="n">now</span>
-            <span class="k">if</span> <span class="n">diff</span><span class="o">.</span><span class="n">days</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;VALID: 1 day&quot;</span>
-            <span class="k">elif</span> <span class="n">diff</span><span class="o">.</span><span class="n">days</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;VALID: </span><span class="si">{0}</span><span class="s2"> hour(s)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">seconds</span> <span class="o">//</span> <span class="mi">3600</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;VALID: </span><span class="si">{0}</span><span class="s2"> days&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">days</span><span class="p">)</span>
-
-        <span class="n">valid_string</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> (</span><span class="si">{1}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cert</span><span class="o">.</span><span class="n">target_expiry</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
-        <span class="n">certinfo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  Certificate Name: </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                        <span class="s2">&quot;    Domains: </span><span class="si">{1}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                        <span class="s2">&quot;    Expiry Date: </span><span class="si">{2}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                        <span class="s2">&quot;    Certificate Path: </span><span class="si">{3}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                        <span class="s2">&quot;    Private Key Path: </span><span class="si">{4}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                            <span class="n">cert</span><span class="o">.</span><span class="n">lineagename</span><span class="p">,</span>
-                            <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cert</span><span class="o">.</span><span class="n">names</span><span class="p">()),</span>
-                            <span class="n">valid_string</span><span class="p">,</span>
-                            <span class="n">cert</span><span class="o">.</span><span class="n">fullchain</span><span class="p">,</span>
-                            <span class="n">cert</span><span class="o">.</span><span class="n">privkey</span><span class="p">))</span>
+        <span class="n">certinfo</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">human_readable_cert_info</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">cert</span><span class="p">))</span>
     <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">certinfo</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="_describe_certs"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager._describe_certs">[docs]</a><span class="k">def</span> <span class="nf">_describe_certs</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">parsed_certs</span><span class="p">,</span> <span class="n">parse_failures</span><span class="p">):</span>
@@ -416,11 +516,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">disp</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
     <span class="n">disp</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="_search_lineages"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager._search_lineages">[docs]</a><span class="k">def</span> <span class="nf">_search_lineages</span><span class="p">(</span><span class="n">cli_config</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">initial_rv</span><span class="p">):</span>
+<div class="viewcode-block" id="_search_lineages"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager._search_lineages">[docs]</a><span class="k">def</span> <span class="nf">_search_lineages</span><span class="p">(</span><span class="n">cli_config</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">initial_rv</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Iterate func over unbroken lineages, allowing custom return conditions.</span>
 
 <span class="sd">    Allows flexible customization of return values, including multiple</span>
 <span class="sd">    return values and complex checks.</span>
+
+<span class="sd">    :param `configuration.NamespaceConfig` cli_config: parsed command line arguments</span>
+<span class="sd">    :param function func: function used while searching over lineages</span>
+<span class="sd">    :param initial_rv: initial return value of the function (any type)</span>
+
+<span class="sd">    :returns: Whatever was specified by `func` if a match is found.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">configs_dir</span> <span class="o">=</span> <span class="n">cli_config</span><span class="o">.</span><span class="n">renewal_configs_dir</span>
     <span class="c1"># Verify the directory is there</span>
@@ -434,7 +540,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Renewal conf file </span><span class="si">%s</span><span class="s2"> is broken. Skipping.&quot;</span><span class="p">,</span> <span class="n">renewal_file</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Traceback was:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
             <span class="k">continue</span>
-        <span class="n">rv</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">candidate_lineage</span><span class="p">,</span> <span class="n">rv</span><span class="p">)</span>
+        <span class="n">rv</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">candidate_lineage</span><span class="p">,</span> <span class="n">rv</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">rv</span></div>
 </pre></div>
 
@@ -486,7 +592,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.18.0.dev0',
+            VERSION:'0.19.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -513,7 +619,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cert_manager%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cert_manager%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

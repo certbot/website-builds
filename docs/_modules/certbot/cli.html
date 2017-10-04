@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.cli &mdash; Certbot 0.18.0.dev0 documentation</title>
+  <title>certbot.cli &mdash; Certbot 0.19.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.cli &mdash; Certbot 0.18.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.cli &mdash; Certbot 0.19.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.18
+                0.19
               </div>
             
           
@@ -233,8 +233,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="c1"># user saved the script under a different name</span>
     <span class="n">LEAUTO</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CERTBOT_AUTO&quot;</span><span class="p">])</span>
 
-<span class="n">fragment</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;.local&quot;</span><span class="p">,</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;letsencrypt&quot;</span><span class="p">)</span>
-<span class="n">cli_command</span> <span class="o">=</span> <span class="n">LEAUTO</span> <span class="k">if</span> <span class="n">fragment</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;certbot&quot;</span>
+<span class="n">old_path_fragment</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;.local&quot;</span><span class="p">,</span> <span class="s2">&quot;share&quot;</span><span class="p">,</span> <span class="s2">&quot;letsencrypt&quot;</span><span class="p">)</span>
+<span class="n">new_path_prefix</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s2">&quot;opt&quot;</span><span class="p">,</span>
+                                               <span class="s2">&quot;eff.org&quot;</span><span class="p">,</span> <span class="s2">&quot;certbot&quot;</span><span class="p">,</span> <span class="s2">&quot;venv&quot;</span><span class="p">))</span>
+<span class="k">if</span> <span class="n">old_path_fragment</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">new_path_prefix</span><span class="p">):</span>
+    <span class="n">cli_command</span> <span class="o">=</span> <span class="n">LEAUTO</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">cli_command</span> <span class="o">=</span> <span class="s2">&quot;certbot&quot;</span>
 
 <span class="c1"># Argparse&#39;s help formatting has a lot of unhelpful peculiarities, so we want</span>
 <span class="c1"># to replace as much of it as we can...</span>
@@ -308,6 +313,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># This dictionary is used recursively, so if A modifies B and B modifies C,</span>
 <span class="c1"># it is determined that C was modified by the user if A was modified.</span>
 <span class="n">VAR_MODIFIERS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;account&quot;</span><span class="p">:</span> <span class="nb">set</span><span class="p">((</span><span class="s2">&quot;server&quot;</span><span class="p">,)),</span>
+                 <span class="s2">&quot;renew_hook&quot;</span><span class="p">:</span> <span class="nb">set</span><span class="p">((</span><span class="s2">&quot;deploy_hook&quot;</span><span class="p">,)),</span>
                  <span class="s2">&quot;server&quot;</span><span class="p">:</span> <span class="nb">set</span><span class="p">((</span><span class="s2">&quot;dry_run&quot;</span><span class="p">,</span> <span class="s2">&quot;staging&quot;</span><span class="p">,)),</span>
                  <span class="s2">&quot;webroot_map&quot;</span><span class="p">:</span> <span class="nb">set</span><span class="p">((</span><span class="s2">&quot;webroot_path&quot;</span><span class="p">,))}</span>
 
@@ -461,7 +467,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="c1"># argparse has been set up; it is not accurate for all flags.  Call it</span>
     <span class="c1"># with caution.  Plugin defaults are missing, and some things are using</span>
     <span class="c1"># defaults defined in this file, not in constants.py :(</span>
-    <span class="k">return</span> <span class="n">constants</span><span class="o">.</span><span class="n">CLI_DEFAULTS</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">CLI_DEFAULTS</span><span class="p">[</span><span class="n">name</span><span class="p">])</span></div>
 
 
 <div class="viewcode-block" id="config_help"><a class="viewcode-back" href="../../api/cli.html#certbot.cli.config_help">[docs]</a><span class="k">def</span> <span class="nf">config_help</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -535,7 +541,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                  <span class="s2">&quot; before and after renewal; see&quot;</span>
                  <span class="s2">&quot; https://certbot.eff.org/docs/using.html#renewal for more&quot;</span>
                  <span class="s2">&quot; information on these.&quot;</span><span class="p">),</span>
-        <span class="s2">&quot;usage&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">  certbot renew [--cert-name NAME] [options]</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;usage&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">  certbot renew [--cert-name CERTNAME] [options]</span><span class="se">\n\n</span><span class="s2">&quot;</span>
     <span class="p">}),</span>
     <span class="p">(</span><span class="s2">&quot;certificates&quot;</span><span class="p">,</span> <span class="p">{</span>
         <span class="s2">&quot;short&quot;</span><span class="p">:</span> <span class="s2">&quot;List certificates managed by Certbot&quot;</span><span class="p">,</span>
@@ -1045,9 +1051,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="s2">&quot;e.g. -vvv.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--text&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;text_mode&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">)</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;text_mode&quot;</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;--max-log-backups&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">nonnegative_int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;--max-log-backups&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">nonnegative_int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;max_log_backups&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specifies the maximum number of backup logs that should &quot;</span>
              <span class="s2">&quot;be kept by Certbot&#39;s built in log rotation. Setting this &quot;</span>
              <span class="s2">&quot;flag to 0 disables log rotation entirely, causing &quot;</span>
@@ -1055,30 +1062,37 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;-n&quot;</span><span class="p">,</span> <span class="s2">&quot;--non-interactive&quot;</span><span class="p">,</span> <span class="s2">&quot;--noninteractive&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;noninteractive_mode&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;noninteractive_mode&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Run without ever asking for user input. This may require &quot;</span>
               <span class="s2">&quot;additional command line flags; the client will try to explain &quot;</span>
               <span class="s2">&quot;which ones are required if it finds one missing&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span>
         <span class="n">constants</span><span class="o">.</span><span class="n">FORCE_INTERACTIVE_FLAG</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;force_interactive&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Force Certbot to be interactive even if it detects it&#39;s not &quot;</span>
              <span class="s2">&quot;being run in a terminal. This flag cannot be used with the &quot;</span>
              <span class="s2">&quot;renew subcommand.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;certificates&quot;</span><span class="p">],</span>
         <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="s2">&quot;--domains&quot;</span><span class="p">,</span> <span class="s2">&quot;--domain&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;domains&quot;</span><span class="p">,</span>
-        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;DOMAIN&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">_DomainsAction</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;DOMAIN&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">_DomainsAction</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;domains&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Domain names to apply. For multiple domains you can use &quot;</span>
              <span class="s2">&quot;multiple -d flags or enter a comma separated list of domains &quot;</span>
-             <span class="s2">&quot;as a parameter. The first provided domain will be used in &quot;</span>
-             <span class="s2">&quot;some software user interfaces and file paths for the &quot;</span>
+             <span class="s2">&quot;as a parameter. The first domain provided will be the &quot;</span>
+             <span class="s2">&quot;subject CN of the certificate, and all domains will be &quot;</span>
+             <span class="s2">&quot;Subject Alternative Names on the certificate. &quot;</span>
+             <span class="s2">&quot;The first domain will also be used in &quot;</span>
+             <span class="s2">&quot;some software user interfaces and as the file paths for the &quot;</span>
              <span class="s2">&quot;certificate and related material unless otherwise &quot;</span>
-             <span class="s2">&quot;specified or you already have a certificate for the same &quot;</span>
-             <span class="s2">&quot;domains. (default: Ask)&quot;</span><span class="p">)</span>
+             <span class="s2">&quot;specified or you already have a certificate with the same &quot;</span>
+             <span class="s2">&quot;name. In the case of a name collision it will append a number &quot;</span>
+             <span class="s2">&quot;like 0001 to the file path name. (default: Ask)&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;manage&quot;</span><span class="p">,</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="s2">&quot;certificates&quot;</span><span class="p">],</span>
+        <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;manage&quot;</span><span class="p">,</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="s2">&quot;certificates&quot;</span><span class="p">,</span> <span class="s2">&quot;renew&quot;</span><span class="p">],</span>
         <span class="s2">&quot;--cert-name&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;certname&quot;</span><span class="p">,</span>
-        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;CERTNAME&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;CERTNAME&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;certname&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Certificate name to apply. This name is used by Certbot for housekeeping &quot;</span>
              <span class="s2">&quot;and in file paths; it doesn&#39;t affect the content of the certificate itself. &quot;</span>
              <span class="s2">&quot;To see certificate names, run &#39;certbot certificates&#39;. &quot;</span>
@@ -1088,6 +1102,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span>
         <span class="s2">&quot;--dry-run&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;dry_run&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dry_run&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Perform a test run of the client, obtaining test (invalid) certificates&quot;</span>
              <span class="s2">&quot; but not saving them to disk. This can currently only be used&quot;</span>
              <span class="s2">&quot; with the &#39;certonly&#39; and &#39;renew&#39; subcommands. </span><span class="se">\n</span><span class="s2">Note: Although --dry-run&quot;</span>
@@ -1100,6 +1115,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
              <span class="s2">&quot; renewal. --deploy-hook commands are not called.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;automation&quot;</span><span class="p">],</span> <span class="s2">&quot;--register-unsafely-without-email&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;register_unsafely_without_email&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specifying this flag enables registering an account with no &quot;</span>
              <span class="s2">&quot;email address. This is strongly discouraged, because in the &quot;</span>
              <span class="s2">&quot;event of key loss or account compromise you will irrevocably &quot;</span>
@@ -1110,27 +1126,29 @@ Like looking at code? Help us! https://github.com/certbot/certbot
              <span class="s2">&quot;update to the web site.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;--update-registration&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;update_registration&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;With the register verb, indicates that details associated &quot;</span>
              <span class="s2">&quot;with an existing registration, such as the e-mail address, &quot;</span>
              <span class="s2">&quot;should be updated, rather than registering a new account.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;unregister&quot;</span><span class="p">,</span> <span class="s2">&quot;automation&quot;</span><span class="p">],</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;--email&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="n">config_help</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;automation&quot;</span><span class="p">],</span> <span class="s2">&quot;--eff-email&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;eff_email&quot;</span><span class="p">,</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;eff_email&quot;</span><span class="p">),</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;eff_email&quot;</span><span class="p">,</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Share your e-mail address with EFF&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;automation&quot;</span><span class="p">],</span> <span class="s2">&quot;--no-eff-email&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
-                <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;eff_email&quot;</span><span class="p">,</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;eff_email&quot;</span><span class="p">),</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;eff_email&quot;</span><span class="p">,</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Don&#39;t share your e-mail address with EFF&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">],</span>
         <span class="s2">&quot;--keep-until-expiring&quot;</span><span class="p">,</span> <span class="s2">&quot;--keep&quot;</span><span class="p">,</span> <span class="s2">&quot;--reinstall&quot;</span><span class="p">,</span>
-        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;reinstall&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;reinstall&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;reinstall&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;If the requested certificate matches an existing certificate, always keep the &quot;</span>
              <span class="s2">&quot;existing one until it is due for renewal (for the &quot;</span>
              <span class="s2">&quot;&#39;run&#39; subcommand this means reinstall the existing certificate). (default: Ask)&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;--expand&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;--expand&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;expand&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;If an existing certificate is a strict subset of the requested names, &quot;</span>
              <span class="s2">&quot;always expand and replace it with the additional names. (default: Ask)&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
@@ -1139,21 +1157,24 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;show program&#39;s version number and exit&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;renew&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;--force-renewal&quot;</span><span class="p">,</span> <span class="s2">&quot;--renew-by-default&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;renew_by_default&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;If a certificate &quot;</span>
+        <span class="s2">&quot;--force-renewal&quot;</span><span class="p">,</span> <span class="s2">&quot;--renew-by-default&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;renew_by_default&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;renew_by_default&quot;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;If a certificate &quot;</span>
              <span class="s2">&quot;already exists for the requested domains, renew it now, &quot;</span>
              <span class="s2">&quot;regardless of whether it is near expiry. (Often &quot;</span>
              <span class="s2">&quot;--keep-until-expiring is more appropriate). Also implies &quot;</span>
              <span class="s2">&quot;--expand.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;--renew-with-new-domains&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;renew_with_new_domains&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;If a &quot;</span>
+        <span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;--renew-with-new-domains&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;renew_with_new_domains&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;renew_with_new_domains&quot;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;If a &quot;</span>
              <span class="s2">&quot;certificate already exists for the requested certificate name &quot;</span>
              <span class="s2">&quot;but does not match the requested domains, renew it now, &quot;</span>
              <span class="s2">&quot;regardless of whether it is near expiry.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span>
         <span class="s2">&quot;--allow-subset-of-names&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;allow_subset_of_names&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;When performing domain validation, do not consider it a failure &quot;</span>
              <span class="s2">&quot;if authorizations can not be obtained for a strict subset of &quot;</span>
              <span class="s2">&quot;the requested domains. This may be useful for allowing renewals for &quot;</span>
@@ -1161,39 +1182,46 @@ Like looking at code? Help us! https://github.com/certbot/certbot
              <span class="s2">&quot;at this system. This option cannot be used with --csr.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;--agree-tos&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;tos&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;tos&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Agree to the ACME Subscriber Agreement (default: Ask)&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="s2">&quot;unregister&quot;</span><span class="p">,</span> <span class="s2">&quot;automation&quot;</span><span class="p">],</span> <span class="s2">&quot;--account&quot;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;ACCOUNT_ID&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;account&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Account ID to use&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;--duplicate&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;duplicate&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;duplicate&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Allow making a certificate lineage that duplicates an existing one &quot;</span>
              <span class="s2">&quot;(both can be renewed in parallel)&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;--os-packages-only&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;os_packages_only&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;(certbot-auto only) install OS package dependencies and then stop&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-self-upgrade&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;no_self_upgrade&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;(certbot-auto only) prevent the certbot-auto script from&quot;</span>
              <span class="s2">&quot; upgrading itself to newer released versions (default: Upgrade&quot;</span>
              <span class="s2">&quot; automatically)&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-bootstrap&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;no_bootstrap&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;(certbot-auto only) prevent the certbot-auto script from&quot;</span>
              <span class="s2">&quot; installing OS-level dependencies (default: Prompt to install &quot;</span>
              <span class="s2">&quot; OS-wide dependencies, but exit if the user says &#39;No&#39;)&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">],</span>
         <span class="s2">&quot;-q&quot;</span><span class="p">,</span> <span class="s2">&quot;--quiet&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;quiet&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;quiet&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Silence all output except errors. Useful for automation via cron.&quot;</span>
              <span class="s2">&quot; Implies --non-interactive.&quot;</span><span class="p">)</span>
     <span class="c1"># overwrites server, handled in HelpfulArgumentParser.parse_args()</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;revoke&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">],</span> <span class="s2">&quot;--test-cert&quot;</span><span class="p">,</span> <span class="s2">&quot;--staging&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;staging&#39;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Use the staging server to obtain or revoke test (invalid) certificates; equivalent&#39;</span>
-             <span class="s1">&#39; to --server &#39;</span> <span class="o">+</span> <span class="n">constants</span><span class="o">.</span><span class="n">STAGING_URI</span><span class="p">)</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;staging&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;staging&quot;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Use the staging server to obtain or revoke test (invalid) certificates; equivalent&quot;</span>
+             <span class="s2">&quot; to --server &quot;</span> <span class="o">+</span> <span class="n">constants</span><span class="o">.</span><span class="n">STAGING_URI</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;--debug&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;--debug&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Show tracebacks in case of errors, and allow certbot-auto &quot;</span>
              <span class="s2">&quot;execution on experimental platforms&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
@@ -1223,6 +1251,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;http01_address&quot;</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="n">config_help</span><span class="p">(</span><span class="s2">&quot;http01_address&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;--break-my-certs&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;break_my_certs&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Be willing to replace or renew valid certificates with invalid &quot;</span>
              <span class="s2">&quot;(testing/staging) certificates&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
@@ -1230,47 +1259,51 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;rsa_key_size&quot;</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="n">config_help</span><span class="p">(</span><span class="s2">&quot;rsa_key_size&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--must-staple&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="n">config_help</span><span class="p">(</span><span class="s2">&quot;must_staple&quot;</span><span class="p">),</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;must_staple&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;must_staple&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;must_staple&quot;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">config_help</span><span class="p">(</span><span class="s2">&quot;must_staple&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--redirect&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--redirect&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;redirect&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;redirect&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Automatically redirect all HTTP traffic to HTTPS for the newly &quot;</span>
-             <span class="s2">&quot;authenticated vhost. (default: Ask)&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;redirect&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+             <span class="s2">&quot;authenticated vhost. (default: Ask)&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-redirect&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-redirect&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;redirect&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;redirect&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Do not automatically redirect all HTTP traffic to HTTPS for the newly &quot;</span>
-             <span class="s2">&quot;authenticated vhost. (default: Ask)&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;redirect&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+             <span class="s2">&quot;authenticated vhost. (default: Ask)&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--hsts&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--hsts&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;hsts&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;hsts&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Add the Strict-Transport-Security header to every HTTP response.&quot;</span>
              <span class="s2">&quot; Forcing browser to always use SSL for the domain.&quot;</span>
-             <span class="s2">&quot; Defends against SSL Stripping.&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;hsts&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+             <span class="s2">&quot; Defends against SSL Stripping.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-hsts&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;hsts&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-hsts&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;hsts&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;hsts&quot;</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--uir&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Add the </span><span class="se">\&quot;</span><span class="s2">Content-Security-Policy: upgrade-insecure-requests</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
-             <span class="s2">&quot; header to every HTTP response. Forcing the browser to use&quot;</span>
-             <span class="s2">&quot; https:// for every http:// resource.&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;uir&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--uir&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;uir&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;uir&quot;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Add the &quot;Content-Security-Policy: upgrade-insecure-requests&quot;&#39;</span>
+             <span class="s1">&#39; header to every HTTP response. Forcing the browser to use&#39;</span>
+             <span class="s1">&#39; https:// for every http:// resource.&#39;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-uir&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;uir&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-uir&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;uir&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;uir&quot;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--staple-ocsp&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--staple-ocsp&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;staple&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;staple&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Enables OCSP Stapling. A valid OCSP response is stapled to&quot;</span>
-        <span class="s2">&quot; the certificate that the server offers during TLS.&quot;</span><span class="p">,</span>
-        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;staple&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="s2">&quot; the certificate that the server offers during TLS.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-staple-ocsp&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;staple&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-staple-ocsp&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;staple&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;staple&quot;</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;--strict-permissions&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;strict_permissions&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Require that all configuration files are owned by the current &quot;</span>
              <span class="s2">&quot;user; only needed if your config is somewhere unsafe like /tmp/&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="s2">&quot;manual&quot;</span><span class="p">,</span> <span class="s2">&quot;standalone&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;renew&quot;</span><span class="p">],</span>
         <span class="s2">&quot;--preferred-challenges&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;pref_challs&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="n">_PrefChallAction</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">action</span><span class="o">=</span><span class="n">_PrefChallAction</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;pref_challs&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;A sorted, comma delimited list of the preferred challenge to &#39;</span>
              <span class="s1">&#39;use during authorization with the most preferred challenge &#39;</span>
              <span class="s1">&#39;listed first (Eg, &quot;dns&quot; or &quot;tls-sni-01,http,dns&quot;). &#39;</span>
@@ -1299,17 +1332,18 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="n">action</span><span class="o">=</span><span class="n">_RenewHookAction</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;--deploy-hook&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">_DeployHookAction</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Command to be run in a shell once for each successfully&quot;</span>
-        <span class="s2">&quot; issued certificate. For this command, the shell variable&quot;</span>
-        <span class="s2">&quot; $RENEWED_LINEAGE will point to the config live subdirectory&quot;</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Command to be run in a shell once for each successfully&#39;</span>
+        <span class="s1">&#39; issued certificate. For this command, the shell variable&#39;</span>
+        <span class="s1">&#39; $RENEWED_LINEAGE will point to the config live subdirectory&#39;</span>
         <span class="s1">&#39; (for example, &quot;/etc/letsencrypt/live/example.com&quot;) containing&#39;</span>
-        <span class="s2">&quot; the new certificates and keys; the shell variable&quot;</span>
-        <span class="s2">&quot; $RENEWED_DOMAINS will contain a space-delimited list of&quot;</span>
+        <span class="s1">&#39; the new certificates and keys; the shell variable&#39;</span>
+        <span class="s1">&#39; $RENEWED_DOMAINS will contain a space-delimited list of&#39;</span>
         <span class="s1">&#39; renewed certificate domains (for example, &quot;example.com&#39;</span>
         <span class="s1">&#39; www.example.com&quot;&#39;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;--disable-hook-validation&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_false&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;validate_hooks&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;validate_hooks&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;validate_hooks&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Ordinarily the commands specified for&quot;</span>
         <span class="s2">&quot; --pre-hook/--post-hook/--deploy-hook will be checked for&quot;</span>
         <span class="s2">&quot; validity, to see if the programs being run are in the $PATH,&quot;</span>
@@ -1318,6 +1352,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="s2">&quot; simplistic and fails if you use more advanced shell&quot;</span>
         <span class="s2">&quot; constructs, so you can use this switch to disable it.&quot;</span>
         <span class="s2">&quot; (default: False)&quot;</span><span class="p">)</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-directory-hooks&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;directory_hooks&quot;</span><span class="p">),</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;directory_hooks&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Disable running executables found in Certbot&#39;s hook directories&quot;</span>
+        <span class="s2">&quot; during renewal. (default: False)&quot;</span><span class="p">)</span>
 
     <span class="n">helpful</span><span class="o">.</span><span class="n">add_deprecated_argument</span><span class="p">(</span><span class="s2">&quot;--agree-dev-preview&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add_deprecated_argument</span><span class="p">(</span><span class="s2">&quot;--dialog&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -1335,48 +1374,53 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <span class="k">def</span> <span class="nf">_create_subparsers</span><span class="p">(</span><span class="n">helpful</span><span class="p">):</span>
-    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;config_changes&quot;</span><span class="p">,</span> <span class="s2">&quot;--num&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;config_changes&quot;</span><span class="p">,</span> <span class="s2">&quot;--num&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;num&quot;</span><span class="p">),</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;How many past revisions you want to be displayed&quot;</span><span class="p">)</span>
 
     <span class="kn">from</span> <span class="nn">certbot.client</span> <span class="k">import</span> <span class="n">sample_user_agent</span> <span class="c1"># avoid import loops</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;--user-agent&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Set a custom user agent string for the client. User agent strings allow &quot;</span>
-             <span class="s2">&quot;the CA to collect high level statistics about success rates by OS, &quot;</span>
-             <span class="s2">&quot;plugin and use case, and to know when to deprecate support for past Python &quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;--user-agent&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;user_agent&quot;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Set a custom user agent string for the client. User agent strings allow &#39;</span>
+             <span class="s1">&#39;the CA to collect high level statistics about success rates by OS, &#39;</span>
+             <span class="s1">&#39;plugin and use case, and to know when to deprecate support for past Python &#39;</span>
              <span class="s2">&quot;versions and flags. If you wish to hide this information from the Let&#39;s &quot;</span>
              <span class="s1">&#39;Encrypt server, set this to &quot;&quot;. &#39;</span>
              <span class="s1">&#39;(default: </span><span class="si">{0}</span><span class="s1">). The flags encoded in the user agent are: &#39;</span>
              <span class="s1">&#39;--duplicate, --force-renew, --allow-subset-of-names, -n, and &#39;</span>
              <span class="s1">&#39;whether any hooks are set.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sample_user_agent</span><span class="p">()))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;--user-agent-comment&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">_user_agent_comment_type</span><span class="p">,</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;--user-agent-comment&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;user_agent_comment&quot;</span><span class="p">),</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">_user_agent_comment_type</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Add a comment to the default user agent string. May be used when repackaging Certbot &quot;</span>
              <span class="s2">&quot;or calling it from another tool to allow additional statistical data to be collected.&quot;</span>
              <span class="s2">&quot; Ignored if --user-agent is set. (Example: Foo-Wrapper/1.0)&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;certonly&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;--csr&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">read_file</span><span class="p">,</span>
+                <span class="s2">&quot;--csr&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;csr&quot;</span><span class="p">),</span> <span class="nb">type</span><span class="o">=</span><span class="n">read_file</span><span class="p">,</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to a Certificate Signing Request (CSR) in DER or PEM format.&quot;</span>
                 <span class="s2">&quot; Currently --csr only works with the &#39;certonly&#39; subcommand.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;revoke&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;--reason&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;reason&quot;</span><span class="p">,</span>
                 <span class="n">choices</span><span class="o">=</span><span class="n">CaseInsensitiveList</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">REVOCATION_REASONS</span><span class="p">,</span>
                                                    <span class="n">key</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">REVOCATION_REASONS</span><span class="o">.</span><span class="n">get</span><span class="p">)),</span>
-                <span class="n">action</span><span class="o">=</span><span class="n">_EncodeReasonAction</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">action</span><span class="o">=</span><span class="n">_EncodeReasonAction</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;reason&quot;</span><span class="p">),</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specify reason for revoking certificate. (default: unspecified)&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;rollback&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;--checkpoints&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">,</span>
                 <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;rollback_checkpoints&quot;</span><span class="p">),</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Revert configuration N number of checkpoints.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;--init&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Initialize plugins.&quot;</span><span class="p">)</span>
+                <span class="s2">&quot;--init&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;init&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Initialize plugins.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;--prepare&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Initialize and prepare plugins.&quot;</span><span class="p">)</span>
+                <span class="s2">&quot;--prepare&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;prepare&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Initialize and prepare plugins.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;--authenticators&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append_const&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;ifaces&quot;</span><span class="p">,</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;ifaces&quot;</span><span class="p">),</span>
                 <span class="n">const</span><span class="o">=</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IAuthenticator</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Limit to authenticator plugins only.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;--installers&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append_const&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;ifaces&quot;</span><span class="p">,</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;ifaces&quot;</span><span class="p">),</span>
                 <span class="n">const</span><span class="o">=</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IInstaller</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Limit to installer plugins only.&quot;</span><span class="p">)</span>
 
 
@@ -1442,53 +1486,68 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="s2">&quot;a particular plugin by setting options provided below. Running &quot;</span>
         <span class="s2">&quot;--help &lt;plugin_name&gt; will list flags specific to that plugin.&quot;</span><span class="p">)</span>
 
-    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;--configurator&quot;</span><span class="p">,</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;--configurator&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;configurator&quot;</span><span class="p">),</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Name of the plugin that is both an authenticator and an installer.&quot;</span>
                 <span class="s2">&quot; Should not be used together with --authenticator or --installer. &quot;</span>
                 <span class="s2">&quot;(default: Ask)&quot;</span><span class="p">)</span>
-    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;-a&quot;</span><span class="p">,</span> <span class="s2">&quot;--authenticator&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Authenticator plugin name.&quot;</span><span class="p">)</span>
-    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="s2">&quot;--installer&quot;</span><span class="p">,</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;-a&quot;</span><span class="p">,</span> <span class="s2">&quot;--authenticator&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;authenticator&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Authenticator plugin name.&quot;</span><span class="p">)</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="s2">&quot;--installer&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;installer&quot;</span><span class="p">),</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Installer plugin name (also used to find domains).&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;config_changes&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;--apache&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;--apache&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;apache&quot;</span><span class="p">),</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Obtain and install certificates using Apache&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;config_changes&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;--nginx&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Obtain and install certificates using Nginx&quot;</span><span class="p">)</span>
+                <span class="s2">&quot;--nginx&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;nginx&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Obtain and install certificates using Nginx&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--standalone&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;standalone&quot;</span><span class="p">),</span>
                 <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Obtain certificates using a &quot;standalone&quot; webserver.&#39;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--manual&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Provide laborious manual instructions for obtaining a certificate&#39;</span><span class="p">)</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;manual&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Provide laborious manual instructions for obtaining a certificate&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--webroot&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Obtain certificates by placing files in a webroot directory.&#39;</span><span class="p">)</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;webroot&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Obtain certificates by placing files in a webroot directory.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--dns-cloudflare&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Obtain certificates using a DNS TXT record (if you are &#39;</span>
-                      <span class="s1">&#39;using Cloudflare for DNS).&#39;</span><span class="p">))</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dns_cloudflare&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Obtain certificates using a DNS TXT record (if you are &quot;</span>
+                      <span class="s2">&quot;using Cloudflare for DNS).&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--dns-cloudxns&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Obtain certificates using a DNS TXT record (if you are &#39;</span>
-                     <span class="s1">&#39;using CloudXNS for DNS).&#39;</span><span class="p">))</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dns_cloudxns&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Obtain certificates using a DNS TXT record (if you are &quot;</span>
+                     <span class="s2">&quot;using CloudXNS for DNS).&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--dns-digitalocean&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Obtain certificates using a DNS TXT record (if you are &#39;</span>
-                      <span class="s1">&#39;using DigitalOcean for DNS).&#39;</span><span class="p">))</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dns_digitalocean&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Obtain certificates using a DNS TXT record (if you are &quot;</span>
+                      <span class="s2">&quot;using DigitalOcean for DNS).&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--dns-dnsimple&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Obtain certificates using a DNS TXT record (if you are &#39;</span>
-                      <span class="s1">&#39;using DNSimple for DNS).&#39;</span><span class="p">))</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dns_dnsimple&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Obtain certificates using a DNS TXT record (if you are &quot;</span>
+                      <span class="s2">&quot;using DNSimple for DNS).&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--dns-dnsmadeeasy&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Obtain certificates using a DNS TXT record (if you are&#39;</span>
-                      <span class="s1">&#39;using DNS Made Easy for DNS).&#39;</span><span class="p">))</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dns_dnsmadeeasy&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Obtain certificates using a DNS TXT record (if you are&quot;</span>
+                      <span class="s2">&quot;using DNS Made Easy for DNS).&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--dns-google&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Obtain certificates using a DNS TXT record (if you are &#39;</span>
-                      <span class="s1">&#39;using Google Cloud DNS).&#39;</span><span class="p">))</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dns_google&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Obtain certificates using a DNS TXT record (if you are &quot;</span>
+                      <span class="s2">&quot;using Google Cloud DNS).&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--dns-luadns&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Obtain certificates using a DNS TXT record (if you are &#39;</span>
-                      <span class="s1">&#39;using LuaDNS for DNS).&#39;</span><span class="p">))</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dns_luadns&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Obtain certificates using a DNS TXT record (if you are &quot;</span>
+                      <span class="s2">&quot;using LuaDNS for DNS).&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--dns-nsone&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Obtain certificates using a DNS TXT record (if you are &#39;</span>
-                      <span class="s1">&#39;using NS1 for DNS).&#39;</span><span class="p">))</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dns_nsone&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Obtain certificates using a DNS TXT record (if you are &quot;</span>
+                      <span class="s2">&quot;using NS1 for DNS).&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--dns-rfc2136&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Obtain certificates using a DNS TXT record (if you are using BIND for DNS).&#39;</span><span class="p">)</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dns_rfc2136&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Obtain certificates using a DNS TXT record (if you are using BIND for DNS).&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--dns-route53&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Obtain certificates using a DNS TXT record (if you are using Route53 for &#39;</span>
-                      <span class="s1">&#39;DNS).&#39;</span><span class="p">))</span>
+                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dns_route53&quot;</span><span class="p">),</span>
+                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Obtain certificates using a DNS TXT record (if you are using Route53 for &quot;</span>
+                      <span class="s2">&quot;DNS).&quot;</span><span class="p">))</span>
 
     <span class="c1"># things should not be reorder past/pre this comment:</span>
     <span class="c1"># plugins_group should be displayed in --help before plugin</span>
@@ -1669,7 +1728,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.18.0.dev0',
+            VERSION:'0.19.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1696,7 +1755,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cli%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cli%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.common &mdash; Certbot 0.18.0.dev0 documentation</title>
+  <title>certbot.plugins.common &mdash; Certbot 0.19.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.common &mdash; Certbot 0.18.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.common &mdash; Certbot 0.19.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.18
+                0.19
               </div>
             
           
@@ -287,7 +287,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <div class="viewcode-block" id="Installer"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Installer">[docs]</a><span class="k">class</span> <span class="nc">Installer</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;An installer base class with reverter methods defined.</span>
+    <span class="sd">&quot;&quot;&quot;An installer base class with reverter and ssl_dhparam methods defined.</span>
 
 <span class="sd">    Installer plugins do not have to inherit from this class.</span>
 
@@ -379,7 +379,25 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">reverter</span><span class="o">.</span><span class="n">view_config_changes</span><span class="p">()</span>
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span></div></div>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ssl_dhparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Full absolute path to ssl_dhparams file.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">config_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">SSL_DHPARAMS_DEST</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">updated_ssl_dhparams_digest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Full absolute path to digest of updated ssl_dhparams file.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">config_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">UPDATED_SSL_DHPARAMS_DIGEST</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Installer.install_ssl_dhparams"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Installer.install_ssl_dhparams">[docs]</a>    <span class="k">def</span> <span class="nf">install_ssl_dhparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Copy Certbot&#39;s ssl_dhparams file into the system&#39;s config dir if required.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">install_version_controlled_file</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ssl_dhparams</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">updated_ssl_dhparams_digest</span><span class="p">,</span>
+            <span class="n">constants</span><span class="o">.</span><span class="n">SSL_DHPARAMS_SRC</span><span class="p">,</span>
+            <span class="n">constants</span><span class="o">.</span><span class="n">ALL_SSL_DHPARAMS_HASHES</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="Addr"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Addr">[docs]</a><span class="k">class</span> <span class="nc">Addr</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -552,51 +570,50 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="n">response</span></div></div>
 
 
-<div class="viewcode-block" id="install_ssl_options_conf"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.install_ssl_options_conf">[docs]</a><span class="k">def</span> <span class="nf">install_ssl_options_conf</span><span class="p">(</span><span class="n">options_ssl</span><span class="p">,</span> <span class="n">options_ssl_digest</span><span class="p">,</span> <span class="n">mod_ssl_conf_src</span><span class="p">,</span>
-    <span class="n">all_ssl_options_hashes</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Copy Certbot&#39;s SSL options file into the system&#39;s config dir if required.</span>
+<div class="viewcode-block" id="install_version_controlled_file"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.install_version_controlled_file">[docs]</a><span class="k">def</span> <span class="nf">install_version_controlled_file</span><span class="p">(</span><span class="n">dest_path</span><span class="p">,</span> <span class="n">digest_path</span><span class="p">,</span> <span class="n">src_path</span><span class="p">,</span> <span class="n">all_hashes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Copy a file into an active location (likely the system&#39;s config dir) if required.</span>
 
-<span class="sd">       :param str options_ssl: destination path for file containing ssl options</span>
-<span class="sd">       :param str options_ssl_digest: path to save a digest of options_ssl in</span>
-<span class="sd">       :param str mod_ssl_conf_src: path to file containing ssl options found in distribution</span>
-<span class="sd">       :param list all_ssl_options_hashes: hashes of every released version of options_ssl</span>
+<span class="sd">       :param str dest_path: destination path for version controlled file</span>
+<span class="sd">       :param str digest_path: path to save a digest of the file in</span>
+<span class="sd">       :param str src_path: path to version controlled file found in distribution</span>
+<span class="sd">       :param list all_hashes: hashes of every released version of the file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">current_ssl_options_hash</span> <span class="o">=</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">sha256sum</span><span class="p">(</span><span class="n">mod_ssl_conf_src</span><span class="p">)</span>
+    <span class="n">current_hash</span> <span class="o">=</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">sha256sum</span><span class="p">(</span><span class="n">src_path</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_write_current_hash</span><span class="p">():</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">options_ssl_digest</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">current_ssl_options_hash</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">digest_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">current_hash</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_install_current_file</span><span class="p">():</span>
-        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">mod_ssl_conf_src</span><span class="p">,</span> <span class="n">options_ssl</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="n">src_path</span><span class="p">,</span> <span class="n">dest_path</span><span class="p">)</span>
         <span class="n">_write_current_hash</span><span class="p">()</span>
 
     <span class="c1"># Check to make sure options-ssl.conf is installed</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">options_ssl</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">dest_path</span><span class="p">):</span>
         <span class="n">_install_current_file</span><span class="p">()</span>
         <span class="k">return</span>
     <span class="c1"># there&#39;s already a file there. if it&#39;s up to date, do nothing. if it&#39;s not but</span>
     <span class="c1"># it matches a known file hash, we can update it.</span>
     <span class="c1"># otherwise, print a warning once per new version.</span>
-    <span class="n">active_file_digest</span> <span class="o">=</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">sha256sum</span><span class="p">(</span><span class="n">options_ssl</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">active_file_digest</span> <span class="o">==</span> <span class="n">current_ssl_options_hash</span><span class="p">:</span> <span class="c1"># already up to date</span>
+    <span class="n">active_file_digest</span> <span class="o">=</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">sha256sum</span><span class="p">(</span><span class="n">dest_path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">active_file_digest</span> <span class="o">==</span> <span class="n">current_hash</span><span class="p">:</span> <span class="c1"># already up to date</span>
         <span class="k">return</span>
-    <span class="k">elif</span> <span class="n">active_file_digest</span> <span class="ow">in</span> <span class="n">all_ssl_options_hashes</span><span class="p">:</span> <span class="c1"># safe to update</span>
+    <span class="k">elif</span> <span class="n">active_file_digest</span> <span class="ow">in</span> <span class="n">all_hashes</span><span class="p">:</span> <span class="c1"># safe to update</span>
         <span class="n">_install_current_file</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span> <span class="c1"># has been manually modified, not safe to update</span>
         <span class="c1"># did they modify the current version or an old version?</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">options_ssl_digest</span><span class="p">):</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">options_ssl_digest</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">digest_path</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">digest_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">saved_digest</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
             <span class="c1"># they modified it after we either installed or told them about this version, so return</span>
-            <span class="k">if</span> <span class="n">saved_digest</span> <span class="o">==</span> <span class="n">current_ssl_options_hash</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">saved_digest</span> <span class="o">==</span> <span class="n">current_hash</span><span class="p">:</span>
                 <span class="k">return</span>
         <span class="c1"># there&#39;s a new version but we couldn&#39;t update the file, or they deleted the digest.</span>
         <span class="c1"># save the current digest so we only print this once, and print a warning</span>
         <span class="n">_write_current_hash</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> has been manually modified; updated ssl configuration options &quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> has been manually modified; updated file &quot;</span>
             <span class="s2">&quot;saved to </span><span class="si">%s</span><span class="s2">. We recommend updating </span><span class="si">%s</span><span class="s2"> for security purposes.&quot;</span><span class="p">,</span>
-            <span class="n">options_ssl</span><span class="p">,</span> <span class="n">mod_ssl_conf_src</span><span class="p">,</span> <span class="n">options_ssl</span><span class="p">)</span></div>
+            <span class="n">dest_path</span><span class="p">,</span> <span class="n">src_path</span><span class="p">,</span> <span class="n">dest_path</span><span class="p">)</span></div>
 
 
 <span class="c1"># test utils used by certbot_apache/certbot_nginx (hence</span>
@@ -681,7 +698,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.18.0.dev0',
+            VERSION:'0.19.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -708,7 +725,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

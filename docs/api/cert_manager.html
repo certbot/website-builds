@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.cert_manager &mdash; Certbot 0.18.0.dev0 documentation</title>
+  <title>certbot.cert_manager &mdash; Certbot 0.19.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.cert_manager &mdash; Certbot 0.18.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.cert_manager &mdash; Certbot 0.19.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Documentation" href="../api.html"/>
         <link rel="next" title="certbot.cli" href="cli.html"/>
         <link rel="prev" title="certbot.auth_handler" href="auth_handler.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.18
+                0.19
               </div>
             
           
@@ -296,8 +296,108 @@ the correct archive directory.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="certbot.cert_manager._get_certname">
-<code class="descclassname">certbot.cert_manager.</code><code class="descname">_get_certname</code><span class="sig-paren">(</span><em>config</em>, <em>verb</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/cert_manager.html#_get_certname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.cert_manager._get_certname" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.cert_manager._archive_files">
+<code class="descclassname">certbot.cert_manager.</code><code class="descname">_archive_files</code><span class="sig-paren">(</span><em>candidate_lineage</em>, <em>filetype</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/cert_manager.html#_archive_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.cert_manager._archive_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>In order to match things like:
+/etc/letsencrypt/archive/example.com/chain1.pem.</p>
+<p>Anonymous functions which call this function are eventually passed (in a list) to
+<a class="reference internal" href="#certbot.cert_manager.match_and_check_overlaps" title="certbot.cert_manager.match_and_check_overlaps"><code class="xref py py-obj docutils literal"><span class="pre">match_and_check_overlaps</span></code></a> to help specify the acceptable_matches.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>candidate_lineage</strong> (<a class="reference internal" href="storage.html#certbot.storage.RenewableCert" title="certbot.storage.RenewableCert"><em>storage.RenewableCert</em></a>) &#8211; Lineage whose archive dir is to
+be searched.</li>
+<li><strong>filetype</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; main file name prefix e.g. &#8220;fullchain&#8221; or &#8220;chain&#8221;.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Files in candidate_lineage&#8217;s archive dir that match the provided filetype.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of str or <a class="reference external" href="https://docs.python.org/2/library/constants.html#None" title="(in Python v2.7)">None</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.cert_manager._acceptable_matches">
+<code class="descclassname">certbot.cert_manager.</code><code class="descname">_acceptable_matches</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/cert_manager.html#_acceptable_matches"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.cert_manager._acceptable_matches" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the list that&#8217;s passed to match_and_check_overlaps. Is its own function to
+make unit testing easier.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">list of functions</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.cert_manager.cert_path_to_lineage">
+<code class="descclassname">certbot.cert_manager.</code><code class="descname">cert_path_to_lineage</code><span class="sig-paren">(</span><em>cli_config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/cert_manager.html#cert_path_to_lineage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.cert_manager.cert_path_to_lineage" title="Permalink to this definition">¶</a></dt>
+<dd><p>If config.cert_path is defined, try to find an appropriate value for config.certname.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cli_config</strong> (<a class="reference internal" href="configuration.html#certbot.configuration.NamespaceConfig" title="certbot.configuration.NamespaceConfig"><em>configuration.NamespaceConfig</em></a>) &#8211; parsed command line arguments</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">a lineage name</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> &#8211; If the specified cert path can&#8217;t be matched to a lineage name.</li>
+<li><a class="reference internal" href="errors.html#certbot.errors.OverlappingMatchFound" title="certbot.errors.OverlappingMatchFound"><strong>errors.OverlappingMatchFound</strong></a> &#8211; If the matched lineage&#8217;s archive is shared.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.cert_manager.match_and_check_overlaps">
+<code class="descclassname">certbot.cert_manager.</code><code class="descname">match_and_check_overlaps</code><span class="sig-paren">(</span><em>cli_config</em>, <em>acceptable_matches</em>, <em>match_func</em>, <em>rv_func</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/cert_manager.html#match_and_check_overlaps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.cert_manager.match_and_check_overlaps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Searches through all lineages for a match, and checks for duplicates.
+If a duplicate is found, an error is raised, as performing operations on lineages
+that have their properties incorrectly duplicated elsewhere is probably a bad idea.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cli_config</strong> (<a class="reference internal" href="configuration.html#certbot.configuration.NamespaceConfig" title="certbot.configuration.NamespaceConfig"><em>configuration.NamespaceConfig</em></a>) &#8211; parsed command line arguments</li>
+<li><strong>acceptable_matches</strong> (<em>list</em>) &#8211; a list of functions that specify acceptable matches</li>
+<li><strong>match_func</strong> (<em>function</em>) &#8211; specifies what to match</li>
+<li><strong>rv_func</strong> (<em>function</em>) &#8211; specifies what to return</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.cert_manager.human_readable_cert_info">
+<code class="descclassname">certbot.cert_manager.</code><code class="descname">human_readable_cert_info</code><span class="sig-paren">(</span><em>config</em>, <em>cert</em>, <em>skip_filter_checks=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/cert_manager.html#human_readable_cert_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.cert_manager.human_readable_cert_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a human readable description of info about a RenewableCert object</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.cert_manager._get_certnames">
+<code class="descclassname">certbot.cert_manager.</code><code class="descname">_get_certnames</code><span class="sig-paren">(</span><em>config</em>, <em>verb</em>, <em>allow_multiple=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/cert_manager.html#_get_certnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.cert_manager._get_certnames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get certname from flag, interactively, or error out.</p>
 </dd></dl>
 
@@ -321,10 +421,26 @@ the correct archive directory.</p>
 
 <dl class="function">
 <dt id="certbot.cert_manager._search_lineages">
-<code class="descclassname">certbot.cert_manager.</code><code class="descname">_search_lineages</code><span class="sig-paren">(</span><em>cli_config</em>, <em>func</em>, <em>initial_rv</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/cert_manager.html#_search_lineages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.cert_manager._search_lineages" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">certbot.cert_manager.</code><code class="descname">_search_lineages</code><span class="sig-paren">(</span><em>cli_config</em>, <em>func</em>, <em>initial_rv</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/cert_manager.html#_search_lineages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.cert_manager._search_lineages" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterate func over unbroken lineages, allowing custom return conditions.</p>
 <p>Allows flexible customization of return values, including multiple
 return values and complex checks.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cli_config</strong> (<a class="reference internal" href="configuration.html#certbot.configuration.NamespaceConfig" title="certbot.configuration.NamespaceConfig"><em>configuration.NamespaceConfig</em></a>) &#8211; parsed command line arguments</li>
+<li><strong>func</strong> (<em>function</em>) &#8211; function used while searching over lineages</li>
+<li><strong>initial_rv</strong> &#8211; initial return value of the function (any type)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Whatever was specified by <code class="xref py py-obj docutils literal"><span class="pre">func</span></code> if a match is found.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -387,7 +503,7 @@ return values and complex checks.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.18.0.dev0',
+            VERSION:'0.19.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -414,7 +530,7 @@ return values and complex checks.</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cert_manager%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cert_manager%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

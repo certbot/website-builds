@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.hooks &mdash; Certbot 0.18.0.dev0 documentation</title>
+  <title>certbot.hooks &mdash; Certbot 0.19.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.hooks &mdash; Certbot 0.18.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.hooks &mdash; Certbot 0.19.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Documentation" href="../api.html"/>
         <link rel="next" title="certbot" href="index.html"/>
         <link rel="prev" title="certbot.errors" href="errors.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.18
+                0.19
               </div>
             
           
@@ -264,15 +264,75 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <dl class="function">
 <dt id="certbot.hooks.pre_hook">
 <code class="descclassname">certbot.hooks.</code><code class="descname">pre_hook</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#pre_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.pre_hook" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run pre-hook if it&#8217;s defined and hasn&#8217;t been run.</p>
+<dd><p>Run pre-hooks if they exist and haven&#8217;t already been run.</p>
+<p>When Certbot is running with the renew subcommand, this function
+runs any hooks found in the config.renewal_pre_hooks_dir (if they
+have not already been run) followed by any pre-hook in the config.
+If hooks in config.renewal_pre_hooks_dir are run and the pre-hook in
+the config is a path to one of these scripts, it is not run twice.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config</strong> (<a class="reference internal" href="configuration.html#certbot.configuration.NamespaceConfig" title="certbot.configuration.NamespaceConfig"><em>configuration.NamespaceConfig</em></a>) &#8211; Certbot settings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks._run_pre_hook_if_necessary">
+<code class="descclassname">certbot.hooks.</code><code class="descname">_run_pre_hook_if_necessary</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#_run_pre_hook_if_necessary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks._run_pre_hook_if_necessary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the specified pre-hook if we haven&#8217;t already.</p>
+<p>If we&#8217;ve already run this exact command before, a message is logged
+saying the pre-hook was skipped.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; pre-hook to be run</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="certbot.hooks.post_hook">
 <code class="descclassname">certbot.hooks.</code><code class="descname">post_hook</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#post_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.post_hook" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run post hook if defined.</p>
-<p>If the verb is renew, we might have more certs to renew, so we wait until
-run_saved_post_hooks() is called.</p>
+<dd><p>Run post-hooks if defined.</p>
+<p>This function also registers any executables found in
+config.renewal_post_hooks_dir to be run when Certbot is used with
+the renew subcommand.</p>
+<p>If the verb is renew, we delay executing any post-hooks until
+<a class="reference internal" href="#certbot.hooks.run_saved_post_hooks" title="certbot.hooks.run_saved_post_hooks"><code class="xref py py-func docutils literal"><span class="pre">run_saved_post_hooks()</span></code></a> is called. In this case, this function
+registers all hooks found in config.renewal_post_hooks_dir to be
+called followed by any post-hook in the config. If the post-hook in
+the config is a path to an executable in the post-hook directory, it
+is not scheduled to be run twice.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config</strong> (<a class="reference internal" href="configuration.html#certbot.configuration.NamespaceConfig" title="certbot.configuration.NamespaceConfig"><em>configuration.NamespaceConfig</em></a>) &#8211; Certbot settings</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks._run_eventually">
+<code class="descclassname">certbot.hooks.</code><code class="descname">_run_eventually</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#_run_eventually"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks._run_eventually" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers a post-hook to be run eventually.</p>
+<p>All commands given to this function will be run exactly once in the
+order they were given when <a class="reference internal" href="#certbot.hooks.run_saved_post_hooks" title="certbot.hooks.run_saved_post_hooks"><code class="xref py py-func docutils literal"><span class="pre">run_saved_post_hooks()</span></code></a> is called.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>command</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; post-hook to register to be run</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -303,7 +363,49 @@ run_saved_post_hooks() is called.</p>
 <dl class="function">
 <dt id="certbot.hooks.renew_hook">
 <code class="descclassname">certbot.hooks.</code><code class="descname">renew_hook</code><span class="sig-paren">(</span><em>config</em>, <em>domains</em>, <em>lineage_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#renew_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.renew_hook" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run post-renewal hook if defined.</p>
+<dd><p>Run post-renewal hooks.</p>
+<p>This function runs any hooks found in
+config.renewal_deploy_hooks_dir followed by any renew-hook in the
+config. If the renew-hook in the config is a path to a script in
+config.renewal_deploy_hooks_dir, it is not run twice.</p>
+<p>If Certbot is doing a dry run, no hooks are run and messages are
+logged saying that they were skipped.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>config</strong> (<a class="reference internal" href="configuration.html#certbot.configuration.NamespaceConfig" title="certbot.configuration.NamespaceConfig"><em>configuration.NamespaceConfig</em></a>) &#8211; Certbot settings</li>
+<li><strong>domains</strong> (<code class="xref py py-obj docutils literal"><span class="pre">list</span></code> of <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; domains in the obtained certificate</li>
+<li><strong>lineage_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; live directory path for the new cert</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks._run_deploy_hook">
+<code class="descclassname">certbot.hooks.</code><code class="descname">_run_deploy_hook</code><span class="sig-paren">(</span><em>command</em>, <em>domains</em>, <em>lineage_path</em>, <em>dry_run</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#_run_deploy_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks._run_deploy_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the specified deploy-hook (if not doing a dry run).</p>
+<p>If dry_run is True, command is not run and a message is logged
+saying that it was skipped. If dry_run is False, the hook is run
+after setting the appropriate environment variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>command</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; command to run as a deploy-hook</li>
+<li><strong>domains</strong> (<code class="xref py py-obj docutils literal"><span class="pre">list</span></code> of <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; domains in the obtained certificate</li>
+<li><strong>lineage_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; live directory path for the new cert</li>
+<li><strong>dry_run</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; True iff Certbot is doing a dry run</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -329,6 +431,24 @@ run_saved_post_hooks() is called.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">tuple</span></code></a> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a> stderr, <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a> stdout)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.hooks.list_hooks">
+<code class="descclassname">certbot.hooks.</code><code class="descname">list_hooks</code><span class="sig-paren">(</span><em>dir_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#list_hooks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.list_hooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>List paths to all hooks found in dir_path in sorted order.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dir_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; directory to search</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="xref py py-obj docutils literal"><span class="pre">list</span></code> of <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">sorted list of absolute paths to executables in dir_path</td>
 </tr>
 </tbody>
 </table>
@@ -394,7 +514,7 @@ run_saved_post_hooks() is called.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.18.0.dev0',
+            VERSION:'0.19.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -421,7 +541,7 @@ run_saved_post_hooks() is called.</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.hooks%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.hooks%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
