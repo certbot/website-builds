@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.common &mdash; Certbot 0.18.0.dev0 documentation</title>
+  <title>certbot.plugins.common &mdash; Certbot 0.19.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.common &mdash; Certbot 0.18.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.common &mdash; Certbot 0.19.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="API Documentation" href="../../api.html"/>
         <link rel="next" title="certbot.plugins.disco" href="disco.html"/>
         <link rel="prev" title="certbot.ocsp" href="../ocsp.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.18
+                0.19
               </div>
             
           
@@ -302,7 +302,7 @@ with unique plugin name prefix.</td>
 <dt id="certbot.plugins.common.Installer">
 <em class="property">class </em><code class="descclassname">certbot.plugins.common.</code><code class="descname">Installer</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/common.html#Installer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.common.Installer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#certbot.plugins.common.Plugin" title="certbot.plugins.common.Plugin"><code class="xref py py-class docutils literal"><span class="pre">certbot.plugins.common.Plugin</span></code></a></p>
-<p>An installer base class with reverter methods defined.</p>
+<p>An installer base class with reverter and ssl_dhparam methods defined.</p>
 <p>Installer plugins do not have to inherit from this class.</p>
 <dl class="method">
 <dt id="certbot.plugins.common.Installer.add_to_checkpoint">
@@ -403,6 +403,24 @@ the checkpoints directories.</td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.plugins.common.Installer.ssl_dhparams">
+<code class="descname">ssl_dhparams</code><a class="headerlink" href="#certbot.plugins.common.Installer.ssl_dhparams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Full absolute path to ssl_dhparams file.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.plugins.common.Installer.updated_ssl_dhparams_digest">
+<code class="descname">updated_ssl_dhparams_digest</code><a class="headerlink" href="#certbot.plugins.common.Installer.updated_ssl_dhparams_digest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Full absolute path to digest of updated ssl_dhparams file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.plugins.common.Installer.install_ssl_dhparams">
+<code class="descname">install_ssl_dhparams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/common.html#Installer.install_ssl_dhparams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.common.Installer.install_ssl_dhparams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy Certbot&#8217;s ssl_dhparams file into the system&#8217;s config dir if required.</p>
 </dd></dl>
 
 </dd></dl>
@@ -538,18 +556,18 @@ tls-sni-01 challenge.</td>
 </dd></dl>
 
 <dl class="function">
-<dt id="certbot.plugins.common.install_ssl_options_conf">
-<code class="descclassname">certbot.plugins.common.</code><code class="descname">install_ssl_options_conf</code><span class="sig-paren">(</span><em>options_ssl</em>, <em>options_ssl_digest</em>, <em>mod_ssl_conf_src</em>, <em>all_ssl_options_hashes</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/common.html#install_ssl_options_conf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.common.install_ssl_options_conf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Copy Certbot&#8217;s SSL options file into the system&#8217;s config dir if required.</p>
+<dt id="certbot.plugins.common.install_version_controlled_file">
+<code class="descclassname">certbot.plugins.common.</code><code class="descname">install_version_controlled_file</code><span class="sig-paren">(</span><em>dest_path</em>, <em>digest_path</em>, <em>src_path</em>, <em>all_hashes</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/common.html#install_version_controlled_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.common.install_version_controlled_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a file into an active location (likely the system&#8217;s config dir) if required.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>options_ssl</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; destination path for file containing ssl options</li>
-<li><strong>options_ssl_digest</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to save a digest of options_ssl in</li>
-<li><strong>mod_ssl_conf_src</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to file containing ssl options found in distribution</li>
-<li><strong>all_ssl_options_hashes</strong> (<em>list</em>) &#8211; hashes of every released version of options_ssl</li>
+<li><strong>dest_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; destination path for version controlled file</li>
+<li><strong>digest_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to save a digest of the file in</li>
+<li><strong>src_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to version controlled file found in distribution</li>
+<li><strong>all_hashes</strong> (<em>list</em>) &#8211; hashes of every released version of the file</li>
 </ul>
 </td>
 </tr>
@@ -623,7 +641,7 @@ tls-sni-01 challenge.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.18.0.dev0',
+            VERSION:'0.19.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -650,7 +668,7 @@ tls-sni-01 challenge.</td>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.log &mdash; Certbot 0.18.0.dev0 documentation</title>
+  <title>certbot.log &mdash; Certbot 0.19.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.log &mdash; Certbot 0.18.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.log &mdash; Certbot 0.19.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Documentation" href="../api.html"/>
         <link rel="next" title="certbot.main" href="main.html"/>
         <link rel="prev" title="certbot.lock" href="lock.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.18
+                0.19
               </div>
             
           
@@ -233,6 +233,66 @@ configured by the user. Any logged messages before
 <a class="reference internal" href="#certbot.log.post_arg_parse_setup" title="certbot.log.post_arg_parse_setup"><code class="xref py py-obj docutils literal"><span class="pre">post_arg_parse_setup</span></code></a> is called are sent to the rotating file handler.
 Special care is taken by both methods to ensure all errors are logged
 and properly flushed before program exit.</p>
+<dl class="function">
+<dt id="certbot.log.pre_arg_parse_setup">
+<code class="descclassname">certbot.log.</code><code class="descname">pre_arg_parse_setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#pre_arg_parse_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.pre_arg_parse_setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup logging before command line arguments are parsed.</p>
+<p>Terminal logging is setup using
+<a class="reference internal" href="constants.html#certbot.constants.QUIET_LOGGING_LEVEL" title="certbot.constants.QUIET_LOGGING_LEVEL"><code class="xref py py-obj docutils literal"><span class="pre">certbot.constants.QUIET_LOGGING_LEVEL</span></code></a> so Certbot is as quiet as
+possible. File logging is setup so that logging messages are
+buffered in memory. If Certbot exits before <a class="reference internal" href="#certbot.log.post_arg_parse_setup" title="certbot.log.post_arg_parse_setup"><code class="xref py py-obj docutils literal"><span class="pre">post_arg_parse_setup</span></code></a>
+is called, these buffered messages are written to a temporary file.
+If Certbot doesn&#8217;t exit, <a class="reference internal" href="#certbot.log.post_arg_parse_setup" title="certbot.log.post_arg_parse_setup"><code class="xref py py-obj docutils literal"><span class="pre">post_arg_parse_setup</span></code></a> writes the messages
+to the normal log files.</p>
+<p>This function also sets <a class="reference external" href="https://docs.python.org/2/library/logging.html#logging.shutdown" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">logging.shutdown</span></code></a> to be called on program
+exit which automatically flushes logging handlers and
+<a class="reference external" href="https://docs.python.org/2/library/sys.html#sys.excepthook" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">sys.excepthook</span></code></a> to properly log/display fatal exceptions.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.log.post_arg_parse_setup">
+<code class="descclassname">certbot.log.</code><code class="descname">post_arg_parse_setup</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#post_arg_parse_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.post_arg_parse_setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup logging after command line arguments are parsed.</p>
+<p>This function assumes <a class="reference internal" href="#certbot.log.pre_arg_parse_setup" title="certbot.log.pre_arg_parse_setup"><code class="xref py py-obj docutils literal"><span class="pre">pre_arg_parse_setup</span></code></a> was called earlier and
+the root logging configuration has not been modified. A rotating
+file logging handler is created and the buffered log messages are
+sent to that handler. Terminal logging output is set to the level
+requested by the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config</strong> (<em>certbot.interface.IConfig</em>) &#8211; Configuration object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.log.setup_log_file_handler">
+<code class="descclassname">certbot.log.</code><code class="descname">setup_log_file_handler</code><span class="sig-paren">(</span><em>config</em>, <em>logfile</em>, <em>fmt</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#setup_log_file_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.setup_log_file_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup file debug logging.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>config</strong> (<em>certbot.interface.IConfig</em>) &#8211; Configuration object</li>
+<li><strong>logfile</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; basename for the log file</li>
+<li><strong>fmt</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; logging format string</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">file handler and absolute path to the log file</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="class">
 <dt id="certbot.log.ColoredStreamHandler">
 <em class="property">class </em><code class="descclassname">certbot.log.</code><code class="descname">ColoredStreamHandler</code><span class="sig-paren">(</span><em>stream=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#ColoredStreamHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.ColoredStreamHandler" title="Permalink to this definition">¶</a></dt>
@@ -338,13 +398,6 @@ closed.</p>
 </tbody>
 </table>
 <dl class="method">
-<dt id="certbot.log.TempHandler.close">
-<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#TempHandler.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.TempHandler.close" title="Permalink to this definition">¶</a></dt>
-<dd><p>Close the handler and the temporary log file.</p>
-<p>The temporary log file is deleted if it wasn&#8217;t used.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="certbot.log.TempHandler.emit">
 <code class="descname">emit</code><span class="sig-paren">(</span><em>record</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#TempHandler.emit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.TempHandler.emit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Log the specified logging record.</p>
@@ -358,65 +411,13 @@ closed.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="certbot.log.TempHandler.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#TempHandler.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.TempHandler.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the handler and the temporary log file.</p>
+<p>The temporary log file is deleted if it wasn&#8217;t used.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="certbot.log.exit_with_log_path">
-<code class="descclassname">certbot.log.</code><code class="descname">exit_with_log_path</code><span class="sig-paren">(</span><em>log_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#exit_with_log_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.exit_with_log_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print a message about the log location and exit.</p>
-<p>The message is printed to stderr and the program will exit with a
-nonzero status.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>log_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to file or directory containing the log</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="certbot.log.post_arg_parse_except_hook">
-<code class="descclassname">certbot.log.</code><code class="descname">post_arg_parse_except_hook</code><span class="sig-paren">(</span><em>exc_type</em>, <em>exc_value</em>, <em>trace</em>, <em>debug</em>, <em>log_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#post_arg_parse_except_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.post_arg_parse_except_hook" title="Permalink to this definition">¶</a></dt>
-<dd><p>Logs fatal exceptions and reports them to the user.</p>
-<p>If debug is True, the full exception and traceback is shown to the
-user, otherwise, it is suppressed. sys.exit is always called with a
-nonzero status.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>exc_type</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#type" title="(in Python v2.7)"><em>type</em></a>) &#8211; type of the raised exception</li>
-<li><strong>exc_value</strong> (<em>BaseException</em>) &#8211; raised exception</li>
-<li><strong>trace</strong> (<a class="reference external" href="https://docs.python.org/2/library/traceback.html#module-traceback" title="(in Python v2.7)"><em>traceback</em></a>) &#8211; traceback of where the exception was raised</li>
-<li><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; True if the traceback should be shown to the user</li>
-<li><strong>log_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to file or directory containing the log</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="certbot.log.post_arg_parse_setup">
-<code class="descclassname">certbot.log.</code><code class="descname">post_arg_parse_setup</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#post_arg_parse_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.post_arg_parse_setup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Setup logging after command line arguments are parsed.</p>
-<p>This function assumes <a class="reference internal" href="#certbot.log.pre_arg_parse_setup" title="certbot.log.pre_arg_parse_setup"><code class="xref py py-obj docutils literal"><span class="pre">pre_arg_parse_setup</span></code></a> was called earlier and
-the root logging configuration has not been modified. A rotating
-file logging handler is created and the buffered log messages are
-sent to that handler. Terminal logging output is set to the level
-requested by the user.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>config</strong> (<em>certbot.interface.IConfig</em>) &#8211; Configuration object</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 <dl class="function">
@@ -448,41 +449,40 @@ provided on the command line.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="certbot.log.pre_arg_parse_setup">
-<code class="descclassname">certbot.log.</code><code class="descname">pre_arg_parse_setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#pre_arg_parse_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.pre_arg_parse_setup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Setup logging before command line arguments are parsed.</p>
-<p>Terminal logging is setup using
-<a class="reference internal" href="constants.html#certbot.constants.QUIET_LOGGING_LEVEL" title="certbot.constants.QUIET_LOGGING_LEVEL"><code class="xref py py-obj docutils literal"><span class="pre">certbot.constants.QUIET_LOGGING_LEVEL</span></code></a> so Certbot is as quiet as
-possible. File logging is setup so that logging messages are
-buffered in memory. If Certbot exits before <a class="reference internal" href="#certbot.log.post_arg_parse_setup" title="certbot.log.post_arg_parse_setup"><code class="xref py py-obj docutils literal"><span class="pre">post_arg_parse_setup</span></code></a>
-is called, these buffered messages are written to a temporary file.
-If Certbot doesn&#8217;t exit, <a class="reference internal" href="#certbot.log.post_arg_parse_setup" title="certbot.log.post_arg_parse_setup"><code class="xref py py-obj docutils literal"><span class="pre">post_arg_parse_setup</span></code></a> writes the messages
-to the normal log files.</p>
-<p>This function also sets <a class="reference external" href="https://docs.python.org/2/library/logging.html#logging.shutdown" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">logging.shutdown</span></code></a> to be called on program
-exit which automatically flushes logging handlers and
-<a class="reference external" href="https://docs.python.org/2/library/sys.html#sys.excepthook" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">sys.excepthook</span></code></a> to properly log/display fatal exceptions.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="certbot.log.setup_log_file_handler">
-<code class="descclassname">certbot.log.</code><code class="descname">setup_log_file_handler</code><span class="sig-paren">(</span><em>config</em>, <em>logfile</em>, <em>fmt</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#setup_log_file_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.setup_log_file_handler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Setup file debug logging.</p>
+<dt id="certbot.log.post_arg_parse_except_hook">
+<code class="descclassname">certbot.log.</code><code class="descname">post_arg_parse_except_hook</code><span class="sig-paren">(</span><em>exc_type</em>, <em>exc_value</em>, <em>trace</em>, <em>debug</em>, <em>log_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#post_arg_parse_except_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.post_arg_parse_except_hook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logs fatal exceptions and reports them to the user.</p>
+<p>If debug is True, the full exception and traceback is shown to the
+user, otherwise, it is suppressed. sys.exit is always called with a
+nonzero status.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>config</strong> (<em>certbot.interface.IConfig</em>) &#8211; Configuration object</li>
-<li><strong>logfile</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; basename for the log file</li>
-<li><strong>fmt</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; logging format string</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>exc_type</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#type" title="(in Python v2.7)"><em>type</em></a>) &#8211; type of the raised exception</li>
+<li><strong>exc_value</strong> (<em>BaseException</em>) &#8211; raised exception</li>
+<li><strong>trace</strong> (<a class="reference external" href="https://docs.python.org/2/library/traceback.html#module-traceback" title="(in Python v2.7)"><em>traceback</em></a>) &#8211; traceback of where the exception was raised</li>
+<li><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; True if the traceback should be shown to the user</li>
+<li><strong>log_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to file or directory containing the log</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">file handler and absolute path to the log file</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
-</td>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.log.exit_with_log_path">
+<code class="descclassname">certbot.log.</code><code class="descname">exit_with_log_path</code><span class="sig-paren">(</span><em>log_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#exit_with_log_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.exit_with_log_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a message about the log location and exit.</p>
+<p>The message is printed to stderr and the program will exit with a
+nonzero status.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>log_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to file or directory containing the log</td>
 </tr>
 </tbody>
 </table>
@@ -548,7 +548,7 @@ exit which automatically flushes logging handlers and
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.18.0.dev0',
+            VERSION:'0.19.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -575,7 +575,7 @@ exit which automatically flushes logging handlers and
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.log%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.log%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

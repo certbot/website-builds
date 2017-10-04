@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.storage &mdash; Certbot 0.18.0.dev0 documentation</title>
+  <title>certbot.storage &mdash; Certbot 0.19.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.storage &mdash; Certbot 0.18.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.storage &mdash; Certbot 0.19.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.18
+                0.19
               </div>
             
           
@@ -232,6 +232,21 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">CertStorageError</span><span class="p">(</span><span class="s2">&quot;No certificate found with name </span><span class="si">{0}</span><span class="s2"> (expected &quot;</span>
             <span class="s2">&quot;</span><span class="si">{1}</span><span class="s2">).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">certname</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">path</span></div>
+
+
+<div class="viewcode-block" id="cert_path_for_cert_name"><a class="viewcode-back" href="../../api/storage.html#certbot.storage.cert_path_for_cert_name">[docs]</a><span class="k">def</span> <span class="nf">cert_path_for_cert_name</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">cert_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; If `--cert-name` was specified, but you need a value for `--cert-path`.</span>
+
+<span class="sd">    :param `configuration.NamespaceConfig` config: parsed command line arguments</span>
+<span class="sd">    :param str cert_name: cert name.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cert_name_implied_conf</span> <span class="o">=</span> <span class="n">renewal_file_for_certname</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">cert_name</span><span class="p">)</span>
+    <span class="n">fullchain_path</span> <span class="o">=</span> <span class="n">configobj</span><span class="o">.</span><span class="n">ConfigObj</span><span class="p">(</span><span class="n">cert_name_implied_conf</span><span class="p">)[</span><span class="s2">&quot;fullchain&quot;</span><span class="p">]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fullchain_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">cert_path</span> <span class="o">=</span> <span class="p">(</span><span class="n">fullchain_path</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">cert_path</span></div>
+
 
 <div class="viewcode-block" id="config_with_defaults"><a class="viewcode-back" href="../../api/storage.html#certbot.storage.config_with_defaults">[docs]</a><span class="k">def</span> <span class="nf">config_with_defaults</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Merge supplied config, if provided, on top of builtin defaults.&quot;&quot;&quot;</span>
@@ -430,7 +445,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="sd">&quot;&quot;&quot;Path to a directory from a file&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">archive_dir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">from_file</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="_full_archive_path"><a class="viewcode-back" href="../../api/storage.html#certbot.storage._full_archive_path">[docs]</a><span class="k">def</span> <span class="nf">_full_archive_path</span><span class="p">(</span><span class="n">config_obj</span><span class="p">,</span> <span class="n">cli_config</span><span class="p">,</span> <span class="n">lineagename</span><span class="p">):</span>
+<div class="viewcode-block" id="full_archive_path"><a class="viewcode-back" href="../../api/storage.html#certbot.storage.full_archive_path">[docs]</a><span class="k">def</span> <span class="nf">full_archive_path</span><span class="p">(</span><span class="n">config_obj</span><span class="p">,</span> <span class="n">cli_config</span><span class="p">,</span> <span class="n">lineagename</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns the full archive path for a lineagename</span>
 
 <span class="sd">    Uses cli_config to determine archive path if not available from config_obj.</span>
@@ -455,7 +470,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">renewal_filename</span> <span class="o">=</span> <span class="n">renewal_file_for_certname</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">certname</span><span class="p">)</span>
     <span class="c1"># file exists</span>
-    <span class="n">full_default_archive_dir</span> <span class="o">=</span> <span class="n">_full_archive_path</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">certname</span><span class="p">)</span>
+    <span class="n">full_default_archive_dir</span> <span class="o">=</span> <span class="n">full_archive_path</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">certname</span><span class="p">)</span>
     <span class="n">full_default_live_dir</span> <span class="o">=</span> <span class="n">_full_live_path</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">certname</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">renewal_config</span> <span class="o">=</span> <span class="n">configobj</span><span class="o">.</span><span class="n">ConfigObj</span><span class="p">(</span><span class="n">renewal_filename</span><span class="p">)</span>
@@ -507,7 +522,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="c1"># archive directory</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">archive_path</span> <span class="o">=</span> <span class="n">_full_archive_path</span><span class="p">(</span><span class="n">renewal_config</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">certname</span><span class="p">)</span>
+        <span class="n">archive_path</span> <span class="o">=</span> <span class="n">full_archive_path</span><span class="p">(</span><span class="n">renewal_config</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">certname</span><span class="p">)</span>
         <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">archive_path</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Removed </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">archive_path</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
@@ -634,7 +649,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">archive_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns the default or specified archive directory&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_full_archive_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">,</span>
+        <span class="k">return</span> <span class="n">full_archive_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cli_config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lineagename</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RenewableCert.relative_archive_dir"><a class="viewcode-back" href="../../api/storage.html#certbot.storage.RenewableCert.relative_archive_dir">[docs]</a>    <span class="k">def</span> <span class="nf">relative_archive_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_file</span><span class="p">):</span>
@@ -1176,7 +1191,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="c1"># lineagename will now potentially be modified based on which</span>
         <span class="c1"># renewal configuration file could actually be created</span>
         <span class="n">lineagename</span> <span class="o">=</span> <span class="n">lineagename_for_filename</span><span class="p">(</span><span class="n">config_filename</span><span class="p">)</span>
-        <span class="n">archive</span> <span class="o">=</span> <span class="n">_full_archive_path</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">cli_config</span><span class="p">,</span> <span class="n">lineagename</span><span class="p">)</span>
+        <span class="n">archive</span> <span class="o">=</span> <span class="n">full_archive_path</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">cli_config</span><span class="p">,</span> <span class="n">lineagename</span><span class="p">)</span>
         <span class="n">live_dir</span> <span class="o">=</span> <span class="n">_full_live_path</span><span class="p">(</span><span class="n">cli_config</span><span class="p">,</span> <span class="n">lineagename</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">archive</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">CertStorageError</span><span class="p">(</span>
@@ -1360,7 +1375,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.18.0.dev0',
+            VERSION:'0.19.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1387,7 +1402,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.storage%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.storage%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

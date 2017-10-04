@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; Certbot 0.18.0.dev0 documentation</title>
+  <title>&lt;no title&gt; &mdash; Certbot 0.19.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="&lt;no title&gt; &mdash; Certbot 0.18.0.dev0 documentation">
+<meta name="twitter:title" content="&lt;no title&gt; &mdash; Certbot 0.19.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 0.18.0.dev0 documentation" href="../index.html"/> 
+    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,7 +96,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.18
+                0.19
               </div>
             
           
@@ -236,12 +236,19 @@ optional arguments:
   -d DOMAIN, --domains DOMAIN, --domain DOMAIN
                         Domain names to apply. For multiple domains you can
                         use multiple -d flags or enter a comma separated list
-                        of domains as a parameter. (default: Ask)
-  --cert-name CERTNAME  Certificate name to apply. Only one certificate name
-                        can be used per Certbot run. To see certificate names,
-                        run &#39;certbot certificates&#39;. When creating a new
-                        certificate, specifies the new certificate&#39;s name.
-                        (default: None)
+                        of domains as a parameter. The first provided domain
+                        will be used in some software user interfaces and file
+                        paths for the certificate and related material unless
+                        otherwise specified or you already have a certificate
+                        for the same domains. (default: Ask)
+  --cert-name CERTNAME  Certificate name to apply. This name is used by
+                        Certbot for housekeeping and in file paths; it doesn&#39;t
+                        affect the content of the certificate itself. To see
+                        certificate names, run &#39;certbot certificates&#39;. When
+                        creating a new certificate, specifies the new
+                        certificate&#39;s name. (default: the first provided
+                        domain or the name of an existing certificate on your
+                        system for the same domains)
   --dry-run             Perform a test run of the client, obtaining test
                         (invalid) certificates but not saving them to disk.
                         This can currently only be used with the &#39;certonly&#39;
@@ -275,7 +282,7 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/0.17.0 (certbot;
+                        &quot;&quot;. (default: CertbotACMEClient/0.18.2 (certbot;
                         Ubuntu 16.04.3 LTS) Authenticator/XXX Installer/YYY
                         (SUBCOMMAND; flags: FLAGS) Py/2.7.12). The flags
                         encoded in the user agent are: --duplicate, --force-
@@ -495,8 +502,9 @@ delete:
 revoke:
   Options for revocation of certificates
 
-  --reason {keycompromise,affiliationchanged,superseded,unspecified,cessationofoperation}
-                        Specify reason for revoking certificate. (default: 0)
+  --reason {unspecified,keycompromise,affiliationchanged,superseded,cessationofoperation}
+                        Specify reason for revoking certificate. (default:
+                        unspecified)
 
 register:
   Options for account registration &amp; modification
@@ -866,7 +874,7 @@ webroot:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.18.0.dev0',
+            VERSION:'0.19.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -893,7 +901,7 @@ webroot:
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=%3Cno%20title%3E%E2%80%94%20Certbot%200.18.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=%3Cno%20title%3E%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
