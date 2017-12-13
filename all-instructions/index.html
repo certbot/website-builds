@@ -2247,7 +2247,7 @@ hour for your renewal tasks.</p>
 
 <p>
 First you'll have to follow the instructions <a
-href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
 backports repo, if you have not already done so.
 Then run:
 </p>
@@ -2308,7 +2308,7 @@ documentation</a>.</p>
 
 <p>
 First you'll have to follow the instructions <a
-href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
 backports repo, if you have not already done so.
 Then run:
 </p>
@@ -2396,7 +2396,7 @@ documentation</a>.</p>
 
 <p>
 First you'll have to follow the instructions <a
-href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
 backports repo, if you have not already done so.
 Then run:
 </p>
@@ -2484,7 +2484,7 @@ documentation</a>.</p>
 
 <p>
 First you'll have to follow the instructions <a
-href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
 backports repo, if you have not already done so.
 Then run:
 </p>
@@ -2583,7 +2583,7 @@ documentation</a>.</p>
 
 <p>
 First you'll have to follow the instructions <a
-href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
 backports repo, if you have not already done so.
 Then run:
 </p>
@@ -2693,7 +2693,7 @@ Or you might be interested in using the experimental <a href="https://code.green
 
 <p>
 First you'll have to follow the instructions <a
-href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
 backports repo, if you have not already done so.
 Then run:
 </p>
@@ -2855,7 +2855,7 @@ For Plesk you won't even need to install Certbot. Instead, use the extension alr
 
 <p>
 First you'll have to follow the instructions <a
-href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
 backports repo, if you have not already done so.
 Then run:
 </p>
@@ -2943,7 +2943,7 @@ documentation</a>.</p>
 
 <p>
 First you'll have to follow the instructions <a
-href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Jessie
 backports repo, if you have not already done so.
 Then run:
 </p>
@@ -3040,9 +3040,15 @@ documentation</a>.</p>
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install python-certbot-apache 
+$ sudo apt-get install python-certbot-apache -t stretch-backports
 </pre>
 
     </p>
@@ -3095,9 +3101,15 @@ documentation</a>.</p>
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install python-certbot-apache 
+$ sudo apt-get install python-certbot-apache -t stretch-backports
 </pre>
 
     </p>
@@ -3177,9 +3189,15 @@ documentation</a>.</p>
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install certbot 
+$ sudo apt-get install python-certbot-nginx -t stretch-backports
 </pre>
 
     </p>
@@ -3188,47 +3206,20 @@ $ sudo apt-get install certbot
     </h3>
     <p>
       <p>
-Certbot supports a number of different “plugins” that can be used to obtain and/or install certificates.
+Certbot has an Nginx plugin, which is supported on
+many platforms, and automates both obtaining and installing certs:
 </p>
+<pre>$ sudo certbot --nginx</pre>
 <p>
-Since your server architecture doesn't yet  support automatic
-installation you&#39;ll have to use the <tt>certonly</tt> command to obtain your
-certificate.
-</p>
-<pre>$ sudo certbot certonly</pre>
-<p>
-This will allow you interactively select the plugin and options used to obtain
-your certificate. If you already have a webserver running, we recommend
-choosing the <a href="/docs/using.html#webroot">"webroot" plugin</a>.
-<p>
-Alternatively, you can specify more information on the command line.
-</p>
-<p>
-To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</a>,
-which can work with the webroot directory of any webserver software:
-</p>
-<pre>
-$ sudo certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
-</pre>
-<p>
-This command will obtain a single cert for <tt>example.com</tt>,
-<tt>www.example.com</tt>, <tt>thing.is</tt>, and <tt>m.thing.is</tt>; it will
-place files below <tt>/var/www/example</tt> to prove control of the first two
-domains, and under <tt>/var/www/thing</tt> for the second pair.
-</p>
-<aside class="note">
-        <h4>Note:</h4>
-            <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If /.well-known is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside /.well-known/acme-challenge are served by the webserver.</p>
-</aside>
-<p>
-To obtain a cert using a built-in “standalone” webserver (you may need to
-temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
-<tt>www.example.com</tt>:
-</p>
-<pre>
-$ sudo certbot certonly --standalone -d example.com -d www.example.com
-</pre>
+Running this command will get a certificate for you and have Certbot edit your Nginx configuration
+automatically to serve it. If you're feeling more conservative and would like to make the changes to your
+Nginx configuration by hand, you can use the <tt>certonly</tt>
+subcommand:
+<pre>$ sudo certbot --nginx certonly</pre>
 
+
+To learn more about how to use Certbot <a href="/docs">read our documentation</a>.
+</p>
 <h3>Automating renewal</h3>
 
 <p>
@@ -3259,9 +3250,15 @@ documentation</a>.</p>
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install certbot 
+$ sudo apt-get install python-certbot-nginx -t stretch-backports
 </pre>
 
     </p>
@@ -3270,47 +3267,36 @@ $ sudo apt-get install certbot
     </h3>
     <p>
       <p>
-Certbot supports a number of different “plugins” that can be used to obtain and/or install certificates.
+Certbot has an Nginx plugin, which is supported on
+many platforms, and automates both obtaining and installing certs:
 </p>
+<pre>$ sudo certbot --nginx</pre>
 <p>
-Since your server architecture doesn't yet  support automatic
-installation you&#39;ll have to use the <tt>certonly</tt> command to obtain your
-certificate.
-</p>
-<pre>$ sudo certbot certonly</pre>
-<p>
-This will allow you interactively select the plugin and options used to obtain
-your certificate. If you already have a webserver running, we recommend
-choosing the <a href="/docs/using.html#webroot">"webroot" plugin</a>.
-<p>
-Alternatively, you can specify more information on the command line.
-</p>
-<p>
-To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</a>,
-which can work with the webroot directory of any webserver software:
-</p>
-<pre>
-$ sudo certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
-</pre>
-<p>
-This command will obtain a single cert for <tt>example.com</tt>,
-<tt>www.example.com</tt>, <tt>thing.is</tt>, and <tt>m.thing.is</tt>; it will
-place files below <tt>/var/www/example</tt> to prove control of the first two
-domains, and under <tt>/var/www/thing</tt> for the second pair.
-</p>
-<aside class="note">
-        <h4>Note:</h4>
-            <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If /.well-known is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside /.well-known/acme-challenge are served by the webserver.</p>
-</aside>
-<p>
-To obtain a cert using a built-in “standalone” webserver (you may need to
-temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
-<tt>www.example.com</tt>:
-</p>
-<pre>
-$ sudo certbot certonly --standalone -d example.com -d www.example.com
-</pre>
+Running this command will get a certificate for you and have Certbot edit your Nginx configuration
+automatically to serve it. If you're feeling more conservative and would like to make the changes to your
+Nginx configuration by hand, you can use the <tt>certonly</tt>
+subcommand:
+<pre>$ sudo certbot --nginx certonly</pre>
 
+    <aside class="note">
+        <h4>Note:</h4>
+        <p>the Nginx plugin with <tt>certonly</tt> does the following:<br>
+        <ol>
+          <li>make temporary config changes<br>
+          (adding a new server block to pass an <a href="https://tools.ietf.org/html/draft-ietf-acme-acme-02#section-7.3">ACME Challenge</a>)</li>
+          <li>performs a graceful reload</li>
+          <li>reverts all changes</li>
+          <li>performs another graceful reload</li>
+        </ol>
+        This appears to be a reliable process, but if you don't want Certbot
+        to touch your Nginx process or files in any way, you can use the
+        <a
+        href="https://certbot.eff.org/docs/using.html#webroot">webroot plugin</a>.
+
+        </p></aside>
+
+To learn more about how to use Certbot <a href="/docs">read our documentation</a>.
+</p>
 <h3>Automating renewal</h3>
 
 <p>
@@ -3352,9 +3338,15 @@ documentation</a>.</p>
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install certbot 
+$ sudo apt-get install certbot -t stretch-backports
 </pre>
 
     </p>
@@ -3456,9 +3448,15 @@ Or you might be interested in using the experimental <a href="https://code.green
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install certbot 
+$ sudo apt-get install certbot -t stretch-backports
 </pre>
 
     </p>
@@ -3612,9 +3610,15 @@ For Plesk you won't even need to install Certbot. Instead, use the extension alr
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install certbot 
+$ sudo apt-get install certbot -t stretch-backports
 </pre>
 
     </p>
@@ -3694,9 +3698,15 @@ documentation</a>.</p>
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install certbot 
+$ sudo apt-get install certbot -t stretch-backports
 </pre>
 
     </p>
@@ -3787,9 +3797,15 @@ documentation</a>.</p>
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install python-certbot-apache 
+$ sudo apt-get install python-certbot-apache -t stretch-backports
 </pre>
 
     </p>
@@ -3842,9 +3858,15 @@ documentation</a>.</p>
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install python-certbot-apache 
+$ sudo apt-get install python-certbot-apache -t stretch-backports
 </pre>
 
     </p>
@@ -3924,9 +3946,15 @@ documentation</a>.</p>
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install certbot 
+$ sudo apt-get install python-certbot-nginx -t stretch-backports
 </pre>
 
     </p>
@@ -3935,47 +3963,20 @@ $ sudo apt-get install certbot
     </h3>
     <p>
       <p>
-Certbot supports a number of different “plugins” that can be used to obtain and/or install certificates.
+Certbot has an Nginx plugin, which is supported on
+many platforms, and automates both obtaining and installing certs:
 </p>
+<pre>$ sudo certbot --nginx</pre>
 <p>
-Since your server architecture doesn't yet  support automatic
-installation you&#39;ll have to use the <tt>certonly</tt> command to obtain your
-certificate.
-</p>
-<pre>$ sudo certbot certonly</pre>
-<p>
-This will allow you interactively select the plugin and options used to obtain
-your certificate. If you already have a webserver running, we recommend
-choosing the <a href="/docs/using.html#webroot">"webroot" plugin</a>.
-<p>
-Alternatively, you can specify more information on the command line.
-</p>
-<p>
-To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</a>,
-which can work with the webroot directory of any webserver software:
-</p>
-<pre>
-$ sudo certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
-</pre>
-<p>
-This command will obtain a single cert for <tt>example.com</tt>,
-<tt>www.example.com</tt>, <tt>thing.is</tt>, and <tt>m.thing.is</tt>; it will
-place files below <tt>/var/www/example</tt> to prove control of the first two
-domains, and under <tt>/var/www/thing</tt> for the second pair.
-</p>
-<aside class="note">
-        <h4>Note:</h4>
-            <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If /.well-known is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside /.well-known/acme-challenge are served by the webserver.</p>
-</aside>
-<p>
-To obtain a cert using a built-in “standalone” webserver (you may need to
-temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
-<tt>www.example.com</tt>:
-</p>
-<pre>
-$ sudo certbot certonly --standalone -d example.com -d www.example.com
-</pre>
+Running this command will get a certificate for you and have Certbot edit your Nginx configuration
+automatically to serve it. If you're feeling more conservative and would like to make the changes to your
+Nginx configuration by hand, you can use the <tt>certonly</tt>
+subcommand:
+<pre>$ sudo certbot --nginx certonly</pre>
 
+
+To learn more about how to use Certbot <a href="/docs">read our documentation</a>.
+</p>
 <h3>Automating renewal</h3>
 
 <p>
@@ -4006,9 +4007,15 @@ documentation</a>.</p>
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install certbot 
+$ sudo apt-get install python-certbot-nginx -t stretch-backports
 </pre>
 
     </p>
@@ -4017,47 +4024,36 @@ $ sudo apt-get install certbot
     </h3>
     <p>
       <p>
-Certbot supports a number of different “plugins” that can be used to obtain and/or install certificates.
+Certbot has an Nginx plugin, which is supported on
+many platforms, and automates both obtaining and installing certs:
 </p>
+<pre>$ sudo certbot --nginx</pre>
 <p>
-Since your server architecture doesn't yet  support automatic
-installation you&#39;ll have to use the <tt>certonly</tt> command to obtain your
-certificate.
-</p>
-<pre>$ sudo certbot certonly</pre>
-<p>
-This will allow you interactively select the plugin and options used to obtain
-your certificate. If you already have a webserver running, we recommend
-choosing the <a href="/docs/using.html#webroot">"webroot" plugin</a>.
-<p>
-Alternatively, you can specify more information on the command line.
-</p>
-<p>
-To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</a>,
-which can work with the webroot directory of any webserver software:
-</p>
-<pre>
-$ sudo certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
-</pre>
-<p>
-This command will obtain a single cert for <tt>example.com</tt>,
-<tt>www.example.com</tt>, <tt>thing.is</tt>, and <tt>m.thing.is</tt>; it will
-place files below <tt>/var/www/example</tt> to prove control of the first two
-domains, and under <tt>/var/www/thing</tt> for the second pair.
-</p>
-<aside class="note">
-        <h4>Note:</h4>
-            <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If /.well-known is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside /.well-known/acme-challenge are served by the webserver.</p>
-</aside>
-<p>
-To obtain a cert using a built-in “standalone” webserver (you may need to
-temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
-<tt>www.example.com</tt>:
-</p>
-<pre>
-$ sudo certbot certonly --standalone -d example.com -d www.example.com
-</pre>
+Running this command will get a certificate for you and have Certbot edit your Nginx configuration
+automatically to serve it. If you're feeling more conservative and would like to make the changes to your
+Nginx configuration by hand, you can use the <tt>certonly</tt>
+subcommand:
+<pre>$ sudo certbot --nginx certonly</pre>
 
+    <aside class="note">
+        <h4>Note:</h4>
+        <p>the Nginx plugin with <tt>certonly</tt> does the following:<br>
+        <ol>
+          <li>make temporary config changes<br>
+          (adding a new server block to pass an <a href="https://tools.ietf.org/html/draft-ietf-acme-acme-02#section-7.3">ACME Challenge</a>)</li>
+          <li>performs a graceful reload</li>
+          <li>reverts all changes</li>
+          <li>performs another graceful reload</li>
+        </ol>
+        This appears to be a reliable process, but if you don't want Certbot
+        to touch your Nginx process or files in any way, you can use the
+        <a
+        href="https://certbot.eff.org/docs/using.html#webroot">webroot plugin</a>.
+
+        </p></aside>
+
+To learn more about how to use Certbot <a href="/docs">read our documentation</a>.
+</p>
 <h3>Automating renewal</h3>
 
 <p>
@@ -4099,9 +4095,15 @@ documentation</a>.</p>
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install certbot 
+$ sudo apt-get install certbot -t stretch-backports
 </pre>
 
     </p>
@@ -4203,9 +4205,15 @@ Or you might be interested in using the experimental <a href="https://code.green
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install certbot 
+$ sudo apt-get install certbot -t stretch-backports
 </pre>
 
     </p>
@@ -4359,9 +4367,15 @@ For Plesk you won't even need to install Certbot. Instead, use the extension alr
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install certbot 
+$ sudo apt-get install certbot -t stretch-backports
 </pre>
 
     </p>
@@ -4441,9 +4455,15 @@ documentation</a>.</p>
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
+<p>
+First you'll have to follow the instructions <a
+    href='http://backports.debian.org/Instructions/'>here</a> to enable the Stretch
+backports repo, if you have not already done so.
+Then run:
+</p>
 
 <pre>
-$ sudo apt-get install certbot 
+$ sudo apt-get install certbot -t stretch-backports
 </pre>
 
     </p>
@@ -19910,47 +19930,20 @@ $ sudo apt-get install certbot
     </h3>
     <p>
       <p>
-Certbot supports a number of different “plugins” that can be used to obtain and/or install certificates.
+Certbot has an Nginx plugin, which is supported on
+many platforms, and automates both obtaining and installing certs:
 </p>
+<pre>$ sudo certbot --nginx</pre>
 <p>
-Since your server architecture doesn't yet  support automatic
-installation you&#39;ll have to use the <tt>certonly</tt> command to obtain your
-certificate.
-</p>
-<pre>$ sudo certbot certonly</pre>
-<p>
-This will allow you interactively select the plugin and options used to obtain
-your certificate. If you already have a webserver running, we recommend
-choosing the <a href="/docs/using.html#webroot">"webroot" plugin</a>.
-<p>
-Alternatively, you can specify more information on the command line.
-</p>
-<p>
-To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</a>,
-which can work with the webroot directory of any webserver software:
-</p>
-<pre>
-$ sudo certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
-</pre>
-<p>
-This command will obtain a single cert for <tt>example.com</tt>,
-<tt>www.example.com</tt>, <tt>thing.is</tt>, and <tt>m.thing.is</tt>; it will
-place files below <tt>/var/www/example</tt> to prove control of the first two
-domains, and under <tt>/var/www/thing</tt> for the second pair.
-</p>
-<aside class="note">
-        <h4>Note:</h4>
-            <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If /.well-known is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside /.well-known/acme-challenge are served by the webserver.</p>
-</aside>
-<p>
-To obtain a cert using a built-in “standalone” webserver (you may need to
-temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
-<tt>www.example.com</tt>:
-</p>
-<pre>
-$ sudo certbot certonly --standalone -d example.com -d www.example.com
-</pre>
+Running this command will get a certificate for you and have Certbot edit your Nginx configuration
+automatically to serve it. If you're feeling more conservative and would like to make the changes to your
+Nginx configuration by hand, you can use the <tt>certonly</tt>
+subcommand:
+<pre>$ sudo certbot --nginx certonly</pre>
 
+
+To learn more about how to use Certbot <a href="/docs">read our documentation</a>.
+</p>
 <h3>Automating renewal</h3>
 
 <p>
@@ -19992,47 +19985,36 @@ $ sudo apt-get install certbot
     </h3>
     <p>
       <p>
-Certbot supports a number of different “plugins” that can be used to obtain and/or install certificates.
+Certbot has an Nginx plugin, which is supported on
+many platforms, and automates both obtaining and installing certs:
 </p>
+<pre>$ sudo certbot --nginx</pre>
 <p>
-Since your server architecture doesn't yet  support automatic
-installation you&#39;ll have to use the <tt>certonly</tt> command to obtain your
-certificate.
-</p>
-<pre>$ sudo certbot certonly</pre>
-<p>
-This will allow you interactively select the plugin and options used to obtain
-your certificate. If you already have a webserver running, we recommend
-choosing the <a href="/docs/using.html#webroot">"webroot" plugin</a>.
-<p>
-Alternatively, you can specify more information on the command line.
-</p>
-<p>
-To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</a>,
-which can work with the webroot directory of any webserver software:
-</p>
-<pre>
-$ sudo certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
-</pre>
-<p>
-This command will obtain a single cert for <tt>example.com</tt>,
-<tt>www.example.com</tt>, <tt>thing.is</tt>, and <tt>m.thing.is</tt>; it will
-place files below <tt>/var/www/example</tt> to prove control of the first two
-domains, and under <tt>/var/www/thing</tt> for the second pair.
-</p>
-<aside class="note">
-        <h4>Note:</h4>
-            <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If /.well-known is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside /.well-known/acme-challenge are served by the webserver.</p>
-</aside>
-<p>
-To obtain a cert using a built-in “standalone” webserver (you may need to
-temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
-<tt>www.example.com</tt>:
-</p>
-<pre>
-$ sudo certbot certonly --standalone -d example.com -d www.example.com
-</pre>
+Running this command will get a certificate for you and have Certbot edit your Nginx configuration
+automatically to serve it. If you're feeling more conservative and would like to make the changes to your
+Nginx configuration by hand, you can use the <tt>certonly</tt>
+subcommand:
+<pre>$ sudo certbot --nginx certonly</pre>
 
+    <aside class="note">
+        <h4>Note:</h4>
+        <p>the Nginx plugin with <tt>certonly</tt> does the following:<br>
+        <ol>
+          <li>make temporary config changes<br>
+          (adding a new server block to pass an <a href="https://tools.ietf.org/html/draft-ietf-acme-acme-02#section-7.3">ACME Challenge</a>)</li>
+          <li>performs a graceful reload</li>
+          <li>reverts all changes</li>
+          <li>performs another graceful reload</li>
+        </ol>
+        This appears to be a reliable process, but if you don't want Certbot
+        to touch your Nginx process or files in any way, you can use the
+        <a
+        href="https://certbot.eff.org/docs/using.html#webroot">webroot plugin</a>.
+
+        </p></aside>
+
+To learn more about how to use Certbot <a href="/docs">read our documentation</a>.
+</p>
 <h3>Automating renewal</h3>
 
 <p>
