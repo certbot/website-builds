@@ -55,6 +55,16 @@
   </ul>
 </div>
 
+    <div>
+  <aside class="warning" id="sni-warning">
+    <p>
+        If you are have trouble obtaining certificates using the Apache or
+        Nginx plugins, click <a
+        href="https://github.com/certbot/certbot/issues/5405#issuecomment-356498627">here</a>
+        to learn more about the problem and what you can do to work around it.
+  </aside>
+</div>
+
     <header class="hero subhero">
 
   <a href="/"><img src="/images/certbot-logo-1A.svg" alt="Certbot"></a>
@@ -1394,14 +1404,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -1412,6 +1418,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -1495,14 +1510,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -1513,6 +1524,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -1577,14 +1597,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -1595,6 +1611,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -1678,14 +1703,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -1696,6 +1717,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -1787,14 +1817,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -1805,6 +1831,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -1921,14 +1956,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -1939,6 +1970,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -2093,14 +2133,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -2111,6 +2147,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -2205,14 +2250,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -2223,6 +2264,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -4532,14 +4582,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -4550,6 +4596,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -4633,14 +4688,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -4651,6 +4702,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -4715,14 +4775,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -4733,6 +4789,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -4816,14 +4881,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -4834,6 +4895,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -4925,14 +4995,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -4943,6 +5009,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -5059,14 +5134,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -5077,6 +5148,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -5231,14 +5311,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -5249,6 +5325,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -5343,14 +5428,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -5361,6 +5442,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -8357,14 +8447,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -8375,6 +8461,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -8458,14 +8553,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -8476,6 +8567,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -8540,14 +8640,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -8558,6 +8654,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -8641,14 +8746,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -8659,6 +8760,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -8750,14 +8860,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -8768,6 +8874,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -8884,14 +8999,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -8902,6 +9013,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -9056,14 +9176,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -9074,6 +9190,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -9168,14 +9293,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -9186,6 +9307,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -9247,14 +9377,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -9265,6 +9391,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -9331,14 +9466,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -9349,6 +9480,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -9410,14 +9550,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -9428,6 +9564,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -9494,14 +9639,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -9512,6 +9653,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -9600,14 +9750,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -9618,6 +9764,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -9717,14 +9872,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -9735,6 +9886,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -9886,14 +10046,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -9904,6 +10060,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -9981,14 +10146,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -9999,6 +10160,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -10069,14 +10239,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -10087,6 +10253,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -10170,14 +10345,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -10188,6 +10359,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -10258,14 +10438,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -10276,6 +10452,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -10351,14 +10536,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -10369,6 +10550,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -10466,14 +10656,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -10484,6 +10670,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -10592,14 +10787,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -10610,6 +10801,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -10770,14 +10970,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -10788,6 +10984,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -10874,14 +11079,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -10892,6 +11093,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -10953,14 +11163,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -10971,6 +11177,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -11037,14 +11252,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -11055,6 +11266,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -11116,14 +11336,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -11134,6 +11350,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -11200,14 +11425,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -11218,6 +11439,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -11306,14 +11536,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -11324,6 +11550,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -11423,14 +11658,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -11441,6 +11672,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -11592,14 +11832,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -11610,6 +11846,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -11687,14 +11932,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -11705,6 +11946,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -11769,14 +12019,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -11787,6 +12033,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -11870,14 +12125,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -11888,6 +12139,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -11952,14 +12212,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -11970,6 +12226,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -12053,14 +12318,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -12071,6 +12332,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -12162,14 +12432,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -12180,6 +12446,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -12296,14 +12571,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -12314,6 +12585,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -12468,14 +12748,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -12486,6 +12762,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -12580,14 +12865,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -12598,6 +12879,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -12668,14 +12958,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -12686,6 +12972,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -12775,14 +13070,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -12793,6 +13084,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -12863,14 +13163,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -12881,6 +13177,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -12970,14 +13275,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -12988,6 +13289,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -13085,14 +13395,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -13103,6 +13409,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -13225,14 +13540,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -13243,6 +13554,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -13403,14 +13723,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -13421,6 +13737,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -13521,14 +13846,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -13539,6 +13860,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -13616,14 +13946,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -13634,6 +13960,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -13716,14 +14051,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -13734,6 +14065,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -13811,14 +14151,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -13829,6 +14165,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -13911,14 +14256,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -13929,6 +14270,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -14033,14 +14383,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -14051,6 +14397,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -14166,14 +14521,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -14184,6 +14535,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -14351,14 +14711,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -14369,6 +14725,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -14462,14 +14827,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -14480,6 +14841,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -14572,14 +14942,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -14590,6 +14956,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -14671,14 +15046,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -14689,6 +15060,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -14781,14 +15161,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -14799,6 +15175,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -14880,14 +15265,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -14898,6 +15279,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -14990,14 +15380,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -15008,6 +15394,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -15111,14 +15506,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -15129,6 +15520,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -15284,14 +15684,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -15302,6 +15698,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -15383,14 +15788,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -15401,6 +15802,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -15489,14 +15899,10 @@ $ sudo letsencrypt renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>letsencrypt renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -15507,6 +15913,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && letsencrypt renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -15584,14 +15999,10 @@ $ sudo letsencrypt renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>letsencrypt renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -15602,6 +16013,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && letsencrypt renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -15690,14 +16110,10 @@ $ sudo letsencrypt renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>letsencrypt renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -15708,6 +16124,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && letsencrypt renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -15785,14 +16210,10 @@ $ sudo letsencrypt renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>letsencrypt renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -15803,6 +16224,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && letsencrypt renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -15891,14 +16321,10 @@ $ sudo letsencrypt renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>letsencrypt renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -15909,6 +16335,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && letsencrypt renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -16008,14 +16443,10 @@ $ sudo letsencrypt renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>letsencrypt renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -16026,6 +16457,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && letsencrypt renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -16177,14 +16617,10 @@ $ sudo letsencrypt renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>letsencrypt renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -16195,6 +16631,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && letsencrypt renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -16272,14 +16717,10 @@ $ sudo letsencrypt renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>letsencrypt renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -16290,6 +16731,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && letsencrypt renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -16378,14 +16828,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -16396,6 +16842,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -16473,14 +16928,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -16491,6 +16942,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -16579,14 +17039,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -16597,6 +17053,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -16674,14 +17139,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -16692,6 +17153,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -16780,14 +17250,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -16798,6 +17264,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -16897,14 +17372,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -16915,6 +17386,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -17066,14 +17546,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -17084,6 +17560,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -17161,14 +17646,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -17179,6 +17660,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -17243,14 +17733,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -17261,6 +17747,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -17344,14 +17839,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -17362,6 +17853,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -17426,14 +17926,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -17444,6 +17940,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -17527,14 +18032,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -17545,6 +18046,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -17636,14 +18146,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -17654,6 +18160,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -17770,14 +18285,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -17788,6 +18299,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -17942,14 +18462,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -17960,6 +18476,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -18054,14 +18579,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -18072,6 +18593,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -18135,14 +18665,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -18153,6 +18679,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -18221,14 +18756,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -18239,6 +18770,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -18302,14 +18842,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -18320,6 +18856,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -18388,14 +18933,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -18406,6 +18947,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -18496,14 +19046,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -18514,6 +19060,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -18615,14 +19170,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -18633,6 +19184,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -18786,14 +19346,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -18804,6 +19360,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -18883,14 +19448,10 @@ $ sudo certbot renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>certbot renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -18901,6 +19462,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -20469,14 +21039,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -20487,6 +21053,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -20570,14 +21145,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -20588,6 +21159,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -20652,14 +21232,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -20670,6 +21246,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -20753,14 +21338,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -20771,6 +21352,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
@@ -20862,14 +21452,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -20880,6 +21466,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -20996,14 +21591,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -21014,6 +21605,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
 
 
@@ -21168,14 +21768,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -21186,6 +21782,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <h3>
@@ -21280,14 +21885,10 @@ $ sudo ./path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt>cron</tt> or <tt>systemd</tt> job which runs the
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br>
 
 <pre>./path/to/certbot-auto renew</pre>
-
-<p>More detailed information and options about renewal can be found in <a
-href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -21298,6 +21899,15 @@ give your site a chance of staying online in case a Let's Encrypt-initiated
 revocation happened for some reason). Please select a random minute within the
 hour for your renewal tasks.</p>
 </aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' && ./path/to/certbot-auto renew </pre>
+
+<p>More detailed information and options about renewal can be found in <a
+href="https://certbot.eff.org/docs/using.html#renewal">the full
+documentation</a>.</p>
+
 
     </p>
     <a href="#top">Back to top</a>
