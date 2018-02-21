@@ -142,6 +142,9 @@ code {
   .icon > svg path {
     fill: #838383; }
 
+.js-only {
+  visibility: hidden; }
+
 /**
  * Site header
  */
@@ -703,7 +706,6 @@ header.hero {
   position: relative;
   display: block;
   width: 100%;
-  height: 100vh;
   min-height: 320px;
   overflow: hidden;
   display: block;
@@ -892,36 +894,46 @@ footer.footer ul {
     display: inline-block;
     max-width: 120px; }
 
+input,
 select {
   background: transparent;
-  width: 200px;
   border: 2px solid #ec1c23;
   height: 34px;
-  text-align: left;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
   padding-left: 1em;
   padding-right: 1em;
   border-radius: 20px;
-  display: block;
   margin-top: 1.5em;
-  background: url(../images/chevron-down.png) 94%/15% no-repeat transparent;
-  background-size: 12px; }
+  display: block; }
   @media (min-width: 48em) {
+    input,
     select {
+      display: inline-block;
       margin: 0 1em; } }
+  input:focus,
   select:focus {
     outline: none;
     box-shadow: 0 0 0 1px red; }
-  select option {
-    text-align: left; }
+  input:hover,
   select:hover {
     cursor: pointer; }
-  @media (min-width: 48em) {
-    select {
-      display: inline-block;
-      margin-top: 0; } }
+
+input[type=submit] {
+  background-color: #ec1c23;
+  color: white;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto; }
+
+select {
+  width: 200px;
+  text-align: left;
+  background: url(../images/chevron-down.png) 94%/15% no-repeat transparent;
+  background-size: 12px; }
+  select option {
+    text-align: left; }
 
 #using, #on {
   display: none; }
@@ -1009,16 +1021,16 @@ h1.instruct {
       margin-top: 12px;
       z-index: 5;
       border-bottom: 5px solid #fff; }
-  .instructions.content .permalink {
+  .instructions.content #instructions-header {
     clear: both;
     margin-bottom: 1.2em;
     overflow: hidden; }
-    .instructions.content .permalink a {
+    .instructions.content #instructions-header a {
       color: #838383;
       font-family: 'Roboto Slab';
       font-size: 1.4em;
       outline: none; }
-    .instructions.content .permalink a[name] {
+    .instructions.content #instructions-header a[name] {
       padding-top: 75px;
       margin-top: -75px;
       display: inline-block; }
