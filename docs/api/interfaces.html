@@ -226,7 +226,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <dl class="class">
 <dt id="certbot.interfaces.AccountStorage">
 <em class="property">class </em><code class="descclassname">certbot.interfaces.</code><code class="descname">AccountStorage</code><a class="reference internal" href="../_modules/certbot/interfaces.html#AccountStorage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.interfaces.AccountStorage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Accounts storage interface.</p>
 <dl class="method">
 <dt id="certbot.interfaces.AccountStorage.find_all">
@@ -238,7 +238,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">All found accounts.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)">list</a></td>
 </tr>
 </tbody>
 </table>
@@ -325,7 +325,7 @@ extras. This is necessary, because CLI does the following operations
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>config</strong> (<a class="reference internal" href="#certbot.interfaces.IConfig" title="certbot.interfaces.IConfig"><em>IConfig</em></a>) &#8211; Configuration.</li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Unique plugin name.</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Unique plugin name.</li>
 </ul>
 </td>
 </tr>
@@ -347,7 +347,7 @@ allowed, as this would break the CLI.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>parser</strong> (<em>ArgumentParser</em>) &#8211; (Almost) top-level CLI parser.</li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Unique plugin name.</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Unique plugin name.</li>
 </ul>
 </td>
 </tr>
@@ -413,19 +413,19 @@ ability to perform challenges and attain a certificate.</p>
 <dl class="method">
 <dt id="certbot.interfaces.IAuthenticator.get_chall_pref">
 <code class="descname">get_chall_pref</code><span class="sig-paren">(</span><em>domain</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IAuthenticator.get_chall_pref" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <a class="reference external" href="https://docs.python.org/2/library/collections.html#collections.Iterable" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">collections.Iterable</span></code></a> of challenge preferences.</p>
+<dd><p>Return <code class="xref py py-obj docutils literal"><span class="pre">collections.Iterable</span></code> of challenge preferences.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>domain</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Domain for which challenge preferences are sought.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>domain</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Domain for which challenge preferences are sought.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/collections.html#collections.Iterable" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">collections.Iterable</span></code></a> of challenge types (subclasses of
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="xref py py-obj docutils literal"><span class="pre">collections.Iterable</span></code> of challenge types (subclasses of
 <a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.Challenge" title="(in acme-python v0)"><code class="xref py py-class docutils literal"><span class="pre">acme.challenges.Challenge</span></code></a>) with the most
 preferred challenges first. If a type is not specified, it means the
 Authenticator cannot perform the challenge.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/collections.html#collections.Iterable" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">collections.Iterable</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-obj docutils literal"><span class="pre">collections.Iterable</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -439,12 +439,12 @@ Authenticator cannot perform the challenge.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>achalls</strong> (<em>list</em>) &#8211; Non-empty (guaranteed) list of
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>achalls</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) &#8211; Non-empty (guaranteed) list of
 <a class="reference internal" href="achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><code class="xref py py-class docutils literal"><span class="pre">AnnotatedChallenge</span></code></a>
 instances, such that it contains types found within
 <a class="reference internal" href="#certbot.interfaces.IAuthenticator.get_chall_pref" title="certbot.interfaces.IAuthenticator.get_chall_pref"><code class="xref py py-func docutils literal"><span class="pre">get_chall_pref()</span></code></a> only.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/collections.html#collections.Iterable" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">collections.Iterable</span></code></a> of ACME
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="xref py py-obj docutils literal"><span class="pre">collections.Iterable</span></code> of ACME
 <a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.ChallengeResponse" title="(in acme-python v0)"><code class="xref py py-class docutils literal"><span class="pre">ChallengeResponse</span></code></a> instances
 or if the <a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.Challenge" title="(in acme-python v0)"><code class="xref py py-class docutils literal"><span class="pre">Challenge</span></code></a> cannot
 be fulfilled then:<dl class="docutils">
@@ -455,7 +455,7 @@ be fulfilled then:<dl class="docutils">
 </dl>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/collections.html#collections.Iterable" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">collections.Iterable</span></code></a> of
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">collections.Iterable</span></code> of
 <a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.ChallengeResponse" title="(in acme-python v0)"><code class="xref py py-class docutils literal"><span class="pre">acme.challenges.ChallengeResponse</span></code></a>,
 where responses are required to be returned in
 the same order as corresponding input challenges</td>
@@ -476,7 +476,7 @@ perform, even if perform exited abnormally.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>achalls</strong> (<em>list</em>) &#8211; Non-empty (guaranteed) list of
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>achalls</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) &#8211; Non-empty (guaranteed) list of
 <a class="reference internal" href="achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><code class="xref py py-class docutils literal"><span class="pre">AnnotatedChallenge</span></code></a>
 instances, a subset of those previously passed to <a class="reference internal" href="#certbot.interfaces.IAuthenticator.perform" title="certbot.interfaces.IAuthenticator.perform"><code class="xref py py-func docutils literal"><span class="pre">perform()</span></code></a>.</td>
 </tr>
@@ -639,7 +639,7 @@ rollback, and recovery can dramatically simplify plugin development.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/collections.html#collections.Iterable" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">collections.Iterable</span></code></a> of <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-obj docutils literal"><span class="pre">collections.Iterable</span></code> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -654,11 +654,11 @@ rollback, and recovery can dramatically simplify plugin development.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>domain</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; domain to deploy certificate file</li>
-<li><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; absolute path to the certificate file</li>
-<li><strong>key_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; absolute path to the private key file</li>
-<li><strong>chain_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; absolute path to the certificate chain file</li>
-<li><strong>fullchain_path</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; absolute path to the certificate fullchain
+<li><strong>domain</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; domain to deploy certificate file</li>
+<li><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; absolute path to the certificate file</li>
+<li><strong>key_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; absolute path to the private key file</li>
+<li><strong>chain_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; absolute path to the certificate chain file</li>
+<li><strong>fullchain_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; absolute path to the certificate fullchain
 file (cert plus chain)</li>
 </ul>
 </td>
@@ -679,8 +679,8 @@ file (cert plus chain)</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>domain</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; domain for which to provide enhancement</li>
-<li><strong>enhancement</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; An enhancement as defined in
+<li><strong>domain</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; domain for which to provide enhancement</li>
+<li><strong>enhancement</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; An enhancement as defined in
 <a class="reference internal" href="constants.html#certbot.constants.ENHANCEMENTS" title="certbot.constants.ENHANCEMENTS"><code class="xref py py-const docutils literal"><span class="pre">ENHANCEMENTS</span></code></a></li>
 <li><strong>options</strong> &#8211; Flexible options parameter for enhancement.
 Check documentation of
@@ -700,7 +700,7 @@ an error occurs during the enhancement.</p>
 <dl class="method">
 <dt id="certbot.interfaces.IInstaller.supported_enhancements">
 <code class="descname">supported_enhancements</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IInstaller.supported_enhancements" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a <a class="reference external" href="https://docs.python.org/2/library/collections.html#collections.Iterable" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">collections.Iterable</span></code></a> of supported enhancements.</p>
+<dd><p>Returns a <code class="xref py py-obj docutils literal"><span class="pre">collections.Iterable</span></code> of supported enhancements.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -708,7 +708,7 @@ an error occurs during the enhancement.</p>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">supported enhancements which should be a subset of
 <a class="reference internal" href="constants.html#certbot.constants.ENHANCEMENTS" title="certbot.constants.ENHANCEMENTS"><code class="xref py py-const docutils literal"><span class="pre">ENHANCEMENTS</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/collections.html#collections.Iterable" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">collections.Iterable</span></code></a> of <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">collections.Iterable</span></code> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -729,10 +729,10 @@ new checkpoint was not finalized.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>title</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The title of the save. If a title is given, the
+<li><strong>title</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; The title of the save. If a title is given, the
 configuration will be saved as a new checkpoint and put in a
 timestamped directory. <code class="xref py py-obj docutils literal"><span class="pre">title</span></code> has no effect if temporary is true.</li>
-<li><strong>temporary</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Indicates whether the changes made will
+<li><strong>temporary</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Indicates whether the changes made will
 be quickly reversed in the future (challenges)</li>
 </ul>
 </td>
@@ -832,11 +832,11 @@ execution interruptions.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Message to display</li>
-<li><strong>pause</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Whether or not the application should pause for
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Message to display</li>
+<li><strong>pause</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Whether or not the application should pause for
 confirmation (if available)</li>
-<li><strong>wrap</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Whether or not the application should wrap text</li>
-<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; True if it&#8217;s safe to prompt the user
+<li><strong>wrap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Whether or not the application should wrap text</li>
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; True if it&#8217;s safe to prompt the user
 because it won&#8217;t cause any workflow regressions</li>
 </ul>
 </td>
@@ -856,20 +856,20 @@ default value.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; message to display</li>
-<li><strong>choices</strong> (<code class="xref py py-class docutils literal"><span class="pre">list</span></code> of <a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><code class="xref py py-func docutils literal"><span class="pre">tuple()</span></code></a> or <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a>) &#8211; choices</li>
-<li><strong>ok_label</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; label for OK button (UNUSED)</li>
-<li><strong>cancel_label</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; label for Cancel button (UNUSED)</li>
-<li><strong>help_label</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; label for Help button (UNUSED)</li>
-<li><strong>default</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; default (non-interactive) choice from the menu</li>
-<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; to automate choice from the menu, eg &#8220;&#8211;keep&#8221;</li>
-<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; True if it&#8217;s safe to prompt the user
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; message to display</li>
+<li><strong>choices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">list</span></code></a> of <code class="xref py py-func docutils literal"><span class="pre">tuple()</span></code> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a>) &#8211; choices</li>
+<li><strong>ok_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; label for OK button (UNUSED)</li>
+<li><strong>cancel_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; label for Cancel button (UNUSED)</li>
+<li><strong>help_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; label for Help button (UNUSED)</li>
+<li><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; default (non-interactive) choice from the menu</li>
+<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; to automate choice from the menu, eg &#8220;&#8211;keep&#8221;</li>
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; True if it&#8217;s safe to prompt the user
 because it won&#8217;t cause any workflow regressions</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of (<a class="reference external" href="https://docs.python.org/2/library/code.html#module-code" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a>, <code class="xref py py-obj docutils literal"><span class="pre">index</span></code>) where
-<a class="reference external" href="https://docs.python.org/2/library/code.html#module-code" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a> - str display exit code
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a>, <code class="xref py py-obj docutils literal"><span class="pre">index</span></code>) where
+<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a> - str display exit code
 <code class="xref py py-obj docutils literal"><span class="pre">index</span></code> - int index of the user&#8217;s selection</p>
 </td>
 </tr>
@@ -892,19 +892,19 @@ default value.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; message to display to the user</li>
-<li><strong>default</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; default (non-interactive) response to prompt</li>
-<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; True if it&#8217;s safe to prompt the user
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; message to display to the user</li>
+<li><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; default (non-interactive) response to prompt</li>
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; True if it&#8217;s safe to prompt the user
 because it won&#8217;t cause any workflow regressions</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of (<a class="reference external" href="https://docs.python.org/2/library/code.html#module-code" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a>, <a class="reference internal" href="#certbot.interfaces.IDisplay.input" title="certbot.interfaces.IDisplay.input"><code class="xref py py-obj docutils literal"><span class="pre">input</span></code></a>) where
-<a class="reference external" href="https://docs.python.org/2/library/code.html#module-code" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a> - str display exit code
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a>, <a class="reference internal" href="#certbot.interfaces.IDisplay.input" title="certbot.interfaces.IDisplay.input"><code class="xref py py-obj docutils literal"><span class="pre">input</span></code></a>) where
+<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a> - str display exit code
 <a class="reference internal" href="#certbot.interfaces.IDisplay.input" title="certbot.interfaces.IDisplay.input"><code class="xref py py-obj docutils literal"><span class="pre">input</span></code></a> - str of the user&#8217;s input</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="errors.html#certbot.errors.MissingCommandlineFlag" title="certbot.errors.MissingCommandlineFlag"><strong>errors.MissingCommandlineFlag</strong></a> &#8211; if called in non-interactive
@@ -927,10 +927,10 @@ default value.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; question for the user</li>
-<li><strong>default</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; default (non-interactive) choice from the menu</li>
-<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; to automate choice from the menu, eg &#8220;&#8211;redirect / &#8211;no-redirect&#8221;</li>
-<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; True if it&#8217;s safe to prompt the user
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; question for the user</li>
+<li><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; default (non-interactive) choice from the menu</li>
+<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; to automate choice from the menu, eg &#8220;&#8211;redirect / &#8211;no-redirect&#8221;</li>
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; True if it&#8217;s safe to prompt the user
 because it won&#8217;t cause any workflow regressions</li>
 </ul>
 </td>
@@ -938,7 +938,7 @@ because it won&#8217;t cause any workflow regressions</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True for &#8220;Yes&#8221;, False for &#8220;No&#8221;</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="errors.html#certbot.errors.MissingCommandlineFlag" title="certbot.errors.MissingCommandlineFlag"><strong>errors.MissingCommandlineFlag</strong></a> &#8211; if called in non-interactive
@@ -960,21 +960,21 @@ default value.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; message to display to the user</li>
-<li><strong>tags</strong> (<em>list</em>) &#8211; where each is of type <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a> len(tags) &gt; 0</li>
-<li><strong>default</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; default (non-interactive) state of the checklist</li>
-<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; to automate choice from the menu, eg &#8220;&#8211;domains&#8221;</li>
-<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; True if it&#8217;s safe to prompt the user
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; message to display to the user</li>
+<li><strong>tags</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><em>list</em></a>) &#8211; where each is of type <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a> len(tags) &gt; 0</li>
+<li><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; default (non-interactive) state of the checklist</li>
+<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; to automate choice from the menu, eg &#8220;&#8211;domains&#8221;</li>
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; True if it&#8217;s safe to prompt the user
 because it won&#8217;t cause any workflow regressions</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of the form (code, list_tags) where
-<a class="reference external" href="https://docs.python.org/2/library/code.html#module-code" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a> - int display exit code
+<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a> - int display exit code
 <code class="xref py py-obj docutils literal"><span class="pre">list_tags</span></code> - list of str tags selected by the user</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="errors.html#certbot.errors.MissingCommandlineFlag" title="certbot.errors.MissingCommandlineFlag"><strong>errors.MissingCommandlineFlag</strong></a> &#8211; if called in non-interactive
@@ -996,20 +996,20 @@ default value.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; prompt to give the user</li>
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; prompt to give the user</li>
 <li><strong>default</strong> &#8211; the default value to return, if one exists, when
 using the NoninteractiveDisplay</li>
-<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; option used to set this value with the CLI,
+<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; option used to set this value with the CLI,
 if one exists, to be included in error messages given by
 NoninteractiveDisplay</li>
-<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; True if it&#8217;s safe to prompt the user
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; True if it&#8217;s safe to prompt the user
 because it won&#8217;t cause any workflow regressions</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple of the form (<a class="reference external" href="https://docs.python.org/2/library/code.html#module-code" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a>, <a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">string</span></code></a>) where
-<a class="reference external" href="https://docs.python.org/2/library/code.html#module-code" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a> - int display exit code
-<a class="reference external" href="https://docs.python.org/2/library/string.html#module-string" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">string</span></code></a> - input entered by the user</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple of the form (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">string</span></code></a>) where
+<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">code</span></code></a> - int display exit code
+<a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">string</span></code></a> - input entered by the user</p>
 </td>
 </tr>
 </tbody>
@@ -1032,17 +1032,17 @@ because it won&#8217;t cause any workflow regressions</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>cert</strong> (<em>OpenSSL.crypto.X509</em>) &#8211; Expected certificate</li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Server&#8217;s domain name</li>
-<li><strong>alt_host</strong> (<em>bytes</em>) &#8211; Host to connect to instead of the IP
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Server&#8217;s domain name</li>
+<li><strong>alt_host</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.6)"><em>bytes</em></a>) &#8211; Host to connect to instead of the IP
 address of host</li>
-<li><strong>port</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Port to connect to</li>
+<li><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; Port to connect to</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if the certificate was verified successfully</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
 </td>
 </tr>
 </tbody>
@@ -1058,16 +1058,16 @@ address of host</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Server&#8217;s domain name</li>
-<li><strong>port</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Port to connect to</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; HTTP headers to include in request</li>
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Server&#8217;s domain name</li>
+<li><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; Port to connect to</li>
+<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) &#8211; HTTP headers to include in request</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if redirect is successfully enabled</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)">bool</a></p>
 </td>
 </tr>
 </tbody>
@@ -1082,11 +1082,11 @@ address of host</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Server&#8217;s domain name</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Server&#8217;s domain name</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if HSTS header is successfully enabled</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
 </tr>
 </tbody>
 </table>
@@ -1100,11 +1100,11 @@ address of host</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Server&#8217;s domain name</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Server&#8217;s domain name</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if ocsp stapling is successfully enabled</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
 </tr>
 </tbody>
 </table>
@@ -1143,10 +1143,10 @@ address of host</li>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Message to be displayed to the user.</li>
-<li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; One of HIGH_PRIORITY, MEDIUM_PRIORITY, or
+<li><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Message to be displayed to the user.</li>
+<li><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.6)"><em>int</em></a>) &#8211; One of HIGH_PRIORITY, MEDIUM_PRIORITY, or
 LOW_PRIORITY.</li>
-<li><strong>on_crash</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Whether or not the message should be printed if
+<li><strong>on_crash</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; Whether or not the message should be printed if
 the program exits abnormally.</li>
 </ul>
 </td>
