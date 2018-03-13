@@ -196,6 +196,16 @@ For more extensive instructions on how to use Certbot on Arch linux you can refe
 <pre>
 $ sudo pacman -S certbot-nginx
 </pre>
+<p>
+Certbot's DNS plugins are also available for your system which can be used to
+automate obtaining a wildcard certificate from Let's Encrypt's ACMEv2 server.
+To use one of these plugins, you must have configured DNS for the domain you
+want to obtain a certificate for with a DNS provider that Certbot has a plugin
+for. A list of these plugins and more information about using them can be found
+<a href="/docs/using.html#dns-plugins">here</a>. To install one of these
+plugins, run the installation command above but replace certbot-nginx with the
+name of the DNS plugin you want to install.
+</p>
     </div>
     <div class="get-started">
       <h3>Get Started</h3>
@@ -211,6 +221,20 @@ many platforms, and certificate installation.
     subcommand:
     <pre>$ sudo certbot --nginx certonly</pre>
 
+<p>
+If you want to obtain a wildcard certificate using Let's Encrypt's new ACMEv2
+server, you'll also need to use one of
+<a href="/docs/using.html#dns-plugins">Certbot's DNS plugins</a>. To do this,
+make sure the plugin for your DNS provider is installed using the instructions
+above and run a command like the following:
+</p>
+<pre>$ sudo certbot -a dns-plugin -i nginx -d "*.example.com" -d example.com --server https://acme-v02.api.letsencrypt.org/directory</pre>
+<p>
+You'll need to replace <tt>dns-plugin</tt> with the name of the DNS plugin
+you want to use. You may also need to provide additional flags such as the path
+your API credentials as described in the documentation for the DNS plugin
+linked above.
+</p>
 
 To learn more about how to use Certbot <a href="/docs/">read our documentation</a>.
 </p>
@@ -273,6 +297,16 @@ For more extensive instructions on how to use Certbot on Arch linux you can refe
 <pre>
 $ sudo pacman -S certbot-nginx
 </pre>
+<p>
+Certbot's DNS plugins are also available for your system which can be used to
+automate obtaining a wildcard certificate from Let's Encrypt's ACMEv2 server.
+To use one of these plugins, you must have configured DNS for the domain you
+want to obtain a certificate for with a DNS provider that Certbot has a plugin
+for. A list of these plugins and more information about using them can be found
+<a href="/docs/using.html#dns-plugins">here</a>. To install one of these
+plugins, run the installation command above but replace certbot-nginx with the
+name of the DNS plugin you want to install.
+</p>
     </div>
     <div class="get-started">
       <h3>Get Started</h3>
@@ -304,6 +338,20 @@ many platforms, and certificate installation.
             plugin</a> instead.
 
             </p></aside>
+<p>
+If you want to obtain a wildcard certificate using Let's Encrypt's new ACMEv2
+server, you'll also need to use one of
+<a href="/docs/using.html#dns-plugins">Certbot's DNS plugins</a>. To do this,
+make sure the plugin for your DNS provider is installed using the instructions
+above and run a command like the following:
+</p>
+<pre>$ sudo certbot -a dns-plugin -i nginx -d "*.example.com" -d example.com --server https://acme-v02.api.letsencrypt.org/directory</pre>
+<p>
+You'll need to replace <tt>dns-plugin</tt> with the name of the DNS plugin
+you want to use. You may also need to provide additional flags such as the path
+your API credentials as described in the documentation for the DNS plugin
+linked above.
+</p>
 
 To learn more about how to use Certbot <a href="/docs/">read our documentation</a>.
 </p>

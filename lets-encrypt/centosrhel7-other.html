@@ -202,6 +202,16 @@ After doing this, you can install Certbot by running:
 <pre>
 $ sudo yum install certbot
 </pre>
+<p>
+Certbot's DNS plugins are also available for your system which can be used to
+automate obtaining a wildcard certificate from Let's Encrypt's ACMEv2 server.
+To use one of these plugins, you must have configured DNS for the domain you
+want to obtain a certificate for with a DNS provider that Certbot has a plugin
+for. A list of these plugins and more information about using them can be found
+<a href="/docs/using.html#dns-plugins">here</a>. To install one of these
+plugins, run the installation command above but replace certbot with the
+name of the DNS plugin you want to install.
+</p>
     </div>
     <div class="get-started">
       <h3>Get Started</h3>
@@ -245,6 +255,19 @@ temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
 </p>
 <pre>
 $ sudo certbot certonly --standalone -d example.com -d www.example.com
+</pre>
+<p>
+You can also use one of Certbot's DNS plugins to obtain a certificate if it's
+installed and you have configured DNS for the domain you want to obtain a
+certificate for with the DNS provider matching the plugin. To see more
+information about using these plugins, click
+<a href="/docs/using.html#dns-plugins">here</a>. If you want to use one of
+these plugins with Let's Encrypt's new ACMEv2 server that will issue wildcard
+certificates, you'll also need to include the following flag on the command
+line:
+</p>
+<pre>
+--server https://acme-v02.api.letsencrypt.org/directory
 </pre>
 
 <h3>Automating renewal</h3>
@@ -312,6 +335,16 @@ After doing this, you can install Certbot by running:
 <pre>
 $ sudo yum install certbot
 </pre>
+<p>
+Certbot's DNS plugins are also available for your system which can be used to
+automate obtaining a wildcard certificate from Let's Encrypt's ACMEv2 server.
+To use one of these plugins, you must have configured DNS for the domain you
+want to obtain a certificate for with a DNS provider that Certbot has a plugin
+for. A list of these plugins and more information about using them can be found
+<a href="/docs/using.html#dns-plugins">here</a>. To install one of these
+plugins, run the installation command above but replace certbot with the
+name of the DNS plugin you want to install.
+</p>
     </div>
     <div class="get-started">
       <h3>Get Started</h3>
@@ -355,6 +388,19 @@ temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
 </p>
 <pre>
 $ sudo certbot certonly --standalone -d example.com -d www.example.com
+</pre>
+<p>
+You can also use one of Certbot's DNS plugins to obtain a certificate if it's
+installed and you have configured DNS for the domain you want to obtain a
+certificate for with the DNS provider matching the plugin. To see more
+information about using these plugins, click
+<a href="/docs/using.html#dns-plugins">here</a>. If you want to use one of
+these plugins with Let's Encrypt's new ACMEv2 server that will issue wildcard
+certificates, you'll also need to include the following flag on the command
+line:
+</p>
+<pre>
+--server https://acme-v02.api.letsencrypt.org/directory
 </pre>
 
 <h3>Automating renewal</h3>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User Guide &mdash; Certbot 0.19.0.dev0 documentation</title>
+  <title>User Guide &mdash; Certbot 0.23.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="User Guide &mdash; Certbot 0.19.0.dev0 documentation">
+<meta name="twitter:title" content="User Guide &mdash; Certbot 0.23.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 0.23.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Developer Guide" href="contributing.html"/>
         <link rel="prev" title="Get Certbot" href="install.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.19
+                0.23
               </div>
             
           
@@ -130,6 +130,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l3"><a class="reference internal" href="#webroot">Webroot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#nginx">Nginx</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#standalone">Standalone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dns-plugins">DNS Plugins</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#manual">Manual</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#combining-plugins">Combining plugins</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#third-party-plugins">Third-party plugins</a></li>
@@ -215,38 +216,39 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="contents local topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#certbot-commands" id="id6">Certbot Commands</a></li>
-<li><a class="reference internal" href="#getting-certificates-and-choosing-plugins" id="id7">Getting certificates (and choosing plugins)</a><ul>
-<li><a class="reference internal" href="#apache" id="id8">Apache</a></li>
-<li><a class="reference internal" href="#webroot" id="id9">Webroot</a></li>
-<li><a class="reference internal" href="#nginx" id="id10">Nginx</a></li>
-<li><a class="reference internal" href="#standalone" id="id11">Standalone</a></li>
-<li><a class="reference internal" href="#manual" id="id12">Manual</a></li>
-<li><a class="reference internal" href="#combining-plugins" id="id13">Combining plugins</a></li>
-<li><a class="reference internal" href="#third-party-plugins" id="id14">Third-party plugins</a></li>
+<li><a class="reference internal" href="#certbot-commands" id="id8">Certbot Commands</a></li>
+<li><a class="reference internal" href="#getting-certificates-and-choosing-plugins" id="id9">Getting certificates (and choosing plugins)</a><ul>
+<li><a class="reference internal" href="#apache" id="id10">Apache</a></li>
+<li><a class="reference internal" href="#webroot" id="id11">Webroot</a></li>
+<li><a class="reference internal" href="#nginx" id="id12">Nginx</a></li>
+<li><a class="reference internal" href="#standalone" id="id13">Standalone</a></li>
+<li><a class="reference internal" href="#dns-plugins" id="id14">DNS Plugins</a></li>
+<li><a class="reference internal" href="#manual" id="id15">Manual</a></li>
+<li><a class="reference internal" href="#combining-plugins" id="id16">Combining plugins</a></li>
+<li><a class="reference internal" href="#third-party-plugins" id="id17">Third-party plugins</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#managing-certificates" id="id15">Managing certificates</a><ul>
-<li><a class="reference internal" href="#re-creating-and-updating-existing-certificates" id="id16">Re-creating and Updating Existing Certificates</a></li>
+<li><a class="reference internal" href="#managing-certificates" id="id18">Managing certificates</a><ul>
+<li><a class="reference internal" href="#re-creating-and-updating-existing-certificates" id="id19">Re-creating and Updating Existing Certificates</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#changing-a-certificate-s-domains" id="id17">Changing a Certificate&#8217;s Domains</a><ul>
-<li><a class="reference internal" href="#revoking-certificates" id="id18">Revoking certificates</a></li>
-<li><a class="reference internal" href="#renewing-certificates" id="id19">Renewing certificates</a></li>
-<li><a class="reference internal" href="#modifying-the-renewal-configuration-file" id="id20">Modifying the Renewal Configuration File</a></li>
+<li><a class="reference internal" href="#changing-a-certificate-s-domains" id="id20">Changing a Certificate&#8217;s Domains</a><ul>
+<li><a class="reference internal" href="#revoking-certificates" id="id21">Revoking certificates</a></li>
+<li><a class="reference internal" href="#renewing-certificates" id="id22">Renewing certificates</a></li>
+<li><a class="reference internal" href="#modifying-the-renewal-configuration-file" id="id23">Modifying the Renewal Configuration File</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#where-are-my-certificates" id="id21">Where are my certificates?</a></li>
-<li><a class="reference internal" href="#pre-and-post-validation-hooks" id="id22">Pre and Post Validation Hooks</a></li>
-<li><a class="reference internal" href="#lock-files" id="id23">Lock Files</a></li>
-<li><a class="reference internal" href="#configuration-file" id="id24">Configuration file</a></li>
-<li><a class="reference internal" href="#log-rotation" id="id25">Log Rotation</a></li>
-<li><a class="reference internal" href="#certbot-command-line-options" id="id26">Certbot command-line options</a></li>
-<li><a class="reference internal" href="#getting-help" id="id27">Getting help</a></li>
+<li><a class="reference internal" href="#where-are-my-certificates" id="id24">Where are my certificates?</a></li>
+<li><a class="reference internal" href="#pre-and-post-validation-hooks" id="id25">Pre and Post Validation Hooks</a></li>
+<li><a class="reference internal" href="#lock-files" id="id26">Lock Files</a></li>
+<li><a class="reference internal" href="#configuration-file" id="id27">Configuration file</a></li>
+<li><a class="reference internal" href="#log-rotation" id="id28">Log Rotation</a></li>
+<li><a class="reference internal" href="#certbot-command-line-options" id="id29">Certbot command-line options</a></li>
+<li><a class="reference internal" href="#getting-help" id="id30">Getting help</a></li>
 </ul>
 </div>
 <div class="section" id="certbot-commands">
-<h2><a class="toc-backref" href="#id6">Certbot Commands</a><a class="headerlink" href="#certbot-commands" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id8">Certbot Commands</a><a class="headerlink" href="#certbot-commands" title="Permalink to this headline">¶</a></h2>
 <p>Certbot uses a number of different commands (also referred
 to as &#8220;subcommands&#8221;) to request specific actions such as
 obtaining, renewing, or revoking certificates. The most important
@@ -255,7 +257,7 @@ document; an exhaustive list also appears near the end of the document.</p>
 <p>The <code class="docutils literal"><span class="pre">certbot</span></code> script on your web server might be named <code class="docutils literal"><span class="pre">letsencrypt</span></code> if your system uses an older package, or <code class="docutils literal"><span class="pre">certbot-auto</span></code> if you used an alternate installation method. Throughout the docs, whenever you see <code class="docutils literal"><span class="pre">certbot</span></code>, swap in the correct name as needed.</p>
 </div>
 <div class="section" id="getting-certificates-and-choosing-plugins">
-<span id="plugins"></span><h2><a class="toc-backref" href="#id7">Getting certificates (and choosing plugins)</a><a class="headerlink" href="#getting-certificates-and-choosing-plugins" title="Permalink to this headline">¶</a></h2>
+<span id="plugins"></span><h2><a class="toc-backref" href="#id9">Getting certificates (and choosing plugins)</a><a class="headerlink" href="#getting-certificates-and-choosing-plugins" title="Permalink to this headline">¶</a></h2>
 <p>The Certbot client supports two types of plugins for
 obtaining and installing certificates: authenticators and installers.</p>
 <p>Authenticators are plugins used with the <code class="docutils literal"><span class="pre">certonly</span></code> command to obtain a certificate.
@@ -332,7 +334,20 @@ a <a class="reference internal" href="#combination">combination</a> of distinct 
 <td><a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.2">http-01</a> (80) or
 <a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.3">tls-sni-01</a> (443)</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#manual">manual</a></td>
+<tr class="row-even"><td><a class="reference internal" href="#dns-plugins"><span class="std std-ref">DNS plugins</span></a></td>
+<td>Y</td>
+<td>N</td>
+<td><div class="first last line-block">
+<div class="line">This category of plugins automates obtaining a certificate by</div>
+<div class="line">modifying DNS records to prove you have control over a</div>
+<div class="line">domain. Doing domain validation in this way is</div>
+<div class="line">the only way to obtain wildcard certificates from Let&#8217;s</div>
+<div class="line">Encrypt.</div>
+</div>
+</td>
+<td><a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.4">dns-01</a> (53)</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#manual">manual</a></td>
 <td>Y</td>
 <td>N</td>
 <td><div class="first last line-block">
@@ -357,7 +372,7 @@ with <code class="docutils literal"><span class="pre">--preferred-challenges</sp
 <p>There are also many <a class="reference internal" href="#third-party-plugins">third-party-plugins</a> available. Below we describe in more detail
 the circumstances in which each plugin can be used, and how to use it.</p>
 <div class="section" id="apache">
-<h3><a class="toc-backref" href="#id8">Apache</a><a class="headerlink" href="#apache" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id10">Apache</a><a class="headerlink" href="#apache" title="Permalink to this headline">¶</a></h3>
 <p>The Apache plugin currently requires an OS with augeas version 1.0; currently <a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot-apache/certbot_apache/constants.py">it
 supports</a>
 modern OSes based on Debian, Fedora, SUSE, Gentoo and Darwin.
@@ -366,7 +381,7 @@ webserver. To specify this plugin on the command line, simply include
 <code class="docutils literal"><span class="pre">--apache</span></code>.</p>
 </div>
 <div class="section" id="webroot">
-<h3><a class="toc-backref" href="#id9">Webroot</a><a class="headerlink" href="#webroot" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">Webroot</a><a class="headerlink" href="#webroot" title="Permalink to this headline">¶</a></h3>
 <p>If you&#8217;re running a local webserver for which you have the ability
 to modify the content being served, and you&#8217;d prefer not to stop the
 webserver during the certificate issuance process, you can use the webroot
@@ -380,7 +395,7 @@ needs to know where each domain&#8217;s files are served from, which could
 potentially be a separate directory for each domain. When requesting a
 certificate for multiple domains, each domain will use the most recently
 specified <code class="docutils literal"><span class="pre">--webroot-path</span></code>. So, for instance,</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">certbot</span> <span class="n">certonly</span> <span class="o">--</span><span class="n">webroot</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">example</span><span class="o">/</span> <span class="o">-</span><span class="n">d</span> <span class="n">www</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">d</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">other</span> <span class="o">-</span><span class="n">d</span> <span class="n">other</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">net</span> <span class="o">-</span><span class="n">d</span> <span class="n">another</span><span class="o">.</span><span class="n">other</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">net</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">certbot</span> <span class="n">certonly</span> <span class="o">--</span><span class="n">webroot</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">example</span> <span class="o">-</span><span class="n">d</span> <span class="n">www</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">d</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">other</span> <span class="o">-</span><span class="n">d</span> <span class="n">other</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">net</span> <span class="o">-</span><span class="n">d</span> <span class="n">another</span><span class="o">.</span><span class="n">other</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">net</span>
 </pre></div>
 </div>
 <p>would obtain a single certificate for all of those names, using the
@@ -401,7 +416,7 @@ to ensure that files inside <code class="docutils literal"><span class="pre">/.w
 the webserver.</p>
 </div>
 <div class="section" id="nginx">
-<h3><a class="toc-backref" href="#id10">Nginx</a><a class="headerlink" href="#nginx" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id12">Nginx</a><a class="headerlink" href="#nginx" title="Permalink to this headline">¶</a></h3>
 <p>The Nginx plugin has been distributed with Certbot since version 0.9.0 and should
 work for most configurations. We recommend backing up Nginx
 configurations before using it (though you can also revert changes to
@@ -412,7 +427,7 @@ the <code class="docutils literal"><span class="pre">--nginx</span></code> flag 
 </div>
 </div>
 <div class="section" id="standalone">
-<h3><a class="toc-backref" href="#id11">Standalone</a><a class="headerlink" href="#standalone" title="Permalink to this headline">¶</a></h3>
+<span id="id1"></span><h3><a class="toc-backref" href="#id13">Standalone</a><a class="headerlink" href="#standalone" title="Permalink to this headline">¶</a></h3>
 <p>Use standalone mode to obtain a certificate if you don&#8217;t want to use (or don&#8217;t currently have)
 existing server software. The standalone plugin does not rely on any other server
 software running on the machine where you obtain the certificate.</p>
@@ -436,8 +451,31 @@ the Internet on the specified port using each requested domain name.</p>
 deprecated since <code class="docutils literal"><span class="pre">certbot</span></code> version 0.9.0.</p>
 </div>
 </div>
+<div class="section" id="dns-plugins">
+<span id="id2"></span><h3><a class="toc-backref" href="#id14">DNS Plugins</a><a class="headerlink" href="#dns-plugins" title="Permalink to this headline">¶</a></h3>
+<p>If you&#8217;d like to obtain a wildcard certificate from Let&#8217;s Encrypt or run
+<code class="docutils literal"><span class="pre">certbot</span></code> on a machine other than your target webserver, you can use one of
+Certbot&#8217;s DNS plugins.</p>
+<p>These plugins are still in the process of being packaged
+by many distributions and cannot currently be installed with <code class="docutils literal"><span class="pre">certbot-auto</span></code>.
+If, however, you are comfortable installing the certificates yourself,
+you can run these plugins with <a class="reference internal" href="contributing.html#docker"><span class="std std-ref">Docker</span></a>.</p>
+<p>Once installed, you can find documentation on how to use each plugin at:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://certbot-dns-cloudflare.readthedocs.io">certbot-dns-cloudflare</a></li>
+<li><a class="reference external" href="https://certbot-dns-cloudxns.readthedocs.io">certbot-dns-cloudxns</a></li>
+<li><a class="reference external" href="https://certbot-dns-digitalocean.readthedocs.io">certbot-dns-digitalocean</a></li>
+<li><a class="reference external" href="https://certbot-dns-dnsimple.readthedocs.io">certbot-dns-dnsimple</a></li>
+<li><a class="reference external" href="https://certbot-dns-dnsmadeeasy.readthedocs.io">certbot-dns-dnsmadeeasy</a></li>
+<li><a class="reference external" href="https://certbot-dns-google.readthedocs.io">certbot-dns-google</a></li>
+<li><a class="reference external" href="https://certbot-dns-luadns.readthedocs.io">certbot-dns-luadns</a></li>
+<li><a class="reference external" href="https://certbot-dns-nsone.readthedocs.io">certbot-dns-nsone</a></li>
+<li><a class="reference external" href="https://certbot-dns-rfc2136.readthedocs.io">certbot-dns-rfc2136</a></li>
+<li><a class="reference external" href="https://certbot-dns-route53.readthedocs.io">certbot-dns-route53</a></li>
+</ul>
+</div>
 <div class="section" id="manual">
-<h3><a class="toc-backref" href="#id12">Manual</a><a class="headerlink" href="#manual" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id15">Manual</a><a class="headerlink" href="#manual" title="Permalink to this headline">¶</a></h3>
 <p>If you&#8217;d like to obtain a certificate running <code class="docutils literal"><span class="pre">certbot</span></code> on a machine
 other than your target webserver or perform the steps for domain
 validation yourself, you can use the manual plugin. While hidden from
@@ -470,7 +508,7 @@ the <code class="docutils literal"><span class="pre">--manual-auth-hook</span></
 described in more depth in the <a class="reference internal" href="#hooks">hooks</a> section.</p>
 </div>
 <div class="section" id="combining-plugins">
-<span id="combination"></span><h3><a class="toc-backref" href="#id13">Combining plugins</a><a class="headerlink" href="#combining-plugins" title="Permalink to this headline">¶</a></h3>
+<span id="combination"></span><h3><a class="toc-backref" href="#id16">Combining plugins</a><a class="headerlink" href="#combining-plugins" title="Permalink to this headline">¶</a></h3>
 <p>Sometimes you may want to specify a combination of distinct authenticator and
 installer plugins. To do so, specify the authenticator plugin with
 <code class="docutils literal"><span class="pre">--authenticator</span></code> or <code class="docutils literal"><span class="pre">-a</span></code> and the installer plugin with <code class="docutils literal"><span class="pre">--installer</span></code> or
@@ -485,7 +523,7 @@ intermediate proxy.</p>
 </div>
 </div>
 <div class="section" id="third-party-plugins">
-<span id="id1"></span><h3><a class="toc-backref" href="#id14">Third-party plugins</a><a class="headerlink" href="#third-party-plugins" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3><a class="toc-backref" href="#id17">Third-party plugins</a><a class="headerlink" href="#third-party-plugins" title="Permalink to this headline">¶</a></h3>
 <p>There are also a number of third-party plugins for the client, provided by
 other developers. Many are beta/experimental, but some are already in
 widespread use:</p>
@@ -565,7 +603,7 @@ widespread use:</p>
 </div>
 </div>
 <div class="section" id="managing-certificates">
-<span id="managing-certs"></span><h2><a class="toc-backref" href="#id15">Managing certificates</a><a class="headerlink" href="#managing-certificates" title="Permalink to this headline">¶</a></h2>
+<span id="managing-certs"></span><h2><a class="toc-backref" href="#id18">Managing certificates</a><a class="headerlink" href="#managing-certificates" title="Permalink to this headline">¶</a></h2>
 <p>To view a list of the certificates Certbot knows about, run
 the <code class="docutils literal"><span class="pre">certificates</span></code> subcommand:</p>
 <p><code class="docutils literal"><span class="pre">certbot</span> <span class="pre">certificates</span></code></p>
@@ -585,7 +623,7 @@ using the <code class="docutils literal"><span class="pre">--cert-name</span></c
 </pre></div>
 </div>
 <div class="section" id="re-creating-and-updating-existing-certificates">
-<span id="updating-certs"></span><h3><a class="toc-backref" href="#id16">Re-creating and Updating Existing Certificates</a><a class="headerlink" href="#re-creating-and-updating-existing-certificates" title="Permalink to this headline">¶</a></h3>
+<span id="updating-certs"></span><h3><a class="toc-backref" href="#id19">Re-creating and Updating Existing Certificates</a><a class="headerlink" href="#re-creating-and-updating-existing-certificates" title="Permalink to this headline">¶</a></h3>
 <p>You can use <code class="docutils literal"><span class="pre">certonly</span></code> or <code class="docutils literal"><span class="pre">run</span></code> subcommands to request
 the creation of a single new certificate even if you already have an
 existing certificate with some of the same domain names.</p>
@@ -635,7 +673,7 @@ abuse of the ACME protocol, as described
 </div>
 </div>
 <div class="section" id="changing-a-certificate-s-domains">
-<span id="changing"></span><h2><a class="toc-backref" href="#id17">Changing a Certificate&#8217;s Domains</a><a class="headerlink" href="#changing-a-certificate-s-domains" title="Permalink to this headline">¶</a></h2>
+<span id="changing"></span><h2><a class="toc-backref" href="#id20">Changing a Certificate&#8217;s Domains</a><a class="headerlink" href="#changing-a-certificate-s-domains" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal"><span class="pre">--cert-name</span></code> flag can also be used to modify the domains a certificate contains,
 by specifying new domains using the <code class="docutils literal"><span class="pre">-d</span></code> or <code class="docutils literal"><span class="pre">--domains</span></code> flag. If certificate <code class="docutils literal"><span class="pre">example.com</span></code>
 previously contained <code class="docutils literal"><span class="pre">example.com</span></code> and <code class="docutils literal"><span class="pre">www.example.com</span></code>, it can be modified to only
@@ -649,7 +687,7 @@ replace that set entirely:</p>
 </pre></div>
 </div>
 <div class="section" id="revoking-certificates">
-<h3><a class="toc-backref" href="#id18">Revoking certificates</a><a class="headerlink" href="#revoking-certificates" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id21">Revoking certificates</a><a class="headerlink" href="#revoking-certificates" title="Permalink to this headline">¶</a></h3>
 <p>If your account key has been compromised or you otherwise need to revoke a certificate,
 use the <code class="docutils literal"><span class="pre">revoke</span></code> command to do so. Note that the <code class="docutils literal"><span class="pre">revoke</span></code> command takes the certificate path
 (ending in <code class="docutils literal"><span class="pre">cert.pem</span></code>), not a certificate name or domain. Example:</p>
@@ -680,7 +718,7 @@ relevant files can be removed from the system with the <code class="docutils lit
 </div>
 </div>
 <div class="section" id="renewing-certificates">
-<span id="renewal"></span><h3><a class="toc-backref" href="#id19">Renewing certificates</a><a class="headerlink" href="#renewing-certificates" title="Permalink to this headline">¶</a></h3>
+<span id="renewal"></span><h3><a class="toc-backref" href="#id22">Renewing certificates</a><a class="headerlink" href="#renewing-certificates" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Let&#8217;s Encrypt CA issues short-lived certificates (90
@@ -769,7 +807,8 @@ run as usual after running all hooks in these directories. One minor exception
 to this is if a hook specified elsewhere is simply the path to an executable
 file in the hook directory of the same type (e.g. your pre-hook is the path to
 an executable in <code class="docutils literal"><span class="pre">/etc/letsencrypt/renewal-hooks/pre</span></code>), the file is not run a
-second time.</p>
+second time. You can stop Certbot from automatically running executables found
+in these directories by including <code class="docutils literal"><span class="pre">--no-directory-hooks</span></code> on the command line.</p>
 <p>More information about hooks can be found by running
 <code class="docutils literal"><span class="pre">certbot</span> <span class="pre">--help</span> <span class="pre">renew</span></code>.</p>
 <p>If you&#8217;re sure that this command executes successfully without human
@@ -814,14 +853,14 @@ commands into your individual environment.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last"><code class="docutils literal"><span class="pre">certbot</span> <span class="pre">renew</span></code> exit status will only be 1 if a renewal attempt failed.
-This means <code class="docutils literal"><span class="pre">certbot</span> <span class="pre">renew</span></code> exit status will be 0 if no cert needs to be updated.
-If you write a custom script and expect to run a command only after a cert was actually renewed
+This means <code class="docutils literal"><span class="pre">certbot</span> <span class="pre">renew</span></code> exit status will be 0 if no certificate needs to be updated.
+If you write a custom script and expect to run a command only after a certificate was actually renewed
 you will need to use the <code class="docutils literal"><span class="pre">--post-hook</span></code> since the exit status will be 0 both on successful renewal
 and when renewal is not necessary.</p>
 </div>
 </div>
 <div class="section" id="modifying-the-renewal-configuration-file">
-<span id="renewal-config-file"></span><h3><a class="toc-backref" href="#id20">Modifying the Renewal Configuration File</a><a class="headerlink" href="#modifying-the-renewal-configuration-file" title="Permalink to this headline">¶</a></h3>
+<span id="renewal-config-file"></span><h3><a class="toc-backref" href="#id23">Modifying the Renewal Configuration File</a><a class="headerlink" href="#modifying-the-renewal-configuration-file" title="Permalink to this headline">¶</a></h3>
 <p>When a certificate is issued, by default Certbot creates a renewal configuration file that
 tracks the options that were selected when Certbot was run. This allows Certbot
 to use those same options again when it comes time for renewal. These renewal
@@ -865,7 +904,7 @@ directives:</p>
 </div>
 </div>
 <div class="section" id="where-are-my-certificates">
-<span id="where-certs"></span><h2><a class="toc-backref" href="#id21">Where are my certificates?</a><a class="headerlink" href="#where-are-my-certificates" title="Permalink to this headline">¶</a></h2>
+<span id="where-certs"></span><h2><a class="toc-backref" href="#id24">Where are my certificates?</a><a class="headerlink" href="#where-are-my-certificates" title="Permalink to this headline">¶</a></h2>
 <p>All generated keys and issued certificates can be found in
 <code class="docutils literal"><span class="pre">/etc/letsencrypt/live/$domain</span></code>. Rather than copying, please point
 your (web) server configuration directly to those files (or create
@@ -922,7 +961,7 @@ could convert using <code class="docutils literal"><span class="pre">openssl</sp
 </div>
 </div>
 <div class="section" id="pre-and-post-validation-hooks">
-<span id="hooks"></span><h2><a class="toc-backref" href="#id22">Pre and Post Validation Hooks</a><a class="headerlink" href="#pre-and-post-validation-hooks" title="Permalink to this headline">¶</a></h2>
+<span id="hooks"></span><h2><a class="toc-backref" href="#id25">Pre and Post Validation Hooks</a><a class="headerlink" href="#pre-and-post-validation-hooks" title="Permalink to this headline">¶</a></h2>
 <p>Certbot allows for the specification of pre and post validation hooks when run
 in manual mode. The flags to specify these scripts are <code class="docutils literal"><span class="pre">--manual-auth-hook</span></code>
 and <code class="docutils literal"><span class="pre">--manual-cleanup-hook</span></code> respectively and can be used as follows:</p>
@@ -1028,7 +1067,7 @@ fi
 </div>
 </div>
 <div class="section" id="lock-files">
-<span id="id4"></span><h2><a class="toc-backref" href="#id23">Lock Files</a><a class="headerlink" href="#lock-files" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2><a class="toc-backref" href="#id26">Lock Files</a><a class="headerlink" href="#lock-files" title="Permalink to this headline">¶</a></h2>
 <p>When processing a validation Certbot writes a number of lock files on your system
 to prevent multiple instances from overwriting each other&#8217;s changes. This means
 that be default two instances of Certbot will not be able to run in parallel.</p>
@@ -1046,7 +1085,7 @@ as the <code class="docutils literal"><span class="pre">--work-dir</span></code>
 of Certbot that you would like to run.</p>
 </div>
 <div class="section" id="configuration-file">
-<span id="config-file"></span><h2><a class="toc-backref" href="#id24">Configuration file</a><a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
+<span id="config-file"></span><h2><a class="toc-backref" href="#id27">Configuration file</a><a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
 <p>Certbot accepts a global configuration file that applies its options to all invocations
 of Certbot. Certificate specific configuration choices should be set in the <code class="docutils literal"><span class="pre">.conf</span></code>
 files that can be found in <code class="docutils literal"><span class="pre">/etc/letsencrypt/renewal</span></code>.</p>
@@ -1094,7 +1133,7 @@ as being set to true by older versions of Certbot, since they have been listed
 in the config file.</p>
 </div>
 <div class="section" id="log-rotation">
-<span id="id5"></span><h2><a class="toc-backref" href="#id25">Log Rotation</a><a class="headerlink" href="#log-rotation" title="Permalink to this headline">¶</a></h2>
+<span id="id7"></span><h2><a class="toc-backref" href="#id28">Log Rotation</a><a class="headerlink" href="#log-rotation" title="Permalink to this headline">¶</a></h2>
 <p>By default certbot stores status logs in <code class="docutils literal"><span class="pre">/var/log/letsencrypt</span></code>. By default
 certbot will begin rotating logs once there are 1000 logs in the log directory.
 Meaning that once 1000 files are in <code class="docutils literal"><span class="pre">/var/log/letsencrypt</span></code> Certbot will delete
@@ -1103,7 +1142,7 @@ changed by passing the desired number to the command line flag
 <code class="docutils literal"><span class="pre">--max-log-backups</span></code>.</p>
 </div>
 <div class="section" id="certbot-command-line-options">
-<span id="command-line"></span><h2><a class="toc-backref" href="#id26">Certbot command-line options</a><a class="headerlink" href="#certbot-command-line-options" title="Permalink to this headline">¶</a></h2>
+<span id="command-line"></span><h2><a class="toc-backref" href="#id29">Certbot command-line options</a><a class="headerlink" href="#certbot-command-line-options" title="Permalink to this headline">¶</a></h2>
 <p>Certbot supports a lot of command line options. Here&#8217;s the full list, from
 <code class="docutils literal"><span class="pre">certbot</span> <span class="pre">--help</span> <span class="pre">all</span></code>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>usage: 
@@ -1164,11 +1203,16 @@ optional arguments:
   -d DOMAIN, --domains DOMAIN, --domain DOMAIN
                         Domain names to apply. For multiple domains you can
                         use multiple -d flags or enter a comma separated list
-                        of domains as a parameter. The first provided domain
-                        will be used in some software user interfaces and file
-                        paths for the certificate and related material unless
+                        of domains as a parameter. The first domain provided
+                        will be the subject CN of the certificate, and all
+                        domains will be Subject Alternative Names on the
+                        certificate. The first domain will also be used in
+                        some software user interfaces and as the file paths
+                        for the certificate and related material unless
                         otherwise specified or you already have a certificate
-                        for the same domains. (default: Ask)
+                        with the same name. In the case of a name collision it
+                        will append a number like 0001 to the file path name.
+                        (default: Ask)
   --cert-name CERTNAME  Certificate name to apply. This name is used by
                         Certbot for housekeeping and in file paths; it doesn&#39;t
                         affect the content of the certificate itself. To see
@@ -1210,9 +1254,9 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/0.18.2 (certbot;
-                        Ubuntu 16.04.3 LTS) Authenticator/XXX Installer/YYY
-                        (SUBCOMMAND; flags: FLAGS) Py/2.7.12). The flags
+                        &quot;&quot;. (default: CertbotACMEClient/0.22.0 (certbot;
+                        darwin 10.13.3) Authenticator/XXX Installer/YYY
+                        (SUBCOMMAND; flags: FLAGS) Py/3.6.4). The flags
                         encoded in the user agent are: --duplicate, --force-
                         renew, --allow-subset-of-names, -n, and whether any
                         hooks are set.
@@ -1224,7 +1268,7 @@ optional arguments:
                         (Example: Foo-Wrapper/1.0) (default: None)
 
 automation:
-  Arguments for automating execution &amp; other tweaks
+  Flags for automating execution &amp; other tweaks
 
   --keep-until-expiring, --keep, --reinstall
                         If the requested certificate matches an existing
@@ -1285,8 +1329,7 @@ security:
                         Ask)
   --hsts                Add the Strict-Transport-Security header to every HTTP
                         response. Forcing browser to always use SSL for the
-                        domain. Defends against SSL Stripping. (default:
-                        False)
+                        domain. Defends against SSL Stripping. (default: None)
   --uir                 Add the &quot;Content-Security-Policy: upgrade-insecure-
                         requests&quot; header to every HTTP response. Forcing the
                         browser to use https:// for every http:// resource.
@@ -1303,8 +1346,8 @@ testing:
 
   --test-cert, --staging
                         Use the staging server to obtain or revoke test
-                        (invalid) certificates; equivalent to --server https
-                        ://acme-staging.api.letsencrypt.org/directory
+                        (invalid) certificates; equivalent to --server
+                        https://acme-staging.api.letsencrypt.org/directory
                         (default: False)
   --debug               Show tracebacks in case of errors, and allow certbot-
                         auto execution on experimental platforms (default:
@@ -1332,7 +1375,7 @@ testing:
                         False)
 
 paths:
-  Arguments changing execution paths &amp; servers
+  Flags for changing execution paths &amp; servers
 
   --cert-path CERT_PATH
                         Path to where certificate is saved (with auth --csr),
@@ -1412,14 +1455,16 @@ renew:
                         of renewed certificate domains (for example,
                         &quot;example.com www.example.com&quot; (default: None)
   --disable-hook-validation
-                        Ordinarily the commands specified for --pre-hook
-                        /--post-hook/--deploy-hook will be checked for
+                        Ordinarily the commands specified for --pre-
+                        hook/--post-hook/--deploy-hook will be checked for
                         validity, to see if the programs being run are in the
                         $PATH, so that mistakes can be caught early, even when
                         the hooks aren&#39;t being run just yet. The validation is
                         rather simplistic and fails if you use more advanced
                         shell constructs, so you can use this switch to
                         disable it. (default: False)
+  --no-directory-hooks  Disable running executables found in Certbot&#39;s hook
+                        directories during renewal. (default: False)
 
 certificates:
   List certificates managed by Certbot
@@ -1433,6 +1478,14 @@ revoke:
   --reason {unspecified,keycompromise,affiliationchanged,superseded,cessationofoperation}
                         Specify reason for revoking certificate. (default:
                         unspecified)
+  --delete-after-revoke
+                        Delete certificates after revoking them. (default:
+                        None)
+  --no-delete-after-revoke
+                        Do not delete certificates after revoking them. This
+                        option should be used with caution because the &#39;renew&#39;
+                        subcommand will attempt to renew undeleted revoked
+                        certificates. (default: None)
 
 register:
   Options for account registration &amp; modification
@@ -1542,11 +1595,9 @@ apache:
   Apache Web Server plugin - Beta
 
   --apache-enmod APACHE_ENMOD
-                        Path to the Apache &#39;a2enmod&#39; binary. (default:
-                        a2enmod)
+                        Path to the Apache &#39;a2enmod&#39; binary. (default: None)
   --apache-dismod APACHE_DISMOD
-                        Path to the Apache &#39;a2dismod&#39; binary. (default:
-                        a2dismod)
+                        Path to the Apache &#39;a2dismod&#39; binary. (default: None)
   --apache-le-vhost-ext APACHE_LE_VHOST_EXT
                         SSL vhost configuration extension. (default: -le-
                         ssl.conf)
@@ -1554,19 +1605,19 @@ apache:
                         Apache server root directory. (default: /etc/apache2)
   --apache-vhost-root APACHE_VHOST_ROOT
                         Apache server VirtualHost configuration root (default:
-                        /etc/apache2/sites-available)
+                        None)
   --apache-logs-root APACHE_LOGS_ROOT
                         Apache server logs directory (default:
                         /var/log/apache2)
   --apache-challenge-location APACHE_CHALLENGE_LOCATION
                         Directory path for challenge configuration. (default:
-                        /etc/apache2)
+                        /etc/apache2/other)
   --apache-handle-modules APACHE_HANDLE_MODULES
                         Let installer handle enabling required modules for
-                        you.(Only Ubuntu/Debian currently) (default: True)
+                        you.(Only Ubuntu/Debian currently) (default: False)
   --apache-handle-sites APACHE_HANDLE_SITES
                         Let installer handle enabling sites for you.(Only
-                        Ubuntu/Debian currently) (default: True)
+                        Ubuntu/Debian currently) (default: False)
 
 certbot-route53:auth:
   Obtain certificates using a DNS TXT record (if you are using AWS Route53
@@ -1754,7 +1805,7 @@ webroot:
 </div>
 </div>
 <div class="section" id="getting-help">
-<h2><a class="toc-backref" href="#id27">Getting help</a><a class="headerlink" href="#getting-help" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id30">Getting help</a><a class="headerlink" href="#getting-help" title="Permalink to this headline">¶</a></h2>
 <p>If you&#8217;re having problems, we recommend posting on the Let&#8217;s Encrypt
 <a class="reference external" href="https://community.letsencrypt.org">Community Forum</a>.</p>
 <p>You can also chat with us on IRC: <a class="reference external" href="https://webchat.freenode.net?channels=%23letsencrypt">(#letsencrypt &#64;
@@ -1780,28 +1831,25 @@ also might contain personally identifiable information)</li>
           </div>
           <footer>
   
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="contributing.html" class="btn btn-neutral float-right" title="Developer Guide" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="install.html" class="btn btn-neutral" title="Get Certbot" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+    <span class="copyright">
+    &copy; Copyright 2014-2018 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at <a href="https://eff.org/cb-license">https://eff.org/cb-license</a>.
+    </span>
+    <br>
+    <br>
+    <span class="status">
+        <a href="https://letsencrypt.status.io/">Let's Encrypt Status</a>
+    </span>
 
     </p>
   </div>
-  <!-- Built with Sphinx using a custom theme. --> 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -1833,7 +1881,7 @@ also might contain personally identifiable information)</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.19.0.dev0',
+            VERSION:'0.23.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1860,7 +1908,7 @@ also might contain personally identifiable information)</li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%200.23.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
