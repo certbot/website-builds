@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.crypto_util &mdash; Certbot 0.19.0.dev0 documentation</title>
+  <title>certbot.crypto_util &mdash; Certbot 0.23.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.crypto_util &mdash; Certbot 0.19.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.crypto_util &mdash; Certbot 0.23.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.23.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.19
+                0.23
               </div>
             
           
@@ -200,7 +200,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">cryptography</span> <span class="k">import</span> <span class="n">x509</span>
 
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">crypto_util</span> <span class="k">as</span> <span class="n">acme_crypto_util</span>
-<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">jose</span>
 
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
@@ -524,14 +523,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <span class="k">def</span> <span class="nf">_get_names_from_loaded_cert_or_req</span><span class="p">(</span><span class="n">loaded_cert_or_req</span><span class="p">):</span>
-    <span class="n">common_name</span> <span class="o">=</span> <span class="n">loaded_cert_or_req</span><span class="o">.</span><span class="n">get_subject</span><span class="p">()</span><span class="o">.</span><span class="n">CN</span>
     <span class="c1"># pylint: disable=protected-access</span>
-    <span class="n">sans</span> <span class="o">=</span> <span class="n">acme_crypto_util</span><span class="o">.</span><span class="n">_pyopenssl_cert_or_req_san</span><span class="p">(</span><span class="n">loaded_cert_or_req</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">common_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">sans</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">common_name</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">sans</span> <span class="k">if</span> <span class="n">d</span> <span class="o">!=</span> <span class="n">common_name</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">acme_crypto_util</span><span class="o">.</span><span class="n">_pyopenssl_cert_or_req_all_names</span><span class="p">(</span><span class="n">loaded_cert_or_req</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="get_names_from_cert"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.get_names_from_cert">[docs]</a><span class="k">def</span> <span class="nf">get_names_from_cert</span><span class="p">(</span><span class="n">csr</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">):</span>
@@ -552,21 +545,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="sd">&quot;&quot;&quot;Dump certificate chain into a bundle.</span>
 
 <span class="sd">    :param list chain: List of `OpenSSL.crypto.X509` (or wrapped in</span>
-<span class="sd">        `acme.jose.ComparableX509`).</span>
+<span class="sd">        :class:`josepy.util.ComparableX509`).</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># XXX: returns empty string when no chain is available, which</span>
     <span class="c1"># shuts up RenewableCert, but might not be the best solution...</span>
-
-    <span class="k">def</span> <span class="nf">_dump_cert</span><span class="p">(</span><span class="n">cert</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">jose</span><span class="o">.</span><span class="n">ComparableX509</span><span class="p">):</span>
-            <span class="c1"># pylint: disable=protected-access</span>
-            <span class="n">cert</span> <span class="o">=</span> <span class="n">cert</span><span class="o">.</span><span class="n">wrapped</span>
-        <span class="k">return</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">dump_certificate</span><span class="p">(</span><span class="n">filetype</span><span class="p">,</span> <span class="n">cert</span><span class="p">)</span>
-
-    <span class="c1"># assumes that OpenSSL.crypto.dump_certificate includes ending</span>
-    <span class="c1"># newline character</span>
-    <span class="k">return</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_dump_cert</span><span class="p">(</span><span class="n">cert</span><span class="p">)</span> <span class="k">for</span> <span class="n">cert</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">acme_crypto_util</span><span class="o">.</span><span class="n">dump_pyopenssl_chain</span><span class="p">(</span><span class="n">chain</span><span class="p">,</span> <span class="n">filetype</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="notBefore"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.notBefore">[docs]</a><span class="k">def</span> <span class="nf">notBefore</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
@@ -633,6 +617,20 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">sha256</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">sha256</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="cert_and_chain_from_fullchain"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.cert_and_chain_from_fullchain">[docs]</a><span class="k">def</span> <span class="nf">cert_and_chain_from_fullchain</span><span class="p">(</span><span class="n">fullchain_pem</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Split fullchain_pem into cert_pem and chain_pem</span>
+
+<span class="sd">    :param str fullchain_pem: concatenated cert + chain</span>
+
+<span class="sd">    :returns: tuple of string cert_pem and chain_pem</span>
+<span class="sd">    :rtype: tuple</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cert</span> <span class="o">=</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">dump_certificate</span><span class="p">(</span><span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span>
+        <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">(</span><span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">fullchain_pem</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">fullchain_pem</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cert</span><span class="p">):]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">chain</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -644,14 +642,20 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+    <span class="copyright">
+    &copy; Copyright 2014-2018 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at <a href="https://eff.org/cb-license">https://eff.org/cb-license</a>.
+    </span>
+    <br>
+    <br>
+    <span class="status">
+        <a href="https://letsencrypt.status.io/">Let's Encrypt Status</a>
+    </span>
 
     </p>
   </div>
-  <!-- Built with Sphinx using a custom theme. --> 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -683,7 +687,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.19.0.dev0',
+            VERSION:'0.23.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -710,7 +714,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%E2%80%94%20Certbot%200.23.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

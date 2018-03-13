@@ -71,6 +71,15 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </ul>
 </div>
 
+    <div>
+  <aside class="warning" id="sni-warning">
+    <p>
+        If you are having trouble obtaining certificates using the Apache or
+        Nginx plugins, fill out the dropdown menus below to get updated
+        installation and usage instructions for your system.
+  </aside>
+</div>
+
     <header class="hero">
   <div id="wink">&nbsp;</div>
 
@@ -187,6 +196,14 @@ Certbot is packaged for your OS, so to install it simply run the following comma
 <pre>
 $ sudo dnf install certbot-nginx
 </pre>
+Certbot's DNS plugins are also available for your system which can be used to
+automate obtaining a wildcard certificate from Let's Encrypt's ACMEv2 server.
+To use one of these plugins, you must have configured DNS for the domain you
+want to obtain a certificate for with a DNS provider that Certbot has a plugin
+for. A list of these plugins and more information about using them can be found
+<a href="/docs/using.html#dns-plugins">here</a>. To install one of these
+plugins, run the installation command above but replace certbot-nginx with the
+name of the DNS plugin you want to install.
     </div>
     <div class="get-started">
       <h3>Get Started</h3>
@@ -202,9 +219,23 @@ many platforms, and certificate installation.
     subcommand:
     <pre>$ sudo certbot --nginx certonly</pre>
 
+<p>
+If you want to obtain a wildcard certificate using Let's Encrypt's new ACMEv2
+server, you'll also need to use one of
+<a href="/docs/using.html#dns-plugins">Certbot's DNS plugins</a>. To do this,
+make sure the plugin for your DNS provider is installed using the instructions
+above and run a command like the following:
+</p>
+<pre>$ sudo certbot -a <dns-plugin> -i nginx -d *.example.com -d example.com --server https://acme-v02.api.letsencrypt.org/directory&lt;/pre&gt;
+<p>
+You'll need to replace <tt><dns-plugin>&lt;/tt&gt; with the name of the DNS plugin
+you want to use. You may also need to provide additional flags such as the path
+your API credentials as described in the documentation for the DNS plugin
+linked above.
+&lt;/p&gt;
 
 To learn more about how to use Certbot <a href="/docs/">read our documentation</a>.
-</p>
+&lt;/p&gt;
 <h3>Automating renewal</h3>
 
 <p>
@@ -242,8 +273,8 @@ hour for your renewal tasks.</p>
 <p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
 documentation</a>.</p>
 
-    </div>
-  </div>
+    &lt;/div&gt;
+  &lt;/div&gt;
 
   <div class="instruction-pane advanced">
     <div class="install">
@@ -255,6 +286,14 @@ Certbot is packaged for your OS, so to install it simply run the following comma
 <pre>
 $ sudo dnf install certbot-nginx
 </pre>
+Certbot's DNS plugins are also available for your system which can be used to
+automate obtaining a wildcard certificate from Let's Encrypt's ACMEv2 server.
+To use one of these plugins, you must have configured DNS for the domain you
+want to obtain a certificate for with a DNS provider that Certbot has a plugin
+for. A list of these plugins and more information about using them can be found
+<a href="/docs/using.html#dns-plugins">here</a>. To install one of these
+plugins, run the installation command above but replace certbot-nginx with the
+name of the DNS plugin you want to install.
     </div>
     <div class="get-started">
       <h3>Get Started</h3>
@@ -286,9 +325,23 @@ many platforms, and certificate installation.
             plugin</a> instead.
 
             </p></aside>
+<p>
+If you want to obtain a wildcard certificate using Let's Encrypt's new ACMEv2
+server, you'll also need to use one of
+<a href="/docs/using.html#dns-plugins">Certbot's DNS plugins</a>. To do this,
+make sure the plugin for your DNS provider is installed using the instructions
+above and run a command like the following:
+</p>
+<pre>$ sudo certbot -a <dns-plugin> -i nginx -d *.example.com -d example.com --server https://acme-v02.api.letsencrypt.org/directory&lt;/pre&gt;
+<p>
+You'll need to replace <tt><dns-plugin>&lt;/tt&gt; with the name of the DNS plugin
+you want to use. You may also need to provide additional flags such as the path
+your API credentials as described in the documentation for the DNS plugin
+linked above.
+&lt;/p&gt;
 
 To learn more about how to use Certbot <a href="/docs/">read our documentation</a>.
-</p>
+&lt;/p&gt;
 <h3>Automating renewal</h3>
 
 <p>
@@ -326,10 +379,10 @@ hour for your renewal tasks.</p>
 <p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
 documentation</a>.</p>
 
-    </div>
+    &lt;/div&gt;
 
 
-  </div>
+  &lt;/div&gt;
 
   <div class="three">
       <figure>
@@ -357,7 +410,8 @@ documentation</a>.</p>
         </a>
       </figure>
     </div>
-</div>
+&lt;/div&gt;
+</dns-plugin></tt></p></dns-plugin></pre></p></div></div></dns-plugin></tt></p></dns-plugin></pre></p></div></div></div>
 
         </div>
       </div>
