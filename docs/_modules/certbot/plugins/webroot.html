@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.webroot &mdash; Certbot 0.23.0.dev0 documentation</title>
+  <title>certbot.plugins.webroot &mdash; Certbot 0.19.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.webroot &mdash; Certbot 0.23.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.webroot &mdash; Certbot 0.19.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 0.23.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.23
+                0.19
               </div>
             
           
@@ -202,7 +202,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">display_util</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">ops</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">common</span>
-<span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">util</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -250,8 +249,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="nb">super</span><span class="p">(</span><span class="n">Authenticator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">full_roots</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">performed</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
-        <span class="c1"># stack of dirs successfully created by this authenticator</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_created_dirs</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
         <span class="k">pass</span>
@@ -289,14 +286,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">webroot</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">while</span> <span class="n">webroot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">known_webroots</span><span class="p">:</span>
-                <span class="c1"># Only show the menu if we have options for it</span>
-                <span class="n">webroot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prompt_with_webroot_list</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">known_webroots</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">webroot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">webroot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prompt_for_new_webroot</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Allow prompt to raise PluginError instead of looping forever</span>
-                <span class="n">webroot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prompt_for_new_webroot</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="n">webroot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prompt_with_webroot_list</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">known_webroots</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">webroot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">webroot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prompt_for_new_webroot</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">webroot</span>
 
@@ -316,18 +309,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># code == display_util.OK</span>
                 <span class="k">return</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">known_webroots</span><span class="p">[</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">_prompt_for_new_webroot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">allowraise</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_prompt_for_new_webroot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
         <span class="n">code</span><span class="p">,</span> <span class="n">webroot</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">validated_directory</span><span class="p">(</span>
             <span class="n">_validate_webroot</span><span class="p">,</span>
             <span class="s2">&quot;Input the webroot for </span><span class="si">{0}</span><span class="s2">:&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">domain</span><span class="p">),</span>
             <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">CANCEL</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">allowraise</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">None</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span>
-                    <span class="s2">&quot;Every requested domain must have a &quot;</span>
-                    <span class="s2">&quot;webroot when using the webroot plugin.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># code == display_util.OK</span>
             <span class="k">return</span> <span class="n">_validate_webroot</span><span class="p">(</span><span class="n">webroot</span><span class="p">)</span>
 
@@ -348,26 +336,27 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="c1"># Umask is used instead of chmod to ensure the client can also</span>
             <span class="c1"># run as non-root (GH #1795)</span>
             <span class="n">old_umask</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">umask</span><span class="p">(</span><span class="mo">0o022</span><span class="p">)</span>
+
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">stat_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">get_prefixes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">full_roots</span><span class="p">[</span><span class="n">name</span><span class="p">]),</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">):</span>
-                    <span class="k">try</span><span class="p">:</span>
-                        <span class="c1"># This is coupled with the &quot;umask&quot; call above because</span>
-                        <span class="c1"># os.mkdir&#39;s &quot;mode&quot; parameter may not always work:</span>
-                        <span class="c1"># https://docs.python.org/3/library/os.html#os.mkdir</span>
-                        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="mo">0o0755</span><span class="p">)</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_created_dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
-                        <span class="c1"># Set owner as parent directory if possible</span>
-                        <span class="k">try</span><span class="p">:</span>
-                            <span class="n">os</span><span class="o">.</span><span class="n">chown</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">stat_path</span><span class="o">.</span><span class="n">st_uid</span><span class="p">,</span> <span class="n">stat_path</span><span class="o">.</span><span class="n">st_gid</span><span class="p">)</span>
-                        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Unable to change owner and uid of webroot directory&quot;</span><span class="p">)</span>
-                            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Error was: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exception</span><span class="p">)</span>
-                    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">exception</span><span class="o">.</span><span class="n">errno</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">errno</span><span class="o">.</span><span class="n">EEXIST</span><span class="p">,</span> <span class="n">errno</span><span class="o">.</span><span class="n">EISDIR</span><span class="p">):</span>
-                            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span>
-                                <span class="s2">&quot;Couldn&#39;t create root for </span><span class="si">{0}</span><span class="s2"> http-01 &quot;</span>
-                                <span class="s2">&quot;challenge responses: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">exception</span><span class="p">))</span>
+                <span class="c1"># This is coupled with the &quot;umask&quot; call above because</span>
+                <span class="c1"># os.makedirs&#39;s &quot;mode&quot; parameter may not always work:</span>
+                <span class="c1"># https://stackoverflow.com/questions/5231901/permission-problems-when-creating-a-dir-with-os-makedirs-python</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">full_roots</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="mo">0o0755</span><span class="p">)</span>
+
+                <span class="c1"># Set owner as parent directory if possible</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">stat_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">chown</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">full_roots</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">stat_path</span><span class="o">.</span><span class="n">st_uid</span><span class="p">,</span>
+                             <span class="n">stat_path</span><span class="o">.</span><span class="n">st_gid</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Unable to change owner and uid of webroot directory&quot;</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Error was: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exception</span><span class="p">)</span>
+
+            <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">exception</span><span class="o">.</span><span class="n">errno</span> <span class="o">!=</span> <span class="n">errno</span><span class="o">.</span><span class="n">EEXIST</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span>
+                        <span class="s2">&quot;Couldn&#39;t create root for </span><span class="si">{0}</span><span class="s2"> http-01 &quot;</span>
+                        <span class="s2">&quot;challenge responses: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">exception</span><span class="p">)</span>
             <span class="k">finally</span><span class="p">:</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">umask</span><span class="p">(</span><span class="n">old_umask</span><span class="p">)</span>
 
@@ -403,17 +392,16 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">validation_path</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">performed</span><span class="p">[</span><span class="n">root_path</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">achall</span><span class="p">)</span>
 
-        <span class="n">not_removed</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_created_dirs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_created_dirs</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-                <span class="n">not_removed</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Challenge directory </span><span class="si">%s</span><span class="s2"> was not empty, didn&#39;t remove&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Error was: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_created_dirs</span> <span class="o">=</span> <span class="n">not_removed</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;All challenges cleaned up&quot;</span><span class="p">)</span></div>
+        <span class="k">for</span> <span class="n">root_path</span><span class="p">,</span> <span class="n">achalls</span> <span class="ow">in</span> <span class="n">six</span><span class="o">.</span><span class="n">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">performed</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">achalls</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="n">root_path</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;All challenges cleaned up, removing </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                                 <span class="n">root_path</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">&quot;Unable to clean up challenge directory </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">root_path</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Error was: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="_WebrootMapAction"><a class="viewcode-back" href="../../../api/plugins/webroot.html#certbot.plugins.webroot._WebrootMapAction">[docs]</a><span class="k">class</span> <span class="nc">_WebrootMapAction</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
@@ -475,20 +463,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
   <div role="contentinfo">
     <p>
-    <span class="copyright">
-    &copy; Copyright 2014-2018 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at <a href="https://eff.org/cb-license">https://eff.org/cb-license</a>.
-    </span>
-    <br>
-    <br>
-    <span class="status">
-        <a href="https://letsencrypt.status.io/">Let's Encrypt Status</a>
-    </span>
+        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  <!-- Built with Sphinx using a custom theme. --> 
 
 </footer>
+
         </div>
       </div>
 
@@ -520,7 +502,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.23.0.dev0',
+            VERSION:'0.19.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -547,7 +529,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.webroot%E2%80%94%20Certbot%200.23.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.webroot%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

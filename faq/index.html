@@ -19,6 +19,7 @@
 ">
     <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
     <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+    <link rel="canonical" href="https://certbot.eff.org/faq/">
     <script src='/js/main.js' type="text/javascript" defer="defer"></script>
 
     
@@ -52,6 +53,15 @@
     <li><a href="https://supporters.eff.org/donate/support-work-on-certbot">Donate</a></li>
     <li id="close">&times;</li>
   </ul>
+</div>
+
+    <div>
+  <aside class="warning" id="sni-warning">
+    <p>
+        If you are have trouble obtaining certificates using the Apache or
+        Nginx plugins, fill out the dropdown menus below to get updated
+        installation and usage instructions for your system.
+  </aside>
 </div>
 
     <header class="hero subhero">
@@ -279,7 +289,13 @@
         </a>
       </h2>
       <div class="answer">
-        <p>Let’s Encrypt has <a href="https://letsencrypt.org/2017/07/06/wildcard-certificates-coming-jan-2018.html">announced</a> wildcard support coming January 2018. Certbot plans to add support for wildcard certificates when Let’s Encrypt starts issuing them.</p>
+        <p>Let’s Encrypt has <a href="https://community.letsencrypt.org/t/acme-v2-and-wildcard-certificate-support-is-live/55579">begun issuing</a> wildcard certificates in March 2018. Certbot has added support for wildcard certificates as of version 0.22. Obtaining a wildcard certificate requires using the DNS authentication method, either via <code class="highlighter-rouge">--manual</code> or via a Certbot DNS plugin appropriate to your DNS provider.</p>
+
+<p>Note that <a href="https://community.letsencrypt.org/t/getting-wildcard-certificates-with-certbot/56285">depending how you install Certbot</a>, appropriate plugins to automate the process may not yet be available on your system.</p>
+
+<p>A wildcard should normally be obtained explicitly for both the base domain and subdomains (e.g., `-d example.org -d “*.example.org”) because the wildcard does not cover the base domain, only subdomains.</p>
+
+<p>Please see Certbot documentation for more information about your situation.</p>
 
       </div>
     </li>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.util &mdash; Certbot 0.23.0.dev0 documentation</title>
+  <title>certbot.util &mdash; Certbot 0.19.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.util &mdash; Certbot 0.23.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.util &mdash; Certbot 0.19.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.23.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.23
+                0.19
               </div>
             
           
@@ -200,13 +200,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
-
 <span class="kn">import</span> <span class="nn">configargparse</span>
 
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">lock</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="c1"># OrderedDict was added in Python 2.7</span>
+    <span class="kn">from</span> <span class="nn">ordereddict</span> <span class="k">import</span> <span class="n">OrderedDict</span>  <span class="c1"># pylint: disable=import-error</span>
 
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -522,9 +526,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
-        <span class="n">os_ua</span> <span class="o">=</span> <span class="n">get_var_from_file</span><span class="p">(</span><span class="s2">&quot;PRETTY_NAME&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
+        <span class="n">os_ua</span> <span class="o">=</span> <span class="n">_get_systemd_os_release_var</span><span class="p">(</span><span class="s2">&quot;PRETTY_NAME&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os_ua</span><span class="p">:</span>
-            <span class="n">os_ua</span> <span class="o">=</span> <span class="n">get_var_from_file</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
+            <span class="n">os_ua</span> <span class="o">=</span> <span class="n">_get_systemd_os_release_var</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">os_ua</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">os_ua</span>
 
@@ -541,8 +545,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :rtype: `tuple` of `str`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">os_name</span> <span class="o">=</span> <span class="n">get_var_from_file</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
-    <span class="n">os_version</span> <span class="o">=</span> <span class="n">get_var_from_file</span><span class="p">(</span><span class="s2">&quot;VERSION_ID&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">os_name</span> <span class="o">=</span> <span class="n">_get_systemd_os_release_var</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
+    <span class="n">os_version</span> <span class="o">=</span> <span class="n">_get_systemd_os_release_var</span><span class="p">(</span><span class="s2">&quot;VERSION_ID&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="n">os_name</span><span class="p">,</span> <span class="n">os_version</span><span class="p">)</span></div>
 
@@ -557,10 +561,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :rtype: `list` of `str`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">get_var_from_file</span><span class="p">(</span><span class="s2">&quot;ID_LIKE&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_get_systemd_os_release_var</span><span class="p">(</span><span class="s2">&quot;ID_LIKE&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_var_from_file"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_var_from_file">[docs]</a><span class="k">def</span> <span class="nf">get_var_from_file</span><span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;/etc/os-release&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="_get_systemd_os_release_var"><a class="viewcode-back" href="../../api/util.html#certbot.util._get_systemd_os_release_var">[docs]</a><span class="k">def</span> <span class="nf">_get_systemd_os_release_var</span><span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;/etc/os-release&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get single value from systemd /etc/os-release</span>
 
@@ -585,7 +589,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <div class="viewcode-block" id="_normalize_string"><a class="viewcode-back" href="../../api/util.html#certbot.util._normalize_string">[docs]</a><span class="k">def</span> <span class="nf">_normalize_string</span><span class="p">(</span><span class="n">orig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Helper function for get_var_from_file() to remove quotes</span>
+<span class="sd">    Helper function for _get_systemd_os_release_var() to remove quotes</span>
 <span class="sd">    and whitespaces</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">orig</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
@@ -732,6 +736,16 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :returns: The domain cast to `str`, with ASCII-only contents</span>
 <span class="sd">    :rtype: str</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">text_type</span><span class="p">):</span>
+        <span class="n">wildcard_marker</span> <span class="o">=</span> <span class="sa">u</span><span class="s2">&quot;*.&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">wildcard_marker</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;*.&quot;</span>
+
+    <span class="c1"># Check if there&#39;s a wildcard domain</span>
+    <span class="k">if</span> <span class="n">domain</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">wildcard_marker</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">(</span>
+            <span class="s2">&quot;Wildcard domains are not supported: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">domain</span><span class="p">))</span>
+
     <span class="c1"># Unicode</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">binary_type</span><span class="p">):</span>
@@ -785,24 +799,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">domain</span></div>
 
 
-<div class="viewcode-block" id="is_wildcard_domain"><a class="viewcode-back" href="../../api/util.html#certbot.util.is_wildcard_domain">[docs]</a><span class="k">def</span> <span class="nf">is_wildcard_domain</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;&quot;Is domain a wildcard domain?</span>
-
-<span class="sd">    :param damain: domain to check</span>
-<span class="sd">    :type domain: `bytes` or `str` or `unicode`</span>
-
-<span class="sd">    :returns: True if domain is a wildcard, otherwise, False</span>
-<span class="sd">    :rtype: bool</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">text_type</span><span class="p">):</span>
-        <span class="n">wildcard_marker</span> <span class="o">=</span> <span class="sa">u</span><span class="s2">&quot;*.&quot;</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">wildcard_marker</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;*.&quot;</span>
-
-    <span class="k">return</span> <span class="n">domain</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">wildcard_marker</span><span class="p">)</span></div>
-
-
 <div class="viewcode-block" id="get_strict_version"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_strict_version">[docs]</a><span class="k">def</span> <span class="nf">get_strict_version</span><span class="p">(</span><span class="n">normalized</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Converts a normalized version to a strict version.</span>
 
@@ -854,20 +850,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
   <div role="contentinfo">
     <p>
-    <span class="copyright">
-    &copy; Copyright 2014-2018 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at <a href="https://eff.org/cb-license">https://eff.org/cb-license</a>.
-    </span>
-    <br>
-    <br>
-    <span class="status">
-        <a href="https://letsencrypt.status.io/">Let's Encrypt Status</a>
-    </span>
+        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  <!-- Built with Sphinx using a custom theme. --> 
 
 </footer>
+
         </div>
       </div>
 
@@ -899,7 +889,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.23.0.dev0',
+            VERSION:'0.19.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -926,7 +916,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.util%E2%80%94%20Certbot%200.23.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.util%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
