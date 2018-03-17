@@ -629,7 +629,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cert</span> <span class="o">=</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">dump_certificate</span><span class="p">(</span><span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span>
         <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">(</span><span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">fullchain_pem</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
-    <span class="n">chain</span> <span class="o">=</span> <span class="n">fullchain_pem</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cert</span><span class="p">):]</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">fullchain_pem</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cert</span><span class="p">):]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">chain</span><span class="p">)</span></div>
 </pre></div>
 
