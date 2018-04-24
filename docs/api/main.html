@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.main &mdash; Certbot 0.23.0.dev0 documentation</title>
+  <title>certbot.main &mdash; Certbot 0.24.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.main &mdash; Certbot 0.23.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.main &mdash; Certbot 0.24.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 0.23.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 0.24.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Documentation" href="../api.html"/>
         <link rel="next" title="certbot.notify" href="notify.html"/>
         <link rel="prev" title="certbot.log" href="log.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.23
+                0.24
               </div>
             
           
@@ -475,7 +475,7 @@ and a lists of items added to <code class="xref py py-obj docutils literal"><spa
 
 <dl class="function">
 <dt id="certbot.main._find_domains_or_certname">
-<code class="descclassname">certbot.main.</code><code class="descname">_find_domains_or_certname</code><span class="sig-paren">(</span><em>config</em>, <em>installer</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/main.html#_find_domains_or_certname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.main._find_domains_or_certname" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">certbot.main.</code><code class="descname">_find_domains_or_certname</code><span class="sig-paren">(</span><em>config</em>, <em>installer</em>, <em>question=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/main.html#_find_domains_or_certname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.main._find_domains_or_certname" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve domains and certname from config or user input.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -484,6 +484,8 @@ and a lists of items added to <code class="xref py py-obj docutils literal"><spa
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>config</strong> (<a class="reference internal" href="interfaces.html#certbot.interfaces.IConfig" title="certbot.interfaces.IConfig"><em>interfaces.IConfig</em></a>) &#8211; Configuration object</li>
 <li><strong>installer</strong> (<a class="reference internal" href="interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><em>interfaces.IInstaller</em></a>) &#8211; Installer object</li>
+<li><strong>question</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; Overriding dialog question to ask the user if asked
+to choose from domain names.</li>
 </ul>
 </td>
 </tr>
@@ -706,6 +708,30 @@ defined by &#8211;cert-name.</p>
 <dt id="certbot.main.plugins_cmd">
 <code class="descclassname">certbot.main.</code><code class="descname">plugins_cmd</code><span class="sig-paren">(</span><em>config</em>, <em>plugins</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/main.html#plugins_cmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.main.plugins_cmd" title="Permalink to this definition">¶</a></dt>
 <dd><p>List server software plugins.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>config</strong> (<a class="reference internal" href="interfaces.html#certbot.interfaces.IConfig" title="certbot.interfaces.IConfig"><em>interfaces.IConfig</em></a>) &#8211; Configuration object</li>
+<li><strong>plugins</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a>) &#8211; List of plugins</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.6)">None</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.main.enhance">
+<code class="descclassname">certbot.main.</code><code class="descname">enhance</code><span class="sig-paren">(</span><em>config</em>, <em>plugins</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/main.html#enhance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.main.enhance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add security enhancements to existing configuration</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1146,7 +1172,7 @@ So we just save the cert &amp; chain to disk :/</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.23.0.dev0',
+            VERSION:'0.24.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1173,7 +1199,7 @@ So we just save the cert &amp; chain to disk :/</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.main%E2%80%94%20Certbot%200.23.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.main%E2%80%94%20Certbot%200.24.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

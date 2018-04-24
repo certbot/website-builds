@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.main &mdash; Certbot 0.23.0.dev0 documentation</title>
+  <title>certbot.main &mdash; Certbot 0.24.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.main &mdash; Certbot 0.23.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.main &mdash; Certbot 0.24.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.23.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.24.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.23
+                0.24
               </div>
             
           
@@ -566,7 +566,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">if</span> <span class="ow">not</span> <span class="n">obj</span><span class="o">.</span><span class="n">yesno</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="s2">&quot;Update cert&quot;</span><span class="p">,</span> <span class="s2">&quot;Cancel&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;Specified mismatched cert name and domains.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="_find_domains_or_certname"><a class="viewcode-back" href="../../api/main.html#certbot.main._find_domains_or_certname">[docs]</a><span class="k">def</span> <span class="nf">_find_domains_or_certname</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">installer</span><span class="p">):</span>
+<div class="viewcode-block" id="_find_domains_or_certname"><a class="viewcode-back" href="../../api/main.html#certbot.main._find_domains_or_certname">[docs]</a><span class="k">def</span> <span class="nf">_find_domains_or_certname</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">installer</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Retrieve domains and certname from config or user input.</span>
 
 <span class="sd">    :param config: Configuration object</span>
@@ -575,6 +575,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :param installer: Installer object</span>
 <span class="sd">    :type installer: interfaces.IInstaller</span>
 
+<span class="sd">    :param `str` question: Overriding dialog question to ask the user if asked</span>
+<span class="sd">        to choose from domain names.</span>
 
 <span class="sd">    :returns: Two-part tuple of domains and certname</span>
 <span class="sd">    :rtype: `tuple` of list of `str` and `str`</span>
@@ -595,7 +597,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="c1"># that certname might not have existed, or there was a problem.</span>
     <span class="c1"># try to get domains from the user.</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">domains</span><span class="p">:</span>
-        <span class="n">domains</span> <span class="o">=</span> <span class="n">display_ops</span><span class="o">.</span><span class="n">choose_names</span><span class="p">(</span><span class="n">installer</span><span class="p">)</span>
+        <span class="n">domains</span> <span class="o">=</span> <span class="n">display_ops</span><span class="o">.</span><span class="n">choose_names</span><span class="p">(</span><span class="n">installer</span><span class="p">,</span> <span class="n">question</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">domains</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">certname</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;Please specify --domains, or --installer that &quot;</span>
@@ -1042,6 +1044,53 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">available</span> <span class="o">=</span> <span class="n">verified</span><span class="o">.</span><span class="n">available</span><span class="p">()</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Prepared plugins: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">available</span><span class="p">)</span>
     <span class="n">notify</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">available</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="enhance"><a class="viewcode-back" href="../../api/main.html#certbot.main.enhance">[docs]</a><span class="k">def</span> <span class="nf">enhance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add security enhancements to existing configuration</span>
+
+<span class="sd">    :param config: Configuration object</span>
+<span class="sd">    :type config: interfaces.IConfig</span>
+
+<span class="sd">    :param plugins: List of plugins</span>
+<span class="sd">    :type plugins: `list` of `str`</span>
+
+<span class="sd">    :returns: `None`</span>
+<span class="sd">    :rtype: None</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">supported_enhancements</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;hsts&quot;</span><span class="p">,</span> <span class="s2">&quot;redirect&quot;</span><span class="p">,</span> <span class="s2">&quot;uir&quot;</span><span class="p">,</span> <span class="s2">&quot;staple&quot;</span><span class="p">]</span>
+    <span class="c1"># Check that at least one enhancement was requested on command line</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">enh</span><span class="p">)</span> <span class="k">for</span> <span class="n">enh</span> <span class="ow">in</span> <span class="n">supported_enhancements</span><span class="p">]):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Please specify one or more enhancement types to configure. To list &quot;</span>
+               <span class="s2">&quot;the available enhancement types, run:</span><span class="se">\n\n</span><span class="si">%s</span><span class="s2"> --help enhance</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">MisconfigurationError</span><span class="p">(</span><span class="s2">&quot;No enhancements requested, exiting.&quot;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">installer</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plug_sel</span><span class="o">.</span><span class="n">choose_configurator_plugins</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="s2">&quot;enhance&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginSelectionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+    <span class="n">certname_question</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Which certificate would you like to use to enhance &quot;</span>
+                         <span class="s2">&quot;your configuration?&quot;</span><span class="p">)</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">certname</span> <span class="o">=</span> <span class="n">cert_manager</span><span class="o">.</span><span class="n">get_certnames</span><span class="p">(</span>
+        <span class="n">config</span><span class="p">,</span> <span class="s2">&quot;enhance&quot;</span><span class="p">,</span> <span class="n">allow_multiple</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">custom_prompt</span><span class="o">=</span><span class="n">certname_question</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">cert_domains</span> <span class="o">=</span> <span class="n">cert_manager</span><span class="o">.</span><span class="n">domains_for_certname</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">certname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">noninteractive_mode</span><span class="p">:</span>
+        <span class="n">domains</span> <span class="o">=</span> <span class="n">cert_domains</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">domain_question</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Which domain names would you like to enable the &quot;</span>
+                           <span class="s2">&quot;selected enhancements for?&quot;</span><span class="p">)</span>
+        <span class="n">domains</span> <span class="o">=</span> <span class="n">display_ops</span><span class="o">.</span><span class="n">choose_values</span><span class="p">(</span><span class="n">cert_domains</span><span class="p">,</span> <span class="n">domain_question</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">domains</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;User cancelled the domain selection. No domains &quot;</span>
+                               <span class="s2">&quot;defined, exiting.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">chain_path</span><span class="p">:</span>
+        <span class="n">lineage</span> <span class="o">=</span> <span class="n">cert_manager</span><span class="o">.</span><span class="n">lineage_for_certname</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">certname</span><span class="p">)</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">chain_path</span> <span class="o">=</span> <span class="n">lineage</span><span class="o">.</span><span class="n">chain_path</span>
+    <span class="n">le_client</span> <span class="o">=</span> <span class="n">_init_le_client</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">authenticator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">installer</span><span class="o">=</span><span class="n">installer</span><span class="p">)</span>
+    <span class="n">le_client</span><span class="o">.</span><span class="n">enhance_config</span><span class="p">(</span><span class="n">domains</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">chain_path</span><span class="p">,</span> <span class="n">ask_redirect</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="rollback"><a class="viewcode-back" href="../../api/main.html#certbot.main.rollback">[docs]</a><span class="k">def</span> <span class="nf">rollback</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
@@ -1511,7 +1560,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.23.0.dev0',
+            VERSION:'0.24.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1538,7 +1587,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.main%E2%80%94%20Certbot%200.23.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.main%E2%80%94%20Certbot%200.24.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
