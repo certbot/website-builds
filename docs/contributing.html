@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Developer Guide &mdash; Certbot 0.24.0.dev0 documentation</title>
+  <title>Developer Guide &mdash; Certbot 0.25.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Developer Guide &mdash; Certbot 0.24.0.dev0 documentation">
+<meta name="twitter:title" content="Developer Guide &mdash; Certbot 0.25.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.24.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 0.25.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Packaging Guide" href="packaging.html"/>
         <link rel="prev" title="User Guide" href="using.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.24
+                0.25
               </div>
             
           
@@ -146,6 +146,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#coding-style">Coding style</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#submitting-a-pull-request">Submitting a pull request</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#asking-for-help">Asking for help</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#updating-certbot-auto-and-letsencrypt-auto">Updating certbot-auto and letsencrypt-auto</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#updating-the-scripts">Updating the scripts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#building-letsencrypt-auto-source-letsencrypt-auto">Building letsencrypt-auto-source/letsencrypt-auto</a></li>
@@ -155,7 +156,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l2"><a class="reference internal" href="#updating-the-documentation">Updating the documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#running-the-client-with-docker">Running the client with Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#notes-on-os-dependencies">Notes on OS dependencies</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#debian">Debian</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#freebsd">FreeBSD</a></li>
 </ul>
 </li>
@@ -242,16 +242,16 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </li>
 <li><a class="reference internal" href="#coding-style" id="id15">Coding style</a></li>
 <li><a class="reference internal" href="#submitting-a-pull-request" id="id16">Submitting a pull request</a></li>
-<li><a class="reference internal" href="#updating-certbot-auto-and-letsencrypt-auto" id="id17">Updating certbot-auto and letsencrypt-auto</a><ul>
-<li><a class="reference internal" href="#updating-the-scripts" id="id18">Updating the scripts</a></li>
-<li><a class="reference internal" href="#building-letsencrypt-auto-source-letsencrypt-auto" id="id19">Building letsencrypt-auto-source/letsencrypt-auto</a></li>
-<li><a class="reference internal" href="#opening-a-pr" id="id20">Opening a PR</a></li>
+<li><a class="reference internal" href="#asking-for-help" id="id17">Asking for help</a></li>
+<li><a class="reference internal" href="#updating-certbot-auto-and-letsencrypt-auto" id="id18">Updating certbot-auto and letsencrypt-auto</a><ul>
+<li><a class="reference internal" href="#updating-the-scripts" id="id19">Updating the scripts</a></li>
+<li><a class="reference internal" href="#building-letsencrypt-auto-source-letsencrypt-auto" id="id20">Building letsencrypt-auto-source/letsencrypt-auto</a></li>
+<li><a class="reference internal" href="#opening-a-pr" id="id21">Opening a PR</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#updating-the-documentation" id="id21">Updating the documentation</a></li>
-<li><a class="reference internal" href="#running-the-client-with-docker" id="id22">Running the client with Docker</a></li>
-<li><a class="reference internal" href="#notes-on-os-dependencies" id="id23">Notes on OS dependencies</a><ul>
-<li><a class="reference internal" href="#debian" id="id24">Debian</a></li>
+<li><a class="reference internal" href="#updating-the-documentation" id="id22">Updating the documentation</a></li>
+<li><a class="reference internal" href="#running-the-client-with-docker" id="id23">Running the client with Docker</a></li>
+<li><a class="reference internal" href="#notes-on-os-dependencies" id="id24">Notes on OS dependencies</a><ul>
 <li><a class="reference internal" href="#freebsd" id="id25">FreeBSD</a></li>
 </ul>
 </li>
@@ -259,6 +259,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </div>
 <div class="section" id="getting-started">
 <span id="id1"></span><h2><a class="toc-backref" href="#id4">Getting Started</a><a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>Certbot has the same <a class="reference internal" href="install.html#system-requirements"><span class="std std-ref">system requirements</span></a> when set
+up for development.  While the section below will help you install Certbot and
+its dependencies, Certbot needs to be run on a UNIX-like OS so if you&#8217;re using
+Windows, you&#8217;ll need to set up a (virtual) machine running an OS such as Linux
+and continue with these instructions on that UNIX-like OS.</p>
 <div class="section" id="running-a-local-copy-of-the-client">
 <h3><a class="toc-backref" href="#id5">Running a local copy of the client</a><a class="headerlink" href="#running-a-local-copy-of-the-client" title="Permalink to this headline">¶</a></h3>
 <p>Running the client in developer mode from your local tree is a little different
@@ -267,37 +272,41 @@ running:</p>
 <div class="highlight-shell"><div class="highlight"><pre><span></span>git clone https://github.com/certbot/certbot
 </pre></div>
 </div>
-<p>If you&#8217;re on macOS, we recommend you skip the rest of this section and instead
-run Certbot in Docker. You can find instructions for how to do this <a class="reference internal" href="#docker-dev"><span class="std std-ref">here</span></a>. If you&#8217;re running on Linux, you can run the following commands to
-install dependencies and set up a virtual environment where you can run
-Certbot. You will need to repeat this when Certbot&#8217;s dependencies change or when
-a new plugin is introduced.</p>
+<p>Next you need to install dependencies and set up a virtual environment where
+you can run Certbot. We recommend you do this using the commands below,
+however, you can alternatively skip the rest of this section and <a class="reference internal" href="#docker-dev"><span class="std std-ref">run
+Certbot in Docker</span></a>.</p>
 <div class="highlight-shell"><div class="highlight"><pre><span></span><span class="nb">cd</span> certbot
-sudo ./certbot-auto --os-packages-only
-./tools/venv.sh
+./certbot-auto --debug --os-packages-only
+tools/venv.sh
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You may need to repeat this when
+Certbot&#8217;s dependencies change or when a new plugin is introduced.</p>
 </div>
 <p>You can now run the copy of Certbot from git either by executing
-<code class="docutils literal"><span class="pre">venv/bin/certbot</span></code>, or by activating the virtual environment. If you&#8217;re
-actively modifying and testing the code, you may want to run commands like this in
-each shell where you&#8217;re working:</p>
-<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="nb">source</span> ./venv/bin/activate
-<span class="nb">export</span> <span class="nv">SERVER</span><span class="o">=</span>https://acme-staging-v02.api.letsencrypt.org/directory
-<span class="nb">source</span> tests/integration/_common.sh
+<code class="docutils literal"><span class="pre">venv/bin/certbot</span></code>, or by activating the virtual environment. You can do the
+latter by running:</p>
+<div class="highlight-shell"><div class="highlight"><pre><span></span><span class="nb">source</span> venv/bin/activate
 </pre></div>
 </div>
-<p>After that, your shell will be using the virtual environment, your copy of
-Certbot will default to requesting test (staging) certificates, and you run the
-client by typing <a class="reference internal" href="api/index.html#module-certbot" title="certbot"><code class="xref py py-obj docutils literal"><span class="pre">certbot</span></code></a> or <code class="xref py py-obj docutils literal"><span class="pre">certbot_test</span></code>. The latter is an alias that
-includes several flags useful for testing. For instance, it sets various output
-directories to point to /tmp/, and uses non-privileged ports for challenges, so
-root privileges are not required.</p>
-<p>Activating a shell with <code class="xref py py-obj docutils literal"><span class="pre">venv/bin/activate</span></code> sets environment variables so that
-Python pulls in the correct versions of various packages needed by Certbot.
-More information can be found in the <a class="reference external" href="https://virtualenv.pypa.io">virtualenv docs</a>.</p>
+<p>After running this command, <code class="docutils literal"><span class="pre">certbot</span></code> and development tools like <code class="docutils literal"><span class="pre">ipdb</span></code>,
+<code class="docutils literal"><span class="pre">ipython</span></code>, <code class="docutils literal"><span class="pre">pytest</span></code>, and <code class="docutils literal"><span class="pre">tox</span></code> are available in the shell where you ran
+the command. These tools are installed in the virtual environment and are kept
+separate from your global Python installation. This works by setting
+environment variables so the right executables are found and Python can pull in
+the versions of various packages needed by Certbot.  More information can be
+found in the <a class="reference external" href="https://virtualenv.pypa.io">virtualenv docs</a>.</p>
 </div>
 <div class="section" id="find-issues-to-work-on">
 <h3><a class="toc-backref" href="#id6">Find issues to work on</a><a class="headerlink" href="#find-issues-to-work-on" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you&#8217;re sprinting on Certbot at PyCon, you can find especially good
+issues to work on during the event <a class="reference external" href="https://github.com/certbot/certbot/issues?q=is%3Aopen+is%3Aissue+project%3Acertbot%2Fcertbot%2F3">here</a>.</p>
+</div>
 <p>You can find the open issues in the <a class="reference external" href="https://github.com/certbot/certbot/issues">github issue tracker</a>.  Comparatively
 easy ones are marked <a class="reference external" href="https://github.com/certbot/certbot/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22">good first issue</a>.  If you&#8217;re starting work on
 something, post a comment to let others know and seek feedback on your plan
@@ -320,20 +329,22 @@ run all of the unittests for Certbot with <code class="docutils literal"><span c
 <p>Once all the unittests pass, check for sufficient test coverage using
 <code class="docutils literal"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">cover</span></code>, and then check for code style with <code class="docutils literal"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">lint</span></code> (all files)
 or <code class="docutils literal"><span class="pre">pylint</span> <span class="pre">--rcfile=.pylintrc</span> <span class="pre">path/to/file.py</span></code> (single file at a time).</p>
-<p>Once all of the above is successful, you may run the full test suite,
-including integration tests, using <code class="docutils literal"><span class="pre">tox</span></code>. We recommend running the
-commands above first, because running all tests with <code class="docutils literal"><span class="pre">tox</span></code> is very
-slow, and the large amount of <code class="docutils literal"><span class="pre">tox</span></code> output can make it hard to find
-specific failures when they happen. Also note that the full test suite
-will attempt to modify your system&#8217;s Apache config if your user has sudo
-permissions, so it should not be run on a production Apache server.</p>
-<p>If you have trouble getting the full <code class="docutils literal"><span class="pre">tox</span></code> suite to run locally, it is
-generally sufficient to open a pull request and let Github and Travis run
-integration tests for you.</p>
+<p>Once all of the above is successful, you may run the full test suite using
+<code class="docutils literal"><span class="pre">tox</span> <span class="pre">--skip-missing-interpreters</span></code>. We recommend running the commands above
+first, because running all tests like this is very slow, and the large amount
+of output can make it hard to find specific failures when they happen.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The full test suite may attempt to modify your system&#8217;s Apache
+config if your user has sudo permissions, so it should not be run on a
+production Apache server.</p>
+</div>
 <div class="section" id="integration-testing-with-the-boulder-ca">
 <span id="integration"></span><h4><a class="toc-backref" href="#id8">Integration testing with the Boulder CA</a><a class="headerlink" href="#integration-testing-with-the-boulder-ca" title="Permalink to this headline">¶</a></h4>
-<p>To run integration tests locally, you need Docker and docker-compose installed
-and working. Fetch and start Boulder using:</p>
+<p>Generally it is sufficient to open a pull request and let Github and Travis run
+integration tests for you, however, if you want to run them locally you need
+Docker and docker-compose installed and working. Fetch and start Boulder, Let&#8217;s
+Encrypt&#8217;s ACME CA software, by using:</p>
 <div class="highlight-shell"><div class="highlight"><pre><span></span>./tests/boulder-fetch.sh
 </pre></div>
 </div>
@@ -499,16 +510,21 @@ virtualenv. You can do this by running <code class="docutils literal"><span clas
 <li>Run <code class="docutils literal"><span class="pre">tox</span> <span class="pre">--skip-missing-interpreters</span></code> to run the entire test suite
 including coverage. The <code class="docutils literal"><span class="pre">--skip-missing-interpreters</span></code> argument ignores
 missing versions of Python needed for running the tests. Fix any errors.</li>
-<li>If your code touches communication with an ACME server/Boulder, you
-should run the integration tests, see <a class="reference internal" href="#integration">integration</a>.</li>
 <li>Submit the PR.</li>
 <li>Did your tests pass on Travis? If they didn&#8217;t, fix any errors.</li>
 </ol>
 </div>
+<div class="section" id="asking-for-help">
+<h2><a class="toc-backref" href="#id17">Asking for help</a><a class="headerlink" href="#asking-for-help" title="Permalink to this headline">¶</a></h2>
+<p>If you have any questions while working on a Certbot issue, don&#8217;t hesitate to
+ask for help! You can do this in the #letsencrypt-dev IRC channel on Freenode.
+If you don&#8217;t already have an IRC client set up, we recommend you join using
+<a class="reference external" href="https://riot.im/app/#/room/#freenode_#letsencrypt-dev:matrix.org">Riot</a>.</p>
+</div>
 <div class="section" id="updating-certbot-auto-and-letsencrypt-auto">
-<h2><a class="toc-backref" href="#id17">Updating certbot-auto and letsencrypt-auto</a><a class="headerlink" href="#updating-certbot-auto-and-letsencrypt-auto" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id18">Updating certbot-auto and letsencrypt-auto</a><a class="headerlink" href="#updating-certbot-auto-and-letsencrypt-auto" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="updating-the-scripts">
-<h3><a class="toc-backref" href="#id18">Updating the scripts</a><a class="headerlink" href="#updating-the-scripts" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id19">Updating the scripts</a><a class="headerlink" href="#updating-the-scripts" title="Permalink to this headline">¶</a></h3>
 <p>Developers should <em>not</em> modify the <code class="docutils literal"><span class="pre">certbot-auto</span></code> and <code class="docutils literal"><span class="pre">letsencrypt-auto</span></code> files
 in the root directory of the repository.  Rather, modify the
 <code class="docutils literal"><span class="pre">letsencrypt-auto.template</span></code> and associated platform-specific shell scripts in
@@ -516,7 +532,7 @@ the <code class="docutils literal"><span class="pre">letsencrypt-auto-source</sp
 <code class="docutils literal"><span class="pre">letsencrypt-auto-source/pieces/bootstrappers</span></code> directory, respectively.</p>
 </div>
 <div class="section" id="building-letsencrypt-auto-source-letsencrypt-auto">
-<h3><a class="toc-backref" href="#id19">Building letsencrypt-auto-source/letsencrypt-auto</a><a class="headerlink" href="#building-letsencrypt-auto-source-letsencrypt-auto" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id20">Building letsencrypt-auto-source/letsencrypt-auto</a><a class="headerlink" href="#building-letsencrypt-auto-source-letsencrypt-auto" title="Permalink to this headline">¶</a></h3>
 <p>Once changes to any of the aforementioned files have been made, the
 <code class="docutils literal"><span class="pre">letsencrypt-auto-source/letsencrypt-auto</span></code> script should be updated.  In lieu of
 manually updating this script, run the build script, which lives at
@@ -531,7 +547,7 @@ Your changes will be propagated to these files during the next release of
 Certbot.</p>
 </div>
 <div class="section" id="opening-a-pr">
-<h3><a class="toc-backref" href="#id20">Opening a PR</a><a class="headerlink" href="#opening-a-pr" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id21">Opening a PR</a><a class="headerlink" href="#opening-a-pr" title="Permalink to this headline">¶</a></h3>
 <p>When opening a PR, ensure that the following files are committed:</p>
 <ol class="arabic simple">
 <li><code class="docutils literal"><span class="pre">letsencrypt-auto-source/letsencrypt-auto.template</span></code> and
@@ -545,7 +561,7 @@ during the next release.</p>
 </div>
 </div>
 <div class="section" id="updating-the-documentation">
-<h2><a class="toc-backref" href="#id21">Updating the documentation</a><a class="headerlink" href="#updating-the-documentation" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id22">Updating the documentation</a><a class="headerlink" href="#updating-the-documentation" title="Permalink to this headline">¶</a></h2>
 <p>In order to generate the Sphinx documentation, run the following
 commands:</p>
 <div class="highlight-shell"><div class="highlight"><pre><span></span>make -C docs clean html man
@@ -560,10 +576,10 @@ run <code class="docutils literal"><span class="pre">pip</span> <span class="pre
 </div>
 </div>
 <div class="section" id="running-the-client-with-docker">
-<span id="docker-dev"></span><h2><a class="toc-backref" href="#id22">Running the client with Docker</a><a class="headerlink" href="#running-the-client-with-docker" title="Permalink to this headline">¶</a></h2>
+<span id="docker-dev"></span><h2><a class="toc-backref" href="#id23">Running the client with Docker</a><a class="headerlink" href="#running-the-client-with-docker" title="Permalink to this headline">¶</a></h2>
 <p>You can use Docker Compose to quickly set up an environment for running and
-testing Certbot. This is especially useful for macOS users. To install Docker
-Compose, follow the instructions at <a class="reference external" href="https://docs.docker.com/compose/install/">https://docs.docker.com/compose/install/</a>.</p>
+testing Certbot. To install Docker Compose, follow the instructions at
+<a class="reference external" href="https://docs.docker.com/compose/install/">https://docs.docker.com/compose/install/</a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Linux users can simply run <code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">docker-compose</span></code> to get
@@ -590,33 +606,20 @@ effect. To do this, run:</p>
 </div>
 </div>
 <div class="section" id="notes-on-os-dependencies">
-<span id="prerequisites"></span><h2><a class="toc-backref" href="#id23">Notes on OS dependencies</a><a class="headerlink" href="#notes-on-os-dependencies" title="Permalink to this headline">¶</a></h2>
+<span id="prerequisites"></span><h2><a class="toc-backref" href="#id24">Notes on OS dependencies</a><a class="headerlink" href="#notes-on-os-dependencies" title="Permalink to this headline">¶</a></h2>
 <p>OS-level dependencies can be installed like so:</p>
-<div class="highlight-shell"><div class="highlight"><pre><span></span>letsencrypt-auto-source/letsencrypt-auto --os-packages-only
+<div class="highlight-shell"><div class="highlight"><pre><span></span>./certbot-auto --debug --os-packages-only
 </pre></div>
 </div>
 <p>In general...</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">sudo</span></code> is required as a suggested way of running privileged process</li>
-<li><a class="reference external" href="https://wiki.python.org/moin/BeginnersGuide/Download">Python</a> 2.7 is required</li>
+<li><a class="reference external" href="https://wiki.python.org/moin/BeginnersGuide/Download">Python</a> 2.7 or 3.4+ is required</li>
 <li><a class="reference external" href="http://augeas.net/">Augeas</a> is required for the Python bindings</li>
-<li><code class="docutils literal"><span class="pre">virtualenv</span></code> and <code class="docutils literal"><span class="pre">pip</span></code> are used for managing other python library
-dependencies</li>
+<li><code class="docutils literal"><span class="pre">virtualenv</span></code> is used for managing other Python library dependencies</li>
 </ul>
-<div class="section" id="debian">
-<h3><a class="toc-backref" href="#id24">Debian</a><a class="headerlink" href="#debian" title="Permalink to this headline">¶</a></h3>
-<p>For squeeze you will need to:</p>
-<ul class="simple">
-<li>Use <code class="docutils literal"><span class="pre">virtualenv</span> <span class="pre">--no-site-packages</span> <span class="pre">-p</span> <span class="pre">python</span></code> instead of <code class="docutils literal"><span class="pre">-p</span> <span class="pre">python2</span></code>.</li>
-</ul>
-</div>
 <div class="section" id="freebsd">
 <h3><a class="toc-backref" href="#id25">FreeBSD</a><a class="headerlink" href="#freebsd" title="Permalink to this headline">¶</a></h3>
-<p>Packages can be installed on FreeBSD using <code class="docutils literal"><span class="pre">pkg</span></code>,
-or any other port-management tool (<code class="docutils literal"><span class="pre">portupgrade</span></code>, <code class="docutils literal"><span class="pre">portmanager</span></code>, etc.)
-from the pre-built package or can be built and installed from ports.
-Either way will ensure proper installation of all the dependencies required
-for the package.</p>
 <p>FreeBSD by default uses <code class="docutils literal"><span class="pre">tcsh</span></code>. In order to activate virtualenv (see
 above), you will need a compatible shell, e.g. <code class="docutils literal"><span class="pre">pkg</span> <span class="pre">install</span> <span class="pre">bash</span> <span class="pre">&amp;&amp;</span>
 <span class="pre">bash</span></code>.</p>
@@ -679,7 +682,7 @@ above), you will need a compatible shell, e.g. <code class="docutils literal"><s
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.24.0.dev0',
+            VERSION:'0.25.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -706,7 +709,7 @@ above), you will need a compatible shell, e.g. <code class="docutils literal"><s
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Developer%20Guide%E2%80%94%20Certbot%200.24.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Developer%20Guide%E2%80%94%20Certbot%200.25.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
