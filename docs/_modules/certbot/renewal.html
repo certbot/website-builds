@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.renewal &mdash; Certbot 0.24.0.dev0 documentation</title>
+  <title>certbot.renewal &mdash; Certbot 0.25.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.renewal &mdash; Certbot 0.24.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.renewal &mdash; Certbot 0.25.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.24.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.25.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.24
+                0.25
               </div>
             
           
@@ -196,13 +196,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">OpenSSL</span>
 
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">cli</span>
-
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">hooks</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">storage</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">updater</span>
+
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">disco</span> <span class="k">as</span> <span class="n">plugins_disco</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -595,9 +596,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="c1"># XXX: ensure that each call here replaces the previous one</span>
                 <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">provideUtility</span><span class="p">(</span><span class="n">lineage_config</span><span class="p">)</span>
                 <span class="n">renewal_candidate</span><span class="o">.</span><span class="n">ensure_deployed</span><span class="p">()</span>
+                <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">main</span>
+                <span class="n">plugins</span> <span class="o">=</span> <span class="n">plugins_disco</span><span class="o">.</span><span class="n">PluginsRegistry</span><span class="o">.</span><span class="n">find_all</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">should_renew</span><span class="p">(</span><span class="n">lineage_config</span><span class="p">,</span> <span class="n">renewal_candidate</span><span class="p">):</span>
-                    <span class="n">plugins</span> <span class="o">=</span> <span class="n">plugins_disco</span><span class="o">.</span><span class="n">PluginsRegistry</span><span class="o">.</span><span class="n">find_all</span><span class="p">()</span>
-                    <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">main</span>
                     <span class="c1"># domains have been restored into lineage_config by reconstitute</span>
                     <span class="c1"># but they&#39;re unnecessary anyway because renew_cert here</span>
                     <span class="c1"># will just grab them from the certificate</span>
@@ -610,6 +611,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                         <span class="s2">&quot;cert&quot;</span><span class="p">,</span> <span class="n">renewal_candidate</span><span class="o">.</span><span class="n">latest_common_version</span><span class="p">()))</span>
                     <span class="n">renew_skipped</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> expires on </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">renewal_candidate</span><span class="o">.</span><span class="n">fullchain</span><span class="p">,</span>
                                          <span class="n">expiry</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)))</span>
+                <span class="c1"># Run updater interface methods</span>
+                <span class="n">updater</span><span class="o">.</span><span class="n">run_generic_updaters</span><span class="p">(</span><span class="n">lineage_config</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span>
+                                             <span class="n">renewal_candidate</span><span class="p">)</span>
+
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-except</span>
             <span class="c1"># obtain_cert (presumably) encountered an unanticipated problem.</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Attempting to renew cert (</span><span class="si">%s</span><span class="s2">) from </span><span class="si">%s</span><span class="s2"> produced an &quot;</span>
@@ -683,7 +688,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.24.0.dev0',
+            VERSION:'0.25.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -710,7 +715,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.renewal%E2%80%94%20Certbot%200.24.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.renewal%E2%80%94%20Certbot%200.25.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
