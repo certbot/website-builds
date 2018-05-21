@@ -194,8 +194,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">zope.component</span>
 <span class="kn">import</span> <span class="nn">zope.interface</span>
 
-<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">challenges</span>
+<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">challenges</span>  <span class="c1"># pylint: disable=unused-import</span>
+<span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">DefaultDict</span><span class="p">,</span> <span class="n">List</span>
+<span class="c1"># pylint: enable=unused-import, no-name-in-module</span>
 
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">achallenges</span>  <span class="c1"># pylint: disable=unused-import</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">cli</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
@@ -248,10 +252,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Authenticator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">full_roots</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">performed</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">full_roots</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[str, str]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">performed</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span> \
+        <span class="c1"># type: DefaultDict[str, Set[achallenges.KeyAuthorizationAnnotatedChallenge]]</span>
         <span class="c1"># stack of dirs successfully created by this authenticator</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_created_dirs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_created_dirs</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
 
     <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
         <span class="k">pass</span>
@@ -340,7 +345,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="s2">&quot; --help webroot for examples.&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">path_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">full_roots</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">challenges</span><span class="o">.</span><span class="n">HTTP01</span><span class="o">.</span><span class="n">URI_ROOT_PATH</span><span class="p">)</span>
-
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Creating root challenges validation dir at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
                          <span class="bp">self</span><span class="o">.</span><span class="n">full_roots</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
 
@@ -391,7 +395,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">os</span><span class="o">.</span><span class="n">umask</span><span class="p">(</span><span class="n">old_umask</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">performed</span><span class="p">[</span><span class="n">root_path</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">achall</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="n">response</span>
 
     <span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achalls</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
@@ -403,7 +406,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">validation_path</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">performed</span><span class="p">[</span><span class="n">root_path</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">achall</span><span class="p">)</span>
 
-        <span class="n">not_removed</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">not_removed</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
         <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_created_dirs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_created_dirs</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
             <span class="k">try</span><span class="p">:</span>

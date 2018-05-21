@@ -195,6 +195,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="kn">from</span> <span class="nn">josepy</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">jose_util</span>
 
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">achallenges</span>  <span class="c1"># pylint: disable=unused-import</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
@@ -515,8 +517,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configurator</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">configurator</span> <span class="o">=</span> <span class="n">configurator</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">achalls</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">achalls</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[achallenges.KeyAuthorizationAnnotatedChallenge]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[int]</span>
 
 <div class="viewcode-block" id="ChallengePerformer.add_chall"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.ChallengePerformer.add_chall">[docs]</a>    <span class="k">def</span> <span class="nf">add_chall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Store challenge to be performed when perform() is called.</span>

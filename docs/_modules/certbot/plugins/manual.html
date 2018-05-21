@@ -189,7 +189,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">zope.interface</span>
 
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">challenges</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Dict</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
 
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">achallenges</span>  <span class="c1"># pylint: disable=unused-import</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">hooks</span>
@@ -282,7 +284,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="nb">super</span><span class="p">(</span><span class="n">Authenticator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reverter</span> <span class="o">=</span> <span class="n">reverter</span><span class="o">.</span><span class="n">Reverter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reverter</span><span class="o">.</span><span class="n">recovery_routine</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span> \
+        <span class="c1"># type: Dict[achallenges.KeyAuthorizationAnnotatedChallenge, Dict[str, str]]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tls_sni_01</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@classmethod</span>

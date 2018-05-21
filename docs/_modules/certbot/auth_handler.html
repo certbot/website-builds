@@ -192,7 +192,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">challenges</span>
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">messages</span>
-
+<span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">DefaultDict</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Collection</span>
+<span class="c1"># pylint: enable=unused-import, no-name-in-module</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">achallenges</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">error_handler</span>
@@ -301,7 +303,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <div class="viewcode-block" id="AuthHandler._solve_challenges"><a class="viewcode-back" href="../../api/auth_handler.html#certbot.auth_handler.AuthHandler._solve_challenges">[docs]</a>    <span class="k">def</span> <span class="nf">_solve_challenges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aauthzrs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get Responses for challenges from authenticators.&quot;&quot;&quot;</span>
-        <span class="n">resp</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: Collection[acme.challenges.ChallengeResponse]</span>
         <span class="n">all_achalls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_all_achalls</span><span class="p">(</span><span class="n">aauthzrs</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">all_achalls</span><span class="p">:</span>
@@ -317,10 +319,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <div class="viewcode-block" id="AuthHandler._get_all_achalls"><a class="viewcode-back" href="../../api/auth_handler.html#certbot.auth_handler.AuthHandler._get_all_achalls">[docs]</a>    <span class="k">def</span> <span class="nf">_get_all_achalls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aauthzrs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return all active challenges.&quot;&quot;&quot;</span>
-        <span class="n">all_achalls</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">all_achalls</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: Collection[challenges.ChallengeResponse]</span>
         <span class="k">for</span> <span class="n">aauthzr</span> <span class="ow">in</span> <span class="n">aauthzrs</span><span class="p">:</span>
             <span class="n">all_achalls</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">aauthzr</span><span class="o">.</span><span class="n">achalls</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="n">all_achalls</span></div>
 
 <div class="viewcode-block" id="AuthHandler._respond"><a class="viewcode-back" href="../../api/auth_handler.html#certbot.auth_handler.AuthHandler._respond">[docs]</a>    <span class="k">def</span> <span class="nf">_respond</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aauthzrs</span><span class="p">,</span> <span class="n">resp</span><span class="p">,</span> <span class="n">best_effort</span><span class="p">):</span>
@@ -330,7 +331,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: chall_update is a dirty hack to get around acme-spec #105</span>
-        <span class="n">chall_update</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">chall_update</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span> \
+        <span class="c1"># type: Dict[int, List[achallenges.KeyAuthorizationAnnotatedChallenge]]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_send_responses</span><span class="p">(</span><span class="n">aauthzrs</span><span class="p">,</span> <span class="n">resp</span><span class="p">,</span> <span class="n">chall_update</span><span class="p">)</span>
 
         <span class="c1"># Check for updated status...</span>
@@ -382,7 +384,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">while</span> <span class="n">indices_to_check</span> <span class="ow">and</span> <span class="n">rounds</span> <span class="o">&lt;</span> <span class="n">max_rounds</span><span class="p">:</span>
             <span class="c1"># TODO: Use retry-after...</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">min_sleep</span><span class="p">)</span>
-            <span class="n">all_failed_achalls</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="n">all_failed_achalls</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c1"># type: Set[achallenges.KeyAuthorizationAnnotatedChallenge]</span>
             <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indices_to_check</span><span class="p">:</span>
                 <span class="n">comp_achalls</span><span class="p">,</span> <span class="n">failed_achalls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_check</span><span class="p">(</span>
                     <span class="n">aauthzrs</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">chall_update</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
@@ -608,7 +610,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="c1"># max_cost is now equal to sum(indices) + 1</span>
 
-    <span class="n">best_combo</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">best_combo</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="c1"># Set above completing all of the available challenges</span>
     <span class="n">best_combo_cost</span> <span class="o">=</span> <span class="n">max_cost</span>
 
@@ -663,7 +665,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span>
             <span class="s2">&quot; You may need to use an authenticator &quot;</span>
             <span class="s2">&quot;plugin that can do challenges over DNS.&quot;</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
     <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">AuthorizationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
 
 
@@ -706,11 +708,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        :class:`certbot.achallenges.AnnotatedChallenge`.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">problems</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">problems</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>\
+    <span class="c1"># type: DefaultDict[str, List[achallenges.KeyAuthorizationAnnotatedChallenge]]</span>
     <span class="k">for</span> <span class="n">achall</span> <span class="ow">in</span> <span class="n">failed_achalls</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">achall</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
-            <span class="n">problems</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">typ</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">achall</span><span class="p">)</span>
-
+            <span class="n">problems</span><span class="p">[</span><span class="n">achall</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">typ</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">achall</span><span class="p">)</span>
     <span class="n">reporter</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IReporter</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">achalls</span> <span class="ow">in</span> <span class="n">six</span><span class="o">.</span><span class="n">itervalues</span><span class="p">(</span><span class="n">problems</span><span class="p">):</span>
         <span class="n">reporter</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span>

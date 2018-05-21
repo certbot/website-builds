@@ -266,8 +266,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="bp">self</span><span class="o">.</span><span class="n">_recover_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">:</span>
                 <span class="c1"># We have a partial or incomplete recovery</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">&quot;Incomplete or failed recovery for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span>
+                    <span class="s2">&quot;Incomplete or failed recovery for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span><span class="s2">&quot;Unable to revert temporary config&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Reverter.rollback_checkpoints"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.rollback_checkpoints">[docs]</a>    <span class="k">def</span> <span class="nf">rollback_checkpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rollback</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -307,7 +309,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_recover_checkpoint</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">&quot;Failed to load checkpoint during rollback&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Failed to load checkpoint during rollback&quot;</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
                     <span class="s2">&quot;Unable to load checkpoint during rollback&quot;</span><span class="p">)</span>
             <span class="n">rollback</span> <span class="o">-=</span> <span class="mi">1</span></div>
@@ -365,7 +367,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">if</span> <span class="n">for_logging</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
         <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Reverter.add_to_temp_checkpoint"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.add_to_temp_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_temp_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add files to temporary checkpoint.</span>
@@ -641,7 +643,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="bp">self</span><span class="o">.</span><span class="n">_recover_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">:</span>
                 <span class="c1"># We have a partial or incomplete recovery</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">&quot;Incomplete or failed recovery for IN_PROGRESS &quot;</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Incomplete or failed recovery for IN_PROGRESS &quot;</span>
                              <span class="s2">&quot;checkpoint - </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
                              <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
@@ -678,7 +680,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                             <span class="s2">&quot;Certbot probably shut down unexpectedly&quot;</span><span class="p">,</span>
                             <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span>
                 <span class="s2">&quot;Unable to remove filepaths contained within </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file_list</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
                 <span class="s2">&quot;Unable to remove filepaths contained within &quot;</span>

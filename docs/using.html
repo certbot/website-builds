@@ -449,6 +449,12 @@ one of the options shown below on the command line.</p>
 </div></blockquote>
 <p>It must still be possible for your machine to accept inbound connections from
 the Internet on the specified port using each requested domain name.</p>
+<p>By default, Certbot first attempts to bind to the port for all interfaces using
+IPv6 and then bind to that port using IPv4; Certbot continues so long as at
+least one bind succeeds. On most Linux systems, IPv4 traffic will be routed to
+the bound IPv6 port and the failure during the second bind is expected.</p>
+<p>Use <code class="docutils literal"><span class="pre">--&lt;challenge-type&gt;-address</span></code> to explicitly tell Certbot which interface
+(and protocol) to bind.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The <code class="docutils literal"><span class="pre">--standalone-supported-challenges</span></code> option has been
@@ -867,7 +873,7 @@ commands into your individual environment.</p>
 <p class="last"><code class="docutils literal"><span class="pre">certbot</span> <span class="pre">renew</span></code> exit status will only be 1 if a renewal attempt failed.
 This means <code class="docutils literal"><span class="pre">certbot</span> <span class="pre">renew</span></code> exit status will be 0 if no certificate needs to be updated.
 If you write a custom script and expect to run a command only after a certificate was actually renewed
-you will need to use the <code class="docutils literal"><span class="pre">--post-hook</span></code> since the exit status will be 0 both on successful renewal
+you will need to use the <code class="docutils literal"><span class="pre">--deploy-hook</span></code> since the exit status will be 0 both on successful renewal
 and when renewal is not necessary.</p>
 </div>
 </div>
