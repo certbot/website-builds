@@ -191,6 +191,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">traceback</span>
 <span class="kn">import</span> <span class="nn">zope.component</span>
 
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
@@ -410,7 +411,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">def</span> <span class="nf">find_matches</span><span class="p">(</span><span class="n">candidate_lineage</span><span class="p">,</span> <span class="n">return_value</span><span class="p">,</span> <span class="n">acceptable_matches</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Returns a list of matches using _search_lineages.&quot;&quot;&quot;</span>
         <span class="n">acceptable_matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span><span class="p">(</span><span class="n">candidate_lineage</span><span class="p">)</span> <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">acceptable_matches</span><span class="p">]</span>
-        <span class="n">acceptable_matches_rv</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">acceptable_matches_rv</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">acceptable_matches</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="n">acceptable_matches_rv</span> <span class="o">+=</span> <span class="n">item</span>
@@ -524,7 +525,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <div class="viewcode-block" id="_describe_certs"><a class="viewcode-back" href="../../api/cert_manager.html#certbot.cert_manager._describe_certs">[docs]</a><span class="k">def</span> <span class="nf">_describe_certs</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">parsed_certs</span><span class="p">,</span> <span class="n">parse_failures</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Print information about the certs we know about&quot;&quot;&quot;</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
 
     <span class="n">notify</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">append</span>
 

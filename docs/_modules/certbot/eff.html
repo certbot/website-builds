@@ -255,11 +255,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Received response:</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">ok</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;status&#39;</span><span class="p">]:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
             <span class="n">_report_failure</span><span class="p">(</span><span class="s1">&#39;your e-mail address appears to be invalid&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">_report_failure</span><span class="p">()</span></div>
+    <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">:</span>
+        <span class="n">_report_failure</span><span class="p">()</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
+        <span class="n">_report_failure</span><span class="p">(</span><span class="s1">&#39;there was a problem with the server response&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="_report_failure"><a class="viewcode-back" href="../../api/eff.html#certbot.eff._report_failure">[docs]</a><span class="k">def</span> <span class="nf">_report_failure</span><span class="p">(</span><span class="n">reason</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

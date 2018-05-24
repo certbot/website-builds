@@ -195,6 +195,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">zope.component</span>
 
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">errors</span> <span class="k">as</span> <span class="n">acme_errors</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Union</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
 
 <span class="kn">import</span> <span class="nn">certbot</span>
 
@@ -508,7 +509,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="k">return</span> <span class="s2">&quot;newcert&quot;</span><span class="p">,</span> <span class="kc">None</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">(</span><span class="s2">&quot;No certificate with name </span><span class="si">{0}</span><span class="s2"> found. &quot;</span>
-                    <span class="s2">&quot;Use -d to specify domains, or run certbot --certificates to see &quot;</span>
+                    <span class="s2">&quot;Use -d to specify domains, or run certbot certificates to see &quot;</span>
                     <span class="s2">&quot;possible certificate names.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">certname</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="_get_added_removed"><a class="viewcode-back" href="../../api/main.html#certbot.main._get_added_removed">[docs]</a><span class="k">def</span> <span class="nf">_get_added_removed</span><span class="p">(</span><span class="n">after</span><span class="p">,</span> <span class="n">before</span><span class="p">):</span>
@@ -524,7 +525,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="viewcode-block" id="_format_list"><a class="viewcode-back" href="../../api/main.html#certbot.main._format_list">[docs]</a><span class="k">def</span> <span class="nf">_format_list</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">strings</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Format list with given character</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">formatted</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{br}{ch}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{br}{ch}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">strings</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">strings</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">formatted</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{br}</span><span class="s2">(None)&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">formatted</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{br}{ch}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{br}{ch}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">strings</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">formatted</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
         <span class="n">ch</span><span class="o">=</span><span class="n">character</span><span class="p">,</span>
         <span class="n">br</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span>
@@ -701,8 +705,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                     <span class="n">config</span><span class="p">,</span> <span class="n">account_storage</span><span class="p">,</span> <span class="n">tos_cb</span><span class="o">=</span><span class="n">_tos_cb</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">MissingCommandlineFlag</span><span class="p">:</span>
                 <span class="k">raise</span>
-            <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span>
                     <span class="s2">&quot;Unable to register an account with ACME server&quot;</span><span class="p">)</span>
 
@@ -1452,7 +1456,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">quiet</span><span class="p">:</span>
         <span class="n">config</span><span class="o">.</span><span class="n">noninteractive_mode</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">displayer</span> <span class="o">=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">NoninteractiveDisplay</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">))</span>
+        <span class="n">displayer</span> <span class="o">=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">NoninteractiveDisplay</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">))</span> \
+        <span class="c1"># type: Union[None, display_util.NoninteractiveDisplay, display_util.FileDisplay]</span>
     <span class="k">elif</span> <span class="n">config</span><span class="o">.</span><span class="n">noninteractive_mode</span><span class="p">:</span>
         <span class="n">displayer</span> <span class="o">=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">NoninteractiveDisplay</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>

@@ -375,9 +375,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    only happens when flush(force=True) is called.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">capacity</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
         <span class="c1"># capacity doesn&#39;t matter because should_flush() is overridden</span>
-        <span class="n">capacity</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">MemoryHandler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">capacity</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
 
 <div class="viewcode-block" id="MemoryHandler.close"><a class="viewcode-back" href="../../api/log.html#certbot.log.MemoryHandler.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>

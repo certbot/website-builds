@@ -195,6 +195,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="kn">import</span> <span class="nn">OpenSSL</span>
 
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">cli</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
@@ -243,8 +245,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">renewal_candidate</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">RenewableCert</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
-    <span class="k">except</span> <span class="p">(</span><span class="n">errors</span><span class="o">.</span><span class="n">CertStorageError</span><span class="p">,</span> <span class="ne">IOError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">errors</span><span class="o">.</span><span class="n">CertStorageError</span><span class="p">,</span> <span class="ne">IOError</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Renewal configuration file </span><span class="si">%s</span><span class="s2"> is broken. Skipping.&quot;</span><span class="p">,</span> <span class="n">full_path</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Traceback was:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">())</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -317,14 +319,15 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="c1">#      longer defined, stored copies of that parameter will be</span>
     <span class="c1">#      deserialized as strings by this logic even if they were</span>
     <span class="c1">#      originally meant to be some other type.</span>
+    <span class="n">plugin_prefixes</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
     <span class="k">if</span> <span class="n">renewalparams</span><span class="p">[</span><span class="s2">&quot;authenticator&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;webroot&quot;</span><span class="p">:</span>
         <span class="n">_restore_webroot_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">renewalparams</span><span class="p">)</span>
-        <span class="n">plugin_prefixes</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">plugin_prefixes</span> <span class="o">=</span> <span class="p">[</span><span class="n">renewalparams</span><span class="p">[</span><span class="s2">&quot;authenticator&quot;</span><span class="p">]]</span>
+        <span class="n">plugin_prefixes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">renewalparams</span><span class="p">[</span><span class="s2">&quot;authenticator&quot;</span><span class="p">])</span>
 
-    <span class="k">if</span> <span class="n">renewalparams</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;installer&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">renewalparams</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;installer&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">plugin_prefixes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">renewalparams</span><span class="p">[</span><span class="s2">&quot;installer&quot;</span><span class="p">])</span>
+
     <span class="k">for</span> <span class="n">plugin_prefix</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">plugin_prefixes</span><span class="p">):</span>
         <span class="n">plugin_prefix</span> <span class="o">=</span> <span class="n">plugin_prefix</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">config_item</span><span class="p">,</span> <span class="n">config_value</span> <span class="ow">in</span> <span class="n">six</span><span class="o">.</span><span class="n">iteritems</span><span class="p">(</span><span class="n">renewalparams</span><span class="p">):</span>
@@ -500,13 +503,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="k">def</span> <span class="nf">_renew_describe_results</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">renew_successes</span><span class="p">,</span> <span class="n">renew_failures</span><span class="p">,</span>
                             <span class="n">renew_skipped</span><span class="p">,</span> <span class="n">parse_failures</span><span class="p">):</span>
 
-    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
     <span class="n">notify</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">append</span>
     <span class="n">disp</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">notify_error</span><span class="p">(</span><span class="n">err</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Notify and log errors.&quot;&quot;&quot;</span>
-        <span class="n">notify</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+        <span class="n">notify</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dry_run</span><span class="p">:</span>

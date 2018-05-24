@@ -196,10 +196,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">configargparse</span>
 <span class="kn">import</span> <span class="nn">six</span>
 <span class="kn">import</span> <span class="nn">zope.component</span>
+<span class="kn">import</span> <span class="nn">zope.interface</span>
 
 <span class="kn">from</span> <span class="nn">zope.interface</span> <span class="k">import</span> <span class="n">interfaces</span> <span class="k">as</span> <span class="n">zope_interfaces</span>
 
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">challenges</span>
+<span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="c1"># pylint: enable=unused-import, no-name-in-module</span>
 
 <span class="kn">import</span> <span class="nn">certbot</span>
 
@@ -217,7 +221,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="c1"># Global, to save us from a lot of argument passing within the scope of this module</span>
-<span class="n">helpful_parser</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">helpful_parser</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[HelpfulArgumentParser]</span>
 
 <span class="c1"># For help strings, figure out how the user ran us.</span>
 <span class="c1"># When invoked from letsencrypt-auto, sys.argv[0] is something like:</span>
@@ -380,17 +384,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    (CLI or config file) including if the user explicitly set it to the</span>
 <span class="sd">    default.  Returns False if the variable was assigned a default value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">detector</span> <span class="o">=</span> <span class="n">set_by_cli</span><span class="o">.</span><span class="n">detector</span>
-    <span class="k">if</span> <span class="n">detector</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">detector</span> <span class="o">=</span> <span class="n">set_by_cli</span><span class="o">.</span><span class="n">detector</span>  <span class="c1"># type: ignore</span>
+    <span class="k">if</span> <span class="n">detector</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">helpful_parser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Setup on first run: `detector` is a weird version of config in which</span>
         <span class="c1"># the default value of every attribute is wrangled to be boolean-false</span>
         <span class="n">plugins</span> <span class="o">=</span> <span class="n">plugins_disco</span><span class="o">.</span><span class="n">PluginsRegistry</span><span class="o">.</span><span class="n">find_all</span><span class="p">()</span>
         <span class="c1"># reconstructed_args == sys.argv[1:], or whatever was passed to main()</span>
         <span class="n">reconstructed_args</span> <span class="o">=</span> <span class="n">helpful_parser</span><span class="o">.</span><span class="n">args</span> <span class="o">+</span> <span class="p">[</span><span class="n">helpful_parser</span><span class="o">.</span><span class="n">verb</span><span class="p">]</span>
-        <span class="n">detector</span> <span class="o">=</span> <span class="n">set_by_cli</span><span class="o">.</span><span class="n">detector</span> <span class="o">=</span> <span class="n">prepare_and_parse_args</span><span class="p">(</span>
+        <span class="n">detector</span> <span class="o">=</span> <span class="n">set_by_cli</span><span class="o">.</span><span class="n">detector</span> <span class="o">=</span> <span class="n">prepare_and_parse_args</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
             <span class="n">plugins</span><span class="p">,</span> <span class="n">reconstructed_args</span><span class="p">,</span> <span class="n">detect_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="c1"># propagate plugin requests: eg --standalone modifies config.authenticator</span>
-        <span class="n">detector</span><span class="o">.</span><span class="n">authenticator</span><span class="p">,</span> <span class="n">detector</span><span class="o">.</span><span class="n">installer</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">detector</span><span class="o">.</span><span class="n">authenticator</span><span class="p">,</span> <span class="n">detector</span><span class="o">.</span><span class="n">installer</span> <span class="o">=</span> <span class="p">(</span>  <span class="c1"># type: ignore</span>
             <span class="n">plugin_selection</span><span class="o">.</span><span class="n">cli_plugin_requests</span><span class="p">(</span><span class="n">detector</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">detector</span><span class="p">,</span> <span class="n">var</span><span class="p">),</span> <span class="n">_Default</span><span class="p">):</span>
@@ -404,7 +408,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">return</span> <span class="kc">False</span></div>
+
 <span class="c1"># static housekeeping var</span>
+<span class="c1"># functions attributed are not supported by mypy</span>
+<span class="c1"># https://github.com/python/mypy/issues/2087</span>
 <span class="n">set_by_cli</span><span class="o">.</span><span class="n">detector</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
 
 
@@ -420,8 +427,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :rtype: bool</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">option</span> <span class="ow">in</span> <span class="n">helpful_parser</span><span class="o">.</span><span class="n">defaults</span> <span class="ow">and</span>
-            <span class="n">helpful_parser</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="n">option</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">)</span></div>
+    <span class="k">if</span> <span class="n">helpful_parser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">option</span> <span class="ow">in</span> <span class="n">helpful_parser</span><span class="o">.</span><span class="n">defaults</span> <span class="ow">and</span>
+                <span class="n">helpful_parser</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="n">option</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="option_was_set"><a class="viewcode-back" href="../../api/cli.html#certbot.cli.option_was_set">[docs]</a><span class="k">def</span> <span class="nf">option_was_set</span><span class="p">(</span><span class="n">option</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -438,11 +447,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <div class="viewcode-block" id="argparse_type"><a class="viewcode-back" href="../../api/cli.html#certbot.cli.argparse_type">[docs]</a><span class="k">def</span> <span class="nf">argparse_type</span><span class="p">(</span><span class="n">variable</span><span class="p">):</span>
-    <span class="s2">&quot;Return our argparse type function for a config variable (default: str)&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Return our argparse type function for a config variable (default: str)&quot;&quot;&quot;</span>
     <span class="c1"># pylint: disable=protected-access</span>
-    <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">helpful_parser</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">_actions</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">action</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">action</span><span class="o">.</span><span class="n">dest</span> <span class="o">==</span> <span class="n">variable</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">action</span><span class="o">.</span><span class="n">type</span>
+    <span class="k">if</span> <span class="n">helpful_parser</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">helpful_parser</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">_actions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">action</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">action</span><span class="o">.</span><span class="n">dest</span> <span class="o">==</span> <span class="n">variable</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">action</span><span class="o">.</span><span class="n">type</span>
     <span class="k">return</span> <span class="nb">str</span></div>
 
 <div class="viewcode-block" id="read_file"><a class="viewcode-back" href="../../api/cli.html#certbot.cli.read_file">[docs]</a><span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;rb&quot;</span><span class="p">):</span>
@@ -475,10 +485,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <div class="viewcode-block" id="config_help"><a class="viewcode-back" href="../../api/cli.html#certbot.cli.config_help">[docs]</a><span class="k">def</span> <span class="nf">config_help</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Extract the help message for an `.IConfig` attribute.&quot;&quot;&quot;</span>
+    <span class="c1"># pylint: disable=no-member</span>
     <span class="k">if</span> <span class="n">hidden</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">interfaces</span><span class="o">.</span><span class="n">IConfig</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="vm">__doc__</span></div>
+        <span class="n">field</span> <span class="o">=</span> <span class="n">interfaces</span><span class="o">.</span><span class="n">IConfig</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="c1"># type: zope.interface.interface.Attribute</span>
+        <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="vm">__doc__</span></div>
 
 
 <div class="viewcode-block" id="HelpfulArgumentGroup"><a class="viewcode-back" href="../../api/cli.html#certbot.cli.HelpfulArgumentGroup">[docs]</a><span class="k">class</span> <span class="nc">HelpfulArgumentGroup</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -657,7 +669,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">HELP_TOPICS</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">VERBS</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">COMMANDS_TOPICS</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;manage&quot;</span><span class="p">]</span>
 
         <span class="n">plugin_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">plugins</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">help_topics</span> <span class="o">=</span> <span class="n">HELP_TOPICS</span> <span class="o">+</span> <span class="n">plugin_names</span> <span class="o">+</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">help_topics</span> <span class="o">=</span> <span class="n">HELP_TOPICS</span> <span class="o">+</span> <span class="n">plugin_names</span> <span class="o">+</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">detect_defaults</span> <span class="o">=</span> <span class="n">detect_defaults</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
@@ -676,8 +688,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">short_usage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_usage_string</span><span class="p">(</span><span class="n">plugins</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_arg</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">visible_topics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">determine_help_topics</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">help_arg</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>       <span class="c1"># elements are added by .add_group()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">defaults</span> <span class="o">=</span> <span class="p">{}</span>     <span class="c1"># elements are added by .parse_args()</span>
+
+        <span class="c1"># elements are added by .add_group()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[str, argparse._ArgumentGroup]</span>
+        <span class="c1"># elements are added by .parse_args()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defaults</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[str, Any]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">configargparse</span><span class="o">.</span><span class="n">ArgParser</span><span class="p">(</span>
             <span class="n">prog</span><span class="o">=</span><span class="s2">&quot;certbot&quot;</span><span class="p">,</span>
@@ -989,7 +1004,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_arg</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">verbs</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="n">topic</span><span class="p">]</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">VERB_HELP_MAP</span><span class="p">[</span><span class="n">v</span><span class="p">][</span><span class="s2">&quot;short&quot;</span><span class="p">])</span>
-
         <span class="k">return</span> <span class="n">HelpfulArgumentGroup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HelpfulArgumentParser.add_plugin_args"><a class="viewcode-back" href="../../api/cli.html#certbot.cli.HelpfulArgumentParser.add_plugin_args">[docs]</a>    <span class="k">def</span> <span class="nf">add_plugin_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
@@ -1480,14 +1494,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">verb</span> <span class="o">=</span> <span class="n">helpful</span><span class="o">.</span><span class="n">help_arg</span>
 
     <span class="n">cph</span> <span class="o">=</span> <span class="s2">&quot;Path to where certificate is saved (with auth --csr), installed from, or revoked.&quot;</span>
-    <span class="n">section</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;paths&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;revoke&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;manage&quot;</span><span class="p">]</span>
+    <span class="n">sections</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;paths&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;revoke&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;manage&quot;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">verb</span> <span class="o">==</span> <span class="s2">&quot;certonly&quot;</span><span class="p">:</span>
-        <span class="n">add</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="s2">&quot;--cert-path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">,</span>
+        <span class="n">add</span><span class="p">(</span><span class="n">sections</span><span class="p">,</span> <span class="s2">&quot;--cert-path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;auth_cert_path&quot;</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="n">cph</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">verb</span> <span class="o">==</span> <span class="s2">&quot;revoke&quot;</span><span class="p">:</span>
-        <span class="n">add</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="s2">&quot;--cert-path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">read_file</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">cph</span><span class="p">)</span>
+        <span class="n">add</span><span class="p">(</span><span class="n">sections</span><span class="p">,</span> <span class="s2">&quot;--cert-path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">read_file</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">cph</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">add</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="s2">&quot;--cert-path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">cph</span><span class="p">)</span>
+        <span class="n">add</span><span class="p">(</span><span class="n">sections</span><span class="p">,</span> <span class="s2">&quot;--cert-path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">cph</span><span class="p">)</span>
 
     <span class="n">section</span> <span class="o">=</span> <span class="s2">&quot;paths&quot;</span>
     <span class="k">if</span> <span class="n">verb</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;revoke&quot;</span><span class="p">):</span>
