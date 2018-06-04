@@ -19,7 +19,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Certbot - Ubuntuartful Nginx</title>
+    <title>Certbot - Ubuntutzesty Plesk</title>
     <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <link rel="stylesheet" href="/css/main.css">
@@ -27,7 +27,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@EFF">
-    <meta name="twitter:title" content="Certbot - Ubuntuartful Nginx">
+    <meta name="twitter:title" content="Certbot - Ubuntutzesty Plesk">
     <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
@@ -125,7 +125,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
       
         <option value="debianother" data-distro="debian" data-version="0">Debian (other)</option>
       
-        <option value="ubuntuartful" data-distro="ubuntu" data-version="17.10">Ubuntu 17.10 (artful)</option>
+        <option value="ubuntutzesty" data-distro="ubuntu" data-version="17.04">Ubuntu 17.04 (zesty)</option>
+      
+        <option value="ubuntutyakkety" data-distro="ubuntu" data-version="16.10">Ubuntu 16.10 (yakkety)</option>
       
         <option value="ubuntuxenial" data-distro="ubuntu" data-version="16.04">Ubuntu 16.04 (xenial)</option>
       
@@ -179,168 +181,30 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <div class="page-content">
       <div class="wrapper">
         <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/ubuntuartful-nginx.html">Nginx on Ubuntu 17.10 (artful)</a></h2>
+          <h2 id="instructions-header"><a href="/lets-encrypt/ubuntutzesty-plesk.html">Plesk on Ubuntu 17.04 (zesty)</a></h2>
 <div class="tab automated active">Automated</div>
 <div class="tab advanced">Advanced</div>
 
 <div class="instruction-pane-wrapper">
   <div class="instruction-pane automated">
     <div class="install">
-<aside class="note">
-    <h4>Note:</h4>
-    <p>Certbot is meant to be run on the server where your website is hosted.
-If you don't have <a href="https://en.wikipedia.org/wiki/Superuser">
-administrative</a> <a href="https://en.wikipedia.org/wiki/Shell_account">
-shell access</a> to your webserver or you're not familiar with command line server
-administration, you should check if your hosting provider has built-in Let's
-Encrypt support by contacting them or <a href="https://community.letsencrypt.org/t/web-hosting-who-support-lets-encrypt/6920">
-checking this list of supporting providers</a>.
-</p>
-</aside>
-<h3>Install</h3>
-<p>
-On Ubuntu systems, the Certbot team maintains a <a href="https://help.ubuntu.com/community/PPA">PPA</a>. Once you add it to your list of repositories all you'll need to do is apt-get the following packages.
-</p>
-
-<pre>
-$ sudo apt-get update
-$ sudo apt-get install software-properties-common
-$ sudo add-apt-repository ppa:certbot/certbot
-$ sudo apt-get update
-$ sudo apt-get install python-certbot-nginx 
-</pre>
-<p>
-<strong>Certbot's DNS plugins which can be used to automate obtaining a wildcard
-certificate from Let's Encrypt's ACMEv2 server are not available for your OS
-yet.</strong> This should change soon but if you don't want to wait, you can use these
-plugins now by
-<a href="/docs/install.html#running-with-docker">running Certbot in Docker</a>
-instead of using the instructions on this page.
-</p>
     </div>
     <div class="get-started">
       <h3>Get Started</h3>
 <p>
-Certbot has an Nginx plugin, which is supported on
-many platforms, and certificate installation.
+For Plesk you won't even need to install Certbot. Instead, use the extension already available in Plesk — it will also give you automatic renewal of your certificates out-of-the-box as well! Read more about the extension <a href="https://ext.plesk.com/packages/f6847e61-33a7-4104-8dc9-d26a0183a8dd-letsencrypt">here</a>.
 </p>
-    <pre>$ sudo certbot --nginx</pre>
-    <p>
-    Running this command will get a certificate for you and have Certbot edit your Nginx configuration
-    automatically to serve it. If you're feeling more conservative and would like to make the changes to your
-    Nginx configuration by hand, you can use the <tt>certonly</tt>
-    subcommand:
-    <pre>$ sudo certbot --nginx certonly</pre>
-
-
-To learn more about how to use Certbot <a href="/docs/">read our documentation</a>.
-</p>
-<h3>Automating renewal</h3>
-
-<p>
-The Certbot packages on your system come with a cron job that will
-renew your certificates automatically before they expire. Since Let's Encrypt
-certificates last for 90 days, it's highly advisable to take advantage of this
-feature. You can test automatic renewal for your certificates by running this
-command:
-</p>
-
-<pre>
-$ sudo certbot renew --dry-run
-</pre>
-
-
-<p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
-
     </div>
   </div>
 
   <div class="instruction-pane advanced">
     <div class="install">
-<aside class="note">
-    <h4>Note:</h4>
-    <p>Certbot is meant to be run on the server where your website is hosted.
-If you don't have <a href="https://en.wikipedia.org/wiki/Superuser">
-administrative</a> <a href="https://en.wikipedia.org/wiki/Shell_account">
-shell access</a> to your webserver or you're not familiar with command line server
-administration, you should check if your hosting provider has built-in Let's
-Encrypt support by contacting them or <a href="https://community.letsencrypt.org/t/web-hosting-who-support-lets-encrypt/6920">
-checking this list of supporting providers</a>.
-</p>
-</aside>
-<h3>Install</h3>
-<p>
-On Ubuntu systems, the Certbot team maintains a <a href="https://help.ubuntu.com/community/PPA">PPA</a>. Once you add it to your list of repositories all you'll need to do is apt-get the following packages.
-</p>
-
-<pre>
-$ sudo apt-get update
-$ sudo apt-get install software-properties-common
-$ sudo add-apt-repository ppa:certbot/certbot
-$ sudo apt-get update
-$ sudo apt-get install python-certbot-nginx 
-</pre>
-<p>
-<strong>Certbot's DNS plugins which can be used to automate obtaining a wildcard
-certificate from Let's Encrypt's ACMEv2 server are not available for your OS
-yet.</strong> This should change soon but if you don't want to wait, you can use these
-plugins now by
-<a href="/docs/install.html#running-with-docker">running Certbot in Docker</a>
-instead of using the instructions on this page.
-</p>
     </div>
     <div class="get-started">
       <h3>Get Started</h3>
 <p>
-Certbot has an Nginx plugin, which is supported on
-many platforms, and certificate installation.
+For Plesk you won't even need to install Certbot. Instead, use the extension already available in Plesk — it will also give you automatic renewal of your certificates out-of-the-box as well! Read more about the extension <a href="https://ext.plesk.com/packages/f6847e61-33a7-4104-8dc9-d26a0183a8dd-letsencrypt">here</a>.
 </p>
-    <pre>$ sudo certbot --nginx</pre>
-    <p>
-    Running this command will get a certificate for you and have Certbot edit your Nginx configuration
-    automatically to serve it. If you're feeling more conservative and would like to make the changes to your
-    Nginx configuration by hand, you can use the <tt>certonly</tt>
-    subcommand:
-    <pre>$ sudo certbot --nginx certonly</pre>
-
-        <aside class="note">
-            <h4>Note:</h4>
-            <p>the Nginx plugin with <tt>certonly</tt> does the following:<br />
-            <ol>
-              <li>make temporary config changes<br />
-              (adding a new server block to pass an <a href="https://tools.ietf.org/html/draft-ietf-acme-acme-02#section-7.3">ACME Challenge</a>)</li>
-              <li>performs a graceful reload</li>
-              <li>reverts all changes</li>
-              <li>performs another graceful reload</li>
-            </ol>
-            This appears to be a reliable process, but if you don't want Certbot
-            to touch your Nginx process or files in any way, you can use the
-            <a href="https://certbot.eff.org/docs/using.html#webroot">webroot
-            plugin</a> instead.
-
-            </p></aside>
-
-To learn more about how to use Certbot <a href="/docs/">read our documentation</a>.
-</p>
-<h3>Automating renewal</h3>
-
-<p>
-The Certbot packages on your system come with a cron job that will
-renew your certificates automatically before they expire. Since Let's Encrypt
-certificates last for 90 days, it's highly advisable to take advantage of this
-feature. You can test automatic renewal for your certificates by running this
-command:
-</p>
-
-<pre>
-$ sudo certbot renew --dry-run
-</pre>
-
-
-<p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
-documentation</a>.</p>
-
     </div>
 
 
