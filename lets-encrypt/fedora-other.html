@@ -19,7 +19,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Certbot - Devuanjessie Other</title>
+    <title>Certbot - Fedora Other</title>
     <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <link rel="stylesheet" href="/css/main.css">
@@ -27,7 +27,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@EFF">
-    <meta name="twitter:title" content="Certbot - Devuanjessie Other">
+    <meta name="twitter:title" content="Certbot - Fedora Other">
     <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
@@ -231,7 +231,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <div class="page-content">
       <div class="wrapper">
         <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/devuanjessie-other.html">None of the above on Devuan Jessie 1.0</a></h2>
+          <h2 id="instructions-header"><a href="/lets-encrypt/fedora-other.html">None of the above on Fedora 26+</a></h2>
 <div class="tab automated active">Automated</div>
 <div class="tab advanced">Advanced</div>
 
@@ -251,25 +251,21 @@ checking this list of supporting providers</a>.
 </aside>
 <h3>Install</h3>
 <p>
-  Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
-</p>
-
-<p>
-First you'll have to enable the Jessie backports repo in your APT sources as
-shown <a href="https://devuan.org/os/etc/apt/sources.list#add-backports-default-no">here</a>.
-Then run:
+Certbot is packaged for your OS, so to install it simply run the following command:
 </p>
 
 <pre>
-$ sudo apt-get install certbot -t jessie-backports
+$ sudo dnf install certbot
 </pre>
 <p>
-<strong>Certbot's DNS plugins which can be used to automate obtaining a wildcard
-certificate from Let's Encrypt's ACMEv2 server are not available for your OS
-yet.</strong> This should change soon but if you don't want to wait, you can use these
-plugins now by
-<a href="/docs/install.html#running-with-docker">running Certbot in Docker</a>
-instead of using the instructions on this page.
+<strong>Certbot's DNS plugins are also available for your system which can be used to
+automate obtaining a wildcard certificate from Let's Encrypt's ACMEv2 server.</strong>
+To use one of these plugins, you must have configured DNS for the domain you
+want to obtain a certificate for with a DNS provider that Certbot has a plugin
+for. A list of these plugins and more information about using them can be found
+<a href="/docs/using.html#dns-plugins">here</a>. To install one of these
+plugins, run the installation command above but replace certbot with the
+name of the DNS plugin you want to install.
 </p>
     </div>
     <div class="get-started">
@@ -315,11 +311,24 @@ temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
 <pre>
 $ sudo certbot certonly --standalone -d example.com -d www.example.com
 </pre>
+<p>
+<strong>You can also use one of Certbot's DNS plugins to obtain a certificate if it's
+installed and you have configured DNS for the domain you want to obtain a
+certificate for with the DNS provider matching the plugin.</strong> To see more
+information about using these plugins, click
+<a href="/docs/using.html#dns-plugins">here</a>. If you want to use one of
+these plugins with Let's Encrypt's new ACMEv2 server that will issue wildcard
+certificates, you'll also need to include the following flag on the command
+line:
+</p>
+<pre>
+--server https://acme-v02.api.letsencrypt.org/directory
+</pre>
 
 <h3>Automating renewal</h3>
 
 <p>
-The Certbot packages on your system come with a cron job that will
+Certbot can be configured to
 renew your certificates automatically before they expire. Since Let's Encrypt
 certificates last for 90 days, it's highly advisable to take advantage of this
 feature. You can test automatic renewal for your certificates by running this
@@ -330,6 +339,25 @@ command:
 $ sudo certbot renew --dry-run
 </pre>
 
+If that appears to be working correctly, you can arrange for automatic renewal
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
+following:<br />
+
+<pre>certbot renew</pre>
+
+<aside class="note">
+    <h4>Note:</h4>
+    <p>if you're setting up a <tt>cron</tt> or <tt>systemd</tt> job, we
+recommend running it twice per day (it won't do anything until your
+certificates are due for renewal or revoked, but running it regularly would
+give your site a chance of staying online in case a Let's Encrypt-initiated
+revocation happened for some reason). Please select a random minute within the
+hour for your renewal tasks.</p>
+</aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew </pre>
 
 <p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
 documentation</a>.</p>
@@ -352,25 +380,21 @@ checking this list of supporting providers</a>.
 </aside>
 <h3>Install</h3>
 <p>
-  Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
-</p>
-
-<p>
-First you'll have to enable the Jessie backports repo in your APT sources as
-shown <a href="https://devuan.org/os/etc/apt/sources.list#add-backports-default-no">here</a>.
-Then run:
+Certbot is packaged for your OS, so to install it simply run the following command:
 </p>
 
 <pre>
-$ sudo apt-get install certbot -t jessie-backports
+$ sudo dnf install certbot
 </pre>
 <p>
-<strong>Certbot's DNS plugins which can be used to automate obtaining a wildcard
-certificate from Let's Encrypt's ACMEv2 server are not available for your OS
-yet.</strong> This should change soon but if you don't want to wait, you can use these
-plugins now by
-<a href="/docs/install.html#running-with-docker">running Certbot in Docker</a>
-instead of using the instructions on this page.
+<strong>Certbot's DNS plugins are also available for your system which can be used to
+automate obtaining a wildcard certificate from Let's Encrypt's ACMEv2 server.</strong>
+To use one of these plugins, you must have configured DNS for the domain you
+want to obtain a certificate for with a DNS provider that Certbot has a plugin
+for. A list of these plugins and more information about using them can be found
+<a href="/docs/using.html#dns-plugins">here</a>. To install one of these
+plugins, run the installation command above but replace certbot with the
+name of the DNS plugin you want to install.
 </p>
     </div>
     <div class="get-started">
@@ -416,11 +440,24 @@ temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
 <pre>
 $ sudo certbot certonly --standalone -d example.com -d www.example.com
 </pre>
+<p>
+<strong>You can also use one of Certbot's DNS plugins to obtain a certificate if it's
+installed and you have configured DNS for the domain you want to obtain a
+certificate for with the DNS provider matching the plugin.</strong> To see more
+information about using these plugins, click
+<a href="/docs/using.html#dns-plugins">here</a>. If you want to use one of
+these plugins with Let's Encrypt's new ACMEv2 server that will issue wildcard
+certificates, you'll also need to include the following flag on the command
+line:
+</p>
+<pre>
+--server https://acme-v02.api.letsencrypt.org/directory
+</pre>
 
 <h3>Automating renewal</h3>
 
 <p>
-The Certbot packages on your system come with a cron job that will
+Certbot can be configured to
 renew your certificates automatically before they expire. Since Let's Encrypt
 certificates last for 90 days, it's highly advisable to take advantage of this
 feature. You can test automatic renewal for your certificates by running this
@@ -431,6 +468,25 @@ command:
 $ sudo certbot renew --dry-run
 </pre>
 
+If that appears to be working correctly, you can arrange for automatic renewal
+by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
+following:<br />
+
+<pre>certbot renew</pre>
+
+<aside class="note">
+    <h4>Note:</h4>
+    <p>if you're setting up a <tt>cron</tt> or <tt>systemd</tt> job, we
+recommend running it twice per day (it won't do anything until your
+certificates are due for renewal or revoked, but running it regularly would
+give your site a chance of staying online in case a Let's Encrypt-initiated
+revocation happened for some reason). Please select a random minute within the
+hour for your renewal tasks.</p>
+</aside>
+
+<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
+
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew </pre>
 
 <p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
 documentation</a>.</p>
