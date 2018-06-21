@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User Guide &mdash; Certbot 0.25.0.dev0 documentation</title>
+  <title>User Guide &mdash; Certbot 0.26.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="User Guide &mdash; Certbot 0.25.0.dev0 documentation">
+<meta name="twitter:title" content="User Guide &mdash; Certbot 0.26.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.25.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 0.26.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Developer Guide" href="contributing.html"/>
         <link rel="prev" title="Get Certbot" href="install.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.25
+                0.26
               </div>
             
           
@@ -735,6 +735,14 @@ relevant files can be removed from the system with the <code class="docutils lit
 days). Make sure you renew the certificates at least once in 3
 months.</p>
 </div>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">Many of the certbot clients obtained through a
+distribution come with automatic renewal out of the box,
+such as Debian and Ubuntu versions installed through <code class="xref py py-obj docutils literal"><span class="pre">apt</span></code>,
+CentOS/RHEL 7 through EPEL, etc.  See <a class="reference internal" href="#automated-renewals">Automated Renewals</a>
+for more details.</p>
+</div>
 <p>As of version 0.10.0, Certbot supports a <code class="docutils literal"><span class="pre">renew</span></code> action to check
 all installed certificates for impending expiry and attempt to renew
 them. The simplest form is simply</p>
@@ -827,14 +835,6 @@ are only renewed when they&#8217;re determined to be near expiry, the command
 can run on a regular basis, like every week or every day). In that case,
 you are likely to want to use the <code class="docutils literal"><span class="pre">-q</span></code> or <code class="docutils literal"><span class="pre">--quiet</span></code> quiet flag to
 silence all output except errors.</p>
-<div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<p class="last">Many of the certbot clients obtained through a
-distribution come with automatic renewal out of the box,
-such as Debian and Ubuntu versions installed through <code class="xref py py-obj docutils literal"><span class="pre">apt</span></code>,
-CentOS/RHEL 7 through EPEL, etc.  See <a class="reference internal" href="#automated-renewals">Automated Renewals</a>
-for more details.</p>
-</div>
 <p>If you are manually renewing all of your certificates, the
 <code class="docutils literal"><span class="pre">--force-renewal</span></code> flag may be helpful; it causes the expiration time of
 the certificate(s) to be ignored when considering renewal, and attempts to
@@ -1363,9 +1363,9 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/0.24.0 (certbot;
-                        darwin 10.13.4) Authenticator/XXX Installer/YYY
-                        (SUBCOMMAND; flags: FLAGS) Py/2.7.14). The flags
+                        &quot;&quot;. (default: CertbotACMEClient/0.25.1 (certbot;
+                        darwin 10.13.5) Authenticator/XXX Installer/YYY
+                        (SUBCOMMAND; flags: FLAGS) Py/2.7.15). The flags
                         encoded in the user agent are: --duplicate, --force-
                         renew, --allow-subset-of-names, -n, and whether any
                         hooks are set.
@@ -1398,6 +1398,8 @@ automation:
                         certificate name but does not match the requested
                         domains, renew it now, regardless of whether it is
                         near expiry. (default: False)
+  --reuse-key           When renewing, use the same private key as the
+                        existing certificate. (default: False)
   --allow-subset-of-names
                         When performing domain validation, do not consider it
                         a failure if authorizations can not be obtained for a
@@ -1574,6 +1576,13 @@ renew:
                         disable it. (default: False)
   --no-directory-hooks  Disable running executables found in Certbot&#39;s hook
                         directories during renewal. (default: False)
+  --disable-renew-updates
+                        Disable automatic updates to your server configuration
+                        that would otherwise be done by the selected installer
+                        plugin, and triggered when the user executes &quot;certbot
+                        renew&quot;, regardless of if the certificate is renewed.
+                        This setting does not apply to important TLS
+                        configuration updates. (default: False)
 
 certificates:
   List certificates managed by Certbot
@@ -1615,8 +1624,9 @@ register:
                         e-mail address, should be updated, rather than
                         registering a new account. (default: False)
   -m EMAIL, --email EMAIL
-                        Email used for registration and recovery contact.
-                        (default: Ask)
+                        Email used for registration and recovery contact. Use
+                        comma to register multiple emails, ex:
+                        u1@example.com,u2@example.com. (default: Ask).
   --eff-email           Share your e-mail address with EFF (default: None)
   --no-eff-email        Don&#39;t share your e-mail address with EFF (default:
                         None)
@@ -1654,7 +1664,7 @@ update_symlinks:
   changed them by hand or edited a renewal configuration file
 
 enhance:
-  Helps to harden the TLS configration by adding security enhancements to
+  Helps to harden the TLS configuration by adding security enhancements to
   already existing configuration.
 
 plugins:
@@ -1727,9 +1737,9 @@ apache:
                         /etc/apache2/other)
   --apache-handle-modules APACHE_HANDLE_MODULES
                         Let installer handle enabling required modules for
-                        you.(Only Ubuntu/Debian currently) (default: False)
+                        you. (Only Ubuntu/Debian currently) (default: False)
   --apache-handle-sites APACHE_HANDLE_SITES
-                        Let installer handle enabling sites for you.(Only
+                        Let installer handle enabling sites for you. (Only
                         Ubuntu/Debian currently) (default: False)
 
 certbot-route53:auth:
@@ -1883,7 +1893,8 @@ nginx:
   Nginx Web Server plugin - Alpha
 
   --nginx-server-root NGINX_SERVER_ROOT
-                        Nginx server root directory. (default: /etc/nginx)
+                        Nginx server root directory. (default:
+                        /usr/local/etc/nginx)
   --nginx-ctl NGINX_CTL
                         Path to the &#39;nginx&#39; binary, used for &#39;configtest&#39; and
                         retrieving nginx version number. (default: nginx)
@@ -1994,7 +2005,7 @@ also might contain personally identifiable information)</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.25.0.dev0',
+            VERSION:'0.26.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -2021,7 +2032,7 @@ also might contain personally identifiable information)</li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%200.25.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%200.26.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

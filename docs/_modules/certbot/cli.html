@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.cli &mdash; Certbot 0.25.0.dev0 documentation</title>
+  <title>certbot.cli &mdash; Certbot 0.26.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.cli &mdash; Certbot 0.25.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.cli &mdash; Certbot 0.26.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.25.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.26.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.25
+                0.26
               </div>
             
           
@@ -216,6 +216,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">display_util</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">disco</span> <span class="k">as</span> <span class="n">plugins_disco</span>
+<span class="kn">import</span> <span class="nn">certbot.plugins.enhancements</span> <span class="k">as</span> <span class="nn">enhancements</span>
 <span class="kn">import</span> <span class="nn">certbot.plugins.selection</span> <span class="k">as</span> <span class="nn">plugin_selection</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -614,7 +615,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="p">}),</span>
     <span class="p">(</span><span class="s2">&quot;enhance&quot;</span><span class="p">,</span> <span class="p">{</span>
         <span class="s2">&quot;short&quot;</span><span class="p">:</span> <span class="s2">&quot;Add security enhancements to your existing configuration&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;opts&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Helps to harden the TLS configration by adding security enhancements &quot;</span>
+        <span class="s2">&quot;opts&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;Helps to harden the TLS configuration by adding security enhancements &quot;</span>
                  <span class="s2">&quot;to already existing configuration.&quot;</span><span class="p">),</span>
         <span class="s2">&quot;usage&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">  certbot enhance [options]</span><span class="se">\n\n</span><span class="s2">&quot;</span>
     <span class="p">}),</span>
@@ -810,6 +811,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">is_wildcard_domain</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">parsed_args</span><span class="o">.</span><span class="n">domains</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;Using --allow-subset-of-names with a&quot;</span>
                                    <span class="s2">&quot; wildcard domain is not supported.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">parsed_args</span><span class="o">.</span><span class="n">hsts</span> <span class="ow">and</span> <span class="n">parsed_args</span><span class="o">.</span><span class="n">auto_hsts</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span>
+                <span class="s2">&quot;Parameters --hsts and --auto-hsts cannot be used simultaneously.&quot;</span><span class="p">)</span>
 
         <span class="n">possible_deprecation_warning</span><span class="p">(</span><span class="n">parsed_args</span><span class="p">)</span>
 
@@ -1202,6 +1207,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
              <span class="s2">&quot;but does not match the requested domains, renew it now, &quot;</span>
              <span class="s2">&quot;regardless of whether it is near expiry.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;--reuse-key&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;reuse_key&quot;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;reuse_key&quot;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;When renewing, use the same private key as the existing &quot;</span>
+             <span class="s2">&quot;certificate.&quot;</span><span class="p">)</span>
+
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span>
         <span class="s2">&quot;--allow-subset-of-names&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;allow_subset_of_names&quot;</span><span class="p">),</span>
@@ -1398,9 +1409,16 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="s2">&quot; when the user executes </span><span class="se">\&quot;</span><span class="s2">certbot renew</span><span class="se">\&quot;</span><span class="s2">, regardless of if the certificate&quot;</span>
         <span class="s2">&quot; is renewed. This setting does not apply to important TLS configuration&quot;</span>
         <span class="s2">&quot; updates.&quot;</span><span class="p">)</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-autorenew&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;autorenew&quot;</span><span class="p">),</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;autorenew&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Disable auto renewal of certificates.&quot;</span><span class="p">)</span>
 
     <span class="n">helpful</span><span class="o">.</span><span class="n">add_deprecated_argument</span><span class="p">(</span><span class="s2">&quot;--agree-dev-preview&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add_deprecated_argument</span><span class="p">(</span><span class="s2">&quot;--dialog&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Populate the command line parameters for new style enhancements</span>
+    <span class="n">enhancements</span><span class="o">.</span><span class="n">populate_cli</span><span class="p">(</span><span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">)</span>
 
     <span class="n">_create_subparsers</span><span class="p">(</span><span class="n">helpful</span><span class="p">)</span>
     <span class="n">_paths_parser</span><span class="p">(</span><span class="n">helpful</span><span class="p">)</span>
@@ -1786,7 +1804,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.25.0.dev0',
+            VERSION:'0.26.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1813,7 +1831,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cli%E2%80%94%20Certbot%200.25.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cli%E2%80%94%20Certbot%200.26.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
