@@ -973,6 +973,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginSelectionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
+    <span class="n">custom_cert</span> <span class="o">=</span> <span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">key_path</span> <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">cert_path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">certname</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">custom_cert</span><span class="p">:</span>
+        <span class="n">certname_question</span> <span class="o">=</span> <span class="s2">&quot;Which certificate would you like to install?&quot;</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">certname</span> <span class="o">=</span> <span class="n">cert_manager</span><span class="o">.</span><span class="n">get_certnames</span><span class="p">(</span>
+            <span class="n">config</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="n">allow_multiple</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">custom_prompt</span><span class="o">=</span><span class="n">certname_question</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
     <span class="k">if</span> <span class="ow">not</span> <span class="n">enhancements</span><span class="o">.</span><span class="n">are_supported</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">installer</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">NotSupportedError</span><span class="p">(</span><span class="s2">&quot;One ore more of the requested enhancements &quot;</span>
                                        <span class="s2">&quot;are not supported by the selected installer&quot;</span><span class="p">)</span>
