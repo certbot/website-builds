@@ -423,10 +423,15 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :rtype dict:</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">rv</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
         <span class="p">(</span><span class="n">option</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">option</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">six</span><span class="o">.</span><span class="n">iteritems</span><span class="p">(</span><span class="n">all_values</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">_relevant</span><span class="p">(</span><span class="n">option</span><span class="p">)</span> <span class="ow">and</span> <span class="n">cli</span><span class="o">.</span><span class="n">option_was_set</span><span class="p">(</span><span class="n">option</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span></div>
+        <span class="k">if</span> <span class="n">_relevant</span><span class="p">(</span><span class="n">option</span><span class="p">)</span> <span class="ow">and</span> <span class="n">cli</span><span class="o">.</span><span class="n">option_was_set</span><span class="p">(</span><span class="n">option</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+    <span class="c1"># We always save the server value to help with forward compatibility</span>
+    <span class="c1"># and behavioral consistency when versions of Certbot with different</span>
+    <span class="c1"># server defaults are used.</span>
+    <span class="n">rv</span><span class="p">[</span><span class="s2">&quot;server&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_values</span><span class="p">[</span><span class="s2">&quot;server&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">rv</span></div>
 
 <div class="viewcode-block" id="lineagename_for_filename"><a class="viewcode-back" href="../../api/storage.html#certbot.storage.lineagename_for_filename">[docs]</a><span class="k">def</span> <span class="nf">lineagename_for_filename</span><span class="p">(</span><span class="n">config_filename</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns the lineagename for a configuration filename.</span>

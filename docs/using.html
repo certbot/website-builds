@@ -478,8 +478,10 @@ you can run these plugins with <a class="reference internal" href="install.html#
 <li><a class="reference external" href="https://certbot-dns-dnsimple.readthedocs.io">certbot-dns-dnsimple</a></li>
 <li><a class="reference external" href="https://certbot-dns-dnsmadeeasy.readthedocs.io">certbot-dns-dnsmadeeasy</a></li>
 <li><a class="reference external" href="https://certbot-dns-google.readthedocs.io">certbot-dns-google</a></li>
+<li><a class="reference external" href="https://certbot-dns-linode.readthedocs.io">certbot-dns-linode</a></li>
 <li><a class="reference external" href="https://certbot-dns-luadns.readthedocs.io">certbot-dns-luadns</a></li>
 <li><a class="reference external" href="https://certbot-dns-nsone.readthedocs.io">certbot-dns-nsone</a></li>
+<li><a class="reference external" href="https://certbot-dns-ovh.readthedocs.io">certbot-dns-ovh</a></li>
 <li><a class="reference external" href="https://certbot-dns-rfc2136.readthedocs.io">certbot-dns-rfc2136</a></li>
 <li><a class="reference external" href="https://certbot-dns-route53.readthedocs.io">certbot-dns-route53</a></li>
 </ul>
@@ -1709,6 +1711,8 @@ plugins:
                         using LuaDNS for DNS). (default: False)
   --dns-nsone           Obtain certificates using a DNS TXT record (if you are
                         using NS1 for DNS). (default: False)
+  --dns-ovh             Obtain certificates using a DNS TXT record (if you are
+                        using OVH for DNS). (default: False)
   --dns-rfc2136         Obtain certificates using a DNS TXT record (if you are
                         using BIND for DNS). (default: False)
   --dns-route53         Obtain certificates using a DNS TXT record (if you are
@@ -1844,6 +1848,16 @@ dns-nsone:
   --dns-nsone-credentials DNS_NSONE_CREDENTIALS
                         NS1 credentials file. (default: None)
 
+dns-ovh:
+  Obtain certificates using a DNS TXT record (if you are using OVH for DNS).
+
+  --dns-ovh-propagation-seconds DNS_OVH_PROPAGATION_SECONDS
+                        The number of seconds to wait for DNS to propagate
+                        before asking the ACME server to verify the DNS
+                        record. (default: 30)
+  --dns-ovh-credentials DNS_OVH_CREDENTIALS
+                        OVH credentials file. (default: None)
+
 dns-rfc2136:
   Obtain certificates using a DNS TXT record (if you are using BIND for
   DNS).
@@ -1890,7 +1904,7 @@ manual:
                         Automatically allows public IP logging (default: Ask)
 
 nginx:
-  Nginx Web Server plugin - Alpha
+  Nginx Web Server plugin
 
   --nginx-server-root NGINX_SERVER_ROOT
                         Nginx server root directory. (default: /etc/nginx or
