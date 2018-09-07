@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.interfaces &mdash; Certbot 0.25.0.dev0 documentation</title>
+  <title>certbot.interfaces &mdash; Certbot 0.26.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.interfaces &mdash; Certbot 0.25.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.interfaces &mdash; Certbot 0.26.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.25.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.26.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.25
+                0.26
               </div>
             
           
@@ -385,7 +385,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">server</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span><span class="s2">&quot;ACME Directory Resource URI.&quot;</span><span class="p">)</span>
     <span class="n">email</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span>
-        <span class="s2">&quot;Email used for registration and recovery contact. (default: Ask)&quot;</span><span class="p">)</span>
+        <span class="s2">&quot;Email used for registration and recovery contact. Use comma to &quot;</span>
+        <span class="s2">&quot;register multiple emails, ex: u1@example.com,u2@example.com. &quot;</span>
+        <span class="s2">&quot;(default: Ask).&quot;</span><span class="p">)</span>
     <span class="n">rsa_key_size</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span><span class="s2">&quot;Size of the RSA key.&quot;</span><span class="p">)</span>
     <span class="n">must_staple</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span>
         <span class="s2">&quot;Adds the OCSP Must Staple extension to the certificate. &quot;</span>
@@ -786,10 +788,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># When &quot;certbot renew&quot; is run, Certbot will iterate over each lineage and check</span>
 <span class="c1"># if the selected installer for that lineage is a subclass of each updater</span>
 <span class="c1"># class. If it is and the update of that type is configured to be run for that</span>
-<span class="c1"># lineage, the relevant update function will be called for each domain in the</span>
-<span class="c1"># lineage. These functions are never called for other subcommands, so if an</span>
-<span class="c1"># installer wants to perform an update during the run or install subcommand, it</span>
-<span class="c1"># should do so when :func:`IInstaller.deploy_cert` is called.</span>
+<span class="c1"># lineage, the relevant update function will be called for it. These functions</span>
+<span class="c1"># are never called for other subcommands, so if an installer wants to perform</span>
+<span class="c1"># an update during the run or install subcommand, it should do so when</span>
+<span class="c1"># :func:`IInstaller.deploy_cert` is called.</span>
 
 <span class="nd">@six</span><span class="o">.</span><span class="n">add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
 <div class="viewcode-block" id="GenericUpdater"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.GenericUpdater">[docs]</a><span class="k">class</span> <span class="nc">GenericUpdater</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -802,10 +804,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    methods, and interfaces.GenericUpdater.register(InstallerClass) should</span>
 <span class="sd">    be called from the installer code.</span>
 
+<span class="sd">    The plugins implementing this enhancement are responsible of handling</span>
+<span class="sd">    the saving of configuration checkpoints as well as other calls to</span>
+<span class="sd">    interface methods of `interfaces.IInstaller` such as prepare() and restart()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-<div class="viewcode-block" id="GenericUpdater.generic_updates"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.GenericUpdater.generic_updates">[docs]</a>    <span class="k">def</span> <span class="nf">generic_updates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="GenericUpdater.generic_updates"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.GenericUpdater.generic_updates">[docs]</a>    <span class="k">def</span> <span class="nf">generic_updates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lineage</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Perform any update types defined by the installer.</span>
 
 <span class="sd">        If an installer is a subclass of the class containing this method, this</span>
@@ -813,9 +818,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        update defined by the installer should be run conditionally, the</span>
 <span class="sd">        installer needs to handle checking the conditions itself.</span>
 
-<span class="sd">        This method is called once for each domain.</span>
+<span class="sd">        This method is called once for each lineage.</span>
 
-<span class="sd">        :param str domain: domain to handle the updates for</span>
+<span class="sd">        :param lineage: Certificate lineage object</span>
+<span class="sd">        :type lineage: storage.RenewableCert</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div></div>
 
@@ -843,8 +849,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        This method is called once for each lineage renewed</span>
 
-<span class="sd">        :param lineage: Certificate lineage object that is set if certificate</span>
-<span class="sd">            was renewed on this run.</span>
+<span class="sd">        :param lineage: Certificate lineage object</span>
 <span class="sd">        :type lineage: storage.RenewableCert</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div></div>
@@ -904,7 +909,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.25.0.dev0',
+            VERSION:'0.26.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -931,7 +936,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.interfaces%E2%80%94%20Certbot%200.25.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.interfaces%E2%80%94%20Certbot%200.26.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

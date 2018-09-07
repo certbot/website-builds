@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.selection &mdash; Certbot 0.25.0.dev0 documentation</title>
+  <title>certbot.plugins.selection &mdash; Certbot 0.26.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.selection &mdash; Certbot 0.25.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.selection &mdash; Certbot 0.26.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 0.25.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 0.26.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.25
+                0.26
               </div>
             
           
@@ -223,6 +223,35 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">pick_plugin</span><span class="p">(</span>
         <span class="n">config</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IAuthenticator</span><span class="p">,))</span></div>
 
+<div class="viewcode-block" id="get_unprepared_installer"><a class="viewcode-back" href="../../../api/plugins/selection.html#certbot.plugins.selection.get_unprepared_installer">[docs]</a><span class="k">def</span> <span class="nf">get_unprepared_installer</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get an unprepared interfaces.IInstaller object.</span>
+
+<span class="sd">    :param certbot.interfaces.IConfig config: Configuration</span>
+<span class="sd">    :param certbot.plugins.disco.PluginsRegistry plugins:</span>
+<span class="sd">        All plugins registered as entry points.</span>
+
+<span class="sd">    :returns: Unprepared installer plugin or None</span>
+<span class="sd">    :rtype: IPlugin or None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_</span><span class="p">,</span> <span class="n">req_inst</span> <span class="o">=</span> <span class="n">cli_plugin_requests</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">req_inst</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">installers</span> <span class="o">=</span> <span class="n">plugins</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p_ep</span><span class="p">:</span> <span class="n">p_ep</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">req_inst</span><span class="p">)</span>
+    <span class="n">installers</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">installers</span> <span class="o">=</span> <span class="n">installers</span><span class="o">.</span><span class="n">verify</span><span class="p">((</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IInstaller</span><span class="p">,))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">installers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginSelectionError</span><span class="p">(</span>
+            <span class="s2">&quot;Found multiple installers with the name </span><span class="si">%s</span><span class="s2">, Certbot is unable to &quot;</span>
+            <span class="s2">&quot;determine which one to use. Skipping.&quot;</span> <span class="o">%</span> <span class="n">req_inst</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">installers</span><span class="p">:</span>
+        <span class="n">inst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">installers</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Selecting plugin: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">inst</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inst</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginSelectionError</span><span class="p">(</span>
+            <span class="s2">&quot;Could not select or initialize the requested installer </span><span class="si">%s</span><span class="s2">.&quot;</span> <span class="o">%</span> <span class="n">req_inst</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="pick_plugin"><a class="viewcode-back" href="../../../api/plugins/selection.html#certbot.plugins.selection.pick_plugin">[docs]</a><span class="k">def</span> <span class="nf">pick_plugin</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">ifaces</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Pick plugin.</span>
@@ -319,13 +348,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">return</span> <span class="kc">None</span></div>
 
 <span class="n">noninstaller_plugins</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;webroot&quot;</span><span class="p">,</span> <span class="s2">&quot;manual&quot;</span><span class="p">,</span> <span class="s2">&quot;standalone&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-cloudflare&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-cloudxns&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;dns-digitalocean&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-dnsimple&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-dnsmadeeasy&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-google&quot;</span><span class="p">,</span>
-                        <span class="s2">&quot;dns-luadns&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-nsone&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-rfc2136&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-route53&quot;</span><span class="p">]</span>
+                        <span class="s2">&quot;dns-digitalocean&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-dnsimple&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-dnsmadeeasy&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-gehirn&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;dns-google&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-linode&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-luadns&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-nsone&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-ovh&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;dns-rfc2136&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-route53&quot;</span><span class="p">,</span> <span class="s2">&quot;dns-sakuracloud&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="record_chosen_plugins"><a class="viewcode-back" href="../../../api/plugins/selection.html#certbot.plugins.selection.record_chosen_plugins">[docs]</a><span class="k">def</span> <span class="nf">record_chosen_plugins</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">inst</span><span class="p">):</span>
     <span class="s2">&quot;Update the config entries to reflect the plugins we actually selected.&quot;</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">authenticator</span> <span class="o">=</span> <span class="n">plugins</span><span class="o">.</span><span class="n">find_init</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">auth</span> <span class="k">else</span> <span class="s2">&quot;None&quot;</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">installer</span> <span class="o">=</span> <span class="n">plugins</span><span class="o">.</span><span class="n">find_init</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">inst</span> <span class="k">else</span> <span class="s2">&quot;None&quot;</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">authenticator</span> <span class="o">=</span> <span class="n">plugins</span><span class="o">.</span><span class="n">find_init</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">auth</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">installer</span> <span class="o">=</span> <span class="n">plugins</span><span class="o">.</span><span class="n">find_init</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">inst</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Plugins selected: Authenticator </span><span class="si">%s</span><span class="s2">, Installer </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
          <span class="n">config</span><span class="o">.</span><span class="n">authenticator</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">installer</span><span class="p">)</span></div>
 
@@ -443,16 +473,24 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">req_auth</span> <span class="o">=</span> <span class="n">set_configurator</span><span class="p">(</span><span class="n">req_auth</span><span class="p">,</span> <span class="s2">&quot;dns-dnsimple&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dns_dnsmadeeasy</span><span class="p">:</span>
         <span class="n">req_auth</span> <span class="o">=</span> <span class="n">set_configurator</span><span class="p">(</span><span class="n">req_auth</span><span class="p">,</span> <span class="s2">&quot;dns-dnsmadeeasy&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dns_gehirn</span><span class="p">:</span>
+        <span class="n">req_auth</span> <span class="o">=</span> <span class="n">set_configurator</span><span class="p">(</span><span class="n">req_auth</span><span class="p">,</span> <span class="s2">&quot;dns-gehirn&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dns_google</span><span class="p">:</span>
         <span class="n">req_auth</span> <span class="o">=</span> <span class="n">set_configurator</span><span class="p">(</span><span class="n">req_auth</span><span class="p">,</span> <span class="s2">&quot;dns-google&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dns_linode</span><span class="p">:</span>
+        <span class="n">req_auth</span> <span class="o">=</span> <span class="n">set_configurator</span><span class="p">(</span><span class="n">req_auth</span><span class="p">,</span> <span class="s2">&quot;dns-linode&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dns_luadns</span><span class="p">:</span>
         <span class="n">req_auth</span> <span class="o">=</span> <span class="n">set_configurator</span><span class="p">(</span><span class="n">req_auth</span><span class="p">,</span> <span class="s2">&quot;dns-luadns&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dns_nsone</span><span class="p">:</span>
         <span class="n">req_auth</span> <span class="o">=</span> <span class="n">set_configurator</span><span class="p">(</span><span class="n">req_auth</span><span class="p">,</span> <span class="s2">&quot;dns-nsone&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dns_ovh</span><span class="p">:</span>
+        <span class="n">req_auth</span> <span class="o">=</span> <span class="n">set_configurator</span><span class="p">(</span><span class="n">req_auth</span><span class="p">,</span> <span class="s2">&quot;dns-ovh&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dns_rfc2136</span><span class="p">:</span>
         <span class="n">req_auth</span> <span class="o">=</span> <span class="n">set_configurator</span><span class="p">(</span><span class="n">req_auth</span><span class="p">,</span> <span class="s2">&quot;dns-rfc2136&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dns_route53</span><span class="p">:</span>
         <span class="n">req_auth</span> <span class="o">=</span> <span class="n">set_configurator</span><span class="p">(</span><span class="n">req_auth</span><span class="p">,</span> <span class="s2">&quot;dns-route53&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dns_sakuracloud</span><span class="p">:</span>
+        <span class="n">req_auth</span> <span class="o">=</span> <span class="n">set_configurator</span><span class="p">(</span><span class="n">req_auth</span><span class="p">,</span> <span class="s2">&quot;dns-sakuracloud&quot;</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Requested authenticator </span><span class="si">%s</span><span class="s2"> and installer </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">req_auth</span><span class="p">,</span> <span class="n">req_inst</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">req_auth</span><span class="p">,</span> <span class="n">req_inst</span></div>
 
@@ -541,7 +579,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.25.0.dev0',
+            VERSION:'0.26.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -568,7 +606,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.selection%E2%80%94%20Certbot%200.25.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.selection%E2%80%94%20Certbot%200.26.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

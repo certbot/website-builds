@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.account &mdash; Certbot 0.25.0.dev0 documentation</title>
+  <title>certbot.account &mdash; Certbot 0.26.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.account &mdash; Certbot 0.25.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.account &mdash; Certbot 0.26.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.25.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.26.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.25
+                0.26
               </div>
             
           
@@ -184,6 +184,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <h1>Source code for certbot.account</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Creates ACME accounts for server.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">hashlib</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -200,6 +201,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">fields</span> <span class="k">as</span> <span class="n">acme_fields</span>
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">messages</span>
 
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
@@ -326,7 +328,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                                    <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_account_dir_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">accounts_dir</span><span class="p">,</span> <span class="n">account_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_account_dir_path_for_server_path</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">server_path</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_account_dir_path_for_server_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">server_path</span><span class="p">):</span>
+        <span class="n">accounts_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">accounts_dir_for_server_path</span><span class="p">(</span><span class="n">server_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">accounts_dir</span><span class="p">,</span> <span class="n">account_id</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_regr_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">account_dir_path</span><span class="p">):</span>
@@ -340,25 +346,67 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">def</span> <span class="nf">_metadata_path</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">account_dir_path</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">account_dir_path</span><span class="p">,</span> <span class="s2">&quot;meta.json&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">find_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_find_all_for_server_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_path</span><span class="p">):</span>
+        <span class="n">accounts_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">accounts_dir_for_server_path</span><span class="p">(</span><span class="n">server_path</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">candidates</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">accounts_dir</span><span class="p">)</span>
+            <span class="n">candidates</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">accounts_dir</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
 
         <span class="n">accounts</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">account_id</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">accounts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">account_id</span><span class="p">))</span>
+                <span class="n">accounts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_load_for_server_path</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">server_path</span><span class="p">))</span>
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">AccountStorageError</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Account loading problem&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">accounts</span> <span class="ow">and</span> <span class="n">server_path</span> <span class="ow">in</span> <span class="n">constants</span><span class="o">.</span><span class="n">LE_REUSE_SERVERS</span><span class="p">:</span>
+            <span class="c1"># find all for the next link down</span>
+            <span class="n">prev_server_path</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">LE_REUSE_SERVERS</span><span class="p">[</span><span class="n">server_path</span><span class="p">]</span>
+            <span class="n">prev_accounts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_all_for_server_path</span><span class="p">(</span><span class="n">prev_server_path</span><span class="p">)</span>
+            <span class="c1"># if we found something, link to that</span>
+            <span class="k">if</span> <span class="n">prev_accounts</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_symlink_to_accounts_dir</span><span class="p">(</span><span class="n">prev_server_path</span><span class="p">,</span> <span class="n">server_path</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[]</span>
+            <span class="n">accounts</span> <span class="o">=</span> <span class="n">prev_accounts</span>
         <span class="k">return</span> <span class="n">accounts</span>
 
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
-        <span class="n">account_dir_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_account_dir_path</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">account_dir_path</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">AccountNotFound</span><span class="p">(</span>
-                <span class="s2">&quot;Account at </span><span class="si">%s</span><span class="s2"> does not exist&quot;</span> <span class="o">%</span> <span class="n">account_dir_path</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">find_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_all_for_server_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">server_path</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_symlink_to_account_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prev_server_path</span><span class="p">,</span> <span class="n">server_path</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
+        <span class="n">prev_account_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_account_dir_path_for_server_path</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">prev_server_path</span><span class="p">)</span>
+        <span class="n">new_account_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_account_dir_path_for_server_path</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">server_path</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">symlink</span><span class="p">(</span><span class="n">prev_account_dir</span><span class="p">,</span> <span class="n">new_account_dir</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_symlink_to_accounts_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prev_server_path</span><span class="p">,</span> <span class="n">server_path</span><span class="p">):</span>
+        <span class="n">accounts_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">accounts_dir_for_server_path</span><span class="p">(</span><span class="n">server_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">islink</span><span class="p">(</span><span class="n">accounts_dir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">accounts_dir</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="n">accounts_dir</span><span class="p">)</span>
+        <span class="n">prev_account_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">accounts_dir_for_server_path</span><span class="p">(</span><span class="n">prev_server_path</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">symlink</span><span class="p">(</span><span class="n">prev_account_dir</span><span class="p">,</span> <span class="n">accounts_dir</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_load_for_server_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">server_path</span><span class="p">):</span>
+        <span class="n">account_dir_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_account_dir_path_for_server_path</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">server_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">account_dir_path</span><span class="p">):</span> <span class="c1"># isdir is also true for symlinks</span>
+            <span class="k">if</span> <span class="n">server_path</span> <span class="ow">in</span> <span class="n">constants</span><span class="o">.</span><span class="n">LE_REUSE_SERVERS</span><span class="p">:</span>
+                <span class="n">prev_server_path</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">LE_REUSE_SERVERS</span><span class="p">[</span><span class="n">server_path</span><span class="p">]</span>
+                <span class="n">prev_loaded_account</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_for_server_path</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">prev_server_path</span><span class="p">)</span>
+                <span class="c1"># we didn&#39;t error so we found something, so create a symlink to that</span>
+                <span class="n">accounts_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">accounts_dir_for_server_path</span><span class="p">(</span><span class="n">server_path</span><span class="p">)</span>
+                <span class="c1"># If accounts_dir isn&#39;t empty, make an account specific symlink</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">accounts_dir</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_symlink_to_account_dir</span><span class="p">(</span><span class="n">prev_server_path</span><span class="p">,</span> <span class="n">server_path</span><span class="p">,</span> <span class="n">account_id</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_symlink_to_accounts_dir</span><span class="p">(</span><span class="n">prev_server_path</span><span class="p">,</span> <span class="n">server_path</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">prev_loaded_account</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">AccountNotFound</span><span class="p">(</span>
+                    <span class="s2">&quot;Account at </span><span class="si">%s</span><span class="s2"> does not exist&quot;</span> <span class="o">%</span> <span class="n">account_dir_path</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_regr_path</span><span class="p">(</span><span class="n">account_dir_path</span><span class="p">))</span> <span class="k">as</span> <span class="n">regr_file</span><span class="p">:</span>
@@ -376,6 +424,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="s2">&quot;Account ids mismatch (expected: </span><span class="si">{0}</span><span class="s2">, found: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">account_id</span><span class="p">,</span> <span class="n">acc</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">acc</span>
+
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_for_server_path</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">server_path</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">acme</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">(</span><span class="n">account</span><span class="p">,</span> <span class="n">acme</span><span class="p">,</span> <span class="n">regr_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -398,7 +449,61 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">account_dir_path</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">AccountNotFound</span><span class="p">(</span>
                 <span class="s2">&quot;Account at </span><span class="si">%s</span><span class="s2"> does not exist&quot;</span> <span class="o">%</span> <span class="n">account_dir_path</span><span class="p">)</span>
-        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">account_dir_path</span><span class="p">)</span></div>
+        <span class="c1"># Step 1: Delete account specific links and the directory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_delete_account_dir_for_server_path</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">server_path</span><span class="p">)</span>
+
+        <span class="c1"># Step 2: Remove any accounts links and directories that are now empty</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">accounts_dir</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_delete_accounts_dir_for_server_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">server_path</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_delete_account_dir_for_server_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">,</span> <span class="n">server_path</span><span class="p">):</span>
+        <span class="n">link_func</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_account_dir_path_for_server_path</span><span class="p">,</span> <span class="n">account_id</span><span class="p">)</span>
+        <span class="n">nonsymlinked_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delete_links_and_find_target_dir</span><span class="p">(</span><span class="n">server_path</span><span class="p">,</span> <span class="n">link_func</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">nonsymlinked_dir</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_delete_accounts_dir_for_server_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_path</span><span class="p">):</span>
+        <span class="n">link_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">accounts_dir_for_server_path</span>
+        <span class="n">nonsymlinked_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delete_links_and_find_target_dir</span><span class="p">(</span><span class="n">server_path</span><span class="p">,</span> <span class="n">link_func</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">rmdir</span><span class="p">(</span><span class="n">nonsymlinked_dir</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AccountFileStorage._delete_links_and_find_target_dir"><a class="viewcode-back" href="../../api/account.html#certbot.account.AccountFileStorage._delete_links_and_find_target_dir">[docs]</a>    <span class="k">def</span> <span class="nf">_delete_links_and_find_target_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_path</span><span class="p">,</span> <span class="n">link_func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Delete symlinks and return the nonsymlinked directory path.</span>
+
+<span class="sd">        :param str server_path: file path based on server</span>
+<span class="sd">        :param callable link_func: callable that returns possible links</span>
+<span class="sd">            given a server_path</span>
+
+<span class="sd">        :returns: the final, non-symlinked target</span>
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dir_path</span> <span class="o">=</span> <span class="n">link_func</span><span class="p">(</span><span class="n">server_path</span><span class="p">)</span>
+
+        <span class="c1"># does an appropriate directory link to me? if so, make sure that&#39;s gone</span>
+        <span class="n">reused_servers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">constants</span><span class="o">.</span><span class="n">LE_REUSE_SERVERS</span><span class="p">:</span>
+            <span class="n">reused_servers</span><span class="p">[</span><span class="n">constants</span><span class="o">.</span><span class="n">LE_REUSE_SERVERS</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span> <span class="o">=</span> <span class="n">k</span>
+
+        <span class="c1"># is there a next one up?</span>
+        <span class="n">possible_next_link</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">while</span> <span class="n">possible_next_link</span><span class="p">:</span>
+            <span class="n">possible_next_link</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">server_path</span> <span class="ow">in</span> <span class="n">reused_servers</span><span class="p">:</span>
+                <span class="n">next_server_path</span> <span class="o">=</span> <span class="n">reused_servers</span><span class="p">[</span><span class="n">server_path</span><span class="p">]</span>
+                <span class="n">next_dir_path</span> <span class="o">=</span> <span class="n">link_func</span><span class="p">(</span><span class="n">next_server_path</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">islink</span><span class="p">(</span><span class="n">next_dir_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">readlink</span><span class="p">(</span><span class="n">next_dir_path</span><span class="p">)</span> <span class="o">==</span> <span class="n">dir_path</span><span class="p">:</span>
+                    <span class="n">possible_next_link</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">server_path</span> <span class="o">=</span> <span class="n">next_server_path</span>
+                    <span class="n">dir_path</span> <span class="o">=</span> <span class="n">next_dir_path</span>
+
+        <span class="c1"># if there&#39;s not a next one up to delete, then delete me</span>
+        <span class="c1"># and whatever I link to</span>
+        <span class="k">while</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">islink</span><span class="p">(</span><span class="n">dir_path</span><span class="p">):</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">readlink</span><span class="p">(</span><span class="n">dir_path</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">dir_path</span><span class="p">)</span>
+            <span class="n">dir_path</span> <span class="o">=</span> <span class="n">target</span>
+
+        <span class="k">return</span> <span class="n">dir_path</span></div>
 
     <span class="k">def</span> <span class="nf">_save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">acme</span><span class="p">,</span> <span class="n">regr_only</span><span class="p">):</span>
         <span class="n">account_dir_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_account_dir_path</span><span class="p">(</span><span class="n">account</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
@@ -414,9 +519,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">acme</span><span class="o">.</span><span class="n">directory</span><span class="p">,</span> <span class="s2">&quot;new-authz&quot;</span><span class="p">):</span>
                     <span class="n">regr</span> <span class="o">=</span> <span class="n">RegistrationResourceWithNewAuthzrURI</span><span class="p">(</span>
                         <span class="n">new_authzr_uri</span><span class="o">=</span><span class="n">acme</span><span class="o">.</span><span class="n">directory</span><span class="o">.</span><span class="n">new_authz</span><span class="p">,</span>
-                        <span class="n">body</span><span class="o">=</span><span class="n">regr</span><span class="o">.</span><span class="n">body</span><span class="p">,</span>
-                        <span class="n">uri</span><span class="o">=</span><span class="n">regr</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span>
-                        <span class="n">terms_of_service</span><span class="o">=</span><span class="n">regr</span><span class="o">.</span><span class="n">terms_of_service</span><span class="p">)</span>
+                        <span class="n">body</span><span class="o">=</span><span class="p">{},</span>
+                        <span class="n">uri</span><span class="o">=</span><span class="n">regr</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">regr</span> <span class="o">=</span> <span class="n">messages</span><span class="o">.</span><span class="n">RegistrationResource</span><span class="p">(</span>
+                        <span class="n">body</span><span class="o">=</span><span class="p">{},</span>
+                        <span class="n">uri</span><span class="o">=</span><span class="n">regr</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
                 <span class="n">regr_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">regr</span><span class="o">.</span><span class="n">json_dumps</span><span class="p">())</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">regr_only</span><span class="p">:</span>
                 <span class="k">with</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_key_path</span><span class="p">(</span><span class="n">account_dir_path</span><span class="p">),</span>
@@ -483,7 +591,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.25.0.dev0',
+            VERSION:'0.26.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -510,7 +618,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.account%E2%80%94%20Certbot%200.25.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.account%E2%80%94%20Certbot%200.26.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

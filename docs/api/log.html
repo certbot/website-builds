@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.log &mdash; Certbot 0.25.0.dev0 documentation</title>
+  <title>certbot.log &mdash; Certbot 0.26.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.log &mdash; Certbot 0.25.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.log &mdash; Certbot 0.26.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 0.25.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 0.26.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Documentation" href="../api.html"/>
         <link rel="next" title="certbot.main" href="main.html"/>
         <link rel="prev" title="certbot.lock" href="lock.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.25
+                0.26
               </div>
             
           
@@ -244,9 +244,9 @@ buffered in memory. If Certbot exits before <a class="reference internal" href="
 is called, these buffered messages are written to a temporary file.
 If Certbot doesn&#8217;t exit, <a class="reference internal" href="#certbot.log.post_arg_parse_setup" title="certbot.log.post_arg_parse_setup"><code class="xref py py-obj docutils literal"><span class="pre">post_arg_parse_setup</span></code></a> writes the messages
 to the normal log files.</p>
-<p>This function also sets <a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.shutdown" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">logging.shutdown</span></code></a> to be called on program
+<p>This function also sets <a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.shutdown" title="(in Python v3.7)"><code class="xref py py-obj docutils literal"><span class="pre">logging.shutdown</span></code></a> to be called on program
 exit which automatically flushes logging handlers and
-<a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.excepthook" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">sys.excepthook</span></code></a> to properly log/display fatal exceptions.</p>
+<a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.excepthook" title="(in Python v3.7)"><code class="xref py py-obj docutils literal"><span class="pre">sys.excepthook</span></code></a> to properly log/display fatal exceptions.</p>
 </dd></dl>
 
 <dl class="function">
@@ -278,15 +278,15 @@ requested by the user.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>config</strong> (<em>certbot.interface.IConfig</em>) &#8211; Configuration object</li>
-<li><strong>logfile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; basename for the log file</li>
-<li><strong>fmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; logging format string</li>
+<li><strong>logfile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) &#8211; basename for the log file</li>
+<li><strong>fmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) &#8211; logging format string</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">file handler and absolute path to the log file</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)">tuple</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
 </td>
 </tr>
 </tbody>
@@ -296,18 +296,18 @@ requested by the user.</p>
 <dl class="class">
 <dt id="certbot.log.ColoredStreamHandler">
 <em class="property">class </em><code class="descclassname">certbot.log.</code><code class="descname">ColoredStreamHandler</code><span class="sig-paren">(</span><em>stream=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#ColoredStreamHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.ColoredStreamHandler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/logging.handlers.html#logging.StreamHandler" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">logging.StreamHandler</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/logging.handlers.html#logging.StreamHandler" title="(in Python v3.7)"><code class="xref py py-class docutils literal"><span class="pre">logging.StreamHandler</span></code></a></p>
 <p>Sends colored logging output to a stream.</p>
 <p>If the specified stream is not a tty, the class works like the
-standard <a class="reference external" href="https://docs.python.org/3/library/logging.handlers.html#logging.StreamHandler" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">logging.StreamHandler</span></code></a>. Default red_level is
+standard <a class="reference external" href="https://docs.python.org/3/library/logging.handlers.html#logging.StreamHandler" title="(in Python v3.7)"><code class="xref py py-obj docutils literal"><span class="pre">logging.StreamHandler</span></code></a>. Default red_level is
 <code class="xref py py-obj docutils literal"><span class="pre">logging.WARNING</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
-<li><strong>colored</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; True if output should be colored</li>
-<li><strong>red_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; The level at which to output</li>
+<li><strong>colored</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) &#8211; True if output should be colored</li>
+<li><strong>red_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) &#8211; The level at which to output</li>
 </ul>
 </td>
 </tr>
@@ -321,11 +321,11 @@ standard <a class="reference external" href="https://docs.python.org/3/library/l
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>record</strong> (<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.LogRecord" title="(in Python v3.6)"><em>logging.LogRecord</em></a>) &#8211; Record to be formatted</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>record</strong> (<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.LogRecord" title="(in Python v3.7)"><em>logging.LogRecord</em></a>) &#8211; Record to be formatted</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Formatted, string representation of record</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
 </tr>
 </tbody>
 </table>
@@ -336,9 +336,9 @@ standard <a class="reference external" href="https://docs.python.org/3/library/l
 <dl class="class">
 <dt id="certbot.log.MemoryHandler">
 <em class="property">class </em><code class="descclassname">certbot.log.</code><code class="descname">MemoryHandler</code><span class="sig-paren">(</span><em>target=None</em>, <em>capacity=10000</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/log.html#MemoryHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.MemoryHandler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/logging.handlers.html#logging.handlers.MemoryHandler" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">logging.handlers.MemoryHandler</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/logging.handlers.html#logging.handlers.MemoryHandler" title="(in Python v3.7)"><code class="xref py py-class docutils literal"><span class="pre">logging.handlers.MemoryHandler</span></code></a></p>
 <p>Buffers logging messages in memory until the buffer is flushed.</p>
-<p>This differs from <a class="reference external" href="https://docs.python.org/3/library/logging.handlers.html#logging.handlers.MemoryHandler" title="(in Python v3.6)"><code class="xref py py-obj docutils literal"><span class="pre">logging.handlers.MemoryHandler</span></code></a> in that flushing
+<p>This differs from <a class="reference external" href="https://docs.python.org/3/library/logging.handlers.html#logging.handlers.MemoryHandler" title="(in Python v3.7)"><code class="xref py py-obj docutils literal"><span class="pre">logging.handlers.MemoryHandler</span></code></a> in that flushing
 only happens when flush(force=True) is called.</p>
 <dl class="method">
 <dt id="certbot.log.MemoryHandler.close">
@@ -355,7 +355,7 @@ only happens when flush(force=True) is called.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; True if the buffer should be flushed.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) &#8211; True if the buffer should be flushed.</td>
 </tr>
 </tbody>
 </table>
@@ -369,11 +369,11 @@ only happens when flush(force=True) is called.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>record</strong> (<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.LogRecord" title="(in Python v3.6)"><em>logging.LogRecord</em></a>) &#8211; log record to be considered</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>record</strong> (<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.LogRecord" title="(in Python v3.7)"><em>logging.LogRecord</em></a>) &#8211; log record to be considered</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">False because the buffer should never be auto-flushed</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)">bool</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></td>
 </tr>
 </tbody>
 </table>
@@ -384,7 +384,7 @@ only happens when flush(force=True) is called.</p>
 <dl class="class">
 <dt id="certbot.log.TempHandler">
 <em class="property">class </em><code class="descclassname">certbot.log.</code><code class="descname">TempHandler</code><a class="reference internal" href="../_modules/certbot/log.html#TempHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.log.TempHandler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/logging.handlers.html#logging.StreamHandler" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">logging.StreamHandler</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/logging.handlers.html#logging.StreamHandler" title="(in Python v3.7)"><code class="xref py py-class docutils literal"><span class="pre">logging.StreamHandler</span></code></a></p>
 <p>Safely logs messages to a temporary file.</p>
 <p>The file is created with permissions 600. If no log records are sent
 to this handler, the temporary file is deleted when the handler is
@@ -393,7 +393,7 @@ closed.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; file system path to the temporary log file</td>
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) &#8211; file system path to the temporary log file</td>
 </tr>
 </tbody>
 </table>
@@ -405,7 +405,7 @@ closed.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>record</strong> (<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.LogRecord" title="(in Python v3.6)"><em>logging.LogRecord</em></a>) &#8211; Record to be formatted</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>record</strong> (<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.LogRecord" title="(in Python v3.7)"><em>logging.LogRecord</em></a>) &#8211; Record to be formatted</td>
 </tr>
 </tbody>
 </table>
@@ -439,8 +439,8 @@ provided on the command line.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>memory_handler</strong> (<a class="reference internal" href="#certbot.log.MemoryHandler" title="certbot.log.MemoryHandler"><em>MemoryHandler</em></a>) &#8211; memory handler to flush</li>
-<li><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.6)"><em>tuple</em></a>) &#8211; args for post_arg_parse_except_hook</li>
-<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.6)"><em>dict</em></a>) &#8211; kwargs for post_arg_parse_except_hook</li>
+<li><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) &#8211; args for post_arg_parse_except_hook</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) &#8211; kwargs for post_arg_parse_except_hook</li>
 </ul>
 </td>
 </tr>
@@ -460,11 +460,11 @@ nonzero status.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>exc_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.6)"><em>type</em></a>) &#8211; type of the raised exception</li>
-<li><strong>exc_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#BaseException" title="(in Python v3.6)"><em>BaseException</em></a>) &#8211; raised exception</li>
-<li><strong>trace</strong> (<a class="reference external" href="https://docs.python.org/3/library/traceback.html#module-traceback" title="(in Python v3.6)"><em>traceback</em></a>) &#8211; traceback of where the exception was raised</li>
-<li><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.6)"><em>bool</em></a>) &#8211; True if the traceback should be shown to the user</li>
-<li><strong>log_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; path to file or directory containing the log</li>
+<li><strong>exc_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.7)"><em>type</em></a>) &#8211; type of the raised exception</li>
+<li><strong>exc_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#BaseException" title="(in Python v3.7)"><em>BaseException</em></a>) &#8211; raised exception</li>
+<li><strong>trace</strong> (<a class="reference external" href="https://docs.python.org/3/library/traceback.html#module-traceback" title="(in Python v3.7)"><em>traceback</em></a>) &#8211; traceback of where the exception was raised</li>
+<li><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) &#8211; True if the traceback should be shown to the user</li>
+<li><strong>log_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) &#8211; path to file or directory containing the log</li>
 </ul>
 </td>
 </tr>
@@ -482,7 +482,7 @@ nonzero status.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>log_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.6)"><em>str</em></a>) &#8211; path to file or directory containing the log</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>log_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) &#8211; path to file or directory containing the log</td>
 </tr>
 </tbody>
 </table>
@@ -545,7 +545,7 @@ nonzero status.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.25.0.dev0',
+            VERSION:'0.26.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -572,7 +572,7 @@ nonzero status.</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.log%E2%80%94%20Certbot%200.25.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.log%E2%80%94%20Certbot%200.26.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
