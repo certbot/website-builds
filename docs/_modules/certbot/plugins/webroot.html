@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.webroot &mdash; Certbot 0.26.0.dev0 documentation</title>
+  <title>certbot.plugins.webroot &mdash; Certbot 0.28.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.webroot &mdash; Certbot 0.26.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.webroot &mdash; Certbot 0.28.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 0.26.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.26
+                0.28
               </div>
             
           
@@ -212,9 +212,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IAuthenticator</span><span class="p">)</span>
+<div class="viewcode-block" id="Authenticator"><a class="viewcode-back" href="../../../api/plugins/webroot.html#certbot.plugins.webroot.Authenticator">[docs]</a><span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IAuthenticator</span><span class="p">)</span>
 <span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">provider</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IPluginFactory</span><span class="p">)</span>
-<div class="viewcode-block" id="Authenticator"><a class="viewcode-back" href="../../../api/plugins/webroot.html#certbot.plugins.webroot.Authenticator">[docs]</a><span class="k">class</span> <span class="nc">Authenticator</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">Plugin</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Authenticator</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Webroot Authenticator.&quot;&quot;&quot;</span>
 
     <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Place files in webroot directory&quot;</span>
@@ -228,7 +228,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">def</span> <span class="nf">more_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring,no-self-use</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">MORE_INFO</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">))</span>
 
-    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Authenticator.add_parser_arguments"><a class="viewcode-back" href="../../../api/plugins/webroot.html#certbot.plugins.webroot.Authenticator.add_parser_arguments">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">add_parser_arguments</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">add</span><span class="p">):</span>
         <span class="n">add</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span> <span class="s2">&quot;-w&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="n">action</span><span class="o">=</span><span class="n">_WebrootPathAction</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;public_html / webroot path. This can be specified multiple &quot;</span>
@@ -244,7 +244,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                  <span class="s2">&quot;This option is merged with, but takes precedence over, -w / &quot;</span>
                  <span class="s2">&quot;-d entries. At present, if you put webroot-map in a config &quot;</span>
                  <span class="s2">&quot;file, it needs to be on a single line, like: webroot-map = &quot;</span>
-                 <span class="s1">&#39;{&quot;example.com&quot;:&quot;/var/www&quot;}.&#39;</span><span class="p">)</span>
+                 <span class="s1">&#39;{&quot;example.com&quot;:&quot;/var/www&quot;}.&#39;</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">get_chall_pref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="c1"># pylint: disable=missing-docstring,no-self-use,unused-argument</span>
@@ -523,7 +523,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.26.0.dev0',
+            VERSION:'0.28.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -550,7 +550,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.webroot%E2%80%94%20Certbot%200.26.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.webroot%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

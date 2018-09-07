@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.account &mdash; Certbot 0.26.0.dev0 documentation</title>
+  <title>certbot.account &mdash; Certbot 0.28.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.account &mdash; Certbot 0.26.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.account &mdash; Certbot 0.28.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.26.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.26
+                0.28
               </div>
             
           
@@ -290,20 +290,20 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">initial_accounts</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accounts</span> <span class="o">=</span> <span class="n">initial_accounts</span> <span class="k">if</span> <span class="n">initial_accounts</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
 
-    <span class="k">def</span> <span class="nf">find_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">six</span><span class="o">.</span><span class="n">itervalues</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">accounts</span><span class="p">))</span>
+<div class="viewcode-block" id="AccountMemoryStorage.find_all"><a class="viewcode-back" href="../../api/account.html#certbot.account.AccountMemoryStorage.find_all">[docs]</a>    <span class="k">def</span> <span class="nf">find_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">six</span><span class="o">.</span><span class="n">itervalues</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">accounts</span><span class="p">))</span></div>
 
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">acme</span><span class="p">):</span>
+<div class="viewcode-block" id="AccountMemoryStorage.save"><a class="viewcode-back" href="../../api/account.html#certbot.account.AccountMemoryStorage.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">acme</span><span class="p">):</span>
         <span class="c1"># pylint: disable=unused-argument</span>
         <span class="k">if</span> <span class="n">account</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">accounts</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Overwriting account: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">account</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">accounts</span><span class="p">[</span><span class="n">account</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">account</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">accounts</span><span class="p">[</span><span class="n">account</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">account</span></div>
 
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
+<div class="viewcode-block" id="AccountMemoryStorage.load"><a class="viewcode-back" href="../../api/account.html#certbot.account.AccountMemoryStorage.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">accounts</span><span class="p">[</span><span class="n">account_id</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">AccountNotFound</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">AccountNotFound</span><span class="p">(</span><span class="n">account_id</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="RegistrationResourceWithNewAuthzrURI"><a class="viewcode-back" href="../../api/account.html#certbot.account.RegistrationResourceWithNewAuthzrURI">[docs]</a><span class="k">class</span> <span class="nc">RegistrationResourceWithNewAuthzrURI</span><span class="p">(</span><span class="n">messages</span><span class="o">.</span><span class="n">RegistrationResource</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A backwards-compatible RegistrationResource with a new-authz URI.</span>
@@ -373,8 +373,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">accounts</span> <span class="o">=</span> <span class="n">prev_accounts</span>
         <span class="k">return</span> <span class="n">accounts</span>
 
-    <span class="k">def</span> <span class="nf">find_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_all_for_server_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">server_path</span><span class="p">)</span>
+<div class="viewcode-block" id="AccountFileStorage.find_all"><a class="viewcode-back" href="../../api/account.html#certbot.account.AccountFileStorage.find_all">[docs]</a>    <span class="k">def</span> <span class="nf">find_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_all_for_server_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">server_path</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_symlink_to_account_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prev_server_path</span><span class="p">,</span> <span class="n">server_path</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
         <span class="n">prev_account_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_account_dir_path_for_server_path</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="n">prev_server_path</span><span class="p">)</span>
@@ -425,11 +425,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                     <span class="n">account_id</span><span class="p">,</span> <span class="n">acc</span><span class="o">.</span><span class="n">id</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">acc</span>
 
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_for_server_path</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">server_path</span><span class="p">)</span>
+<div class="viewcode-block" id="AccountFileStorage.load"><a class="viewcode-back" href="../../api/account.html#certbot.account.AccountFileStorage.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_for_server_path</span><span class="p">(</span><span class="n">account_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">server_path</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">acme</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">(</span><span class="n">account</span><span class="p">,</span> <span class="n">acme</span><span class="p">,</span> <span class="n">regr_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="viewcode-block" id="AccountFileStorage.save"><a class="viewcode-back" href="../../api/account.html#certbot.account.AccountFileStorage.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">acme</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">(</span><span class="n">account</span><span class="p">,</span> <span class="n">acme</span><span class="p">,</span> <span class="n">regr_only</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AccountFileStorage.save_regr"><a class="viewcode-back" href="../../api/account.html#certbot.account.AccountFileStorage.save_regr">[docs]</a>    <span class="k">def</span> <span class="nf">save_regr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">acme</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Save the registration resource.</span>
@@ -591,7 +591,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.26.0.dev0',
+            VERSION:'0.28.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -618,7 +618,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.account%E2%80%94%20Certbot%200.26.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.account%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
