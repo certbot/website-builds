@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Packaging Guide &mdash; Certbot 0.26.0.dev0 documentation</title>
+  <title>Packaging Guide &mdash; Certbot 0.28.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Packaging Guide &mdash; Certbot 0.26.0.dev0 documentation">
+<meta name="twitter:title" content="Packaging Guide &mdash; Certbot 0.28.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.26.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Resources" href="resources.html"/>
         <link rel="prev" title="Developer Guide" href="contributing.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.26
+                0.28
               </div>
             
           
@@ -222,16 +222,16 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li><a class="reference external" href="https://github.com/letsencrypt/letsencrypt/blob/master/tools/release.sh">https://github.com/letsencrypt/letsencrypt/blob/master/tools/release.sh</a></li>
 </ul>
 <p>We use git tags to identify releases, using <a class="reference external" href="http://semver.org/">Semantic Versioning</a>. For
-example: <code class="xref py py-obj docutils literal"><span class="pre">v0.11.1</span></code>.</p>
+example: <code class="xref py py-obj docutils literal notranslate"><span class="pre">v0.11.1</span></code>.</p>
 </div>
 <div class="section" id="notes-for-package-maintainers">
 <h2>Notes for package maintainers<a class="headerlink" href="#notes-for-package-maintainers" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple" start="0">
-<li>Please use our tagged releases, not <code class="docutils literal"><span class="pre">master</span></code>!</li>
-<li>Do not package <code class="docutils literal"><span class="pre">certbot-compatibility-test</span></code> or <code class="docutils literal"><span class="pre">letshelp-certbot</span></code> - it&#8217;s only used internally.</li>
-<li>If you&#8217;d like to include automated renewal in your package <code class="docutils literal"><span class="pre">certbot</span> <span class="pre">renew</span> <span class="pre">-q</span></code> should be added to crontab or systemd timer. Additionally you should include a random per-machine time offset to avoid having a large number of your clients hit Let&#8217;s Encrypt&#8217;s servers simultaneously.</li>
-<li><code class="docutils literal"><span class="pre">jws</span></code> is an internal script for <code class="docutils literal"><span class="pre">acme</span></code> module and it doesn&#8217;t have to be packaged - it&#8217;s mostly for debugging: you can use it as <code class="docutils literal"><span class="pre">echo</span> <span class="pre">foo</span> <span class="pre">|</span> <span class="pre">jws</span> <span class="pre">sign</span> <span class="pre">|</span> <span class="pre">jws</span> <span class="pre">verify</span></code>.</li>
-<li>Do get in touch with us. We are happy to make any changes that will make packaging easier. If you need to apply some patches don&#8217;t do it downstream - make a PR here.</li>
+<li>Please use our tagged releases, not <code class="docutils literal notranslate"><span class="pre">master</span></code>!</li>
+<li>Do not package <code class="docutils literal notranslate"><span class="pre">certbot-compatibility-test</span></code> or <code class="docutils literal notranslate"><span class="pre">letshelp-certbot</span></code> - it’s only used internally.</li>
+<li>If you’d like to include automated renewal in your package <code class="docutils literal notranslate"><span class="pre">certbot</span> <span class="pre">renew</span> <span class="pre">-q</span></code> should be added to crontab or systemd timer. Additionally you should include a random per-machine time offset to avoid having a large number of your clients hit Let’s Encrypt’s servers simultaneously.</li>
+<li><code class="docutils literal notranslate"><span class="pre">jws</span></code> is an internal script for <code class="docutils literal notranslate"><span class="pre">acme</span></code> module and it doesn’t have to be packaged - it’s mostly for debugging: you can use it as <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">foo</span> <span class="pre">|</span> <span class="pre">jws</span> <span class="pre">sign</span> <span class="pre">|</span> <span class="pre">jws</span> <span class="pre">verify</span></code>.</li>
+<li>Do get in touch with us. We are happy to make any changes that will make packaging easier. If you need to apply some patches don’t do it downstream - make a PR here.</li>
 </ol>
 </div>
 <div class="section" id="already-ongoing-efforts">
@@ -255,7 +255,7 @@ example: <code class="xref py py-obj docutils literal"><span class="pre">v0.11.1
 <li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-dns-rfc2136">https://www.archlinux.org/packages/community/any/certbot-dns-rfc2136</a></li>
 <li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-dns-route53">https://www.archlinux.org/packages/community/any/certbot-dns-route53</a></li>
 </ul>
-<p>From <code class="docutils literal"><span class="pre">master</span></code>: <a class="reference external" href="https://aur.archlinux.org/packages/certbot-git">https://aur.archlinux.org/packages/certbot-git</a></p>
+<p>From <code class="docutils literal notranslate"><span class="pre">master</span></code>: <a class="reference external" href="https://aur.archlinux.org/packages/certbot-git">https://aur.archlinux.org/packages/certbot-git</a></p>
 </div>
 <div class="section" id="debian-and-its-derivatives-including-ubuntu">
 <h3>Debian (and its derivatives, including Ubuntu)<a class="headerlink" href="#debian-and-its-derivatives-including-ubuntu" title="Permalink to this headline">¶</a></h3>
@@ -294,7 +294,7 @@ example: <code class="xref py py-obj docutils literal"><span class="pre">v0.11.1
 </div>
 <div class="section" id="gentoo">
 <h3>Gentoo<a class="headerlink" href="#gentoo" title="Permalink to this headline">¶</a></h3>
-<p>Currently, all <code class="docutils literal"><span class="pre">certbot</span></code> related packages are in the testing branch:</p>
+<p>Currently, all <code class="docutils literal notranslate"><span class="pre">certbot</span></code> related packages are in the testing branch:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://packages.gentoo.org/packages/app-crypt/certbot">https://packages.gentoo.org/packages/app-crypt/certbot</a></li>
 <li><a class="reference external" href="https://packages.gentoo.org/packages/app-crypt/certbot-apache">https://packages.gentoo.org/packages/app-crypt/certbot-apache</a></li>
@@ -372,7 +372,7 @@ example: <code class="xref py py-obj docutils literal"><span class="pre">v0.11.1
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.26.0.dev0',
+            VERSION:'0.28.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -399,7 +399,7 @@ example: <code class="xref py py-obj docutils literal"><span class="pre">v0.11.1
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Packaging%20Guide%E2%80%94%20Certbot%200.26.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Packaging%20Guide%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
