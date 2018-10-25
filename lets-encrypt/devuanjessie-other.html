@@ -206,22 +206,19 @@ checking this list of supporting providers</a>.
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
-<p>
-First you'll have to enable the Jessie backports repo in your APT sources as
-shown <a href="https://devuan.org/os/etc/apt/sources.list#add-backports-default-no">here</a>.
-Then run:
-</p>
 
 <pre>
-$ sudo apt-get install certbot -t jessie-backports
+$ sudo apt-get install certbot 
 </pre>
 <p>
-<strong>Certbot's DNS plugins which can be used to automate obtaining a wildcard
-certificate from Let's Encrypt's ACMEv2 server are not available for your OS
-yet.</strong> This should change soon but if you don't want to wait, you can use these
-plugins now by
-<a href="/docs/install.html#running-with-docker">running Certbot in Docker</a>
-instead of using the instructions on this page.
+<strong>Certbot's DNS plugins are also available for your system which can be used to
+automate obtaining a wildcard certificate from Let's Encrypt's ACMEv2 server.</strong>
+To use one of these plugins, you must have configured DNS for the domain you
+want to obtain a certificate for with a DNS provider that Certbot has a plugin
+for. A list of these plugins and more information about using them can be found
+<a href="/docs/using.html#dns-plugins">here</a>. To install one of these
+plugins, run the installation command above but replace certbot with the
+name of the DNS plugin you want to install.
 </p>
     </div>
     <div class="get-started">
@@ -267,6 +264,19 @@ temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
 </p>
 <pre>
 $ sudo certbot certonly --standalone -d example.com -d www.example.com
+</pre>
+<p>
+<strong>You can also use one of Certbot's DNS plugins to obtain a certificate if it's
+installed and you have configured DNS for the domain you want to obtain a
+certificate for with the DNS provider matching the plugin.</strong> To see more
+information about using these plugins, click
+<a href="/docs/using.html#dns-plugins">here</a>. If you want to use one of
+these plugins with Let's Encrypt's new ACMEv2 server that will issue wildcard
+certificates, you'll also need to include the following flag on the command
+line:
+</p>
+<pre>
+--server https://acme-v02.api.letsencrypt.org/directory
 </pre>
 
 <h3>Automating renewal</h3>
@@ -308,22 +318,19 @@ checking this list of supporting providers</a>.
   Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
 
-<p>
-First you'll have to enable the Jessie backports repo in your APT sources as
-shown <a href="https://devuan.org/os/etc/apt/sources.list#add-backports-default-no">here</a>.
-Then run:
-</p>
 
 <pre>
-$ sudo apt-get install certbot -t jessie-backports
+$ sudo apt-get install certbot 
 </pre>
 <p>
-<strong>Certbot's DNS plugins which can be used to automate obtaining a wildcard
-certificate from Let's Encrypt's ACMEv2 server are not available for your OS
-yet.</strong> This should change soon but if you don't want to wait, you can use these
-plugins now by
-<a href="/docs/install.html#running-with-docker">running Certbot in Docker</a>
-instead of using the instructions on this page.
+<strong>Certbot's DNS plugins are also available for your system which can be used to
+automate obtaining a wildcard certificate from Let's Encrypt's ACMEv2 server.</strong>
+To use one of these plugins, you must have configured DNS for the domain you
+want to obtain a certificate for with a DNS provider that Certbot has a plugin
+for. A list of these plugins and more information about using them can be found
+<a href="/docs/using.html#dns-plugins">here</a>. To install one of these
+plugins, run the installation command above but replace certbot with the
+name of the DNS plugin you want to install.
 </p>
     </div>
     <div class="get-started">
@@ -369,6 +376,19 @@ temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
 </p>
 <pre>
 $ sudo certbot certonly --standalone -d example.com -d www.example.com
+</pre>
+<p>
+<strong>You can also use one of Certbot's DNS plugins to obtain a certificate if it's
+installed and you have configured DNS for the domain you want to obtain a
+certificate for with the DNS provider matching the plugin.</strong> To see more
+information about using these plugins, click
+<a href="/docs/using.html#dns-plugins">here</a>. If you want to use one of
+these plugins with Let's Encrypt's new ACMEv2 server that will issue wildcard
+certificates, you'll also need to include the following flag on the command
+line:
+</p>
+<pre>
+--server https://acme-v02.api.letsencrypt.org/directory
 </pre>
 
 <h3>Automating renewal</h3>
