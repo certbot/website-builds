@@ -155,11 +155,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
       
         <option value="osx" data-distro="macos" data-version="10">macOS</option>
       
-        <option value="devuanascii" data-distro="devuan" data-version="2">Devuan ASCII 2.0</option>
-      
         <option value="devuanjessie" data-distro="devuan" data-version="1">Devuan Jessie 1.0</option>
       
-        <option value="devuanother" data-distro="devuan" data-version="3">Devuan testing/unstable</option>
+        <option value="devuanother" data-distro="devuan" data-version="0">Devuan (other)</option>
       
         <option value="tumbleweed" data-distro="opensuse" data-version="0">openSUSE Tumbleweed</option>
       
@@ -205,15 +203,18 @@ checking this list of supporting providers</a>.
 </aside>
 <h3>Install</h3>
 <p>
-Since it doesn't seem like your operating system has a packaged version of Certbot, you should use our certbot-auto script to get a copy:
+  Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
-<pre>wget https://dl.eff.org/certbot-auto
-chmod a+x certbot-auto</pre>
+
 <p>
-<tt>certbot-auto</tt> accepts the same flags as <tt>certbot</tt>; it
- installs all of its own
-dependencies and updates the client code automatically.
+First you'll have to enable the Jessie backports repo in your APT sources as
+shown <a href="https://devuan.org/os/etc/apt/sources.list#add-backports-default-no">here</a>.
+Then run:
 </p>
+
+<pre>
+$ sudo apt-get install certbot -t jessie-backports
+</pre>
 <p>
 <strong>Certbot's DNS plugins which can be used to automate obtaining a wildcard
 certificate from Let's Encrypt's ACMEv2 server are not available for your OS
@@ -233,12 +234,11 @@ Since your server architecture doesn't yet officially  support automatic
 installation you should probably use the <tt>certonly</tt> command to obtain your
 certificate.
 </p>
-<pre>$ sudo ./path/to/certbot-auto certonly</pre>
+<pre>$ sudo certbot certonly</pre>
 <p>
 This will allow you interactively select the plugin and options used to obtain
 your certificate. If you already have a webserver running, we recommend
 choosing the <a href="/docs/using.html#webroot">"webroot" plugin</a>.
-</p>
 <p>
 Alternatively, you can specify more information on the command line.
 </p>
@@ -247,7 +247,7 @@ To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</
 which can work with the webroot directory of any webserver software:
 </p>
 <pre>
-$ sudo ./path/to/certbot-auto certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
+$ sudo certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
 </pre>
 <p>
 This command will obtain a single cert for <tt>example.com</tt>,
@@ -265,13 +265,13 @@ temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
 <tt>www.example.com</tt>:
 </p>
 <pre>
-$ sudo ./path/to/certbot-auto certonly --standalone -d example.com -d www.example.com
+$ sudo certbot certonly --standalone -d example.com -d www.example.com
 </pre>
 
 <h3>Automating renewal</h3>
 
 <p>
-Certbot can be configured to
+The Certbot packages on your system come with a cron job that will
 renew your certificates automatically before they expire. Since Let's Encrypt
 certificates last for 90 days, it's highly advisable to take advantage of this
 feature. You can test automatic renewal for your certificates by running this
@@ -279,28 +279,9 @@ command:
 </p>
 
 <pre>
-$ sudo ./path/to/certbot-auto renew --dry-run
+$ sudo certbot renew --dry-run
 </pre>
 
-If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
-following:<br />
-
-<pre>./path/to/certbot-auto renew</pre>
-
-<aside class="note">
-    <h4>Note:</h4>
-    <p>if you're setting up a <tt>cron</tt> or <tt>systemd</tt> job, we
-recommend running it twice per day (it won't do anything until your
-certificates are due for renewal or revoked, but running it regularly would
-give your site a chance of staying online in case a Let's Encrypt-initiated
-revocation happened for some reason). Please select a random minute within the
-hour for your renewal tasks.</p>
-</aside>
-
-<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
-
-<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; ./path/to/certbot-auto renew </pre>
 
 <p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
 documentation</a>.</p>
@@ -327,8 +308,8 @@ Certificate installation with HAProxy is complicated; you probably want to follo
 Or you might be interested in using the experimental <a href="https://code.greenhost.net/open/letsencrypt-haproxy">third-party HAProxy plugin</a> from Greenhost.
 </p>
 
-    </div>
-  </div>
+    &lt;/div&gt;
+  &lt;/div&gt;
 
   <div class="instruction-pane advanced">
     <div class="install">
@@ -345,28 +326,18 @@ checking this list of supporting providers</a>.
 </aside>
 <h3>Install</h3>
 <p>
-Since it doesn't seem like your operating system has a packaged version of Certbot, you should use our certbot-auto script to get a copy:
+  Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
-<pre>wget https://dl.eff.org/certbot-auto
-chmod a+x certbot-auto</pre>
-<p>
-<tt>certbot-auto</tt> accepts the same flags as <tt>certbot</tt>; it
-is a wrapper that installs all of its own
-dependencies and updates the client code automatically.
-</p>
-<p>
-<aside class="note">
-    <h4>Note:</h4>
-  <p><tt>certbot-auto</tt> will always try to fetch the newest version of
-  itself from its most recent release. If you want it to be locked to a
-  specific version and not receive automatic updates, run it with the
-  <tt>--no-self-upgrade</tt> flag. Also, if you're nervous about downloading and
-  running scripts from the network, some <a href="https://certbot.eff.org/docs/install.html#certbot-auto">extra verification
-  steps</a> are available.
-  </p>
-</aside>
 
+<p>
+First you'll have to enable the Jessie backports repo in your APT sources as
+shown <a href="https://devuan.org/os/etc/apt/sources.list#add-backports-default-no">here</a>.
+Then run:
 </p>
+
+<pre>
+$ sudo apt-get install certbot -t jessie-backports
+</pre>
 <p>
 <strong>Certbot's DNS plugins which can be used to automate obtaining a wildcard
 certificate from Let's Encrypt's ACMEv2 server are not available for your OS
@@ -386,12 +357,11 @@ Since your server architecture doesn't yet officially  support automatic
 installation you should probably use the <tt>certonly</tt> command to obtain your
 certificate.
 </p>
-<pre>$ sudo ./path/to/certbot-auto certonly</pre>
+<pre>$ sudo certbot certonly</pre>
 <p>
 This will allow you interactively select the plugin and options used to obtain
 your certificate. If you already have a webserver running, we recommend
 choosing the <a href="/docs/using.html#webroot">"webroot" plugin</a>.
-</p>
 <p>
 Alternatively, you can specify more information on the command line.
 </p>
@@ -400,7 +370,7 @@ To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</
 which can work with the webroot directory of any webserver software:
 </p>
 <pre>
-$ sudo ./path/to/certbot-auto certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
+$ sudo certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
 </pre>
 <p>
 This command will obtain a single cert for <tt>example.com</tt>,
@@ -418,13 +388,13 @@ temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
 <tt>www.example.com</tt>:
 </p>
 <pre>
-$ sudo ./path/to/certbot-auto certonly --standalone -d example.com -d www.example.com
+$ sudo certbot certonly --standalone -d example.com -d www.example.com
 </pre>
 
 <h3>Automating renewal</h3>
 
 <p>
-Certbot can be configured to
+The Certbot packages on your system come with a cron job that will
 renew your certificates automatically before they expire. Since Let's Encrypt
 certificates last for 90 days, it's highly advisable to take advantage of this
 feature. You can test automatic renewal for your certificates by running this
@@ -432,28 +402,9 @@ command:
 </p>
 
 <pre>
-$ sudo ./path/to/certbot-auto renew --dry-run
+$ sudo certbot renew --dry-run
 </pre>
 
-If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
-following:<br />
-
-<pre>./path/to/certbot-auto renew</pre>
-
-<aside class="note">
-    <h4>Note:</h4>
-    <p>if you're setting up a <tt>cron</tt> or <tt>systemd</tt> job, we
-recommend running it twice per day (it won't do anything until your
-certificates are due for renewal or revoked, but running it regularly would
-give your site a chance of staying online in case a Let's Encrypt-initiated
-revocation happened for some reason). Please select a random minute within the
-hour for your renewal tasks.</p>
-</aside>
-
-<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
-
-<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; ./path/to/certbot-auto renew </pre>
 
 <p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
 documentation</a>.</p>
@@ -480,10 +431,10 @@ Certificate installation with HAProxy is complicated; you probably want to follo
 Or you might be interested in using the experimental <a href="https://code.greenhost.net/open/letsencrypt-haproxy">third-party HAProxy plugin</a> from Greenhost.
 </p>
 
-    </div>
+    &lt;/div&gt;
 
 
-  </div>
+  &lt;/div&gt;
 
   <div class="three">
       <figure>
@@ -511,7 +462,8 @@ Or you might be interested in using the experimental <a href="https://code.green
         </a>
       </figure>
     </div>
-</div>
+&lt;/div&gt;
+</p></div></div></p></div></div></div>
 
         </div>
       </div>
