@@ -19,7 +19,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Certbot - Centosrhel7 Other</title>
+    <title>Certbot - Devuanascii Apache</title>
     <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <link rel="stylesheet" href="/css/main.css">
@@ -27,7 +27,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@EFF">
-    <meta name="twitter:title" content="Certbot - Centosrhel7 Other">
+    <meta name="twitter:title" content="Certbot - Devuanascii Apache">
     <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
@@ -185,7 +185,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <div class="page-content">
       <div class="wrapper">
         <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/centosrhel7-other.html">None of the above on CentOS/RHEL 7</a></h2>
+          <h2 id="instructions-header"><a href="/lets-encrypt/devuanascii-apache.html">Apache on Devuan ASCII 2.0</a></h2>
 <div class="tab automated active">Automated</div>
 <div class="tab advanced">Advanced</div>
 
@@ -205,26 +205,17 @@ checking this list of supporting providers</a>.
 </aside>
 <h3>Install</h3>
 <p>
-Certbot is packaged in EPEL (Extra Packages for Enterprise Linux). To use
-Certbot, you must first <a href="https://fedoraproject.org/wiki/EPEL#How_can_I_use_these_extra_packages.3F">
-enable the EPEL repository</a>. On RHEL or Oracle Linux, you must also
-enable the optional channel.
+  Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
-<aside class="note">
-<h4>Note:</h4>
+
 <p>
-If you are using RHEL on EC2, you can enable the optional channel by running:
+First you'll have to enable the ASCII backports repo in your APT sources as
+shown <a href="https://devuan.org/os/etc/apt/sources.list#add-backports-default-no">here</a>.
+Then run:
 </p>
+
 <pre>
-$ yum -y install yum-utils
-$ yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional
-</pre>
-</aside>
-<p>
-After doing this, you can install Certbot by running:
-</p>
-<pre>
-$ sudo yum install certbot
+$ sudo apt-get install python-certbot-apache -t ascii-backports
 </pre>
 <p>
 <strong>Certbot's DNS plugins are also available for your system which can be used to
@@ -233,72 +224,45 @@ To use one of these plugins, you must have configured DNS for the domain you
 want to obtain a certificate for with a DNS provider that Certbot has a plugin
 for. A list of these plugins and more information about using them can be found
 <a href="/docs/using.html#dns-plugins">here</a>. To install one of these
-plugins, run the installation command above but replace certbot with the
+plugins, run the installation command above but replace python-certbot-apache with the
 name of the DNS plugin you want to install.
 </p>
     </div>
     <div class="get-started">
       <h3>Get Started</h3>
 <p>
-Certbot supports a number of different “plugins” that can be used to obtain and/or install certificates.
+Certbot has a fairly solid beta-quality Apache plugin, which is supported on
+many platforms, and automates certificate installation.
 </p>
-<p>
-Since your server architecture doesn't yet  support automatic
-installation you&#39;ll have to use the <tt>certonly</tt> command to obtain your
-certificate.
-</p>
-<pre>$ sudo certbot certonly</pre>
-<p>
-This will allow you interactively select the plugin and options used to obtain
-your certificate. If you already have a webserver running, we recommend
-choosing the <a href="/docs/using.html#webroot">"webroot" plugin</a>.
-</p>
-<p>
-Alternatively, you can specify more information on the command line.
-</p>
-<p>
-To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</a>,
-which can work with the webroot directory of any webserver software:
-</p>
-<pre>
-$ sudo certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
-</pre>
-<p>
-This command will obtain a single cert for <tt>example.com</tt>,
-<tt>www.example.com</tt>, <tt>thing.is</tt>, and <tt>m.thing.is</tt>; it will
-place files below <tt>/var/www/example</tt> to prove control of the first two
-domains, and under <tt>/var/www/thing</tt> for the second pair.
-</p>
-<aside class="note">
-        <h4>Note:</h4>
-            <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If /.well-known is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside /.well-known/acme-challenge are served by the webserver.</p>
-</aside>
-<p>
-To obtain a cert using a built-in “standalone” webserver (you may need to
-temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
-<tt>www.example.com</tt>:
-</p>
-<pre>
-$ sudo certbot certonly --standalone -d example.com -d www.example.com
-</pre>
-<p>
-<strong>You can also use one of Certbot's DNS plugins to obtain a certificate if it's
-installed and you have configured DNS for the domain you want to obtain a
-certificate for with the DNS provider matching the plugin.</strong> To see more
-information about using these plugins, click
-<a href="/docs/using.html#dns-plugins">here</a>. If you want to use one of
-these plugins with Let's Encrypt's new ACMEv2 server that will issue wildcard
-certificates, you'll also need to include the following flag on the command
-line:
-</p>
-<pre>
---server https://acme-v02.api.letsencrypt.org/directory
-</pre>
+    <pre>$ sudo certbot --apache</pre>
+    <p>
+    Running this command will get a certificate for you and have Certbot edit your Apache configuration
+    automatically to serve it. If you're feeling more conservative and would like to make the changes to your
+    Apache configuration by hand, you can use the <tt>certonly</tt>
+    subcommand:
+    <pre>$ sudo certbot --apache certonly</pre>
 
+<p>
+<strong>If you want to obtain a wildcard certificate using Let's Encrypt's new ACMEv2
+server, you'll also need to use one of
+<a href="/docs/using.html#dns-plugins">Certbot's DNS plugins</a>.</strong> To do this,
+make sure the plugin for your DNS provider is installed using the instructions
+above and run a command like the following:
+</p>
+<pre>$ sudo certbot -a dns-plugin -i apache -d "*.example.com" -d example.com --server https://acme-v02.api.letsencrypt.org/directory</pre>
+<p>
+You'll need to replace <tt>dns-plugin</tt> with the name of the DNS plugin you
+want to use. You may also need to provide additional flags such as the path to
+your API credentials as described in the documentation for the DNS plugin
+linked above.
+</p>
+
+To learn more about how to use Certbot <a href="/docs/">read our documentation</a>.
+</p>
 <h3>Automating renewal</h3>
 
 <p>
-Certbot can be configured to
+The Certbot packages on your system come with a cron job that will
 renew your certificates automatically before they expire. Since Let's Encrypt
 certificates last for 90 days, it's highly advisable to take advantage of this
 feature. You can test automatic renewal for your certificates by running this
@@ -309,25 +273,6 @@ command:
 $ sudo certbot renew --dry-run
 </pre>
 
-If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
-following:<br />
-
-<pre>certbot renew</pre>
-
-<aside class="note">
-    <h4>Note:</h4>
-    <p>if you're setting up a <tt>cron</tt> or <tt>systemd</tt> job, we
-recommend running it twice per day (it won't do anything until your
-certificates are due for renewal or revoked, but running it regularly would
-give your site a chance of staying online in case a Let's Encrypt-initiated
-revocation happened for some reason). Please select a random minute within the
-hour for your renewal tasks.</p>
-</aside>
-
-<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
-
-<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew </pre>
 
 <p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
 documentation</a>.</p>
@@ -350,26 +295,17 @@ checking this list of supporting providers</a>.
 </aside>
 <h3>Install</h3>
 <p>
-Certbot is packaged in EPEL (Extra Packages for Enterprise Linux). To use
-Certbot, you must first <a href="https://fedoraproject.org/wiki/EPEL#How_can_I_use_these_extra_packages.3F">
-enable the EPEL repository</a>. On RHEL or Oracle Linux, you must also
-enable the optional channel.
+  Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
 </p>
-<aside class="note">
-<h4>Note:</h4>
+
 <p>
-If you are using RHEL on EC2, you can enable the optional channel by running:
+First you'll have to enable the ASCII backports repo in your APT sources as
+shown <a href="https://devuan.org/os/etc/apt/sources.list#add-backports-default-no">here</a>.
+Then run:
 </p>
+
 <pre>
-$ yum -y install yum-utils
-$ yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional
-</pre>
-</aside>
-<p>
-After doing this, you can install Certbot by running:
-</p>
-<pre>
-$ sudo yum install certbot
+$ sudo apt-get install python-certbot-apache -t ascii-backports
 </pre>
 <p>
 <strong>Certbot's DNS plugins are also available for your system which can be used to
@@ -378,72 +314,62 @@ To use one of these plugins, you must have configured DNS for the domain you
 want to obtain a certificate for with a DNS provider that Certbot has a plugin
 for. A list of these plugins and more information about using them can be found
 <a href="/docs/using.html#dns-plugins">here</a>. To install one of these
-plugins, run the installation command above but replace certbot with the
+plugins, run the installation command above but replace python-certbot-apache with the
 name of the DNS plugin you want to install.
 </p>
     </div>
     <div class="get-started">
       <h3>Get Started</h3>
 <p>
-Certbot supports a number of different “plugins” that can be used to obtain and/or install certificates.
+Certbot has a fairly solid beta-quality Apache plugin, which is supported on
+many platforms, and automates certificate installation.
 </p>
-<p>
-Since your server architecture doesn't yet  support automatic
-installation you&#39;ll have to use the <tt>certonly</tt> command to obtain your
-certificate.
-</p>
-<pre>$ sudo certbot certonly</pre>
-<p>
-This will allow you interactively select the plugin and options used to obtain
-your certificate. If you already have a webserver running, we recommend
-choosing the <a href="/docs/using.html#webroot">"webroot" plugin</a>.
-</p>
-<p>
-Alternatively, you can specify more information on the command line.
-</p>
-<p>
-To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</a>,
-which can work with the webroot directory of any webserver software:
-</p>
-<pre>
-$ sudo certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
-</pre>
-<p>
-This command will obtain a single cert for <tt>example.com</tt>,
-<tt>www.example.com</tt>, <tt>thing.is</tt>, and <tt>m.thing.is</tt>; it will
-place files below <tt>/var/www/example</tt> to prove control of the first two
-domains, and under <tt>/var/www/thing</tt> for the second pair.
-</p>
-<aside class="note">
-        <h4>Note:</h4>
-            <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If /.well-known is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside /.well-known/acme-challenge are served by the webserver.</p>
-</aside>
-<p>
-To obtain a cert using a built-in “standalone” webserver (you may need to
-temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
-<tt>www.example.com</tt>:
-</p>
-<pre>
-$ sudo certbot certonly --standalone -d example.com -d www.example.com
-</pre>
-<p>
-<strong>You can also use one of Certbot's DNS plugins to obtain a certificate if it's
-installed and you have configured DNS for the domain you want to obtain a
-certificate for with the DNS provider matching the plugin.</strong> To see more
-information about using these plugins, click
-<a href="/docs/using.html#dns-plugins">here</a>. If you want to use one of
-these plugins with Let's Encrypt's new ACMEv2 server that will issue wildcard
-certificates, you'll also need to include the following flag on the command
-line:
-</p>
-<pre>
---server https://acme-v02.api.letsencrypt.org/directory
-</pre>
+    <pre>$ sudo certbot --apache</pre>
+    <p>
+    Running this command will get a certificate for you and have Certbot edit your Apache configuration
+    automatically to serve it. If you're feeling more conservative and would like to make the changes to your
+    Apache configuration by hand, you can use the <tt>certonly</tt>
+    subcommand:
+    <pre>$ sudo certbot --apache certonly</pre>
 
+        <aside class="note">
+            <h4>Note:</h4>
+            <p>the apache plugin with <tt>certonly</tt> does the following:<br />
+            <ol>
+              <li>make temporary config changes<br /> (adding a new virtual host
+              to pass an <a href="https://tools.ietf.org/html/draft-ietf-acme-acme-02#section-7.3">ACME
+              Challenge</a>, and enabling <tt>mod_ssl</tt> if necessary)</li>
+              <li>performs a graceful reload</li>
+              <li>reverts all changes</li>
+              <li>performs another graceful reload</li>
+            </ol>
+            This appears to be a reliable process, but if you don't want Certbot
+            to touch your Apache process or files in any way, you can use the
+            <a href="https://certbot.eff.org/docs/using.html#webroot">webroot
+            plugin</a> instead.
+
+            </p></aside>
+<p>
+<strong>If you want to obtain a wildcard certificate using Let's Encrypt's new ACMEv2
+server, you'll also need to use one of
+<a href="/docs/using.html#dns-plugins">Certbot's DNS plugins</a>.</strong> To do this,
+make sure the plugin for your DNS provider is installed using the instructions
+above and run a command like the following:
+</p>
+<pre>$ sudo certbot -a dns-plugin -i apache -d "*.example.com" -d example.com --server https://acme-v02.api.letsencrypt.org/directory</pre>
+<p>
+You'll need to replace <tt>dns-plugin</tt> with the name of the DNS plugin you
+want to use. You may also need to provide additional flags such as the path to
+your API credentials as described in the documentation for the DNS plugin
+linked above.
+</p>
+
+To learn more about how to use Certbot <a href="/docs/">read our documentation</a>.
+</p>
 <h3>Automating renewal</h3>
 
 <p>
-Certbot can be configured to
+The Certbot packages on your system come with a cron job that will
 renew your certificates automatically before they expire. Since Let's Encrypt
 certificates last for 90 days, it's highly advisable to take advantage of this
 feature. You can test automatic renewal for your certificates by running this
@@ -454,25 +380,6 @@ command:
 $ sudo certbot renew --dry-run
 </pre>
 
-If that appears to be working correctly, you can arrange for automatic renewal
-by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
-following:<br />
-
-<pre>certbot renew</pre>
-
-<aside class="note">
-    <h4>Note:</h4>
-    <p>if you're setting up a <tt>cron</tt> or <tt>systemd</tt> job, we
-recommend running it twice per day (it won't do anything until your
-certificates are due for renewal or revoked, but running it regularly would
-give your site a chance of staying online in case a Let's Encrypt-initiated
-revocation happened for some reason). Please select a random minute within the
-hour for your renewal tasks.</p>
-</aside>
-
-<p>An example cron job might look like this, which will run at noon and midnight every day:</p>
-
-<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew </pre>
 
 <p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
 documentation</a>.</p>
