@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.reverter &mdash; Certbot 0.19.0.dev0 documentation</title>
+  <title>certbot.reverter &mdash; Certbot 0.29.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.reverter &mdash; Certbot 0.19.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.reverter &mdash; Certbot 0.29.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.19.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.29.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.19
+                0.29
               </div>
             
           
@@ -194,6 +194,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">six</span>
 <span class="kn">import</span> <span class="nn">zope.component</span>
 
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">compat</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
@@ -249,7 +250,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
 
         <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
-            <span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">(),</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">compat</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Reverter.revert_temporary_config"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.revert_temporary_config">[docs]</a>    <span class="k">def</span> <span class="nf">revert_temporary_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -266,8 +267,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="bp">self</span><span class="o">.</span><span class="n">_recover_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">:</span>
                 <span class="c1"># We have a partial or incomplete recovery</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">&quot;Incomplete or failed recovery for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span>
+                    <span class="s2">&quot;Incomplete or failed recovery for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span><span class="s2">&quot;Unable to revert temporary config&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Reverter.rollback_checkpoints"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.rollback_checkpoints">[docs]</a>    <span class="k">def</span> <span class="nf">rollback_checkpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rollback</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -307,7 +310,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_recover_checkpoint</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">&quot;Failed to load checkpoint during rollback&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Failed to load checkpoint during rollback&quot;</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
                     <span class="s2">&quot;Unable to load checkpoint during rollback&quot;</span><span class="p">)</span>
             <span class="n">rollback</span> <span class="o">-=</span> <span class="mi">1</span></div>
@@ -365,7 +368,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">if</span> <span class="n">for_logging</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
         <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Reverter.add_to_temp_checkpoint"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.add_to_temp_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_temp_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add files to temporary checkpoint.</span>
@@ -401,7 +404,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
-            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">(),</span>
+            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">compat</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
         <span class="n">op_fd</span><span class="p">,</span> <span class="n">existing_filepaths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_and_append</span><span class="p">(</span>
@@ -615,7 +618,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">cp_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span>
 
         <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
-            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">(),</span>
+            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">compat</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">cp_dir</span></div>
@@ -641,7 +644,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="bp">self</span><span class="o">.</span><span class="n">_recover_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">:</span>
                 <span class="c1"># We have a partial or incomplete recovery</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">&quot;Incomplete or failed recovery for IN_PROGRESS &quot;</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Incomplete or failed recovery for IN_PROGRESS &quot;</span>
                              <span class="s2">&quot;checkpoint - </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
                              <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
@@ -678,7 +681,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                             <span class="s2">&quot;Certbot probably shut down unexpectedly&quot;</span><span class="p">,</span>
                             <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span>
                 <span class="s2">&quot;Unable to remove filepaths contained within </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file_list</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
                 <span class="s2">&quot;Unable to remove filepaths contained within &quot;</span>
@@ -757,7 +760,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">timestamp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint_timestamp</span><span class="p">()</span>
             <span class="n">final_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">,</span> <span class="n">final_dir</span><span class="p">)</span>
+                <span class="n">compat</span><span class="o">.</span><span class="n">os_rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">,</span> <span class="n">final_dir</span><span class="p">)</span>
                 <span class="k">return</span>
             <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Extreme, unexpected race condition, retrying (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
@@ -779,14 +782,20 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2014-2016 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at https://eff.org/cb-license .
+    <span class="copyright">
+    &copy; Copyright 2014-2018 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at <a href="https://eff.org/cb-license">https://eff.org/cb-license</a>.
+    </span>
+    <br>
+    <br>
+    <span class="status">
+        <a href="https://letsencrypt.status.io/">Let's Encrypt Status</a>
+    </span>
 
     </p>
   </div>
-  <!-- Built with Sphinx using a custom theme. --> 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
@@ -818,7 +827,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.19.0.dev0',
+            VERSION:'0.29.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -845,7 +854,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%E2%80%94%20Certbot%200.19.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%E2%80%94%20Certbot%200.29.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
