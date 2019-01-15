@@ -214,12 +214,11 @@ chmod a+x certbot-auto</pre>
  installs all of its own
 dependencies and updates the client code automatically.
 </p>
-<h4>Installing DNS plugins</h4>
 <p>
-Certbot's DNS plugins <strong>are not available</strong> for your OS yet. These
-plugins can be used to automate obtaining a wildcard certificate from Let's
-Encrypt's ACMEv2 server. This should change soon but if you don't want to wait,
-you can use these plugins now by
+<strong>Certbot's DNS plugins which can be used to automate obtaining a wildcard
+certificate from Let's Encrypt's ACMEv2 server are not available for your OS
+yet.</strong> This should change soon but if you don't want to wait, you can use these
+plugins now by
 <a href="/docs/install.html#running-with-docker">running Certbot in Docker</a>
 instead of using the instructions on this page.
 </p>
@@ -230,13 +229,13 @@ instead of using the instructions on this page.
 Certbot has an Nginx plugin, which is supported on
 many platforms, and automates certificate installation.
 </p>
-<pre>$ sudo ./path/to/certbot-auto --nginx</pre>
+<pre>$ sudo /path/to/certbot-auto --nginx</pre>
 <p>
 Running this command will get a certificate for you and have Certbot edit your Nginx configuration
 automatically to serve it. If you're feeling more conservative and would like to make the changes to your
 Nginx configuration by hand, you can use the <tt>certonly</tt>
 subcommand:
-<pre>$ sudo ./path/to/certbot-auto --nginx certonly</pre>
+<pre>$ sudo /path/to/certbot-auto --nginx certonly</pre>
 
 
 To learn more about how to use Certbot <a href="/docs/">read our documentation</a>.
@@ -252,14 +251,14 @@ command:
 </p>
 
 <pre>
-$ sudo ./path/to/certbot-auto renew --dry-run
+$ sudo /path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
 by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br />
 
-<pre>./path/to/certbot-auto renew</pre>
+<pre>/path/to/certbot-auto renew</pre>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -273,7 +272,7 @@ hour for your renewal tasks.</p>
 
 <p>An example cron job might look like this, which will run at noon and midnight every day:</p>
 
-<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; ./path/to/certbot-auto renew </pre>
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /path/to/certbot-auto renew </pre>
 
 <p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
 documentation</a>.</p>
@@ -318,12 +317,11 @@ dependencies and updates the client code automatically.
 </aside>
 
 </p>
-<h4>Installing DNS plugins</h4>
 <p>
-Certbot's DNS plugins <strong>are not available</strong> for your OS yet. These
-plugins can be used to automate obtaining a wildcard certificate from Let's
-Encrypt's ACMEv2 server. This should change soon but if you don't want to wait,
-you can use these plugins now by
+<strong>Certbot's DNS plugins which can be used to automate obtaining a wildcard
+certificate from Let's Encrypt's ACMEv2 server are not available for your OS
+yet.</strong> This should change soon but if you don't want to wait, you can use these
+plugins now by
 <a href="/docs/install.html#running-with-docker">running Certbot in Docker</a>
 instead of using the instructions on this page.
 </p>
@@ -334,13 +332,13 @@ instead of using the instructions on this page.
 Certbot has an Nginx plugin, which is supported on
 many platforms, and automates certificate installation.
 </p>
-<pre>$ sudo ./path/to/certbot-auto --nginx</pre>
+<pre>$ sudo /path/to/certbot-auto --nginx</pre>
 <p>
 Running this command will get a certificate for you and have Certbot edit your Nginx configuration
 automatically to serve it. If you're feeling more conservative and would like to make the changes to your
 Nginx configuration by hand, you can use the <tt>certonly</tt>
 subcommand:
-<pre>$ sudo ./path/to/certbot-auto --nginx certonly</pre>
+<pre>$ sudo /path/to/certbot-auto --nginx certonly</pre>
 
     <aside class="note">
         <h4>Note:</h4>
@@ -372,14 +370,14 @@ command:
 </p>
 
 <pre>
-$ sudo ./path/to/certbot-auto renew --dry-run
+$ sudo /path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
 by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br />
 
-<pre>./path/to/certbot-auto renew</pre>
+<pre>/path/to/certbot-auto renew</pre>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -393,7 +391,7 @@ hour for your renewal tasks.</p>
 
 <p>An example cron job might look like this, which will run at noon and midnight every day:</p>
 
-<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; ./path/to/certbot-auto renew </pre>
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /path/to/certbot-auto renew </pre>
 
 <p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
 documentation</a>.</p>
@@ -430,34 +428,33 @@ documentation</a>.</p>
       </figure>
     </div>
 </div>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;figure&gt;
-    &lt;a href="/docs/"&gt;
-    &lt;figcaption&gt;
-      &lt;p&gt;Documentation&lt;/p&gt;
-    &lt;/figcaption&gt;
-    &lt;img src="/images/documentation-icon.svg"&gt;
-    &lt;/a&gt;
-  &lt;/figure&gt;
-  &lt;figure&gt;
-    &lt;a href="/support/"&gt;
-    &lt;figcaption&gt;
-      &lt;p&gt;Support&lt;/p&gt;
-    &lt;/figcaption&gt;
-    &lt;img src="/images/support-icon.svg"&gt;
-    &lt;/a&gt;
-  &lt;/figure&gt;
-  &lt;figure&gt;
-    &lt;a href="https://github.com/certbot/certbot"&gt;
-    &lt;figcaption&gt;
-      &lt;p&gt;Source&lt;/p&gt;
-    &lt;/figcaption&gt;
-    &lt;img src="/images/github-mark.png"&gt;
-    &lt;/a&gt;
-  &lt;/figure&gt;
+<p>s=”three”&gt;
+      <figure>
+        <a href="/docs/">
+        &lt;figcaption&gt;
+          &lt;p&gt;Documentation&lt;/p&gt;
+        &lt;/figcaption&gt;
+        <img src="/images/documentation-icon.svg" />
+        </a>
+      </figure>
+      <figure>
+        <a href="/support/">
+        &lt;figcaption&gt;
+          &lt;p&gt;Support&lt;/p&gt;
+        &lt;/figcaption&gt;
+        <img src="/images/support-icon.svg" />
+        </a>
+      </figure>
+      <figure>
+        <a href="https://github.com/certbot/certbot">
+        &lt;figcaption&gt;
+          &lt;p&gt;Source&lt;/p&gt;
+        &lt;/figcaption&gt;
+        <img src="/images/github-mark.png" />
+        </a>
+      </figure>
+    &lt;/div&gt;
 &lt;/div&gt;
-</code></pre></div></div>
-<p>&lt;/div&gt;
 k.png”&gt;
         &lt;/a&gt;
       &lt;/figure&gt;
