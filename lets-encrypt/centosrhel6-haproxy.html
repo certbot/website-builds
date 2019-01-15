@@ -239,7 +239,7 @@ Since your server architecture doesn't yet officially  support automatic
 installation you should probably use the <tt>certonly</tt> command to obtain your
 certificate.
 </p>
-<pre>$ sudo ./path/to/certbot-auto certonly</pre>
+<pre>$ sudo /path/to/certbot-auto certonly</pre>
 <p>
 This will allow you interactively select the plugin and options used to obtain
 your certificate. If you already have a webserver running, we recommend
@@ -253,7 +253,7 @@ To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</
 which can work with the webroot directory of any webserver software:
 </p>
 <pre>
-$ sudo ./path/to/certbot-auto certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
+$ sudo /path/to/certbot-auto certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
 </pre>
 <p>
 This command will obtain a single cert for <tt>example.com</tt>,
@@ -271,7 +271,7 @@ temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
 <tt>www.example.com</tt>:
 </p>
 <pre>
-$ sudo ./path/to/certbot-auto certonly --standalone -d example.com -d www.example.com
+$ sudo /path/to/certbot-auto certonly --standalone -d example.com -d www.example.com
 </pre>
 
 <h3>Automating renewal</h3>
@@ -285,14 +285,14 @@ command:
 </p>
 
 <pre>
-$ sudo ./path/to/certbot-auto renew --dry-run
+$ sudo /path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
 by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br />
 
-<pre>./path/to/certbot-auto renew</pre>
+<pre>/path/to/certbot-auto renew</pre>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -306,7 +306,7 @@ hour for your renewal tasks.</p>
 
 <p>An example cron job might look like this, which will run at noon and midnight every day:</p>
 
-<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; ./path/to/certbot-auto renew </pre>
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /path/to/certbot-auto renew </pre>
 
 <p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
 documentation</a>.</p>
@@ -398,7 +398,7 @@ Since your server architecture doesn't yet officially  support automatic
 installation you should probably use the <tt>certonly</tt> command to obtain your
 certificate.
 </p>
-<pre>$ sudo ./path/to/certbot-auto certonly</pre>
+<pre>$ sudo /path/to/certbot-auto certonly</pre>
 <p>
 This will allow you interactively select the plugin and options used to obtain
 your certificate. If you already have a webserver running, we recommend
@@ -412,7 +412,7 @@ To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</
 which can work with the webroot directory of any webserver software:
 </p>
 <pre>
-$ sudo ./path/to/certbot-auto certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
+$ sudo /path/to/certbot-auto certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
 </pre>
 <p>
 This command will obtain a single cert for <tt>example.com</tt>,
@@ -430,7 +430,7 @@ temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
 <tt>www.example.com</tt>:
 </p>
 <pre>
-$ sudo ./path/to/certbot-auto certonly --standalone -d example.com -d www.example.com
+$ sudo /path/to/certbot-auto certonly --standalone -d example.com -d www.example.com
 </pre>
 
 <h3>Automating renewal</h3>
@@ -444,14 +444,14 @@ command:
 </p>
 
 <pre>
-$ sudo ./path/to/certbot-auto renew --dry-run
+$ sudo /path/to/certbot-auto renew --dry-run
 </pre>
 
 If that appears to be working correctly, you can arrange for automatic renewal
 by adding a <tt><a href="http://www.unixgeeks.org/security/newbie/unix/cron-1.html">cron job</a></tt> or <tt><a href="https://wiki.archlinux.org/index.php/Systemd/Timers">systemd timer</a></tt> which runs the
 following:<br />
 
-<pre>./path/to/certbot-auto renew</pre>
+<pre>/path/to/certbot-auto renew</pre>
 
 <aside class="note">
     <h4>Note:</h4>
@@ -465,7 +465,7 @@ hour for your renewal tasks.</p>
 
 <p>An example cron job might look like this, which will run at noon and midnight every day:</p>
 
-<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; ./path/to/certbot-auto renew </pre>
+<pre>0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /path/to/certbot-auto renew </pre>
 
 <p>More detailed information and options about renewal can be found in <a href="https://certbot.eff.org/docs/using.html#renewal">the full
 documentation</a>.</p>
