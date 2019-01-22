@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.auth_handler &mdash; Certbot 0.29.0.dev0 documentation</title>
+  <title>certbot.auth_handler &mdash; Certbot 0.31.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.auth_handler &mdash; Certbot 0.29.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.auth_handler &mdash; Certbot 0.31.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.29.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.31.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.29
+                0.31
               </div>
             
           
@@ -215,7 +215,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        :class:`~acme.challenges.Challenge` types</span>
 <span class="sd">    :type auth: :class:`certbot.interfaces.IAuthenticator`</span>
 
-<span class="sd">    :ivar acme.client.BackwardsCompatibleClientV2 acme: ACME client API.</span>
+<span class="sd">    :ivar acme.client.BackwardsCompatibleClientV2 acme_client: ACME client API.</span>
 
 <span class="sd">    :ivar account: Client&#39;s Account</span>
 <span class="sd">    :type account: :class:`certbot.account.Account`</span>
@@ -224,9 +224,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        type strings with the most preferred challenge listed first</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">acme</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">pref_challs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auth</span><span class="p">,</span> <span class="n">acme_client</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">pref_challs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">auth</span> <span class="o">=</span> <span class="n">auth</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">acme</span> <span class="o">=</span> <span class="n">acme</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">acme</span> <span class="o">=</span> <span class="n">acme_client</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">account</span> <span class="o">=</span> <span class="n">account</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pref_challs</span> <span class="o">=</span> <span class="n">pref_challs</span>
@@ -269,19 +269,26 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="bp">self</span><span class="o">.</span><span class="n">verify_authzr_complete</span><span class="p">(</span><span class="n">aauthzrs</span><span class="p">)</span>
 
         <span class="c1"># Only return valid authorizations</span>
-        <span class="n">retVal</span> <span class="o">=</span> <span class="p">[</span><span class="n">aauthzr</span><span class="o">.</span><span class="n">authzr</span> <span class="k">for</span> <span class="n">aauthzr</span> <span class="ow">in</span> <span class="n">aauthzrs</span>
-                  <span class="k">if</span> <span class="n">aauthzr</span><span class="o">.</span><span class="n">authzr</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">messages</span><span class="o">.</span><span class="n">STATUS_VALID</span><span class="p">]</span>
+        <span class="n">ret_val</span> <span class="o">=</span> <span class="p">[</span><span class="n">aauthzr</span><span class="o">.</span><span class="n">authzr</span> <span class="k">for</span> <span class="n">aauthzr</span> <span class="ow">in</span> <span class="n">aauthzrs</span>
+                   <span class="k">if</span> <span class="n">aauthzr</span><span class="o">.</span><span class="n">authzr</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">messages</span><span class="o">.</span><span class="n">STATUS_VALID</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">retVal</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ret_val</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">AuthorizationError</span><span class="p">(</span>
                 <span class="s2">&quot;Challenges failed for all domains&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">retVal</span></div>
+        <span class="k">return</span> <span class="n">ret_val</span></div>
 
 <div class="viewcode-block" id="AuthHandler._choose_challenges"><a class="viewcode-back" href="../../api/auth_handler.html#certbot.auth_handler.AuthHandler._choose_challenges">[docs]</a>    <span class="k">def</span> <span class="nf">_choose_challenges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aauthzrs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Retrieve necessary challenges to satisfy server.&quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Performing the following challenges:&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">aauthzr</span> <span class="ow">in</span> <span class="n">aauthzrs</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieve necessary and pending challenges to satisfy server.</span>
+<span class="sd">        NB: Necessary and already validated challenges are not retrieved,</span>
+<span class="sd">        as they can be reused for a certificate issuance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pending_authzrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">aauthzr</span> <span class="k">for</span> <span class="n">aauthzr</span> <span class="ow">in</span> <span class="n">aauthzrs</span>
+                           <span class="k">if</span> <span class="n">aauthzr</span><span class="o">.</span><span class="n">authzr</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="n">messages</span><span class="o">.</span><span class="n">STATUS_VALID</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">pending_authzrs</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Performing the following challenges:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">aauthzr</span> <span class="ow">in</span> <span class="n">pending_authzrs</span><span class="p">:</span>
             <span class="n">aauthzr_challenges</span> <span class="o">=</span> <span class="n">aauthzr</span><span class="o">.</span><span class="n">authzr</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">challenges</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">acme</span><span class="o">.</span><span class="n">acme_version</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">combinations</span> <span class="o">=</span> <span class="n">aauthzr</span><span class="o">.</span><span class="n">authzr</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">combinations</span>
@@ -309,7 +316,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <div class="viewcode-block" id="AuthHandler._solve_challenges"><a class="viewcode-back" href="../../api/auth_handler.html#certbot.auth_handler.AuthHandler._solve_challenges">[docs]</a>    <span class="k">def</span> <span class="nf">_solve_challenges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aauthzrs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get Responses for challenges from authenticators.&quot;&quot;&quot;</span>
-        <span class="n">resp</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: Collection[acme.challenges.ChallengeResponse]</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: Collection[challenges.ChallengeResponse]</span>
         <span class="n">all_achalls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_all_achalls</span><span class="p">(</span><span class="n">aauthzrs</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">all_achalls</span><span class="p">:</span>
@@ -715,7 +722,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">problems</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>\
-    <span class="c1"># type: DefaultDict[str, List[achallenges.KeyAuthorizationAnnotatedChallenge]]</span>
+        <span class="c1"># type: DefaultDict[str, List[achallenges.KeyAuthorizationAnnotatedChallenge]]</span>
     <span class="k">for</span> <span class="n">achall</span> <span class="ow">in</span> <span class="n">failed_achalls</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">achall</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
             <span class="n">problems</span><span class="p">[</span><span class="n">achall</span><span class="o">.</span><span class="n">error</span><span class="o">.</span><span class="n">typ</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">achall</span><span class="p">)</span>
@@ -807,7 +814,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.29.0.dev0',
+            VERSION:'0.31.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -834,7 +841,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.auth_handler%E2%80%94%20Certbot%200.29.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.auth_handler%E2%80%94%20Certbot%200.31.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

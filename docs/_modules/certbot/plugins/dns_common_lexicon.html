@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.dns_common_lexicon &mdash; Certbot 0.29.0.dev0 documentation</title>
+  <title>certbot.plugins.dns_common_lexicon &mdash; Certbot 0.31.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.dns_common_lexicon &mdash; Certbot 0.29.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.dns_common_lexicon &mdash; Certbot 0.31.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 0.29.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 0.31.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.29
+                0.31
               </div>
             
           
@@ -183,13 +183,23 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
   <h1>Source code for certbot.plugins.dns_common_lexicon</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Common code for DNS Authenticator Plugins built on Lexicon.&quot;&quot;&quot;</span>
-
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="k">import</span> <span class="n">HTTPError</span><span class="p">,</span> <span class="n">RequestException</span>
 
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>  <span class="c1"># pylint: disable=unused-import,no-name-in-module</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">dns_common</span>
+
+<span class="c1"># Lexicon is not declared as a dependency in Certbot itself,</span>
+<span class="c1"># but in the Certbot plugins backed by Lexicon.</span>
+<span class="c1"># So we catch import error here to allow this module to be</span>
+<span class="c1"># always importable, even if it does not make sense to use it</span>
+<span class="c1"># if Lexicon is not available, obviously.</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">lexicon.config</span> <span class="k">import</span> <span class="n">ConfigResolver</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">ConfigResolver</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -284,6 +294,31 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;No domain found&#39;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;Unexpected error determining zone identifier for </span><span class="si">{0}</span><span class="s1">: </span><span class="si">{1}</span><span class="s1">&#39;</span>
                                       <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">domain_name</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="build_lexicon_config"><a class="viewcode-back" href="../../../api/plugins/dns_common_lexicon.html#certbot.plugins.dns_common_lexicon.build_lexicon_config">[docs]</a><span class="k">def</span> <span class="nf">build_lexicon_config</span><span class="p">(</span><span class="n">lexicon_provider_name</span><span class="p">,</span> <span class="n">lexicon_options</span><span class="p">,</span> <span class="n">provider_options</span><span class="p">):</span>
+    <span class="c1"># type: (str, Dict, Dict) -&gt; Union[ConfigResolver, Dict]</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convenient function to build a Lexicon 2.x/3.x config object.</span>
+<span class="sd">    :param str lexicon_provider_name: the name of the lexicon provider to use</span>
+<span class="sd">    :param dict lexicon_options: options specific to lexicon</span>
+<span class="sd">    :param dict provider_options: options specific to provider</span>
+<span class="sd">    :return: configuration to apply to the provider</span>
+<span class="sd">    :rtype: ConfigurationResolver or dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;provider_name&#39;</span><span class="p">:</span> <span class="n">lexicon_provider_name</span><span class="p">}</span>  <span class="c1"># type: Dict[str, Any]</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">lexicon_options</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ConfigResolver</span><span class="p">:</span>
+        <span class="c1"># Lexicon 2.x</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">provider_options</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Lexicon 3.x</span>
+        <span class="n">provider_config</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">provider_config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">provider_options</span><span class="p">)</span>
+        <span class="n">config</span><span class="p">[</span><span class="n">lexicon_provider_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">provider_config</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">ConfigResolver</span><span class="p">()</span><span class="o">.</span><span class="n">with_dict</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">with_env</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">config</span></div>
 </pre></div>
 
            </div>
@@ -340,7 +375,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.29.0.dev0',
+            VERSION:'0.31.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -367,7 +402,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.dns_common_lexicon%E2%80%94%20Certbot%200.29.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.dns_common_lexicon%E2%80%94%20Certbot%200.31.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

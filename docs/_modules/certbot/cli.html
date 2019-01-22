@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.cli &mdash; Certbot 0.29.0.dev0 documentation</title>
+  <title>certbot.cli &mdash; Certbot 0.31.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.cli &mdash; Certbot 0.29.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.cli &mdash; Certbot 0.31.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.29.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.31.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.29
+                0.31
               </div>
             
           
@@ -285,6 +285,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="s2">manage your account with Let&#39;s Encrypt:</span>
 <span class="s2">    register        Create a Let&#39;s Encrypt ACME account</span>
+<span class="s2">    update_account  Update a Let&#39;s Encrypt ACME account</span>
 <span class="s2">  --agree-tos       Agree to the ACME server&#39;s Subscriber Agreement</span>
 <span class="s2">   -m EMAIL         Email address for important account notifications</span>
 <span class="s2">&quot;&quot;&quot;</span>
@@ -356,10 +357,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="c1"># need warnings</span>
         <span class="k">return</span>
     <span class="k">if</span> <span class="s2">&quot;CERTBOT_AUTO&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;You are running with an old copy of letsencrypt-auto that does &quot;</span>
-            <span class="s2">&quot;not receive updates, and is less reliable than more recent versions. &quot;</span>
-            <span class="s2">&quot;We recommend upgrading to the latest certbot-auto script, or using native &quot;</span>
-            <span class="s2">&quot;OS packages.&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;You are running with an old copy of letsencrypt-auto&quot;</span>
+            <span class="s2">&quot; that does not receive updates, and is less reliable than more&quot;</span>
+            <span class="s2">&quot; recent versions. The letsencrypt client has also been renamed&quot;</span>
+            <span class="s2">&quot; to Certbot. We recommend upgrading to the latest certbot-auto&quot;</span>
+            <span class="s2">&quot; script, or using native OS packages.&quot;</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Deprecation warning circumstances: </span><span class="si">%s</span><span class="s2"> / </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">)</span></div>
 
 
@@ -470,7 +472,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">filename</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">the_file</span><span class="p">:</span>
+            <span class="n">contents</span> <span class="o">=</span> <span class="n">the_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">filename</span><span class="p">,</span> <span class="n">contents</span>
     <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">strerror</span><span class="p">)</span></div>
 
@@ -578,8 +582,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="p">}),</span>
     <span class="p">(</span><span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="p">{</span>
         <span class="s2">&quot;short&quot;</span><span class="p">:</span> <span class="s2">&quot;Register for account with Let&#39;s Encrypt / other ACME server&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;opts&quot;</span><span class="p">:</span> <span class="s2">&quot;Options for account registration &amp; modification&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;opts&quot;</span><span class="p">:</span> <span class="s2">&quot;Options for account registration&quot;</span><span class="p">,</span>
         <span class="s2">&quot;usage&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">  certbot register --email user@example.com [options]</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+    <span class="p">}),</span>
+    <span class="p">(</span><span class="s2">&quot;update_account&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s2">&quot;short&quot;</span><span class="p">:</span> <span class="s2">&quot;Update existing account with Let&#39;s Encrypt / other ACME server&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;opts&quot;</span><span class="p">:</span> <span class="s2">&quot;Options for account modification&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;usage&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">  certbot update_account --email updated_email@example.com [options]</span><span class="se">\n\n</span><span class="s2">&quot;</span>
     <span class="p">}),</span>
     <span class="p">(</span><span class="s2">&quot;unregister&quot;</span><span class="p">,</span> <span class="p">{</span>
         <span class="s2">&quot;short&quot;</span><span class="p">:</span> <span class="s2">&quot;Irrevocably deactivate your account&quot;</span><span class="p">,</span>
@@ -646,6 +655,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="s2">&quot;install&quot;</span><span class="p">:</span> <span class="n">main</span><span class="o">.</span><span class="n">install</span><span class="p">,</span>
             <span class="s2">&quot;plugins&quot;</span><span class="p">:</span> <span class="n">main</span><span class="o">.</span><span class="n">plugins_cmd</span><span class="p">,</span>
             <span class="s2">&quot;register&quot;</span><span class="p">:</span> <span class="n">main</span><span class="o">.</span><span class="n">register</span><span class="p">,</span>
+            <span class="s2">&quot;update_account&quot;</span><span class="p">:</span> <span class="n">main</span><span class="o">.</span><span class="n">update_account</span><span class="p">,</span>
             <span class="s2">&quot;unregister&quot;</span><span class="p">:</span> <span class="n">main</span><span class="o">.</span><span class="n">unregister</span><span class="p">,</span>
             <span class="s2">&quot;renew&quot;</span><span class="p">:</span> <span class="n">main</span><span class="o">.</span><span class="n">renew</span><span class="p">,</span>
             <span class="s2">&quot;revoke&quot;</span><span class="p">:</span> <span class="n">main</span><span class="o">.</span><span class="n">revoke</span><span class="p">,</span>
@@ -1040,7 +1050,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">if</span> <span class="n">chosen_topic</span> <span class="o">==</span> <span class="s2">&quot;everything&quot;</span><span class="p">:</span>
             <span class="n">chosen_topic</span> <span class="o">=</span> <span class="s2">&quot;run&quot;</span>
         <span class="k">if</span> <span class="n">chosen_topic</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">t</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_topics</span><span class="p">])</span>
+            <span class="c1"># Addition of condition closes #6209 (removal of duplicate route53 option).</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">t</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">if</span> <span class="n">t</span> <span class="o">!=</span> <span class="s1">&#39;certbot-route53:auth&#39;</span> <span class="k">else</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_topics</span><span class="p">])</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">chosen_topic</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">t</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_topics</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1126,6 +1138,18 @@ Like looking at code? Help us! https://github.com/certbot/certbot
              <span class="s2">&quot;name. In the case of a name collision it will append a number &quot;</span>
              <span class="s2">&quot;like 0001 to the file path name. (default: Ask)&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;register&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;--eab-kid&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;eab_kid&quot;</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;EAB_KID&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Key Identifier for External Account Binding&quot;</span>
+    <span class="p">)</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;register&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;--eab-hmac-key&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;eab_hmac_key&quot;</span><span class="p">,</span>
+        <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;EAB_HMAC_KEY&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;HMAC key for External Account Binding&quot;</span>
+    <span class="p">)</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;manage&quot;</span><span class="p">,</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span> <span class="s2">&quot;certificates&quot;</span><span class="p">,</span>
          <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;enhance&quot;</span><span class="p">],</span> <span class="s2">&quot;--cert-name&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;certname&quot;</span><span class="p">,</span>
         <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;CERTNAME&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;certname&quot;</span><span class="p">),</span>
@@ -1160,21 +1184,21 @@ Like looking at code? Help us! https://github.com/certbot/certbot
              <span class="s2">&quot;certificates. Updates to the Subscriber Agreement will still &quot;</span>
              <span class="s2">&quot;affect you, and will be effective 14 days after posting an &quot;</span>
              <span class="s2">&quot;update to the web site.&quot;</span><span class="p">)</span>
+    <span class="c1"># TODO: When `certbot register --update-registration` is fully deprecated,</span>
+    <span class="c1"># delete following helpful.add</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;--update-registration&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;update_registration&quot;</span><span class="p">),</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;With the register verb, indicates that details associated &quot;</span>
-             <span class="s2">&quot;with an existing registration, such as the e-mail address, &quot;</span>
-             <span class="s2">&quot;should be updated, rather than registering a new account.&quot;</span><span class="p">)</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;update_registration&quot;</span><span class="p">),</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;update_registration&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="p">[</span><span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;unregister&quot;</span><span class="p">,</span> <span class="s2">&quot;automation&quot;</span><span class="p">],</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;--email&quot;</span><span class="p">,</span>
+        <span class="p">[</span><span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;update_account&quot;</span><span class="p">,</span> <span class="s2">&quot;unregister&quot;</span><span class="p">,</span> <span class="s2">&quot;automation&quot;</span><span class="p">],</span> <span class="s2">&quot;-m&quot;</span><span class="p">,</span> <span class="s2">&quot;--email&quot;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="n">config_help</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">))</span>
-    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;automation&quot;</span><span class="p">],</span> <span class="s2">&quot;--eff-email&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;update_account&quot;</span><span class="p">,</span> <span class="s2">&quot;automation&quot;</span><span class="p">],</span> <span class="s2">&quot;--eff-email&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
                 <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;eff_email&quot;</span><span class="p">),</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;eff_email&quot;</span><span class="p">,</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Share your e-mail address with EFF&quot;</span><span class="p">)</span>
-    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;automation&quot;</span><span class="p">],</span> <span class="s2">&quot;--no-eff-email&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
-                <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;eff_email&quot;</span><span class="p">),</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;eff_email&quot;</span><span class="p">,</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;register&quot;</span><span class="p">,</span> <span class="s2">&quot;update_account&quot;</span><span class="p">,</span> <span class="s2">&quot;automation&quot;</span><span class="p">],</span> <span class="s2">&quot;--no-eff-email&quot;</span><span class="p">,</span>
+                <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;eff_email&quot;</span><span class="p">),</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;eff_email&quot;</span><span class="p">,</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Don&#39;t share your e-mail address with EFF&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">],</span>
@@ -1376,6 +1400,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;--renew-hook&quot;</span><span class="p">,</span>
                 <span class="n">action</span><span class="o">=</span><span class="n">_RenewHookAction</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;--no-random-sleep-on-renew&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;random_sleep_on_renew&quot;</span><span class="p">),</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;random_sleep_on_renew&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">)</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="s2">&quot;--deploy-hook&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">_DeployHookAction</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Command to be run in a shell once for each successfully&#39;</span>
         <span class="s1">&#39; issued certificate. For this command, the shell variable&#39;</span>
@@ -1467,7 +1495,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;revoke&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;--delete-after-revoke&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
                 <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;delete_after_revoke&quot;</span><span class="p">),</span>
-                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Delete certificates after revoking them.&quot;</span><span class="p">)</span>
+                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Delete certificates after revoking them, along with all previous and later &quot;</span>
+                <span class="s2">&quot;versions of those certificates.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;revoke&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;--no-delete-after-revoke&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
                 <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;delete_after_revoke&quot;</span><span class="p">,</span>
@@ -1821,7 +1850,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.29.0.dev0',
+            VERSION:'0.31.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1848,7 +1877,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cli%E2%80%94%20Certbot%200.29.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cli%E2%80%94%20Certbot%200.31.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
