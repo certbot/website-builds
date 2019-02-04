@@ -189,6 +189,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">six.moves.urllib</span> <span class="k">import</span> <span class="n">parse</span>  <span class="c1"># pylint: disable=import-error</span>
 <span class="kn">import</span> <span class="nn">zope.interface</span>
 
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">compat</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
@@ -253,6 +254,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <div class="viewcode-block" id="NamespaceConfig.accounts_dir_for_server_path"><a class="viewcode-back" href="../../api/configuration.html#certbot.configuration.NamespaceConfig.accounts_dir_for_server_path">[docs]</a>    <span class="k">def</span> <span class="nf">accounts_dir_for_server_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server_path</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Path to accounts directory based on server_path&quot;&quot;&quot;</span>
+        <span class="n">server_path</span> <span class="o">=</span> <span class="n">compat</span><span class="o">.</span><span class="n">underscores_for_unsupported_characters_in_path</span><span class="p">(</span><span class="n">server_path</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">namespace</span><span class="o">.</span><span class="n">config_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">ACCOUNTS_DIR</span><span class="p">,</span> <span class="n">server_path</span><span class="p">)</span></div>
 

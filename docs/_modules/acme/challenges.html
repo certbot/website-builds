@@ -697,6 +697,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">account_key</span><span class="p">)</span><span class="o">.</span><span class="n">gen_cert</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cert_key&#39;</span><span class="p">))</span>
 
 
+<span class="nd">@ChallengeResponse</span><span class="o">.</span><span class="n">register</span>
+<span class="k">class</span> <span class="nc">TLSALPN01Response</span><span class="p">(</span><span class="n">KeyAuthorizationChallengeResponse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ACME TLS-ALPN-01 challenge response.</span>
+
+<span class="sd">    This class only allows initiating a TLS-ALPN-01 challenge returned from the</span>
+<span class="sd">    CA. Full support for responding to TLS-ALPN-01 challenges by generating and</span>
+<span class="sd">    serving the expected response certificate is not currently provided.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;tls-alpn-01&quot;</span>
+
+
 <span class="nd">@Challenge</span><span class="o">.</span><span class="n">register</span>  <span class="c1"># pylint: disable=too-many-ancestors</span>
 <span class="k">class</span> <span class="nc">TLSALPN01</span><span class="p">(</span><span class="n">KeyAuthorizationChallenge</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;ACME tls-alpn-01 challenge.</span>
@@ -706,6 +717,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;tls-alpn-01&quot;</span>
+    <span class="n">response_cls</span> <span class="o">=</span> <span class="n">TLSALPN01Response</span>
 
     <span class="k">def</span> <span class="nf">validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Generate validation for the challenge.&quot;&quot;&quot;</span>

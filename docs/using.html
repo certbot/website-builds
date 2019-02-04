@@ -515,10 +515,9 @@ for authentication and the <a class="reference internal" href="#apache">apache</
 <p>Or you could create a certificate using the <a class="reference internal" href="#manual">manual</a> plugin for authentication
 and the <a class="reference internal" href="#nginx">nginx</a> plugin for installation. (Note that this certificate cannot
 be renewed automatically.)</p>
-<dl class="docutils">
-<dt>::</dt>
-<dd>certbot run -a manual -i nginx -d example.com</dd>
-</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">certbot</span> <span class="n">run</span> <span class="o">-</span><span class="n">a</span> <span class="n">manual</span> <span class="o">-</span><span class="n">i</span> <span class="n">nginx</span> <span class="o">-</span><span class="n">d</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="third-party-plugins">
 <span id="id3"></span><h3><a class="toc-backref" href="#id18">Third-party plugins</a><a class="headerlink" href="#third-party-plugins" title="Permalink to this headline">¶</a></h3>
@@ -760,8 +759,9 @@ failed hook causing renewal failures will indirectly result in a
 non-zero exit code. Hooks will only be run if a certificate is due for
 renewal, so you can run the above command frequently without
 unnecessarily stopping your webserver.</p>
-<p><code class="docutils literal notranslate"><span class="pre">--pre-hook</span></code> and <code class="docutils literal notranslate"><span class="pre">--post-hook</span></code> hooks run before and after every renewal
-attempt. If you want your hook to run only after a successful renewal, use
+<p>When Certbot detects that a certificate is due for renewal, <code class="docutils literal notranslate"><span class="pre">--pre-hook</span></code>
+and <code class="docutils literal notranslate"><span class="pre">--post-hook</span></code> hooks run before and after each attempt to renew it.
+If you want your hook to run only after a successful renewal, use
 <code class="docutils literal notranslate"><span class="pre">--deploy-hook</span></code> in a command like this.</p>
 <p><code class="docutils literal notranslate"><span class="pre">certbot</span> <span class="pre">renew</span> <span class="pre">--deploy-hook</span> <span class="pre">/path/to/deploy-hook-script</span></code></p>
 <p>For example, if you have a daemon that does not read its certificates as the
@@ -1167,7 +1167,7 @@ that by default two instances of Certbot will not be able to run in parallel.</p
 <p>Since the directories used by Certbot are configurable, Certbot
 will write a lock file for all of the directories it uses. This include Certbot’s
 <code class="docutils literal notranslate"><span class="pre">--work-dir</span></code>, <code class="docutils literal notranslate"><span class="pre">--logs-dir</span></code>, and <code class="docutils literal notranslate"><span class="pre">--config-dir</span></code>. By default these are
-<code class="docutils literal notranslate"><span class="pre">/var/lib/letsencrypt</span></code>, <code class="docutils literal notranslate"><span class="pre">/var/logs/letsencrypt</span></code>, and <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt</span></code>
+<code class="docutils literal notranslate"><span class="pre">/var/lib/letsencrypt</span></code>, <code class="docutils literal notranslate"><span class="pre">/var/log/letsencrypt</span></code>, and <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt</span></code>
 respectively. Additionally if you are using Certbot with Apache or nginx it will
 lock the configuration folder for that program, which are typically also in the
 <code class="docutils literal notranslate"><span class="pre">/etc</span></code> directory.</p>
@@ -1361,7 +1361,7 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/0.30.0
+                        &quot;&quot;. (default: CertbotACMEClient/0.30.2
                         (certbot(-auto); OS_NAME OS_VERSION) Authenticator/XXX
                         Installer/YYY (SUBCOMMAND; flags: FLAGS)
                         Py/major.minor.patchlevel). The flags encoded in the

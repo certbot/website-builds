@@ -706,56 +706,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="IValidator"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.IValidator">[docs]</a><span class="k">class</span> <span class="nc">IValidator</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Configuration validator.&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">certificate</span><span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">alt_host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">443</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Verifies the certificate presented at name is cert</span>
-
-<span class="sd">        :param OpenSSL.crypto.X509 cert: Expected certificate</span>
-<span class="sd">        :param str name: Server&#39;s domain name</span>
-<span class="sd">        :param bytes alt_host: Host to connect to instead of the IP</span>
-<span class="sd">            address of host</span>
-<span class="sd">        :param int port: Port to connect to</span>
-
-<span class="sd">        :returns: True if the certificate was verified successfully</span>
-<span class="sd">        :rtype: bool</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">redirect</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Verify redirect to HTTPS</span>
-
-<span class="sd">        :param str name: Server&#39;s domain name</span>
-<span class="sd">        :param int port: Port to connect to</span>
-<span class="sd">        :param dict headers: HTTP headers to include in request</span>
-
-<span class="sd">        :returns: True if redirect is successfully enabled</span>
-<span class="sd">        :rtype: bool</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">hsts</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Verify HSTS header is enabled</span>
-
-<span class="sd">        :param str name: Server&#39;s domain name</span>
-
-<span class="sd">        :returns: True if HSTS header is successfully enabled</span>
-<span class="sd">        :rtype: bool</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">ocsp_stapling</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Verify ocsp stapling for domain</span>
-
-<span class="sd">        :param str name: Server&#39;s domain name</span>
-
-<span class="sd">        :returns: True if ocsp stapling is successfully enabled</span>
-<span class="sd">        :rtype: bool</span>
-
-<span class="sd">        &quot;&quot;&quot;</span></div>
-
-
 <div class="viewcode-block" id="IReporter"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.IReporter">[docs]</a><span class="k">class</span> <span class="nc">IReporter</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Interface to collect and display information to the user.&quot;&quot;&quot;</span>
 
