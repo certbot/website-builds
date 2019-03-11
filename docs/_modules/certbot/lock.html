@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.lock &mdash; Certbot 0.31.0.dev0 documentation</title>
+  <title>certbot.lock &mdash; Certbot 0.33.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.lock &mdash; Certbot 0.31.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.lock &mdash; Certbot 0.33.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.31.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.33.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.31
+                0.33
               </div>
             
           
@@ -182,18 +182,26 @@ Like looking at code? Help us! https://github.com/certbot/certbot
            <div itemprop="articleBody">
             
   <h1>Source code for certbot.lock</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Implements file locks for locking files and directories in UNIX.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Implements file locks compatible with Linux and Windows for locking files and directories.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">errno</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">fcntl</span>  <span class="c1"># pylint: disable=import-error</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">msvcrt</span>  <span class="c1"># pylint: disable=import-error</span>
+    <span class="n">POSIX_MODE</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">POSIX_MODE</span> <span class="o">=</span> <span class="kc">True</span>
 
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">compat</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="lock_dir"><a class="viewcode-back" href="../../api/lock.html#certbot.lock.lock_dir">[docs]</a><span class="k">def</span> <span class="nf">lock_dir</span><span class="p">(</span><span class="n">dir_path</span><span class="p">):</span>
+    <span class="c1"># type: (str) -&gt; LockFile</span>
     <span class="sd">&quot;&quot;&quot;Place a lock file on the directory at dir_path.</span>
 
 <span class="sd">    The lock file is placed in the root of dir_path with the name</span>
@@ -211,34 +219,99 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <div class="viewcode-block" id="LockFile"><a class="viewcode-back" href="../../api/lock.html#certbot.lock.LockFile">[docs]</a><span class="k">class</span> <span class="nc">LockFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A UNIX lock file.</span>
-
-<span class="sd">    This lock file is released when the locked file is closed or the</span>
-<span class="sd">    process exits. It cannot be used to provide synchronization between</span>
-<span class="sd">    threads. It is based on the lock_file package by Martin Horcicka.</span>
-
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Platform independent file lock system.</span>
+<span class="sd">    LockFile accepts a parameter, the path to a file acting as a lock. Once the LockFile,</span>
+<span class="sd">    instance is created, the associated file is &#39;locked from the point of view of the OS,</span>
+<span class="sd">    meaning that if another instance of Certbot try at the same time to acquire the same lock,</span>
+<span class="sd">    it will raise an Exception. Calling release method will release the lock, and make it</span>
+<span class="sd">    available to every other instance.</span>
+<span class="sd">    Upon exit, Certbot will also release all the locks.</span>
+<span class="sd">    This allows us to protect a file or directory from being concurrently accessed</span>
+<span class="sd">    or modified by two Certbot instances.</span>
+<span class="sd">    LockFile is platform independent: it will proceed to the appropriate OS lock mechanism</span>
+<span class="sd">    depending on Linux or Windows.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Initialize and acquire the lock file.</span>
-
-<span class="sd">        :param str path: path to the file to lock</span>
-
-<span class="sd">        :raises errors.LockError: if unable to acquire the lock</span>
-
+        <span class="c1"># type: (str) -&gt; None</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a LockFile instance on the given file path, and acquire lock.</span>
+<span class="sd">        :param str path: the path to the file that will hold a lock</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">LockFile</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">path</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">mechanism</span> <span class="o">=</span> <span class="n">_UnixLockMechanism</span> <span class="k">if</span> <span class="n">POSIX_MODE</span> <span class="k">else</span> <span class="n">_WindowsLockMechanism</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock_mechanism</span> <span class="o">=</span> <span class="n">mechanism</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
 
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; str</span>
+        <span class="n">repr_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">(</span><span class="si">{1}</span><span class="s1">) &lt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_locked</span><span class="p">():</span>
+            <span class="n">repr_str</span> <span class="o">+=</span> <span class="s1">&#39;acquired&gt;&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">repr_str</span> <span class="o">+=</span> <span class="s1">&#39;released&gt;&#39;</span>
+        <span class="k">return</span> <span class="n">repr_str</span>
+
 <div class="viewcode-block" id="LockFile.acquire"><a class="viewcode-back" href="../../api/lock.html#certbot.lock.LockFile.acquire">[docs]</a>    <span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Acquire the lock file.</span>
-
-<span class="sd">        :raises errors.LockError: if lock is already held</span>
-<span class="sd">        :raises OSError: if unable to open or stat the lock file</span>
-
+        <span class="c1"># type: () -&gt; None</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Acquire the lock on the file, forbidding any other Certbot instance to acquire it.</span>
+<span class="sd">        :raises errors.LockError: if unable to acquire the lock</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock_mechanism</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LockFile.release"><a class="viewcode-back" href="../../api/lock.html#certbot.lock.LockFile.release">[docs]</a>    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; None</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Release the lock on the file, allowing any other Certbot instance to acquire it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock_mechanism</span><span class="o">.</span><span class="n">release</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LockFile.is_locked"><a class="viewcode-back" href="../../api/lock.html#certbot.lock.LockFile.is_locked">[docs]</a>    <span class="k">def</span> <span class="nf">is_locked</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; bool</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the file is currently locked.</span>
+<span class="sd">        :return: True if the file is locked, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock_mechanism</span><span class="o">.</span><span class="n">is_locked</span><span class="p">()</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">_BaseLockMechanism</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="c1"># type: (str) -&gt; None</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a lock file mechanism for Unix.</span>
+<span class="sd">        :param str path: the path to the lock file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[int]</span>
+
+    <span class="k">def</span> <span class="nf">is_locked</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; bool</span>
+        <span class="sd">&quot;&quot;&quot;Check if lock file is currently locked.</span>
+<span class="sd">        :return: True if the lock file is locked</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
+        <span class="k">pass</span>  <span class="c1"># pragma: no cover</span>
+
+    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
+        <span class="k">pass</span>  <span class="c1"># pragma: no cover</span>
+
+
+<div class="viewcode-block" id="_UnixLockMechanism"><a class="viewcode-back" href="../../api/lock.html#certbot.lock._UnixLockMechanism">[docs]</a><span class="k">class</span> <span class="nc">_UnixLockMechanism</span><span class="p">(</span><span class="n">_BaseLockMechanism</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A UNIX lock file mechanism.</span>
+<span class="sd">    This lock file is released when the locked file is closed or the</span>
+<span class="sd">    process exits. It cannot be used to provide synchronization between</span>
+<span class="sd">    threads. It is based on the lock_file package by Martin Horcicka.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="_UnixLockMechanism.acquire"><a class="viewcode-back" href="../../api/lock.html#certbot.lock._UnixLockMechanism.acquire">[docs]</a>    <span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; None</span>
+        <span class="sd">&quot;&quot;&quot;Acquire the lock.&quot;&quot;&quot;</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Open the file</span>
             <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_WRONLY</span><span class="p">,</span> <span class="mo">0o600</span><span class="p">)</span>
@@ -251,34 +324,30 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LockFile._try_lock"><a class="viewcode-back" href="../../api/lock.html#certbot.lock.LockFile._try_lock">[docs]</a>    <span class="k">def</span> <span class="nf">_try_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fd</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Try to acquire the lock file without blocking.</span>
-
+<div class="viewcode-block" id="_UnixLockMechanism._try_lock"><a class="viewcode-back" href="../../api/lock.html#certbot.lock._UnixLockMechanism._try_lock">[docs]</a>    <span class="k">def</span> <span class="nf">_try_lock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fd</span><span class="p">):</span>
+        <span class="c1"># type: (int) -&gt; None</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Try to acquire the lock file without blocking.</span>
 <span class="sd">        :param int fd: file descriptor of the opened file to lock</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">compat</span><span class="o">.</span><span class="n">lock_file</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+            <span class="n">fcntl</span><span class="o">.</span><span class="n">lockf</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">LOCK_EX</span> <span class="o">|</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">LOCK_NB</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">IOError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">err</span><span class="o">.</span><span class="n">errno</span> <span class="ow">in</span> <span class="p">(</span><span class="n">errno</span><span class="o">.</span><span class="n">EACCES</span><span class="p">,</span> <span class="n">errno</span><span class="o">.</span><span class="n">EAGAIN</span><span class="p">):</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                    <span class="s2">&quot;A lock on </span><span class="si">%s</span><span class="s2"> is held by another process.&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
-                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">LockError</span><span class="p">(</span>
-                    <span class="s2">&quot;Another instance of Certbot is already running.&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;A lock on </span><span class="si">%s</span><span class="s1"> is held by another process.&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">LockError</span><span class="p">(</span><span class="s1">&#39;Another instance of Certbot is already running.&#39;</span><span class="p">)</span>
             <span class="k">raise</span></div>
 
-<div class="viewcode-block" id="LockFile._lock_success"><a class="viewcode-back" href="../../api/lock.html#certbot.lock.LockFile._lock_success">[docs]</a>    <span class="k">def</span> <span class="nf">_lock_success</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fd</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Did we successfully grab the lock?</span>
-
+<div class="viewcode-block" id="_UnixLockMechanism._lock_success"><a class="viewcode-back" href="../../api/lock.html#certbot.lock._UnixLockMechanism._lock_success">[docs]</a>    <span class="k">def</span> <span class="nf">_lock_success</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fd</span><span class="p">):</span>
+        <span class="c1"># type: (int) -&gt; bool</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Did we successfully grab the lock?</span>
 <span class="sd">        Because this class deletes the locked file when the lock is</span>
 <span class="sd">        released, it is possible another process removed and recreated</span>
 <span class="sd">        the file between us opening the file and acquiring the lock.</span>
-
 <span class="sd">        :param int fd: file descriptor of the opened file to lock</span>
-
 <span class="sd">        :returns: True if the lock was successfully acquired</span>
 <span class="sd">        :rtype: bool</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">stat1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
@@ -292,18 +361,76 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="c1"># the same device and inode, they&#39;re the same file.</span>
         <span class="k">return</span> <span class="n">stat1</span><span class="o">.</span><span class="n">st_dev</span> <span class="o">==</span> <span class="n">stat2</span><span class="o">.</span><span class="n">st_dev</span> <span class="ow">and</span> <span class="n">stat1</span><span class="o">.</span><span class="n">st_ino</span> <span class="o">==</span> <span class="n">stat2</span><span class="o">.</span><span class="n">st_ino</span></div>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">repr_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">(</span><span class="si">{1}</span><span class="s1">) &lt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">repr_str</span> <span class="o">+=</span> <span class="s1">&#39;released&gt;&#39;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">repr_str</span> <span class="o">+=</span> <span class="s1">&#39;acquired&gt;&#39;</span>
-        <span class="k">return</span> <span class="n">repr_str</span>
-
-<div class="viewcode-block" id="LockFile.release"><a class="viewcode-back" href="../../api/lock.html#certbot.lock.LockFile.release">[docs]</a>    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="_UnixLockMechanism.release"><a class="viewcode-back" href="../../api/lock.html#certbot.lock._UnixLockMechanism.release">[docs]</a>    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; None</span>
         <span class="sd">&quot;&quot;&quot;Remove, close, and release the lock file.&quot;&quot;&quot;</span>
+        <span class="c1"># It is important the lock file is removed before it&#39;s released,</span>
+        <span class="c1"># otherwise:</span>
+        <span class="c1">#</span>
+        <span class="c1"># process A: open lock file</span>
+        <span class="c1"># process B: release lock file</span>
+        <span class="c1"># process A: lock file</span>
+        <span class="c1"># process A: check device and inode</span>
+        <span class="c1"># process B: delete file</span>
+        <span class="c1"># process C: open and lock a different file at the same path</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">compat</span><span class="o">.</span><span class="n">release_locked_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="c1"># Following check is done to make mypy happy: it ensure that self._fd, marked</span>
+            <span class="c1"># as Optional[int] is effectively int to make it compatible with os.close signature.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Error, self._fd is None.&#39;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fd</span><span class="p">)</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">=</span> <span class="kc">None</span></div></div>
+
+
+<div class="viewcode-block" id="_WindowsLockMechanism"><a class="viewcode-back" href="../../api/lock.html#certbot.lock._WindowsLockMechanism">[docs]</a><span class="k">class</span> <span class="nc">_WindowsLockMechanism</span><span class="p">(</span><span class="n">_BaseLockMechanism</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Windows lock file mechanism.</span>
+<span class="sd">    By default on Windows, acquiring a file handler gives exclusive access to the process</span>
+<span class="sd">    and results in an effective lock. However, it is possible to explicitly acquire the</span>
+<span class="sd">    file handler in shared access in terms of read and write, and this is done by os.open</span>
+<span class="sd">    and io.open in Python. So an explicit lock needs to be done through the call of</span>
+<span class="sd">    msvcrt.locking, that will lock the first byte of the file. In theory, it is also</span>
+<span class="sd">    possible to access a file in shared delete access, allowing other processes to delete an</span>
+<span class="sd">    opened file. But this needs also to be done explicitly by all processes using the Windows</span>
+<span class="sd">    low level APIs, and Python does not do it. As of Python 3.7 and below, Python developers</span>
+<span class="sd">    state that deleting a file opened by a process from another process is not possible with</span>
+<span class="sd">    os.open and io.open.</span>
+<span class="sd">    Consequently, mscvrt.locking is sufficient to obtain an effective lock, and the race</span>
+<span class="sd">    condition encountered on Linux is not possible on Windows, leading to a simpler workflow.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="_WindowsLockMechanism.acquire"><a class="viewcode-back" href="../../api/lock.html#certbot.lock._WindowsLockMechanism.acquire">[docs]</a>    <span class="k">def</span> <span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Acquire the lock&quot;&quot;&quot;</span>
+        <span class="n">open_mode</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_TRUNC</span>
+
+        <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="n">open_mode</span><span class="p">,</span> <span class="mo">0o600</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">msvcrt</span><span class="o">.</span><span class="n">locking</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">msvcrt</span><span class="o">.</span><span class="n">LK_NBLCK</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+            <span class="c1"># Anything except EACCES is unexpected. Raise directly the error in that case.</span>
+            <span class="k">if</span> <span class="n">err</span><span class="o">.</span><span class="n">errno</span> <span class="o">!=</span> <span class="n">errno</span><span class="o">.</span><span class="n">EACCES</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;A lock on </span><span class="si">%s</span><span class="s1"> is held by another process.&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">LockError</span><span class="p">(</span><span class="s1">&#39;Another instance of Certbot is already running.&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">=</span> <span class="n">fd</span></div>
+
+<div class="viewcode-block" id="_WindowsLockMechanism.release"><a class="viewcode-back" href="../../api/lock.html#certbot.lock._WindowsLockMechanism.release">[docs]</a>    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Release the lock.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">msvcrt</span><span class="o">.</span><span class="n">locking</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fd</span><span class="p">,</span> <span class="n">msvcrt</span><span class="o">.</span><span class="n">LK_UNLCK</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fd</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="c1"># If the lock file cannot be removed, it is not a big deal.</span>
+                <span class="c1"># Likely another instance is acquiring the lock we just released.</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="o">=</span> <span class="kc">None</span></div></div>
 </pre></div>
@@ -362,7 +489,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.31.0.dev0',
+            VERSION:'0.33.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -389,7 +516,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.lock%E2%80%94%20Certbot%200.31.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.lock%E2%80%94%20Certbot%200.33.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.lock &mdash; Certbot 0.31.0.dev0 documentation</title>
+  <title>certbot.lock &mdash; Certbot 0.33.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.lock &mdash; Certbot 0.31.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.lock &mdash; Certbot 0.33.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 0.31.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 0.33.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Documentation" href="../api.html"/>
         <link rel="next" title="certbot.log" href="log.html"/>
         <link rel="prev" title="certbot.interfaces" href="interfaces.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.31
+                0.33
               </div>
             
           
@@ -222,7 +222,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
   <div class="section" id="module-certbot.lock">
 <span id="certbot-lock"></span><h1><a class="reference internal" href="#module-certbot.lock" title="certbot.lock"><code class="xref py py-mod docutils literal notranslate"><span class="pre">certbot.lock</span></code></a><a class="headerlink" href="#module-certbot.lock" title="Permalink to this headline">¶</a></h1>
-<p>Implements file locks for locking files and directories in UNIX.</p>
+<p>Implements file locks compatible with Linux and Windows for locking files and directories.</p>
 <dl class="function">
 <dt id="certbot.lock.lock_dir">
 <code class="descclassname">certbot.lock.</code><code class="descname">lock_dir</code><span class="sig-paren">(</span><em>dir_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#lock_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock.lock_dir" title="Permalink to this definition">¶</a></dt>
@@ -249,67 +249,107 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <dt id="certbot.lock.LockFile">
 <em class="property">class </em><code class="descclassname">certbot.lock.</code><code class="descname">LockFile</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#LockFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock.LockFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>A UNIX lock file.</p>
-<p>This lock file is released when the locked file is closed or the
-process exits. It cannot be used to provide synchronization between
-threads. It is based on the lock_file package by Martin Horcicka.</p>
+<p>Platform independent file lock system.
+LockFile accepts a parameter, the path to a file acting as a lock. Once the LockFile,
+instance is created, the associated file is ‘locked from the point of view of the OS,
+meaning that if another instance of Certbot try at the same time to acquire the same lock,
+it will raise an Exception. Calling release method will release the lock, and make it
+available to every other instance.
+Upon exit, Certbot will also release all the locks.
+This allows us to protect a file or directory from being concurrently accessed
+or modified by two Certbot instances.
+LockFile is platform independent: it will proceed to the appropriate OS lock mechanism
+depending on Linux or Windows.</p>
 <dl class="method">
 <dt id="certbot.lock.LockFile.acquire">
 <code class="descname">acquire</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#LockFile.acquire"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock.LockFile.acquire" title="Permalink to this definition">¶</a></dt>
-<dd><p>Acquire the lock file.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
-<li><a class="reference internal" href="errors.html#certbot.errors.LockError" title="certbot.errors.LockError"><strong>errors.LockError</strong></a> – if lock is already held</li>
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.7)"><strong>OSError</strong></a> – if unable to open or stat the lock file</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.lock.LockFile._try_lock">
-<code class="descname">_try_lock</code><span class="sig-paren">(</span><em>fd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#LockFile._try_lock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock.LockFile._try_lock" title="Permalink to this definition">¶</a></dt>
-<dd><p>Try to acquire the lock file without blocking.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – file descriptor of the opened file to lock</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.lock.LockFile._lock_success">
-<code class="descname">_lock_success</code><span class="sig-paren">(</span><em>fd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#LockFile._lock_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock.LockFile._lock_success" title="Permalink to this definition">¶</a></dt>
-<dd><p>Did we successfully grab the lock?</p>
-<p>Because this class deletes the locked file when the lock is
-released, it is possible another process removed and recreated
-the file between us opening the file and acquiring the lock.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fd</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – file descriptor of the opened file to lock</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the lock was successfully acquired</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dd><p>Acquire the lock on the file, forbidding any other Certbot instance to acquire it.
+:raises errors.LockError: if unable to acquire the lock</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="certbot.lock.LockFile.release">
 <code class="descname">release</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#LockFile.release"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock.LockFile.release" title="Permalink to this definition">¶</a></dt>
+<dd><p>Release the lock on the file, allowing any other Certbot instance to acquire it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.lock.LockFile.is_locked">
+<code class="descname">is_locked</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#LockFile.is_locked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock.LockFile.is_locked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the file is currently locked.
+:return: True if the file is locked, False otherwise</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="certbot.lock._UnixLockMechanism">
+<em class="property">class </em><code class="descclassname">certbot.lock.</code><code class="descname">_UnixLockMechanism</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#_UnixLockMechanism"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock._UnixLockMechanism" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.lock._BaseLockMechanism</span></code></p>
+<p>A UNIX lock file mechanism.
+This lock file is released when the locked file is closed or the
+process exits. It cannot be used to provide synchronization between
+threads. It is based on the lock_file package by Martin Horcicka.</p>
+<dl class="method">
+<dt id="certbot.lock._UnixLockMechanism.acquire">
+<code class="descname">acquire</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#_UnixLockMechanism.acquire"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock._UnixLockMechanism.acquire" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire the lock.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.lock._UnixLockMechanism._try_lock">
+<code class="descname">_try_lock</code><span class="sig-paren">(</span><em>fd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#_UnixLockMechanism._try_lock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock._UnixLockMechanism._try_lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to acquire the lock file without blocking.
+:param int fd: file descriptor of the opened file to lock</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.lock._UnixLockMechanism._lock_success">
+<code class="descname">_lock_success</code><span class="sig-paren">(</span><em>fd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#_UnixLockMechanism._lock_success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock._UnixLockMechanism._lock_success" title="Permalink to this definition">¶</a></dt>
+<dd><p>Did we successfully grab the lock?
+Because this class deletes the locked file when the lock is
+released, it is possible another process removed and recreated
+the file between us opening the file and acquiring the lock.
+:param int fd: file descriptor of the opened file to lock
+:returns: True if the lock was successfully acquired
+:rtype: bool</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.lock._UnixLockMechanism.release">
+<code class="descname">release</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#_UnixLockMechanism.release"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock._UnixLockMechanism.release" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove, close, and release the lock file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="certbot.lock._WindowsLockMechanism">
+<em class="property">class </em><code class="descclassname">certbot.lock.</code><code class="descname">_WindowsLockMechanism</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#_WindowsLockMechanism"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock._WindowsLockMechanism" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.lock._BaseLockMechanism</span></code></p>
+<p>A Windows lock file mechanism.
+By default on Windows, acquiring a file handler gives exclusive access to the process
+and results in an effective lock. However, it is possible to explicitly acquire the
+file handler in shared access in terms of read and write, and this is done by os.open
+and io.open in Python. So an explicit lock needs to be done through the call of
+msvcrt.locking, that will lock the first byte of the file. In theory, it is also
+possible to access a file in shared delete access, allowing other processes to delete an
+opened file. But this needs also to be done explicitly by all processes using the Windows
+low level APIs, and Python does not do it. As of Python 3.7 and below, Python developers
+state that deleting a file opened by a process from another process is not possible with
+os.open and io.open.
+Consequently, mscvrt.locking is sufficient to obtain an effective lock, and the race
+condition encountered on Linux is not possible on Windows, leading to a simpler workflow.</p>
+<dl class="method">
+<dt id="certbot.lock._WindowsLockMechanism.acquire">
+<code class="descname">acquire</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#_WindowsLockMechanism.acquire"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock._WindowsLockMechanism.acquire" title="Permalink to this definition">¶</a></dt>
+<dd><p>Acquire the lock</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.lock._WindowsLockMechanism.release">
+<code class="descname">release</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/lock.html#_WindowsLockMechanism.release"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.lock._WindowsLockMechanism.release" title="Permalink to this definition">¶</a></dt>
+<dd><p>Release the lock.</p>
 </dd></dl>
 
 </dd></dl>
@@ -371,7 +411,7 @@ the file between us opening the file and acquiring the lock.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.31.0.dev0',
+            VERSION:'0.33.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -398,7 +438,7 @@ the file between us opening the file and acquiring the lock.</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.lock%E2%80%94%20Certbot%200.31.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.lock%E2%80%94%20Certbot%200.33.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
