@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.ocsp &mdash; Certbot 0.31.0.dev0 documentation</title>
+  <title>certbot.ocsp &mdash; Certbot 0.33.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.ocsp &mdash; Certbot 0.31.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.ocsp &mdash; Certbot 0.33.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.31.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.33.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.31
+                0.33
               </div>
             
           
@@ -185,53 +185,79 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span></span><span class="sd">&quot;&quot;&quot;Tools for checking certificate revocation.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">re</span>
-
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 <span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
 
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Only cryptography&gt;=2.5 has ocsp module</span>
+    <span class="c1"># and signature_hash_algorithm attribute in OCSPResponse class</span>
+    <span class="kn">from</span> <span class="nn">cryptography.x509</span> <span class="k">import</span> <span class="n">ocsp</span>  <span class="c1"># pylint: disable=import-error</span>
+    <span class="nb">getattr</span><span class="p">(</span><span class="n">ocsp</span><span class="o">.</span><span class="n">OCSPResponse</span><span class="p">,</span> <span class="s1">&#39;signature_hash_algorithm&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+    <span class="n">ocsp</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span> <span class="nn">cryptography</span> <span class="k">import</span> <span class="n">x509</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.backends</span> <span class="k">import</span> <span class="n">default_backend</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="k">import</span> <span class="n">serialization</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="k">import</span> <span class="n">hashes</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span> <span class="nn">cryptography.exceptions</span> <span class="k">import</span> <span class="n">UnsupportedAlgorithm</span><span class="p">,</span> <span class="n">InvalidSignature</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
+
 <div class="viewcode-block" id="RevocationChecker"><a class="viewcode-back" href="../../api/ocsp.html#certbot.ocsp.RevocationChecker">[docs]</a><span class="k">class</span> <span class="nc">RevocationChecker</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="s2">&quot;This class figures out OCSP checking on this system, and performs it.&quot;</span>
+    <span class="sd">&quot;&quot;&quot;This class figures out OCSP checking on this system, and performs it.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enforce_openssl_binary_usage</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">broken</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_openssl_binary</span> <span class="o">=</span> <span class="n">enforce_openssl_binary_usage</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">ocsp</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">util</span><span class="o">.</span><span class="n">exe_exists</span><span class="p">(</span><span class="s2">&quot;openssl&quot;</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;openssl not installed, can&#39;t check revocation&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">broken</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">return</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_openssl_binary</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">util</span><span class="o">.</span><span class="n">exe_exists</span><span class="p">(</span><span class="s2">&quot;openssl&quot;</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;openssl not installed, can&#39;t check revocation&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">broken</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">return</span>
 
-       <span class="c1"># New versions of openssl want -header var=val, old ones want -header var val</span>
-        <span class="n">test_host_format</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;openssl&quot;</span><span class="p">,</span> <span class="s2">&quot;ocsp&quot;</span><span class="p">,</span> <span class="s2">&quot;-header&quot;</span><span class="p">,</span> <span class="s2">&quot;var&quot;</span><span class="p">,</span> <span class="s2">&quot;val&quot;</span><span class="p">],</span>
-                                 <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">_out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">test_host_format</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
-        <span class="k">if</span> <span class="s2">&quot;Missing =&quot;</span> <span class="ow">in</span> <span class="n">err</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">host_args</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">host</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Host=&quot;</span> <span class="o">+</span> <span class="n">host</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">host_args</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">host</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Host&quot;</span><span class="p">,</span> <span class="n">host</span><span class="p">]</span>
-
+            <span class="c1"># New versions of openssl want -header var=val, old ones want -header var val</span>
+            <span class="n">test_host_format</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;openssl&quot;</span><span class="p">,</span> <span class="s2">&quot;ocsp&quot;</span><span class="p">,</span> <span class="s2">&quot;-header&quot;</span><span class="p">,</span> <span class="s2">&quot;var&quot;</span><span class="p">,</span> <span class="s2">&quot;val&quot;</span><span class="p">],</span>
+                                     <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">_out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">test_host_format</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;Missing =&quot;</span> <span class="ow">in</span> <span class="n">err</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">host_args</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">host</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Host=&quot;</span> <span class="o">+</span> <span class="n">host</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">host_args</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">host</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Host&quot;</span><span class="p">,</span> <span class="n">host</span><span class="p">]</span>
 
 <div class="viewcode-block" id="RevocationChecker.ocsp_revoked"><a class="viewcode-back" href="../../api/ocsp.html#certbot.ocsp.RevocationChecker.ocsp_revoked">[docs]</a>    <span class="k">def</span> <span class="nf">ocsp_revoked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">):</span>
+        <span class="c1"># type: (str, str) -&gt; bool</span>
         <span class="sd">&quot;&quot;&quot;Get revoked status for a particular cert version.</span>
 
 <span class="sd">        .. todo:: Make this a non-blocking call</span>
 
 <span class="sd">        :param str cert_path: Path to certificate</span>
 <span class="sd">        :param str chain_path: Path to intermediate cert</span>
-<span class="sd">        :rtype bool or None:</span>
 <span class="sd">        :returns: True if revoked; False if valid or the check failed</span>
+<span class="sd">        :rtype: bool</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">broken</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
 
-
-        <span class="n">url</span><span class="p">,</span> <span class="n">host</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">determine_ocsp_server</span><span class="p">(</span><span class="n">cert_path</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">host</span><span class="p">:</span>
+        <span class="n">url</span><span class="p">,</span> <span class="n">host</span> <span class="o">=</span> <span class="n">_determine_ocsp_server</span><span class="p">(</span><span class="n">cert_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">host</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">url</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_openssl_binary</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_ocsp_openssl_bin</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_check_ocsp_cryptography</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_check_ocsp_openssl_bin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="c1"># type: (str, str, str, str) -&gt; bool</span>
         <span class="c1"># jdkasten thanks &quot;Bulletproof SSL and TLS - Ivan Ristic&quot; for documenting this!</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;openssl&quot;</span><span class="p">,</span> <span class="s2">&quot;ocsp&quot;</span><span class="p">,</span>
                <span class="s2">&quot;-no_nonce&quot;</span><span class="p">,</span>
@@ -249,33 +275,131 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">SubprocessError</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;OCSP check failed for </span><span class="si">%s</span><span class="s2"> (are we offline?)&quot;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
-
         <span class="k">return</span> <span class="n">_translate_ocsp_query</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="RevocationChecker.determine_ocsp_server"><a class="viewcode-back" href="../../api/ocsp.html#certbot.ocsp.RevocationChecker.determine_ocsp_server">[docs]</a>    <span class="k">def</span> <span class="nf">determine_ocsp_server</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Extract the OCSP server host from a certificate.</span>
+<div class="viewcode-block" id="_determine_ocsp_server"><a class="viewcode-back" href="../../api/ocsp.html#certbot.ocsp._determine_ocsp_server">[docs]</a><span class="k">def</span> <span class="nf">_determine_ocsp_server</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
+    <span class="c1"># type: (str) -&gt; Tuple[Optional[str], Optional[str]]</span>
+    <span class="sd">&quot;&quot;&quot;Extract the OCSP server host from a certificate.</span>
 
-<span class="sd">        :param str cert_path: Path to the cert we&#39;re checking OCSP for</span>
-<span class="sd">        :rtype tuple:</span>
-<span class="sd">        :returns: (OCSP server URL or None, OCSP server host or None)</span>
+<span class="sd">    :param str cert_path: Path to the cert we&#39;re checking OCSP for</span>
+<span class="sd">    :rtype tuple:</span>
+<span class="sd">    :returns: (OCSP server URL or None, OCSP server host or None)</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">url</span><span class="p">,</span> <span class="n">_err</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">run_script</span><span class="p">(</span>
-                <span class="p">[</span><span class="s2">&quot;openssl&quot;</span><span class="p">,</span> <span class="s2">&quot;x509&quot;</span><span class="p">,</span> <span class="s2">&quot;-in&quot;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="s2">&quot;-noout&quot;</span><span class="p">,</span> <span class="s2">&quot;-ocsp_uri&quot;</span><span class="p">],</span>
-                <span class="n">log</span><span class="o">=</span><span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">SubprocessError</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cannot extract OCSP URI from </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_handler</span><span class="p">:</span>
+        <span class="n">cert</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">load_pem_x509_certificate</span><span class="p">(</span><span class="n">file_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">default_backend</span><span class="p">())</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">extension</span> <span class="o">=</span> <span class="n">cert</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">get_extension_for_class</span><span class="p">(</span><span class="n">x509</span><span class="o">.</span><span class="n">AuthorityInformationAccess</span><span class="p">)</span>
+        <span class="n">ocsp_oid</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">AuthorityInformationAccessOID</span><span class="o">.</span><span class="n">OCSP</span>
+        <span class="n">descriptions</span> <span class="o">=</span> <span class="p">[</span><span class="n">description</span> <span class="k">for</span> <span class="n">description</span> <span class="ow">in</span> <span class="n">extension</span><span class="o">.</span><span class="n">value</span>
+                        <span class="k">if</span> <span class="n">description</span><span class="o">.</span><span class="n">access_method</span> <span class="o">==</span> <span class="n">ocsp_oid</span><span class="p">]</span>
 
-        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
-        <span class="n">host</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;://&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">host</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">host</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cannot process OCSP host from URL (</span><span class="si">%s</span><span class="s2">) in cert at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div></div>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">descriptions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">access_location</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">x509</span><span class="o">.</span><span class="n">ExtensionNotFound</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cannot extract OCSP URI from </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+    <span class="n">host</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;://&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">host</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">host</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cannot process OCSP host from URL (</span><span class="si">%s</span><span class="s2">) in cert at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div>
+
+
+<span class="k">def</span> <span class="nf">_check_ocsp_cryptography</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+    <span class="c1"># type: (str, str, str) -&gt; bool</span>
+    <span class="c1"># Retrieve OCSP response</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">chain_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_handler</span><span class="p">:</span>
+        <span class="n">issuer</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">load_pem_x509_certificate</span><span class="p">(</span><span class="n">file_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">default_backend</span><span class="p">())</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_handler</span><span class="p">:</span>
+        <span class="n">cert</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">load_pem_x509_certificate</span><span class="p">(</span><span class="n">file_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">default_backend</span><span class="p">())</span>
+    <span class="n">builder</span> <span class="o">=</span> <span class="n">ocsp</span><span class="o">.</span><span class="n">OCSPRequestBuilder</span><span class="p">()</span>
+    <span class="n">builder</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">add_certificate</span><span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">issuer</span><span class="p">,</span> <span class="n">hashes</span><span class="o">.</span><span class="n">SHA1</span><span class="p">())</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+    <span class="n">request_binary</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">public_bytes</span><span class="p">(</span><span class="n">serialization</span><span class="o">.</span><span class="n">Encoding</span><span class="o">.</span><span class="n">DER</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">request_binary</span><span class="p">,</span>
+                                 <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/ocsp-request&#39;</span><span class="p">})</span>
+    <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;OCSP check failed for </span><span class="si">%s</span><span class="s2"> (are we offline?)&quot;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;OCSP check failed for </span><span class="si">%s</span><span class="s2"> (HTTP status: </span><span class="si">%d</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">response_ocsp</span> <span class="o">=</span> <span class="n">ocsp</span><span class="o">.</span><span class="n">load_der_ocsp_response</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+
+    <span class="c1"># Check OCSP response validity</span>
+    <span class="k">if</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">response_status</span> <span class="o">!=</span> <span class="n">ocsp</span><span class="o">.</span><span class="n">OCSPResponseStatus</span><span class="o">.</span><span class="n">SUCCESSFUL</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Invalid OCSP response status for </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                     <span class="n">cert_path</span><span class="p">,</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">response_status</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Check OCSP signature</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">_check_ocsp_response</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">issuer</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">UnsupportedAlgorithm</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">InvalidSignature</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Invalid signature on OCSP response for </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AssertionError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Invalid OCSP response for </span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">.&#39;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Check OCSP certificate status</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;OCSP certificate status for </span><span class="si">%s</span><span class="s2"> is: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                     <span class="n">cert_path</span><span class="p">,</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">certificate_status</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">certificate_status</span> <span class="o">==</span> <span class="n">ocsp</span><span class="o">.</span><span class="n">OCSPCertStatus</span><span class="o">.</span><span class="n">REVOKED</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="_check_ocsp_response"><a class="viewcode-back" href="../../api/ocsp.html#certbot.ocsp._check_ocsp_response">[docs]</a><span class="k">def</span> <span class="nf">_check_ocsp_response</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">request_ocsp</span><span class="p">,</span> <span class="n">issuer_cert</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verify that the OCSP is valid for serveral criterias&quot;&quot;&quot;</span>
+    <span class="c1"># Assert OCSP response corresponds to the certificate we are talking about</span>
+    <span class="k">if</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">serial_number</span> <span class="o">!=</span> <span class="n">request_ocsp</span><span class="o">.</span><span class="n">serial_number</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;the certificate in response does not correspond &#39;</span>
+                             <span class="s1">&#39;to the certificate in request&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Assert signature is valid</span>
+    <span class="n">_check_ocsp_response_signature</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">issuer_cert</span><span class="p">)</span>
+
+    <span class="c1"># Assert issuer in response is the expected one</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response_ocsp</span><span class="o">.</span><span class="n">hash_algorithm</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">request_ocsp</span><span class="o">.</span><span class="n">hash_algorithm</span><span class="p">))</span>
+            <span class="ow">or</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">issuer_key_hash</span> <span class="o">!=</span> <span class="n">request_ocsp</span><span class="o">.</span><span class="n">issuer_key_hash</span>
+            <span class="ow">or</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">issuer_name_hash</span> <span class="o">!=</span> <span class="n">request_ocsp</span><span class="o">.</span><span class="n">issuer_name_hash</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;the issuer does not correspond to issuer of the certificate.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># In following checks, two situations can occur:</span>
+    <span class="c1">#   * nextUpdate is set, and requirement is thisUpdate &lt; now &lt; nextUpdate</span>
+    <span class="c1">#   * nextUpdate is not set, and requirement is thisUpdate &lt; now</span>
+    <span class="c1"># NB1: We add a validity period tolerance to handle clock time inconsistencies,</span>
+    <span class="c1">#      value is 5 min like for OpenSSL.</span>
+    <span class="c1"># NB2: Another check is to verify that thisUpdate is not too old, it is optional</span>
+    <span class="c1">#      for OpenSSL, so we do not do it here.</span>
+    <span class="c1"># See OpenSSL implementation as a reference:</span>
+    <span class="c1"># https://github.com/openssl/openssl/blob/ef45aa14c5af024fcb8bef1c9007f3d1c115bd85/crypto/ocsp/ocsp_cl.c#L338-L391</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>  <span class="c1"># thisUpdate/nextUpdate are expressed in UTC/GMT time zone</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">this_update</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;param thisUpdate is not set.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">this_update</span> <span class="o">&gt;</span> <span class="n">now</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;param thisUpdate is in the future.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">next_update</span> <span class="ow">and</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">next_update</span> <span class="o">&lt;</span> <span class="n">now</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;param nextUpdate is in the past.&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="_check_ocsp_response_signature"><a class="viewcode-back" href="../../api/ocsp.html#certbot.ocsp._check_ocsp_response_signature">[docs]</a><span class="k">def</span> <span class="nf">_check_ocsp_response_signature</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">issuer_cert</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verify an OCSP response signature against certificate issuer&quot;&quot;&quot;</span>
+    <span class="c1"># Following line may raise UnsupportedAlgorithm</span>
+    <span class="n">chosen_hash</span> <span class="o">=</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">signature_hash_algorithm</span>
+    <span class="n">crypto_util</span><span class="o">.</span><span class="n">verify_signed_payload</span><span class="p">(</span><span class="n">issuer_cert</span><span class="o">.</span><span class="n">public_key</span><span class="p">(),</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">signature</span><span class="p">,</span>
+                                      <span class="n">response_ocsp</span><span class="o">.</span><span class="n">tbs_response_bytes</span><span class="p">,</span> <span class="n">chosen_hash</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="_translate_ocsp_query"><a class="viewcode-back" href="../../api/ocsp.html#certbot.ocsp._translate_ocsp_query">[docs]</a><span class="k">def</span> <span class="nf">_translate_ocsp_query</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">ocsp_output</span><span class="p">,</span> <span class="n">ocsp_errors</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Parse openssl&#39;s weird output to work out what it means.&quot;&quot;&quot;</span>
@@ -286,7 +410,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="n">warning</span> <span class="o">=</span> <span class="n">good</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">good</span> <span class="k">else</span> <span class="kc">None</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="s2">&quot;Response verify OK&quot;</span> <span class="ow">in</span> <span class="n">ocsp_errors</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">good</span> <span class="ow">and</span> <span class="n">warning</span><span class="p">)</span> <span class="ow">or</span> <span class="n">unknown</span><span class="p">:</span>
+    <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;Response verify OK&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ocsp_errors</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">good</span> <span class="ow">and</span> <span class="n">warning</span><span class="p">)</span> <span class="ow">or</span> <span class="n">unknown</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Revocation status for </span><span class="si">%s</span><span class="s2"> is unknown&quot;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Uncertain output:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s2">stderr:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ocsp_output</span><span class="p">,</span> <span class="n">ocsp_errors</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -299,9 +423,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Unable to properly parse OCSP output: </span><span class="si">%s</span><span class="se">\n</span><span class="s2">stderr:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                    <span class="n">ocsp_output</span><span class="p">,</span> <span class="n">ocsp_errors</span><span class="p">)</span>
+                       <span class="n">ocsp_output</span><span class="p">,</span> <span class="n">ocsp_errors</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span></div>
-
 </pre></div>
 
            </div>
@@ -358,7 +481,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.31.0.dev0',
+            VERSION:'0.33.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -385,7 +508,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.ocsp%E2%80%94%20Certbot%200.31.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.ocsp%E2%80%94%20Certbot%200.33.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User Guide &mdash; Certbot 0.31.0.dev0 documentation</title>
+  <title>User Guide &mdash; Certbot 0.33.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="User Guide &mdash; Certbot 0.31.0.dev0 documentation">
+<meta name="twitter:title" content="User Guide &mdash; Certbot 0.33.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.31.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 0.33.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Developer Guide" href="contributing.html"/>
         <link rel="prev" title="Get Certbot" href="install.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.31
+                0.33
               </div>
             
           
@@ -554,10 +554,10 @@ widespread use:</p>
 <td>Y</td>
 <td>Integration with Amazon CloudFront distribution of S3 buckets</td>
 </tr>
-<tr class="row-odd"><td><a class="reference external" href="https://github.com/Gandi/letsencrypt-gandi">gandi</a></td>
+<tr class="row-odd"><td><a class="reference external" href="https://github.com/obynio/certbot-plugin-gandi">gandi</a></td>
 <td>Y</td>
 <td>Y</td>
-<td>Integration with Gandi’s hosting products and API</td>
+<td>Integration with Gandi LiveDNS API</td>
 </tr>
 <tr class="row-even"><td><a class="reference external" href="http://git.sesse.net/?p=letsencrypt-varnish-plugin">varnish</a></td>
 <td>Y</td>
@@ -1361,7 +1361,7 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/0.30.2
+                        &quot;&quot;. (default: CertbotACMEClient/0.32.0
                         (certbot(-auto); OS_NAME OS_VERSION) Authenticator/XXX
                         Installer/YYY (SUBCOMMAND; flags: FLAGS)
                         Py/major.minor.patchlevel). The flags encoded in the
@@ -1599,8 +1599,9 @@ revoke:
                         Specify reason for revoking certificate. (default:
                         unspecified)
   --delete-after-revoke
-                        Delete certificates after revoking them. (default:
-                        None)
+                        Delete certificates after revoking them, along with
+                        all previous and later versions of those certificates.
+                        (default: None)
   --no-delete-after-revoke
                         Do not delete certificates after revoking them. This
                         option should be used with caution because the &#39;renew&#39;
@@ -1724,13 +1725,14 @@ plugins:
                         using Sakura Cloud for DNS). (default: False)
 
 apache:
-  Apache Web Server plugin
+  Apache Web Server plugin (Please note that the default values of the
+  Apache plugin options change depending on the operating system Certbot is
+  run on.)
 
   --apache-enmod APACHE_ENMOD
-                        Path to the Apache &#39;a2enmod&#39; binary (default: a2enmod)
+                        Path to the Apache &#39;a2enmod&#39; binary (default: None)
   --apache-dismod APACHE_DISMOD
-                        Path to the Apache &#39;a2dismod&#39; binary (default:
-                        a2dismod)
+                        Path to the Apache &#39;a2dismod&#39; binary (default: None)
   --apache-le-vhost-ext APACHE_LE_VHOST_EXT
                         SSL vhost configuration extension (default: -le-
                         ssl.conf)
@@ -1747,10 +1749,10 @@ apache:
                         /etc/apache2)
   --apache-handle-modules APACHE_HANDLE_MODULES
                         Let installer handle enabling required modules for you
-                        (Only Ubuntu/Debian currently) (default: True)
+                        (Only Ubuntu/Debian currently) (default: False)
   --apache-handle-sites APACHE_HANDLE_SITES
                         Let installer handle enabling sites for you (Only
-                        Ubuntu/Debian currently) (default: True)
+                        Ubuntu/Debian currently) (default: False)
   --apache-ctl APACHE_CTL
                         Full path to Apache control script (default:
                         apache2ctl)
@@ -2050,7 +2052,7 @@ also might contain personally identifiable information)</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.31.0.dev0',
+            VERSION:'0.33.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -2077,7 +2079,7 @@ also might contain personally identifiable information)</li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%200.31.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%200.33.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
