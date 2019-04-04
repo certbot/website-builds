@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User Guide &mdash; Certbot 0.33.0.dev0 documentation</title>
+  <title>User Guide &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="User Guide &mdash; Certbot 0.33.0.dev0 documentation">
+<meta name="twitter:title" content="User Guide &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.33.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Developer Guide" href="contributing.html"/>
         <link rel="prev" title="Get Certbot" href="install.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.33
+                0.34
               </div>
             
           
@@ -442,11 +442,6 @@ least one bind succeeds. On most Linux systems, IPv4 traffic will be routed to
 the bound IPv6 port and the failure during the second bind is expected.</p>
 <p>Use <code class="docutils literal notranslate"><span class="pre">--&lt;challenge-type&gt;-address</span></code> to explicitly tell Certbot which interface
 (and protocol) to bind.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The <code class="docutils literal notranslate"><span class="pre">--standalone-supported-challenges</span></code> option has been
-deprecated since <code class="docutils literal notranslate"><span class="pre">certbot</span></code> version 0.9.0.</p>
-</div>
 </div>
 <div class="section" id="dns-plugins">
 <span id="id2"></span><h3><a class="toc-backref" href="#id15">DNS Plugins</a><a class="headerlink" href="#dns-plugins" title="Permalink to this headline">¶</a></h3>
@@ -1203,7 +1198,6 @@ example configuration file is shown below:</p>
 
 <span class="c1"># Uncomment to use the standalone authenticator on port 443</span>
 <span class="c1"># authenticator = standalone</span>
-<span class="c1"># standalone-supported-challenges = tls-sni-01</span>
 
 <span class="c1"># Uncomment to use the webroot authenticator. Replace webroot-path with the</span>
 <span class="c1"># path to the public_html / webroot folder being served by your web server.</span>
@@ -1277,6 +1271,7 @@ manage certificates:
 
 manage your account with Let&#39;s Encrypt:
     register        Create a Let&#39;s Encrypt ACME account
+    unregister      Deactivate a Let&#39;s Encrypt ACME account
     update_account  Update a Let&#39;s Encrypt ACME account
   --agree-tos       Agree to the ACME server&#39;s Subscriber Agreement
    -m EMAIL         Email address for important account notifications
@@ -1347,11 +1342,10 @@ optional arguments:
   --preferred-challenges PREF_CHALLS
                         A sorted, comma delimited list of the preferred
                         challenge to use during authorization with the most
-                        preferred challenge listed first (Eg, &quot;dns&quot; or &quot;tls-
-                        sni-01,http,dns&quot;). Not all plugins support all
-                        challenges. See
-                        https://certbot.eff.org/docs/using.html#plugins for
-                        details. ACME Challenges are versioned, but if you
+                        preferred challenge listed first (Eg, &quot;dns&quot; or
+                        &quot;http,dns&quot;). Not all plugins support all challenges.
+                        See https://certbot.eff.org/docs/using.html#plugins
+                        for details. ACME Challenges are versioned, but if you
                         pick &quot;http&quot; rather than &quot;http-01&quot;, Certbot will select
                         the latest version automatically. (default: [])
   --user-agent USER_AGENT
@@ -1361,7 +1355,7 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/0.32.0
+                        &quot;&quot;. (default: CertbotACMEClient/0.33.0
                         (certbot(-auto); OS_NAME OS_VERSION) Authenticator/XXX
                         Installer/YYY (SUBCOMMAND; flags: FLAGS)
                         Py/major.minor.patchlevel). The flags encoded in the
@@ -1465,14 +1459,6 @@ testing:
                         False)
   --no-verify-ssl       Disable verification of the ACME server&#39;s certificate.
                         (default: False)
-  --tls-sni-01-port TLS_SNI_01_PORT
-                        Port used during tls-sni-01 challenge. This only
-                        affects the port Certbot listens on. A conforming ACME
-                        server will still attempt to connect on port 443.
-                        (default: 443)
-  --tls-sni-01-address TLS_SNI_01_ADDRESS
-                        The address the server listens to during tls-sni-01
-                        challenge. (default: )
   --http-01-port HTTP01_PORT
                         Port used in the http-01 challenge. This only affects
                         the port Certbot listens on. A conforming ACME server
@@ -1481,6 +1467,10 @@ testing:
   --http-01-address HTTP01_ADDRESS
                         The address the server listens to during http-01
                         challenge. (default: )
+  --https-port HTTPS_PORT
+                        Port used to serve HTTPS. This affects which port
+                        Nginx will listen on after a LE certificate is
+                        installed. (default: 443)
   --break-my-certs      Be willing to replace or renew valid certificates with
                         invalid (testing/staging) certificates (default:
                         False)
@@ -1920,12 +1910,8 @@ manual:
   challenge. $CERTBOT_DOMAIN will always contain the domain being
   authenticated. For HTTP-01 and DNS-01, $CERTBOT_VALIDATION is the
   validation string, and $CERTBOT_TOKEN is the filename of the resource
-  requested when performing an HTTP-01 challenge. When performing a TLS-
-  SNI-01 challenge, $CERTBOT_SNI_DOMAIN will contain the SNI name for which
-  the ACME server expects to be presented with the self-signed certificate
-  located at $CERTBOT_CERT_PATH. The secret key needed to complete the TLS
-  handshake is located at $CERTBOT_KEY_PATH. An additional cleanup script
-  can also be provided and can use the additional variable
+  requested when performing an HTTP-01 challenge. An additional cleanup
+  script can also be provided and can use the additional variable
   $CERTBOT_AUTH_OUTPUT which contains the stdout output from the auth
   script.
 
@@ -2052,7 +2038,7 @@ also might contain personally identifiable information)</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.33.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -2079,7 +2065,7 @@ also might contain personally identifiable information)</li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%200.33.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
