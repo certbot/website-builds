@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.cli &mdash; Certbot 0.33.0.dev0 documentation</title>
+  <title>certbot.cli &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.cli &mdash; Certbot 0.33.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.cli &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.33.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.33
+                0.34
               </div>
             
           
@@ -285,6 +285,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="s2">manage your account with Let&#39;s Encrypt:</span>
 <span class="s2">    register        Create a Let&#39;s Encrypt ACME account</span>
+<span class="s2">    unregister      Deactivate a Let&#39;s Encrypt ACME account</span>
 <span class="s2">    update_account  Update a Let&#39;s Encrypt ACME account</span>
 <span class="s2">  --agree-tos       Agree to the ACME server&#39;s Subscriber Agreement</span>
 <span class="s2">   -m EMAIL         Email address for important account notifications</span>
@@ -301,7 +302,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="s2">   all, automation, commands, paths, security, testing, or any of the</span>
 <span class="s2">   subcommands or plugins (certonly, renew, install, register, nginx,</span>
 <span class="s2">   apache, standalone, webroot, etc.)</span>
-
+<span class="s2">  -h all                print a detailed help page including all topics </span>
 <span class="s2">  --version             print the version number</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
@@ -1302,14 +1303,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">help</span><span class="o">=</span><span class="n">config_help</span><span class="p">(</span><span class="s2">&quot;no_verify_ssl&quot;</span><span class="p">),</span>
         <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;no_verify_ssl&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="p">[</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;standalone&quot;</span><span class="p">,</span> <span class="s2">&quot;apache&quot;</span><span class="p">,</span> <span class="s2">&quot;nginx&quot;</span><span class="p">],</span> <span class="s2">&quot;--tls-sni-01-port&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;tls_sni_01_port&quot;</span><span class="p">),</span>
-        <span class="n">help</span><span class="o">=</span><span class="n">config_help</span><span class="p">(</span><span class="s2">&quot;tls_sni_01_port&quot;</span><span class="p">))</span>
-    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-        <span class="p">[</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;standalone&quot;</span><span class="p">],</span> <span class="s2">&quot;--tls-sni-01-address&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;tls_sni_01_address&quot;</span><span class="p">),</span>
-        <span class="n">help</span><span class="o">=</span><span class="n">config_help</span><span class="p">(</span><span class="s2">&quot;tls_sni_01_address&quot;</span><span class="p">))</span>
-    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="p">[</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;standalone&quot;</span><span class="p">,</span> <span class="s2">&quot;manual&quot;</span><span class="p">],</span> <span class="s2">&quot;--http-01-port&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;http01_port&quot;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;http01_port&quot;</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="n">config_help</span><span class="p">(</span><span class="s2">&quot;http01_port&quot;</span><span class="p">))</span>
@@ -1317,6 +1310,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="p">[</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;standalone&quot;</span><span class="p">],</span> <span class="s2">&quot;--http-01-address&quot;</span><span class="p">,</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;http01_address&quot;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;http01_address&quot;</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="n">config_help</span><span class="p">(</span><span class="s2">&quot;http01_address&quot;</span><span class="p">))</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;nginx&quot;</span><span class="p">],</span> <span class="s2">&quot;--https-port&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;https_port&quot;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">config_help</span><span class="p">(</span><span class="s2">&quot;https_port&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;--break-my-certs&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;break_my_certs&quot;</span><span class="p">),</span>
@@ -1377,7 +1374,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">action</span><span class="o">=</span><span class="n">_PrefChallAction</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;pref_challs&quot;</span><span class="p">),</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;A sorted, comma delimited list of the preferred challenge to &#39;</span>
              <span class="s1">&#39;use during authorization with the most preferred challenge &#39;</span>
-             <span class="s1">&#39;listed first (Eg, &quot;dns&quot; or &quot;tls-sni-01,http,dns&quot;). &#39;</span>
+             <span class="s1">&#39;listed first (Eg, &quot;dns&quot; or &quot;http,dns&quot;). &#39;</span>
              <span class="s1">&#39;Not all plugins support all challenges. See &#39;</span>
              <span class="s1">&#39;https://certbot.eff.org/docs/using.html#plugins for details. &#39;</span>
              <span class="s1">&#39;ACME Challenges are versioned, but if you pick &quot;http&quot; rather &#39;</span>
@@ -1447,6 +1444,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="n">helpful</span><span class="o">.</span><span class="n">add_deprecated_argument</span><span class="p">(</span><span class="s2">&quot;--agree-dev-preview&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add_deprecated_argument</span><span class="p">(</span><span class="s2">&quot;--dialog&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># Deprecation of tls-sni-01 related cli flags</span>
+    <span class="c1"># TODO: remove theses flags completely in few releases</span>
+    <span class="k">class</span> <span class="nc">_DeprecatedTLSSNIAction</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">_ShowWarning</span><span class="p">):</span>  <span class="c1"># pylint: disable=protected-access</span>
+        <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">option_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">_DeprecatedTLSSNIAction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">namespace</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">option_string</span><span class="p">)</span>
+            <span class="n">namespace</span><span class="o">.</span><span class="n">https_port</span> <span class="o">=</span> <span class="n">values</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;testing&quot;</span><span class="p">,</span> <span class="s2">&quot;standalone&quot;</span><span class="p">,</span> <span class="s2">&quot;apache&quot;</span><span class="p">,</span> <span class="s2">&quot;nginx&quot;</span><span class="p">],</span> <span class="s2">&quot;--tls-sni-01-port&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">_DeprecatedTLSSNIAction</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">)</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add_deprecated_argument</span><span class="p">(</span><span class="s2">&quot;--tls-sni-01-address&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="c1"># Populate the command line parameters for new style enhancements</span>
     <span class="n">enhancements</span><span class="o">.</span><span class="n">populate_cli</span><span class="p">(</span><span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">)</span>
@@ -1740,6 +1748,15 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">aliases</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dns&quot;</span><span class="p">:</span> <span class="s2">&quot;dns-01&quot;</span><span class="p">,</span> <span class="s2">&quot;http&quot;</span><span class="p">:</span> <span class="s2">&quot;http-01&quot;</span><span class="p">,</span> <span class="s2">&quot;tls-sni&quot;</span><span class="p">:</span> <span class="s2">&quot;tls-sni-01&quot;</span><span class="p">}</span>
     <span class="n">challs</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pref_challs</span><span class="p">]</span>
     <span class="n">challs</span> <span class="o">=</span> <span class="p">[</span><span class="n">aliases</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">challs</span><span class="p">]</span>
+
+    <span class="c1"># Ignore tls-sni-01 from the list, and generates a deprecation warning</span>
+    <span class="c1"># TODO: remove this option completely in few releases</span>
+    <span class="k">if</span> <span class="s2">&quot;tls-sni-01&quot;</span> <span class="ow">in</span> <span class="n">challs</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;TLS-SNI-01 support is deprecated. This value is being dropped from the &#39;</span>
+                       <span class="s1">&#39;setting of --preferred-challenges and future versions of Certbot will &#39;</span>
+                       <span class="s1">&#39;error if it is included.&#39;</span><span class="p">)</span>
+        <span class="n">challs</span> <span class="o">=</span> <span class="p">[</span><span class="n">chall</span> <span class="k">for</span> <span class="n">chall</span> <span class="ow">in</span> <span class="n">challs</span> <span class="k">if</span> <span class="n">chall</span> <span class="o">!=</span> <span class="s2">&quot;tls-sni-01&quot;</span><span class="p">]</span>
+
     <span class="n">unrecognized</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">challs</span>
                              <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">challenges</span><span class="o">.</span><span class="n">Challenge</span><span class="o">.</span><span class="n">TYPES</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">unrecognized</span><span class="p">:</span>
@@ -1747,10 +1764,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="s2">&quot;Unrecognized challenges: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">unrecognized</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">challs</span></div>
 
+
 <span class="k">def</span> <span class="nf">_user_agent_comment_type</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
     <span class="k">if</span> <span class="s2">&quot;(&quot;</span> <span class="ow">in</span> <span class="n">value</span> <span class="ow">or</span> <span class="s2">&quot;)&quot;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentTypeError</span><span class="p">(</span><span class="s2">&quot;may not contain parentheses&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">value</span>
+
 
 <div class="viewcode-block" id="_DeployHookAction"><a class="viewcode-back" href="../../api/cli.html#certbot.cli._DeployHookAction">[docs]</a><span class="k">class</span> <span class="nc">_DeployHookAction</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Action class for parsing deploy hooks.&quot;&quot;&quot;</span>
@@ -1852,7 +1871,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.33.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1879,7 +1898,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cli%E2%80%94%20Certbot%200.33.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cli%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
