@@ -397,7 +397,9 @@
         </a>
       </h2>
       <div class="answer">
-        <p>Yes, using the TLS-SNI-01 challenge. At the moment, Certbot only implements this challenge for Apache. If you’re using the <a href="https://letsencrypt.readthedocs.org/en/latest/using.html#webroot">webroot mode</a>, your web server must listen on port 80.</p>
+        <p>Yes, using the TLS-ALPN-01 challenge. However, Certbot does not include support for this method yet. If you’re using any Certbot with any method other than DNS authentication, your web server must listen on port 80, or at least be capable of doing so temporarily during certificate validation.</p>
+
+<p>If you have an ISP or firewall that blocks port 80 and you can’t get it unblocked, you’ll need to use DNS authentication or a different Let’s Encrypt client.</p>
 
       </div>
     </li>
