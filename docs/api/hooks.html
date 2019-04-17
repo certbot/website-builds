@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.hooks &mdash; Certbot 0.28.0.dev0 documentation</title>
+  <title>certbot.hooks &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.hooks &mdash; Certbot 0.28.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.hooks &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Documentation" href="../api.html"/>
         <link rel="next" title="certbot" href="index.html"/>
         <link rel="prev" title="certbot.errors" href="errors.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.28
+                0.34
               </div>
             
           
@@ -410,13 +410,20 @@ after setting the appropriate environment variables.</p>
 
 <dl class="function">
 <dt id="certbot.hooks._run_hook">
-<code class="descclassname">certbot.hooks.</code><code class="descname">_run_hook</code><span class="sig-paren">(</span><em>shell_cmd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#_run_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks._run_hook" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">certbot.hooks.</code><code class="descname">_run_hook</code><span class="sig-paren">(</span><em>cmd_name</em>, <em>shell_cmd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#_run_hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks._run_hook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a hook command.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">stderr if there was any</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cmd_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the user facing name of the hook being run</li>
+<li><strong>shell_cmd</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – shell command to execute</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">stderr if there was any</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -424,13 +431,20 @@ after setting the appropriate environment variables.</p>
 
 <dl class="function">
 <dt id="certbot.hooks.execute">
-<code class="descclassname">certbot.hooks.</code><code class="descname">execute</code><span class="sig-paren">(</span><em>shell_cmd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.execute" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">certbot.hooks.</code><code class="descname">execute</code><span class="sig-paren">(</span><em>cmd_name</em>, <em>shell_cmd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/hooks.html#execute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.hooks.execute" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a command.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> stderr, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> stdout)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cmd_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the user facing name of the hook being run</li>
+<li><strong>shell_cmd</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – shell command to execute</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></a> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> stderr, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> stdout)</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -511,7 +525,7 @@ after setting the appropriate environment variables.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.28.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -538,7 +552,7 @@ after setting the appropriate environment variables.</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.hooks%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.hooks%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

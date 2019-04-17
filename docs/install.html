@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Get Certbot &mdash; Certbot 0.28.0.dev0 documentation</title>
+  <title>Get Certbot &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Get Certbot &mdash; Certbot 0.28.0.dev0 documentation">
+<meta name="twitter:title" content="Get Certbot &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="User Guide" href="using.html"/>
         <link rel="prev" title="What is a Certificate?" href="what.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.28
+                0.34
               </div>
             
           
@@ -212,6 +212,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="section" id="about-certbot">
 <h2><a class="toc-backref" href="#id3">About Certbot</a><a class="headerlink" href="#about-certbot" title="Permalink to this headline">¶</a></h2>
 <p><em>Certbot is meant to be run directly on a web server</em>, normally by a system administrator. In most cases, running Certbot on your personal computer is not a useful option. The instructions below relate to installing and running Certbot on a server.</p>
+<p>System administrators can use Certbot directly to request certificates; they should <em>not</em> allow unprivileged users to run arbitrary Certbot commands as <code class="docutils literal notranslate"><span class="pre">root</span></code>, because Certbot allows its user to specify arbitrary file locations and run arbitrary scripts.</p>
 <p>Certbot is packaged for many common operating systems and web servers. Check whether
 <code class="docutils literal notranslate"><span class="pre">certbot</span></code> (or <code class="docutils literal notranslate"><span class="pre">letsencrypt</span></code>) is packaged for your web server’s OS by visiting
 <a class="reference external" href="https://certbot.eff.org">certbot.eff.org</a>, where you will also find the correct installation instructions for
@@ -226,7 +227,7 @@ your system.</p>
 <p>Certbot currently requires Python 2.7 or 3.4+ running on a UNIX-like operating
 system. By default, it requires root access in order to write to
 <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt</span></code>, <code class="docutils literal notranslate"><span class="pre">/var/log/letsencrypt</span></code>, <code class="docutils literal notranslate"><span class="pre">/var/lib/letsencrypt</span></code>; to
-bind to ports 80 and 443 (if you use the <code class="docutils literal notranslate"><span class="pre">standalone</span></code> plugin) and to read and
+bind to port 80 (if you use the <code class="docutils literal notranslate"><span class="pre">standalone</span></code> plugin) and to read and
 modify webserver configurations (if you use the <code class="docutils literal notranslate"><span class="pre">apache</span></code> or <code class="docutils literal notranslate"><span class="pre">nginx</span></code>
 plugins).  If none of these apply to you, it is theoretically possible to run
 without root privileges, but for most users who want to avoid running an ACME
@@ -251,15 +252,17 @@ an alternate method for installing <code class="docutils literal notranslate"><s
 from your web server OS and putting others in a python virtual environment. You can
 download and run it as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@webserver:~$ wget https://dl.eff.org/certbot-auto
-user@webserver:~$ chmod a+x ./certbot-auto
-user@webserver:~$ ./certbot-auto --help
+user@webserver:~$ sudo mv certbot-auto /usr/local/bin/certbot-auto
+user@webserver:~$ sudo chown root /usr/local/bin/certbot-auto
+user@webserver:~$ chmod 0755 /usr/local/bin/certbot-auto
+user@webserver:~$ /usr/local/bin/certbot-auto --help
 </pre></div>
 </div>
 <p>To check the integrity of the <code class="docutils literal notranslate"><span class="pre">certbot-auto</span></code> script,
 you can use these steps:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@webserver:~$ wget -N https://dl.eff.org/certbot-auto.asc
 user@webserver:~$ gpg2 --keyserver pool.sks-keyservers.net --recv-key A2CFB51FA275A7286234E7B24D17C995CD9775F2
-user@webserver:~$ gpg2 --trusted-key 4D17C995CD9775F2 --verify certbot-auto.asc certbot-auto
+user@webserver:~$ gpg2 --trusted-key 4D17C995CD9775F2 --verify certbot-auto.asc /usr/local/bin/certbot-auto
 </pre></div>
 </div>
 <p>The output of the last command should look something like:</p>
@@ -279,7 +282,7 @@ Since <code class="docutils literal notranslate"><span class="pre">certbot-auto<
 the same command line flags and arguments. For more information, see
 <a class="reference external" href="https://certbot.eff.org/docs/using.html#command-line-options">Certbot command-line options</a>.</p>
 <p>For full command line help, you can type:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span> <span class="o">--</span><span class="n">help</span> <span class="nb">all</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span> <span class="o">--</span><span class="n">help</span> <span class="nb">all</span>
 </pre></div>
 </div>
 </div>
@@ -497,7 +500,7 @@ system and are <strong>not supported</strong> by the Certbot team!</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.28.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -524,7 +527,7 @@ system and are <strong>not supported</strong> by the Certbot team!</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Get%20Certbot%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Get%20Certbot%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

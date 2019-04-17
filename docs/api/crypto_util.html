@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.crypto_util &mdash; Certbot 0.28.0.dev0 documentation</title>
+  <title>certbot.crypto_util &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.crypto_util &mdash; Certbot 0.28.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.crypto_util &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Documentation" href="../api.html"/>
         <link rel="next" title="certbot.display" href="display.html"/>
         <link rel="prev" title="certbot.constants" href="constants.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.28
+                0.34
               </div>
             
           
@@ -434,6 +434,41 @@ list of domains requested in the CSR)</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="certbot.crypto_util.verify_signed_payload">
+<code class="descclassname">certbot.crypto_util.</code><code class="descname">verify_signed_payload</code><span class="sig-paren">(</span><em>public_key</em>, <em>signature</em>, <em>payload</em>, <em>signature_hash_algorithm</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#verify_signed_payload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.verify_signed_payload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the signature of a payload.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>public_key</strong> (<em>RSAPublicKey/EllipticCurvePublicKey</em>) – the public_key to check signature</li>
+<li><strong>signature</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the signature bytes</li>
+<li><strong>payload</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the payload bytes</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>:param cryptography.hazmat.primitives.hashes.HashAlgorithm</dt>
+<dd>signature_hash_algorithm: algorithm used to hash the payload</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><strong>InvalidSignature</strong> – If signature verification fails.</li>
+<li><a class="reference internal" href="errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If public key type is not supported</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="certbot.crypto_util.verify_cert_matches_priv_key">
 <code class="descclassname">certbot.crypto_util.</code><code class="descname">verify_cert_matches_priv_key</code><span class="sig-paren">(</span><em>cert_path</em>, <em>key_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#verify_cert_matches_priv_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.verify_cert_matches_priv_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verifies that the private key and cert match.</p>
@@ -612,6 +647,8 @@ or <code class="docutils literal notranslate"><span class="pre">crypto.X509.get_
 <dt id="certbot.crypto_util.sha256sum">
 <code class="descclassname">certbot.crypto_util.</code><code class="descname">sha256sum</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#sha256sum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.sha256sum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a sha256sum of a file.</p>
+<p>NB: In given file, platform specific newlines characters will be converted
+into their equivalent unicode counterparts before calculating the hash.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -701,7 +738,7 @@ or <code class="docutils literal notranslate"><span class="pre">crypto.X509.get_
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.28.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -728,7 +765,7 @@ or <code class="docutils literal notranslate"><span class="pre">crypto.X509.get_
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.renewal &mdash; Certbot 0.28.0.dev0 documentation</title>
+  <title>certbot.renewal &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.renewal &mdash; Certbot 0.28.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.renewal &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.28
+                0.34
               </div>
             
           
@@ -184,28 +184,30 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <h1>Source code for certbot.renewal</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Functionality for autorenewal and associated juggling of configurations&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
 
+<span class="kn">import</span> <span class="nn">OpenSSL</span>
 <span class="kn">import</span> <span class="nn">six</span>
 <span class="kn">import</span> <span class="nn">zope.component</span>
-
-<span class="kn">import</span> <span class="nn">OpenSSL</span>
 
 <span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
 
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">cli</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">hooks</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">storage</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">updater</span>
-
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">disco</span> <span class="k">as</span> <span class="n">plugins_disco</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -216,10 +218,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># the renewal configuration process loses this information.</span>
 <span class="n">STR_CONFIG_ITEMS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;config_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;logs_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;work_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;user_agent&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;server&quot;</span><span class="p">,</span> <span class="s2">&quot;account&quot;</span><span class="p">,</span> <span class="s2">&quot;authenticator&quot;</span><span class="p">,</span> <span class="s2">&quot;installer&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;standalone_supported_challenges&quot;</span><span class="p">,</span> <span class="s2">&quot;renew_hook&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;pre_hook&quot;</span><span class="p">,</span> <span class="s2">&quot;post_hook&quot;</span><span class="p">,</span> <span class="s2">&quot;tls_sni_01_address&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;http01_address&quot;</span><span class="p">]</span>
-<span class="n">INT_CONFIG_ITEMS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rsa_key_size&quot;</span><span class="p">,</span> <span class="s2">&quot;tls_sni_01_port&quot;</span><span class="p">,</span> <span class="s2">&quot;http01_port&quot;</span><span class="p">]</span>
+                    <span class="s2">&quot;renew_hook&quot;</span><span class="p">,</span> <span class="s2">&quot;pre_hook&quot;</span><span class="p">,</span> <span class="s2">&quot;post_hook&quot;</span><span class="p">,</span> <span class="s2">&quot;http01_address&quot;</span><span class="p">]</span>
+<span class="n">INT_CONFIG_ITEMS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rsa_key_size&quot;</span><span class="p">,</span> <span class="s2">&quot;http01_port&quot;</span><span class="p">]</span>
 <span class="n">BOOL_CONFIG_ITEMS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;must_staple&quot;</span><span class="p">,</span> <span class="s2">&quot;allow_subset_of_names&quot;</span><span class="p">,</span> <span class="s2">&quot;reuse_key&quot;</span><span class="p">,</span>
                      <span class="s2">&quot;autorenew&quot;</span><span class="p">]</span>
 
@@ -460,8 +460,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="s2">&quot;Do not renew a valid cert with one from a staging server!&quot;</span>
     <span class="c1"># Some lineages may have begun with --staging, but then had production certs</span>
     <span class="c1"># added to them</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">lineage</span><span class="o">.</span><span class="n">cert</span><span class="p">)</span> <span class="k">as</span> <span class="n">the_file</span><span class="p">:</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="n">the_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     <span class="n">latest_cert</span> <span class="o">=</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">(</span>
-        <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">lineage</span><span class="o">.</span><span class="n">cert</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">contents</span><span class="p">)</span>
     <span class="c1"># all our test certs are from happy hacker fake CA, though maybe one day</span>
     <span class="c1"># we should test more methodically</span>
     <span class="n">now_valid</span> <span class="o">=</span> <span class="s2">&quot;fake&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">repr</span><span class="p">(</span><span class="n">latest_cert</span><span class="o">.</span><span class="n">get_issuer</span><span class="p">())</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -485,7 +487,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">domains</span> <span class="o">=</span> <span class="n">lineage</span><span class="o">.</span><span class="n">names</span><span class="p">()</span>
     <span class="c1"># The private key is the existing lineage private key if reuse_key is set.</span>
     <span class="c1"># Otherwise, generate a fresh private key by passing None.</span>
-    <span class="n">new_key</span> <span class="o">=</span> <span class="n">lineage</span><span class="o">.</span><span class="n">privkey</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">reuse_key</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">new_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">lineage</span><span class="o">.</span><span class="n">privkey</span><span class="p">)</span> <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">reuse_key</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="n">new_cert</span><span class="p">,</span> <span class="n">new_chain</span><span class="p">,</span> <span class="n">new_key</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">le_client</span><span class="o">.</span><span class="n">obtain_certificate</span><span class="p">(</span><span class="n">domains</span><span class="p">,</span> <span class="n">new_key</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">dry_run</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Dry run: skipping updating lineage at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -554,7 +556,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">disp</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="handle_renewal_request"><a class="viewcode-back" href="../../api/renewal.html#certbot.renewal.handle_renewal_request">[docs]</a><span class="k">def</span> <span class="nf">handle_renewal_request</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+<div class="viewcode-block" id="handle_renewal_request"><a class="viewcode-back" href="../../api/renewal.html#certbot.renewal.handle_renewal_request">[docs]</a><span class="k">def</span> <span class="nf">handle_renewal_request</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>  <span class="c1"># pylint: disable=too-many-locals,too-many-branches,too-many-statements</span>
     <span class="sd">&quot;&quot;&quot;Examine each lineage; renew if due and report results&quot;&quot;&quot;</span>
 
     <span class="c1"># This is trivially False if config.domains is empty</span>
@@ -578,6 +580,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">renew_failures</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">renew_skipped</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">parse_failures</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Noninteractive renewals include a random delay in order to spread</span>
+    <span class="c1"># out the load on the certificate authority servers, even if many</span>
+    <span class="c1"># users all pick the same time for renewals.  This delay precedes</span>
+    <span class="c1"># running any hooks, so that side effects of the hooks (such as</span>
+    <span class="c1"># shutting down a web service) aren&#39;t prolonged unnecessarily.</span>
+    <span class="n">apply_random_sleep</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">isatty</span><span class="p">()</span> <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">random_sleep_on_renew</span>
+
     <span class="k">for</span> <span class="n">renewal_file</span> <span class="ow">in</span> <span class="n">conf_files</span><span class="p">:</span>
         <span class="n">disp</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
         <span class="n">disp</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span><span class="s2">&quot;Processing &quot;</span> <span class="o">+</span> <span class="n">renewal_file</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -606,6 +616,15 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">main</span>
                 <span class="n">plugins</span> <span class="o">=</span> <span class="n">plugins_disco</span><span class="o">.</span><span class="n">PluginsRegistry</span><span class="o">.</span><span class="n">find_all</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">should_renew</span><span class="p">(</span><span class="n">lineage_config</span><span class="p">,</span> <span class="n">renewal_candidate</span><span class="p">):</span>
+                    <span class="c1"># Apply random sleep upon first renewal if needed</span>
+                    <span class="k">if</span> <span class="n">apply_random_sleep</span><span class="p">:</span>
+                        <span class="n">sleep_time</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Non-interactive renewal: random delay of </span><span class="si">%s</span><span class="s2"> seconds&quot;</span><span class="p">,</span>
+                                    <span class="n">sleep_time</span><span class="p">)</span>
+                        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleep_time</span><span class="p">)</span>
+                        <span class="c1"># We will sleep only once this day, folks.</span>
+                        <span class="n">apply_random_sleep</span> <span class="o">=</span> <span class="kc">False</span>
+
                     <span class="c1"># domains have been restored into lineage_config by reconstitute</span>
                     <span class="c1"># but they&#39;re unnecessary anyway because renew_cert here</span>
                     <span class="c1"># will just grab them from the certificate</span>
@@ -695,7 +714,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.28.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -722,7 +741,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.renewal%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.renewal%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

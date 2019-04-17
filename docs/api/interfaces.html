@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.interfaces &mdash; Certbot 0.28.0.dev0 documentation</title>
+  <title>certbot.interfaces &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.interfaces &mdash; Certbot 0.28.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.interfaces &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Documentation" href="../api.html"/>
         <link rel="next" title="certbot.lock" href="lock.html"/>
         <link rel="prev" title="certbot" href="index.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.28
+                0.34
               </div>
             
           
@@ -445,22 +445,15 @@ instances, such that it contains types found within
 <a class="reference internal" href="#certbot.interfaces.IAuthenticator.get_chall_pref" title="certbot.interfaces.IAuthenticator.get_chall_pref"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_chall_pref()</span></code></a> only.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collections.Iterable</span></code> of ACME
-<a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.ChallengeResponse" title="(in acme-python v0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChallengeResponse</span></code></a> instances
-or if the <a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.Challenge" title="(in acme-python v0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Challenge</span></code></a> cannot
-be fulfilled then:<dl class="docutils">
-<dt><code class="docutils literal notranslate"><span class="pre">None</span></code></dt>
-<dd>Authenticator can perform challenge, but not at this time.</dd>
-<dt><code class="docutils literal notranslate"><span class="pre">False</span></code></dt>
-<dd>Authenticator will never be able to perform (error).</dd>
-</dl>
-</td>
+<a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.ChallengeResponse" title="(in acme-python v0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChallengeResponse</span></code></a> instances corresponding to each provided
+<a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.Challenge" title="(in acme-python v0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Challenge</span></code></a>.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.Iterable</span></code> of
 <a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.ChallengeResponse" title="(in acme-python v0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">acme.challenges.ChallengeResponse</span></code></a>,
 where responses are required to be returned in
 the same order as corresponding input challenges</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="errors.html#certbot.errors.PluginError" title="certbot.errors.PluginError"><strong>PluginError</strong></a> – If challenges cannot be performed</td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="errors.html#certbot.errors.PluginError" title="certbot.errors.PluginError"><strong>PluginError</strong></a> – If some or all challenges cannot be performed</td>
 </tr>
 </tbody>
 </table>
@@ -576,18 +569,6 @@ filtered, stripped or sanitized.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="certbot.interfaces.IConfig.tls_sni_01_port">
-<code class="descname">tls_sni_01_port</code><a class="headerlink" href="#certbot.interfaces.IConfig.tls_sni_01_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Port used during tls-sni-01 challenge. This only affects the port Certbot listens on. A conforming ACME server will still attempt to connect on port 443.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="certbot.interfaces.IConfig.tls_sni_01_address">
-<code class="descname">tls_sni_01_address</code><a class="headerlink" href="#certbot.interfaces.IConfig.tls_sni_01_address" title="Permalink to this definition">¶</a></dt>
-<dd><p>The address the server listens to during tls-sni-01 challenge.</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="certbot.interfaces.IConfig.http01_port">
 <code class="descname">http01_port</code><a class="headerlink" href="#certbot.interfaces.IConfig.http01_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Port used in the http-01 challenge. This only affects the port Certbot listens on. A conforming ACME server will still attempt to connect on port 80.</p>
@@ -597,6 +578,12 @@ filtered, stripped or sanitized.</p>
 <dt id="certbot.interfaces.IConfig.http01_address">
 <code class="descname">http01_address</code><a class="headerlink" href="#certbot.interfaces.IConfig.http01_address" title="Permalink to this definition">¶</a></dt>
 <dd><p>The address the server listens to during http-01 challenge.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.interfaces.IConfig.https_port">
+<code class="descname">https_port</code><a class="headerlink" href="#certbot.interfaces.IConfig.https_port" title="Permalink to this definition">¶</a></dt>
+<dd><p>Port used to serve HTTPS. This affects which port Nginx will listen on after a LE certificate is installed.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -1025,100 +1012,6 @@ because it won’t cause any workflow regressions</li>
 </dd></dl>
 
 <dl class="interface">
-<dt id="certbot.interfaces.IValidator">
-<em class="property">interface </em><code class="descclassname">certbot.interfaces.</code><code class="descname">IValidator</code><a class="reference internal" href="../_modules/certbot/interfaces.html#IValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.interfaces.IValidator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configuration validator.</p>
-<dl class="method">
-<dt id="certbot.interfaces.IValidator.certificate">
-<code class="descname">certificate</code><span class="sig-paren">(</span><em>cert</em>, <em>name</em>, <em>alt_host=None</em>, <em>port=443</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IValidator.certificate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Verifies the certificate presented at name is cert</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>cert</strong> (<em>OpenSSL.crypto.X509</em>) – Expected certificate</li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Server’s domain name</li>
-<li><strong>alt_host</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – Host to connect to instead of the IP
-address of host</li>
-<li><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Port to connect to</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if the certificate was verified successfully</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.interfaces.IValidator.redirect">
-<code class="descname">redirect</code><span class="sig-paren">(</span><em>name</em>, <em>port=80</em>, <em>headers=None</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IValidator.redirect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Verify redirect to HTTPS</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Server’s domain name</li>
-<li><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Port to connect to</li>
-<li><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – HTTP headers to include in request</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if redirect is successfully enabled</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.interfaces.IValidator.hsts">
-<code class="descname">hsts</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IValidator.hsts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Verify HSTS header is enabled</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Server’s domain name</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if HSTS header is successfully enabled</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.interfaces.IValidator.ocsp_stapling">
-<code class="descname">ocsp_stapling</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IValidator.ocsp_stapling" title="Permalink to this definition">¶</a></dt>
-<dd><p>Verify ocsp stapling for domain</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Server’s domain name</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if ocsp stapling is successfully enabled</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="interface">
 <dt id="certbot.interfaces.IReporter">
 <em class="property">interface </em><code class="descclassname">certbot.interfaces.</code><code class="descname">IReporter</code><a class="reference internal" href="../_modules/certbot/interfaces.html#IReporter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.interfaces.IReporter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Interface to collect and display information to the user.</p>
@@ -1291,7 +1184,7 @@ certificate over, or change configuration based on the new certificate.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.28.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1318,7 +1211,7 @@ certificate over, or change configuration based on the new certificate.</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.interfaces%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.interfaces%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

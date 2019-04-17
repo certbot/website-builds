@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.interfaces &mdash; Certbot 0.28.0.dev0 documentation</title>
+  <title>certbot.interfaces &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.interfaces &mdash; Certbot 0.28.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.interfaces &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.28
+                0.34
               </div>
             
           
@@ -257,7 +257,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="n">description</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span><span class="s2">&quot;Short plugin description&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>  <span class="c1"># pylint: disable=signature-differs</span>
         <span class="sd">&quot;&quot;&quot;Create new `IPlugin`.</span>
 
 <span class="sd">        :param IConfig config: Configuration.</span>
@@ -343,21 +343,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">            :func:`get_chall_pref` only.</span>
 
 <span class="sd">        :returns: `collections.Iterable` of ACME</span>
-<span class="sd">            :class:`~acme.challenges.ChallengeResponse` instances</span>
-<span class="sd">            or if the :class:`~acme.challenges.Challenge` cannot</span>
-<span class="sd">            be fulfilled then:</span>
-
-<span class="sd">            ``None``</span>
-<span class="sd">              Authenticator can perform challenge, but not at this time.</span>
-<span class="sd">            ``False``</span>
-<span class="sd">              Authenticator will never be able to perform (error).</span>
-
+<span class="sd">            :class:`~acme.challenges.ChallengeResponse` instances corresponding to each provided</span>
+<span class="sd">            :class:`~acme.challenges.Challenge`.</span>
 <span class="sd">        :rtype: :class:`collections.Iterable` of</span>
 <span class="sd">            :class:`acme.challenges.ChallengeResponse`,</span>
 <span class="sd">            where responses are required to be returned in</span>
 <span class="sd">            the same order as corresponding input challenges</span>
 
-<span class="sd">        :raises .PluginError: If challenges cannot be performed</span>
+<span class="sd">        :raises .PluginError: If some or all challenges cannot be performed</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -411,12 +404,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="n">no_verify_ssl</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span>
         <span class="s2">&quot;Disable verification of the ACME server&#39;s certificate.&quot;</span><span class="p">)</span>
-    <span class="n">tls_sni_01_port</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span>
-        <span class="s2">&quot;Port used during tls-sni-01 challenge. &quot;</span>
-        <span class="s2">&quot;This only affects the port Certbot listens on. &quot;</span>
-        <span class="s2">&quot;A conforming ACME server will still attempt to connect on port 443.&quot;</span><span class="p">)</span>
-    <span class="n">tls_sni_01_address</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span>
-        <span class="s2">&quot;The address the server listens to during tls-sni-01 challenge.&quot;</span><span class="p">)</span>
 
     <span class="n">http01_port</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span>
         <span class="s2">&quot;Port used in the http-01 challenge. &quot;</span>
@@ -425,6 +412,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="n">http01_address</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span>
         <span class="s2">&quot;The address the server listens to during http-01 challenge.&quot;</span><span class="p">)</span>
+
+    <span class="n">https_port</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span>
+        <span class="s2">&quot;Port used to serve HTTPS. &quot;</span>
+        <span class="s2">&quot;This affects which port Nginx will listen on after a LE certificate &quot;</span>
+        <span class="s2">&quot;is installed.&quot;</span><span class="p">)</span>
 
     <span class="n">pref_challs</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span>
         <span class="s2">&quot;Sorted user specified preferred challenges&quot;</span>
@@ -706,56 +698,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="IValidator"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.IValidator">[docs]</a><span class="k">class</span> <span class="nc">IValidator</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Configuration validator.&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">certificate</span><span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">alt_host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">443</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Verifies the certificate presented at name is cert</span>
-
-<span class="sd">        :param OpenSSL.crypto.X509 cert: Expected certificate</span>
-<span class="sd">        :param str name: Server&#39;s domain name</span>
-<span class="sd">        :param bytes alt_host: Host to connect to instead of the IP</span>
-<span class="sd">            address of host</span>
-<span class="sd">        :param int port: Port to connect to</span>
-
-<span class="sd">        :returns: True if the certificate was verified successfully</span>
-<span class="sd">        :rtype: bool</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">redirect</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Verify redirect to HTTPS</span>
-
-<span class="sd">        :param str name: Server&#39;s domain name</span>
-<span class="sd">        :param int port: Port to connect to</span>
-<span class="sd">        :param dict headers: HTTP headers to include in request</span>
-
-<span class="sd">        :returns: True if redirect is successfully enabled</span>
-<span class="sd">        :rtype: bool</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">hsts</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Verify HSTS header is enabled</span>
-
-<span class="sd">        :param str name: Server&#39;s domain name</span>
-
-<span class="sd">        :returns: True if HSTS header is successfully enabled</span>
-<span class="sd">        :rtype: bool</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">ocsp_stapling</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Verify ocsp stapling for domain</span>
-
-<span class="sd">        :param str name: Server&#39;s domain name</span>
-
-<span class="sd">        :returns: True if ocsp stapling is successfully enabled</span>
-<span class="sd">        :rtype: bool</span>
-
-<span class="sd">        &quot;&quot;&quot;</span></div>
-
-
 <div class="viewcode-block" id="IReporter"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.IReporter">[docs]</a><span class="k">class</span> <span class="nc">IReporter</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Interface to collect and display information to the user.&quot;&quot;&quot;</span>
 
@@ -909,7 +851,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.28.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -936,7 +878,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.interfaces%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.interfaces%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.client &mdash; Certbot 0.28.0.dev0 documentation</title>
+  <title>certbot.client &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.client &mdash; Certbot 0.28.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.client &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.28
+                0.34
               </div>
             
           
@@ -185,17 +185,15 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span></span><span class="sd">&quot;&quot;&quot;Certbot client API.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">platform</span>
 
-
+<span class="kn">import</span> <span class="nn">OpenSSL</span>
+<span class="kn">import</span> <span class="nn">josepy</span> <span class="k">as</span> <span class="nn">jose</span>
+<span class="kn">import</span> <span class="nn">zope.component</span>
 <span class="kn">from</span> <span class="nn">cryptography.hazmat.backends</span> <span class="k">import</span> <span class="n">default_backend</span>
 <span class="c1"># https://github.com/python/typeshed/blob/master/third_party/</span>
 <span class="c1"># 2/cryptography/hazmat/primitives/asymmetric/rsa.pyi</span>
 <span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.asymmetric.rsa</span> <span class="k">import</span> <span class="n">generate_private_key</span>  <span class="c1"># type: ignore</span>
-<span class="kn">import</span> <span class="nn">josepy</span> <span class="k">as</span> <span class="nn">jose</span>
-<span class="kn">import</span> <span class="nn">OpenSSL</span>
-<span class="kn">import</span> <span class="nn">zope.component</span>
 
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">client</span> <span class="k">as</span> <span class="n">acme_client</span>
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">crypto_util</span> <span class="k">as</span> <span class="n">acme_crypto_util</span>
@@ -204,11 +202,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Optional</span>  <span class="c1"># pylint: disable=unused-import,no-name-in-module</span>
 
 <span class="kn">import</span> <span class="nn">certbot</span>
-
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">account</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">auth_handler</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">cli</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">compat</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">eff</span>
@@ -218,11 +214,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">reverter</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">storage</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
-
-<span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">ops</span> <span class="k">as</span> <span class="n">display_ops</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">misc</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">enhancements</span>
+<span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">ops</span> <span class="k">as</span> <span class="n">display_ops</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">selection</span> <span class="k">as</span> <span class="n">plugin_selection</span>
-
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -387,9 +383,27 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :returns: Registration Resource.</span>
 <span class="sd">    :rtype: `acme.messages.RegistrationResource`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">eab_credentials_supplied</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">eab_kid</span> <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">eab_hmac_key</span>
+    <span class="k">if</span> <span class="n">eab_credentials_supplied</span><span class="p">:</span>
+        <span class="n">account_public_key</span> <span class="o">=</span> <span class="n">acme</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">key</span><span class="o">.</span><span class="n">public_key</span><span class="p">()</span>
+        <span class="n">eab</span> <span class="o">=</span> <span class="n">messages</span><span class="o">.</span><span class="n">ExternalAccountBinding</span><span class="o">.</span><span class="n">from_data</span><span class="p">(</span><span class="n">account_public_key</span><span class="o">=</span><span class="n">account_public_key</span><span class="p">,</span>
+                                                        <span class="n">kid</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">eab_kid</span><span class="p">,</span>
+                                                        <span class="n">hmac_key</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">eab_hmac_key</span><span class="p">,</span>
+                                                        <span class="n">directory</span><span class="o">=</span><span class="n">acme</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">directory</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">eab</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">acme</span><span class="o">.</span><span class="n">external_account_required</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">eab_credentials_supplied</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Server requires external account binding.&quot;</span>
+                   <span class="s2">&quot; Please use --eab-kid and --eab-hmac-key.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">acme</span><span class="o">.</span><span class="n">new_account_and_tos</span><span class="p">(</span><span class="n">messages</span><span class="o">.</span><span class="n">NewRegistration</span><span class="o">.</span><span class="n">from_data</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">email</span><span class="p">),</span>
-            <span class="n">tos_cb</span><span class="p">)</span>
+        <span class="n">newreg</span> <span class="o">=</span> <span class="n">messages</span><span class="o">.</span><span class="n">NewRegistration</span><span class="o">.</span><span class="n">from_data</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
+                                                    <span class="n">external_account_binding</span><span class="o">=</span><span class="n">eab</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">acme</span><span class="o">.</span><span class="n">new_account_and_tos</span><span class="p">(</span><span class="n">newreg</span><span class="p">,</span> <span class="n">tos_cb</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">messages</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;invalidEmail&quot;</span> <span class="ow">or</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="s2">&quot;invalidContact&quot;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">noninteractive_mode</span><span class="p">:</span>
@@ -518,7 +532,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
         <span class="n">orderr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_order_and_authorizations</span><span class="p">(</span><span class="n">csr</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">allow_subset_of_names</span><span class="p">)</span>
         <span class="n">authzr</span> <span class="o">=</span> <span class="n">orderr</span><span class="o">.</span><span class="n">authorizations</span>
-        <span class="n">auth_domains</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">identifier</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">authzr</span><span class="p">)</span>
+        <span class="n">auth_domains</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">identifier</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">authzr</span><span class="p">)</span>  <span class="c1"># pylint: disable=not-an-iterable</span>
         <span class="n">successful_domains</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">domains</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">auth_domains</span><span class="p">]</span>
 
         <span class="c1"># allow_subset_of_names is currently disabled for wildcard</span>
@@ -587,11 +601,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Dry run: Skipping creating new lineage for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
                         <span class="n">new_name</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">storage</span><span class="o">.</span><span class="n">RenewableCert</span><span class="o">.</span><span class="n">new_lineage</span><span class="p">(</span>
-                <span class="n">new_name</span><span class="p">,</span> <span class="n">cert</span><span class="p">,</span>
-                <span class="n">key</span><span class="o">.</span><span class="n">pem</span><span class="p">,</span> <span class="n">chain</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">storage</span><span class="o">.</span><span class="n">RenewableCert</span><span class="o">.</span><span class="n">new_lineage</span><span class="p">(</span>
+            <span class="n">new_name</span><span class="p">,</span> <span class="n">cert</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">.</span><span class="n">pem</span><span class="p">,</span> <span class="n">chain</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Client._choose_lineagename"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client._choose_lineagename">[docs]</a>    <span class="k">def</span> <span class="nf">_choose_lineagename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">certname</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Chooses a name for the new lineage.</span>
@@ -610,8 +623,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">elif</span> <span class="n">util</span><span class="o">.</span><span class="n">is_wildcard_domain</span><span class="p">(</span><span class="n">domains</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
             <span class="c1"># Don&#39;t make files and directories starting with *.</span>
             <span class="k">return</span> <span class="n">domains</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">:]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">domains</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="n">domains</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="Client.save_certificate"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client.save_certificate">[docs]</a>    <span class="k">def</span> <span class="nf">save_certificate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_pem</span><span class="p">,</span> <span class="n">chain_pem</span><span class="p">,</span>
                          <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">fullchain_path</span><span class="p">):</span>
@@ -632,7 +644,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">fullchain_path</span><span class="p">:</span>
             <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="mo">0o755</span><span class="p">,</span> <span class="n">compat</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="mo">0o755</span><span class="p">,</span> <span class="n">misc</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
 
@@ -897,9 +909,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">if</span> <span class="n">cli</span><span class="o">.</span><span class="n">set_by_cli</span><span class="p">(</span><span class="n">cli_arg_path</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_open</span><span class="p">(</span><span class="n">pem_path</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="mo">0o644</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;wb&quot;</span><span class="p">),</span>\
             <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">pem_path</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">uniq</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">unique_file</span><span class="p">(</span><span class="n">pem_path</span><span class="p">,</span> <span class="mo">0o644</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">uniq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">uniq</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+    <span class="n">uniq</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">unique_file</span><span class="p">(</span><span class="n">pem_path</span><span class="p">,</span> <span class="mo">0o644</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">uniq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">uniq</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="_save_chain"><a class="viewcode-back" href="../../api/client.html#certbot.client._save_chain">[docs]</a><span class="k">def</span> <span class="nf">_save_chain</span><span class="p">(</span><span class="n">chain_pem</span><span class="p">,</span> <span class="n">chain_file</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Saves chain_pem at a unique path based on chain_path.</span>
@@ -970,7 +981,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.28.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -997,7 +1008,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.client%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.client%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

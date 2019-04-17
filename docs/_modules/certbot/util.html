@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.util &mdash; Certbot 0.28.0.dev0 documentation</title>
+  <title>certbot.util &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.util &mdash; Certbot 0.28.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.util &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.28
+                0.34
               </div>
             
           
@@ -186,29 +186,27 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">atexit</span>
 <span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
 <span class="c1"># distutils.version under virtualenv confuses pylint</span>
 <span class="c1"># For more info, see: https://github.com/PyCQA/pylint/issues/73</span>
 <span class="kn">import</span> <span class="nn">distutils.version</span>  <span class="c1"># pylint: disable=import-error,no-name-in-module</span>
 <span class="kn">import</span> <span class="nn">errno</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">six</span>
 <span class="kn">import</span> <span class="nn">socket</span>
-<span class="kn">import</span> <span class="nn">stat</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
 
 <span class="kn">import</span> <span class="nn">configargparse</span>
+<span class="kn">import</span> <span class="nn">six</span>
 
 <span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">lock</span>
-
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">misc</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -246,7 +244,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="sd">&quot;&quot;&quot;Run the script with the given params.</span>
 
 <span class="sd">    :param list params: List of parameters to pass to Popen</span>
-<span class="sd">    :param logging.Logger log: Logger to use for errors</span>
+<span class="sd">    :param callable log: Logger method to use for errors</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
@@ -326,6 +324,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">except</span><span class="p">:</span>  <span class="c1"># pylint: disable=bare-except</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Exception occurred releasing lock: </span><span class="si">{0!r}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dir_lock</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">_LOCKS</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
 
 <div class="viewcode-block" id="set_up_core_dir"><a class="viewcode-back" href="../../api/util.html#certbot.util.set_up_core_dir">[docs]</a><span class="k">def</span> <span class="nf">set_up_core_dir</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">strict</span><span class="p">):</span>
@@ -388,7 +387,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">file_stat</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IMODE</span><span class="p">(</span><span class="n">file_stat</span><span class="o">.</span><span class="n">st_mode</span><span class="p">)</span> <span class="o">==</span> <span class="n">mode</span> <span class="ow">and</span> <span class="n">file_stat</span><span class="o">.</span><span class="n">st_uid</span> <span class="o">==</span> <span class="n">uid</span></div>
+    <span class="k">return</span> <span class="n">misc</span><span class="o">.</span><span class="n">compare_file_modes</span><span class="p">(</span><span class="n">file_stat</span><span class="o">.</span><span class="n">st_mode</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="ow">and</span> <span class="n">file_stat</span><span class="o">.</span><span class="n">st_uid</span> <span class="o">==</span> <span class="n">uid</span></div>
 
 
 <div class="viewcode-block" id="safe_open"><a class="viewcode-back" href="../../api/util.html#certbot.util.safe_open">[docs]</a><span class="k">def</span> <span class="nf">safe_open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">buffering</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -402,16 +401,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        defaults if ``None``.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># pylint: disable=star-args</span>
     <span class="n">open_args</span> <span class="o">=</span> <span class="p">()</span>  <span class="c1"># type: Union[Tuple[()], Tuple[int]]</span>
     <span class="k">if</span> <span class="n">chmod</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">open_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">chmod</span><span class="p">,)</span>
     <span class="n">fdopen_args</span> <span class="o">=</span> <span class="p">()</span>  <span class="c1"># type: Union[Tuple[()], Tuple[int]]</span>
     <span class="k">if</span> <span class="n">buffering</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fdopen_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">buffering</span><span class="p">,)</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">fdopen</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_EXCL</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span><span class="p">,</span> <span class="o">*</span><span class="n">open_args</span><span class="p">),</span>
-        <span class="n">mode</span><span class="p">,</span> <span class="o">*</span><span class="n">fdopen_args</span><span class="p">)</span></div>
+    <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_EXCL</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span><span class="p">,</span> <span class="o">*</span><span class="n">open_args</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">fdopen</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="o">*</span><span class="n">fdopen_args</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_unique_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename_pat</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">chmod</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
@@ -653,16 +650,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="sd">&quot;&quot;&quot;Scrub email address before using it.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">EMAIL_REGEX</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">email</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="n">email</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;..&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">email</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Invalid email address: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Invalid email address: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="_ShowWarning"><a class="viewcode-back" href="../../api/util.html#certbot.util._ShowWarning">[docs]</a><span class="k">class</span> <span class="nc">_ShowWarning</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Action to log a warning when an argument is used.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unused1</span><span class="p">,</span> <span class="n">unused2</span><span class="p">,</span> <span class="n">unused3</span><span class="p">,</span> <span class="n">option_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-            <span class="s2">&quot;Use of </span><span class="si">{0}</span><span class="s2"> is deprecated.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">option_string</span><span class="p">))</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Use of </span><span class="si">%s</span><span class="s2"> is deprecated.&quot;</span><span class="p">,</span> <span class="n">option_string</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="add_deprecated_argument"><a class="viewcode-back" href="../../api/util.html#certbot.util.add_deprecated_argument">[docs]</a><span class="k">def</span> <span class="nf">add_deprecated_argument</span><span class="p">(</span><span class="n">add_argument</span><span class="p">,</span> <span class="n">argument_name</span><span class="p">,</span> <span class="n">nargs</span><span class="p">):</span>
@@ -903,7 +898,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.28.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -930,7 +925,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.util%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.util%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

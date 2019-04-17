@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.error_handler &mdash; Certbot 0.28.0.dev0 documentation</title>
+  <title>certbot.error_handler &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.error_handler &mdash; Certbot 0.28.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.error_handler &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.28
+                0.34
               </div>
             
           
@@ -185,7 +185,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span></span><span class="sd">&quot;&quot;&quot;Registers functions to be called if an exception or signal occurs.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">signal</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
 
@@ -194,6 +193,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># pylint: enable=unused-import, no-name-in-module</span>
 
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -203,14 +203,30 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># potentially occur from inside Python. Signals such as SIGILL were not</span>
 <span class="c1"># included as they could be a sign of something devious and we should terminate</span>
 <span class="c1"># immediately.</span>
-<span class="n">_SIGNALS</span> <span class="o">=</span> <span class="p">[</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGTERM</span><span class="p">]</span>
 <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;nt&quot;</span><span class="p">:</span>
+    <span class="n">_SIGNALS</span> <span class="o">=</span> <span class="p">[</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGTERM</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">signal_code</span> <span class="ow">in</span> <span class="p">[</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGHUP</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGQUIT</span><span class="p">,</span>
                         <span class="n">signal</span><span class="o">.</span><span class="n">SIGXCPU</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGXFSZ</span><span class="p">]:</span>
         <span class="c1"># Adding only those signals that their default action is not Ignore.</span>
         <span class="c1"># This is platform-dependent, so we check it dynamically.</span>
         <span class="k">if</span> <span class="n">signal</span><span class="o">.</span><span class="n">getsignal</span><span class="p">(</span><span class="n">signal_code</span><span class="p">)</span> <span class="o">!=</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIG_IGN</span><span class="p">:</span>
             <span class="n">_SIGNALS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">signal_code</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># POSIX signals are not implemented natively in Windows, but emulated from the C runtime.</span>
+    <span class="c1"># As consumed by CPython, most of handlers on theses signals are useless, in particular</span>
+    <span class="c1"># SIGTERM: for instance, os.kill(pid, signal.SIGTERM) will call TerminateProcess, that stops</span>
+    <span class="c1"># immediately the process without calling the attached handler. Besides, non-POSIX signals</span>
+    <span class="c1"># (CTRL_C_EVENT and CTRL_BREAK_EVENT) are implemented in a console context to handle the</span>
+    <span class="c1"># CTRL+C event to a process launched from the console. Only CTRL_C_EVENT has a reliable</span>
+    <span class="c1"># behavior in fact, and maps to the handler to SIGINT. However in this case, a</span>
+    <span class="c1"># KeyboardInterrupt is raised, that will be handled by ErrorHandler through the context manager</span>
+    <span class="c1"># protocol. Finally, no signal on Windows is electable to be handled using ErrorHandler.</span>
+    <span class="c1">#</span>
+    <span class="c1"># Refs: https://stackoverflow.com/a/35792192, https://maruel.ca/post/python_windows_signal,</span>
+    <span class="c1"># https://docs.python.org/2/library/os.html#os.kill,</span>
+    <span class="c1"># https://www.reddit.com/r/Python/comments/1dsblt/windows_command_line_automation_ctrlc_question</span>
+    <span class="n">_SIGNALS</span> <span class="o">=</span> <span class="p">[]</span>
+
 
 <div class="viewcode-block" id="ErrorHandler"><a class="viewcode-back" href="../../api/error_handler.html#certbot.error_handler.ErrorHandler">[docs]</a><span class="k">class</span> <span class="nc">ErrorHandler</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Context manager for running code that must be cleaned up on failure.</span>
@@ -241,7 +257,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    deferred until they finish.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">call_on_regular_exit</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">body_executed</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">funcs</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[Callable[[], Any]]</span>
@@ -335,10 +351,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    In addition to cleaning up on all signals, also cleans up on</span>
 <span class="sd">    regular exit.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">ErrorHandler</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">call_on_regular_exit</span> <span class="o">=</span> <span class="kc">True</span></div>
-
 </pre></div>
 
            </div>
@@ -395,7 +410,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.28.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -422,7 +437,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.error_handler%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.error_handler%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

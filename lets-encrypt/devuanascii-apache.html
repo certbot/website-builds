@@ -19,7 +19,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Certbot - Ubuntuartful Apache</title>
+    <title>Certbot - Devuanascii Apache</title>
     <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <link rel="stylesheet" href="/css/main.css">
@@ -27,7 +27,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@EFF">
-    <meta name="twitter:title" content="Certbot - Ubuntuartful Apache">
+    <meta name="twitter:title" content="Certbot - Devuanascii Apache">
     <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
@@ -123,8 +123,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
       
         <option value="debianother" data-distro="debian" data-version="0">Debian (other)</option>
       
-        <option value="ubuntuartful" data-distro="ubuntu" data-version="17.10">Ubuntu 17.10 (artful)</option>
-      
         <option value="ubuntubionic" data-distro="ubuntu" data-version="18.04">Ubuntu 18.04 LTS (bionic)</option>
       
         <option value="ubuntuxenial" data-distro="ubuntu" data-version="16.04">Ubuntu 16.04 (xenial)</option>
@@ -155,9 +153,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
       
         <option value="osx" data-distro="macos" data-version="10">macOS</option>
       
+        <option value="devuanascii" data-distro="devuan" data-version="2">Devuan ASCII 2.0</option>
+      
         <option value="devuanjessie" data-distro="devuan" data-version="1">Devuan Jessie 1.0</option>
       
-        <option value="devuanother" data-distro="devuan" data-version="0">Devuan (other)</option>
+        <option value="devuanother" data-distro="devuan" data-version="3">Devuan testing/unstable</option>
       
         <option value="tumbleweed" data-distro="opensuse" data-version="0">openSUSE Tumbleweed</option>
       
@@ -183,7 +183,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <div class="page-content">
       <div class="wrapper">
         <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/ubuntuartful-apache.html">Apache on Ubuntu 17.10 (artful)</a></h2>
+          <h2 id="instructions-header"><a href="/lets-encrypt/devuanascii-apache.html">Apache on Devuan ASCII 2.0</a></h2>
 <div class="tab automated active">Automated</div>
 <div class="tab advanced">Advanced</div>
 
@@ -203,40 +203,45 @@ checking this list of supporting providers</a>.
 </aside>
 <h3>Install</h3>
 <p>
-On Ubuntu systems, the Certbot team maintains a <a href="https://help.ubuntu.com/community/PPA">PPA</a>. You can add it to your list of repositories and install Certbot by running the following commands.
+  Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
+</p>
+
+<p>
+First you'll have to enable the ASCII backports repo in your APT sources as
+shown <a href="https://devuan.org/os/etc/apt/sources.list#add-backports-default-no">here</a>.
+Then run:
 </p>
 
 <pre>
-$ sudo apt-get update
-$ sudo apt-get install software-properties-common
-$ sudo add-apt-repository ppa:certbot/certbot
-$ sudo apt-get update
-$ sudo apt-get install python-certbot-apache 
+$ sudo apt-get install certbot python-certbot-apache -t ascii-backports
 </pre>
+<h4>Installing DNS plugins</h4>
 <p>
-<strong>Certbot's DNS plugins are also available for your system which can be used to
-automate obtaining a wildcard certificate from Let's Encrypt's ACMEv2 server.</strong>
-To use one of these plugins, you must have configured DNS for the domain you
-want to obtain a certificate for with a DNS provider that Certbot has a plugin
-for. A list of these plugins and more information about using them can be found
-<a href="/docs/using.html#dns-plugins">here</a>. To install one of these
-plugins, run the installation command above but replace python-certbot-apache with the
-name of the DNS plugin you want to install.
+Certbot's DNS plugins <strong>are available</strong> for your system. These
+plugins can be used to automate obtaining a wildcard certificate from Let's
+Encrypt's ACMEv2 server.  To use one of these plugins, you must have configured
+DNS for the domain you want to obtain a certificate for with a DNS provider
+that Certbot has a plugin for. A list of these plugins and more information
+about using them can be found <a href="/docs/using.html#dns-plugins">here</a>.
+To install one of these plugins, run the installation command above but replace
+<tt>certbot python-certbot-apache</tt> with <tt>python3-certbot-dns-PLUGIN</tt>, where <tt>PLUGIN</tt>
+is the name of the plugin you want to install. For instance, for the RFC2136
+plugin this would be <tt>python3-certbot-dns-rfc2136</tt>.
 </p>
     </div>
     <div class="get-started">
       <h3>Get Started</h3>
 <p>
-Certbot has a fairly solid beta-quality Apache plugin, which is supported on
+Certbot has an Apache plugin, which is supported on
 many platforms, and automates certificate installation.
 </p>
-    <pre>$ sudo certbot --apache</pre>
-    <p>
-    Running this command will get a certificate for you and have Certbot edit your Apache configuration
-    automatically to serve it. If you're feeling more conservative and would like to make the changes to your
-    Apache configuration by hand, you can use the <tt>certonly</tt>
-    subcommand:
-    <pre>$ sudo certbot --apache certonly</pre>
+<pre>$ sudo certbot --apache</pre>
+<p>
+Running this command will get a certificate for you and have Certbot edit your Apache configuration
+automatically to serve it. If you're feeling more conservative and would like to make the changes to your
+Apache configuration by hand, you can use the <tt>certonly</tt>
+subcommand:
+<pre>$ sudo certbot --apache certonly</pre>
 
 <p>
 <strong>If you want to obtain a wildcard certificate using Let's Encrypt's new ACMEv2
@@ -248,9 +253,11 @@ above and run a command like the following:
 <pre>$ sudo certbot -a dns-plugin -i apache -d "*.example.com" -d example.com --server https://acme-v02.api.letsencrypt.org/directory</pre>
 <p>
 You'll need to replace <tt>dns-plugin</tt> with the name of the DNS plugin you
-want to use. You may also need to provide additional flags such as the path to
-your API credentials as described in the documentation for the DNS plugin
-linked above.
+want to use. For instance, to use the Cloudflare plugin, you would use
+<tt>dns-cloudflare</tt>. You may also need to provide additional flags such as
+the path to your API credentials. To learn more about how to use these plugins,
+see the documentation for the DNS plugin you are trying to use found in the
+link above.
 </p>
 
 To learn more about how to use Certbot <a href="/docs/">read our documentation</a>.
@@ -291,58 +298,63 @@ checking this list of supporting providers</a>.
 </aside>
 <h3>Install</h3>
 <p>
-On Ubuntu systems, the Certbot team maintains a <a href="https://help.ubuntu.com/community/PPA">PPA</a>. You can add it to your list of repositories and install Certbot by running the following commands.
+  Since Certbot is packaged for your system, all you'll need to do is apt-get the following packages.
+</p>
+
+<p>
+First you'll have to enable the ASCII backports repo in your APT sources as
+shown <a href="https://devuan.org/os/etc/apt/sources.list#add-backports-default-no">here</a>.
+Then run:
 </p>
 
 <pre>
-$ sudo apt-get update
-$ sudo apt-get install software-properties-common
-$ sudo add-apt-repository ppa:certbot/certbot
-$ sudo apt-get update
-$ sudo apt-get install python-certbot-apache 
+$ sudo apt-get install certbot python-certbot-apache -t ascii-backports
 </pre>
+<h4>Installing DNS plugins</h4>
 <p>
-<strong>Certbot's DNS plugins are also available for your system which can be used to
-automate obtaining a wildcard certificate from Let's Encrypt's ACMEv2 server.</strong>
-To use one of these plugins, you must have configured DNS for the domain you
-want to obtain a certificate for with a DNS provider that Certbot has a plugin
-for. A list of these plugins and more information about using them can be found
-<a href="/docs/using.html#dns-plugins">here</a>. To install one of these
-plugins, run the installation command above but replace python-certbot-apache with the
-name of the DNS plugin you want to install.
+Certbot's DNS plugins <strong>are available</strong> for your system. These
+plugins can be used to automate obtaining a wildcard certificate from Let's
+Encrypt's ACMEv2 server.  To use one of these plugins, you must have configured
+DNS for the domain you want to obtain a certificate for with a DNS provider
+that Certbot has a plugin for. A list of these plugins and more information
+about using them can be found <a href="/docs/using.html#dns-plugins">here</a>.
+To install one of these plugins, run the installation command above but replace
+<tt>certbot python-certbot-apache</tt> with <tt>python3-certbot-dns-PLUGIN</tt>, where <tt>PLUGIN</tt>
+is the name of the plugin you want to install. For instance, for the RFC2136
+plugin this would be <tt>python3-certbot-dns-rfc2136</tt>.
 </p>
     </div>
     <div class="get-started">
       <h3>Get Started</h3>
 <p>
-Certbot has a fairly solid beta-quality Apache plugin, which is supported on
+Certbot has an Apache plugin, which is supported on
 many platforms, and automates certificate installation.
 </p>
-    <pre>$ sudo certbot --apache</pre>
-    <p>
-    Running this command will get a certificate for you and have Certbot edit your Apache configuration
-    automatically to serve it. If you're feeling more conservative and would like to make the changes to your
-    Apache configuration by hand, you can use the <tt>certonly</tt>
-    subcommand:
-    <pre>$ sudo certbot --apache certonly</pre>
+<pre>$ sudo certbot --apache</pre>
+<p>
+Running this command will get a certificate for you and have Certbot edit your Apache configuration
+automatically to serve it. If you're feeling more conservative and would like to make the changes to your
+Apache configuration by hand, you can use the <tt>certonly</tt>
+subcommand:
+<pre>$ sudo certbot --apache certonly</pre>
 
-        <aside class="note">
-            <h4>Note:</h4>
-            <p>the apache plugin with <tt>certonly</tt> does the following:<br />
-            <ol>
-              <li>make temporary config changes<br /> (adding a new virtual host
-              to pass an <a href="https://tools.ietf.org/html/draft-ietf-acme-acme-02#section-7.3">ACME
-              Challenge</a>, and enabling <tt>mod_ssl</tt> if necessary)</li>
-              <li>performs a graceful reload</li>
-              <li>reverts all changes</li>
-              <li>performs another graceful reload</li>
-            </ol>
-            This appears to be a reliable process, but if you don't want Certbot
-            to touch your Apache process or files in any way, you can use the
-            <a href="https://certbot.eff.org/docs/using.html#webroot">webroot
-            plugin</a> instead.
+    <aside class="note">
+        <h4>Note:</h4>
+        <p>the apache plugin with <tt>certonly</tt> does the following:<br />
+        <ol>
+          <li>make temporary config changes<br /> (adding a new virtual host
+          to pass an <a href="https://tools.ietf.org/html/draft-ietf-acme-acme-02#section-7.3">ACME
+          Challenge</a>, and enabling <tt>mod_ssl</tt> if necessary)</li>
+          <li>performs a graceful reload</li>
+          <li>reverts all changes</li>
+          <li>performs another graceful reload</li>
+        </ol>
+        This appears to be a reliable process, but if you don't want Certbot
+        to touch your Apache process or files in any way, you can use the
+        <a href="https://certbot.eff.org/docs/using.html#webroot">webroot
+        plugin</a> instead.
 
-            </p></aside>
+        </p></aside>
 <p>
 <strong>If you want to obtain a wildcard certificate using Let's Encrypt's new ACMEv2
 server, you'll also need to use one of
@@ -353,9 +365,11 @@ above and run a command like the following:
 <pre>$ sudo certbot -a dns-plugin -i apache -d "*.example.com" -d example.com --server https://acme-v02.api.letsencrypt.org/directory</pre>
 <p>
 You'll need to replace <tt>dns-plugin</tt> with the name of the DNS plugin you
-want to use. You may also need to provide additional flags such as the path to
-your API credentials as described in the documentation for the DNS plugin
-linked above.
+want to use. For instance, to use the Cloudflare plugin, you would use
+<tt>dns-cloudflare</tt>. You may also need to provide additional flags such as
+the path to your API credentials. To learn more about how to use these plugins,
+see the documentation for the DNS plugin you are trying to use found in the
+link above.
 </p>
 
 To learn more about how to use Certbot <a href="/docs/">read our documentation</a>.

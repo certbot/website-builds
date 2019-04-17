@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User Guide &mdash; Certbot 0.28.0.dev0 documentation</title>
+  <title>User Guide &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="User Guide &mdash; Certbot 0.28.0.dev0 documentation">
+<meta name="twitter:title" content="User Guide &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Developer Guide" href="contributing.html"/>
         <link rel="prev" title="Get Certbot" href="install.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.28
+                0.34
               </div>
             
           
@@ -299,13 +299,21 @@ a <a class="reference internal" href="#combination">combination</a> of distinct 
 <td>Y</td>
 <td>Y</td>
 <td><div class="first last line-block">
-<div class="line">Automates obtaining and installing a certificate with Apache</div>
-<div class="line">2.4 on OSes with <code class="docutils literal notranslate"><span class="pre">libaugeas0</span></code> 1.0+.</div>
+<div class="line">Automates obtaining and installing a certificate with Apache.</div>
 </div>
 </td>
-<td><a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.3">tls-sni-01</a> (443)</td>
+<td><a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.2">http-01</a> (80)</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#webroot">webroot</a></td>
+<tr class="row-odd"><td><a class="reference internal" href="#nginx">nginx</a></td>
+<td>Y</td>
+<td>Y</td>
+<td><div class="first last line-block">
+<div class="line">Automates obtaining and installing a certificate with Nginx.</div>
+</div>
+</td>
+<td><a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.2">http-01</a> (80)</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#webroot">webroot</a></td>
 <td>Y</td>
 <td>N</td>
 <td><div class="first last line-block">
@@ -315,28 +323,17 @@ a <a class="reference internal" href="#combination">combination</a> of distinct 
 </td>
 <td><a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.2">http-01</a> (80)</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nginx">nginx</a></td>
-<td>Y</td>
-<td>Y</td>
-<td><div class="first last line-block">
-<div class="line">Automates obtaining and installing a certificate with Nginx.</div>
-<div class="line">Shipped with Certbot 0.9.0.</div>
-</div>
-</td>
-<td><a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.3">tls-sni-01</a> (443)</td>
-</tr>
 <tr class="row-odd"><td><a class="reference internal" href="#standalone">standalone</a></td>
 <td>Y</td>
 <td>N</td>
 <td><div class="first last line-block">
 <div class="line">Uses a “standalone” webserver to obtain a certificate.</div>
-<div class="line">Requires port 80 or 443 to be available. This is useful on</div>
+<div class="line">Requires port 80 to be available. This is useful on</div>
 <div class="line">systems with no webserver, or when direct integration with</div>
 <div class="line">the local webserver is not supported or not desired.</div>
 </div>
 </td>
-<td><a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.2">http-01</a> (80) or
-<a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.3">tls-sni-01</a> (443)</td>
+<td><a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.2">http-01</a> (80)</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#dns-plugins"><span class="std std-ref">DNS plugins</span></a></td>
 <td>Y</td>
@@ -361,15 +358,14 @@ a <a class="reference internal" href="#combination">combination</a> of distinct 
 <div class="line">customized way.</div>
 </div>
 </td>
-<td><a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.2">http-01</a> (80),
-<a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.4">dns-01</a> (53) or
-<a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.3">tls-sni-01</a> (443)</td>
+<td><a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.2">http-01</a> (80) or
+<a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.4">dns-01</a> (53)</td>
 </tr>
 </tbody>
 </table>
 <p>Under the hood, plugins use one of several ACME protocol <a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7">challenges</a> to
-prove you control a domain. The options are <a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.2">http-01</a> (which uses port 80),
-<a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.3">tls-sni-01</a> (port 443) and <a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.4">dns-01</a> (requiring configuration of a DNS server on
+prove you control a domain. The options are <a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.2">http-01</a> (which uses port 80)
+and <a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.4">dns-01</a> (requiring configuration of a DNS server on
 port 53, though that’s often not the same machine as your webserver). A few
 plugins support more than one challenge type, in which case you can choose one
 with <code class="docutils literal notranslate"><span class="pre">--preferred-challenges</span></code>.</p>
@@ -377,8 +373,7 @@ with <code class="docutils literal notranslate"><span class="pre">--preferred-ch
 the circumstances in which each plugin can be used, and how to use it.</p>
 <div class="section" id="apache">
 <h3><a class="toc-backref" href="#id11">Apache</a><a class="headerlink" href="#apache" title="Permalink to this headline">¶</a></h3>
-<p>The Apache plugin currently requires an OS with augeas version 1.0; currently <a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot-apache/certbot_apache/entrypoint.py">it
-supports</a>
+<p>The Apache plugin currently <a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot-apache/certbot_apache/entrypoint.py">supports</a>
 modern OSes based on Debian, Fedora, SUSE, Gentoo and Darwin.
 This automates both obtaining <em>and</em> installing certificates on an Apache
 webserver. To specify this plugin on the command line, simply include
@@ -421,9 +416,8 @@ the webserver.</p>
 </div>
 <div class="section" id="nginx">
 <h3><a class="toc-backref" href="#id13">Nginx</a><a class="headerlink" href="#nginx" title="Permalink to this headline">¶</a></h3>
-<p>The Nginx plugin has been distributed with Certbot since version 0.9.0 and should
-work for most configurations. We recommend backing up Nginx
-configurations before using it (though you can also revert changes to
+<p>The Nginx plugin should work for most configurations. We recommend backing up
+Nginx configurations before using it (though you can also revert changes to
 configurations with <code class="docutils literal notranslate"><span class="pre">certbot</span> <span class="pre">--nginx</span> <span class="pre">rollback</span></code>). You can use it by providing
 the <code class="docutils literal notranslate"><span class="pre">--nginx</span></code> flag on the commandline.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">certbot</span> <span class="o">--</span><span class="n">nginx</span>
@@ -437,16 +431,9 @@ existing server software. The standalone plugin does not rely on any other serve
 software running on the machine where you obtain the certificate.</p>
 <p>To obtain a certificate using a “standalone” webserver, you can use the
 standalone plugin by including <code class="docutils literal notranslate"><span class="pre">certonly</span></code> and <code class="docutils literal notranslate"><span class="pre">--standalone</span></code>
-on the command line. This plugin needs to bind to port 80 or 443 in
+on the command line. This plugin needs to bind to port 80 in
 order to perform domain validation, so you may need to stop your
-existing webserver. To control which port the plugin uses, include
-one of the options shown below on the command line.</p>
-<blockquote>
-<div><ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">--preferred-challenges</span> <span class="pre">http</span></code> to use port 80</li>
-<li><code class="docutils literal notranslate"><span class="pre">--preferred-challenges</span> <span class="pre">tls-sni</span></code> to use port 443</li>
-</ul>
-</div></blockquote>
+existing webserver.</p>
 <p>It must still be possible for your machine to accept inbound connections from
 the Internet on the specified port using each requested domain name.</p>
 <p>By default, Certbot first attempts to bind to the port for all interfaces using
@@ -455,11 +442,6 @@ least one bind succeeds. On most Linux systems, IPv4 traffic will be routed to
 the bound IPv6 port and the failure during the second bind is expected.</p>
 <p>Use <code class="docutils literal notranslate"><span class="pre">--&lt;challenge-type&gt;-address</span></code> to explicitly tell Certbot which interface
 (and protocol) to bind.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The <code class="docutils literal notranslate"><span class="pre">--standalone-supported-challenges</span></code> option has been
-deprecated since <code class="docutils literal notranslate"><span class="pre">certbot</span></code> version 0.9.0.</p>
-</div>
 </div>
 <div class="section" id="dns-plugins">
 <span id="id2"></span><h3><a class="toc-backref" href="#id15">DNS Plugins</a><a class="headerlink" href="#dns-plugins" title="Permalink to this headline">¶</a></h3>
@@ -496,8 +478,7 @@ the UI, you can use the plugin to obtain a certificate by specifying
 <code class="docutils literal notranslate"><span class="pre">certonly</span></code> and <code class="docutils literal notranslate"><span class="pre">--manual</span></code> on the command line. This requires you
 to copy and paste commands into another terminal session, which may
 be on a different computer.</p>
-<p>The manual plugin can use either the <code class="docutils literal notranslate"><span class="pre">http</span></code>, <code class="docutils literal notranslate"><span class="pre">dns</span></code> or the
-<code class="docutils literal notranslate"><span class="pre">tls-sni</span></code> challenge. You can use the <code class="docutils literal notranslate"><span class="pre">--preferred-challenges</span></code> option
+<p>The manual plugin can use either the <code class="docutils literal notranslate"><span class="pre">http</span></code> or the <code class="docutils literal notranslate"><span class="pre">dns</span></code> challenge. You can use the <code class="docutils literal notranslate"><span class="pre">--preferred-challenges</span></code> option
 to choose the challenge of your preference.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">http</span></code> challenge will ask you to place a file with a specific name and
 specific content in the <code class="docutils literal notranslate"><span class="pre">/.well-known/acme-challenge/</span></code> directory directly
@@ -510,11 +491,6 @@ for which you want a certificate issued, prepended by <code class="docutils lite
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_acme</span><span class="o">-</span><span class="n">challenge</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">.</span> <span class="mi">300</span> <span class="n">IN</span> <span class="n">TXT</span> <span class="s2">&quot;gfj9Xq...Rg85nM&quot;</span>
 </pre></div>
 </div>
-<p>When using the <code class="docutils literal notranslate"><span class="pre">tls-sni</span></code> challenge, <code class="docutils literal notranslate"><span class="pre">certbot</span></code> will prepare a self-signed
-SSL certificate for you with the challenge validation appropriately
-encoded into a subjectAlternatNames entry. You will need to configure
-your SSL server to present this challenge SSL certificate to the ACME
-server using SNI.</p>
 <p>Additionally you can specify scripts to prepare for validation and
 perform the authentication procedure and/or clean up after it by using
 the <code class="docutils literal notranslate"><span class="pre">--manual-auth-hook</span></code> and <code class="docutils literal notranslate"><span class="pre">--manual-cleanup-hook</span></code> flags. This is
@@ -526,12 +502,15 @@ described in more depth in the <a class="reference internal" href="#hooks">hooks
 installer plugins. To do so, specify the authenticator plugin with
 <code class="docutils literal notranslate"><span class="pre">--authenticator</span></code> or <code class="docutils literal notranslate"><span class="pre">-a</span></code> and the installer plugin with <code class="docutils literal notranslate"><span class="pre">--installer</span></code> or
 <code class="docutils literal notranslate"><span class="pre">-i</span></code>.</p>
-<p>For instance, you may want to create a certificate using the <a class="reference internal" href="#webroot">webroot</a> plugin
-for authentication and the <a class="reference internal" href="#apache">apache</a> plugin for installation, perhaps because you
-use a proxy or CDN for SSL and only want to secure the connection between them
-and your origin server, which cannot use the <a class="reference external" href="https://tools.ietf.org/html/draft-ietf-acme-acme-03#section-7.3">tls-sni-01</a> challenge due to the
-intermediate proxy.</p>
+<p>For instance, you could create a certificate using the <a class="reference internal" href="#webroot">webroot</a> plugin
+for authentication and the <a class="reference internal" href="#apache">apache</a> plugin for installation.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">certbot</span> <span class="n">run</span> <span class="o">-</span><span class="n">a</span> <span class="n">webroot</span> <span class="o">-</span><span class="n">i</span> <span class="n">apache</span> <span class="o">-</span><span class="n">w</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span> <span class="o">-</span><span class="n">d</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
+</pre></div>
+</div>
+<p>Or you could create a certificate using the <a class="reference internal" href="#manual">manual</a> plugin for authentication
+and the <a class="reference internal" href="#nginx">nginx</a> plugin for installation. (Note that this certificate cannot
+be renewed automatically.)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">certbot</span> <span class="n">run</span> <span class="o">-</span><span class="n">a</span> <span class="n">manual</span> <span class="o">-</span><span class="n">i</span> <span class="n">nginx</span> <span class="o">-</span><span class="n">d</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span>
 </pre></div>
 </div>
 </div>
@@ -570,10 +549,10 @@ widespread use:</p>
 <td>Y</td>
 <td>Integration with Amazon CloudFront distribution of S3 buckets</td>
 </tr>
-<tr class="row-odd"><td><a class="reference external" href="https://github.com/Gandi/letsencrypt-gandi">gandi</a></td>
+<tr class="row-odd"><td><a class="reference external" href="https://github.com/obynio/certbot-plugin-gandi">gandi</a></td>
 <td>Y</td>
 <td>Y</td>
-<td>Integration with Gandi’s hosting products and API</td>
+<td>Integration with Gandi LiveDNS API</td>
 </tr>
 <tr class="row-even"><td><a class="reference external" href="http://git.sesse.net/?p=letsencrypt-varnish-plugin">varnish</a></td>
 <td>Y</td>
@@ -775,8 +754,9 @@ failed hook causing renewal failures will indirectly result in a
 non-zero exit code. Hooks will only be run if a certificate is due for
 renewal, so you can run the above command frequently without
 unnecessarily stopping your webserver.</p>
-<p><code class="docutils literal notranslate"><span class="pre">--pre-hook</span></code> and <code class="docutils literal notranslate"><span class="pre">--post-hook</span></code> hooks run before and after every renewal
-attempt. If you want your hook to run only after a successful renewal, use
+<p>When Certbot detects that a certificate is due for renewal, <code class="docutils literal notranslate"><span class="pre">--pre-hook</span></code>
+and <code class="docutils literal notranslate"><span class="pre">--post-hook</span></code> hooks run before and after each attempt to renew it.
+If you want your hook to run only after a successful renewal, use
 <code class="docutils literal notranslate"><span class="pre">--deploy-hook</span></code> in a command like this.</p>
 <p><code class="docutils literal notranslate"><span class="pre">certbot</span> <span class="pre">renew</span> <span class="pre">--deploy-hook</span> <span class="pre">/path/to/deploy-hook-script</span></code></p>
 <p>For example, if you have a daemon that does not read its certificates as the
@@ -990,7 +970,9 @@ systemd timers (<code class="xref py py-obj docutils literal notranslate"><span 
 <div class="section" id="where-are-my-certificates">
 <span id="where-certs"></span><h2><a class="toc-backref" href="#id26">Where are my certificates?</a><a class="headerlink" href="#where-are-my-certificates" title="Permalink to this headline">¶</a></h2>
 <p>All generated keys and issued certificates can be found in
-<code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt/live/$domain</span></code>. Rather than copying, please point
+<code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt/live/$domain</span></code>. In the case of creating a SAN certificate
+with multiple alternative names, <code class="docutils literal notranslate"><span class="pre">$domain</span></code> is the first domain passed in
+via -d parameter. Rather than copying, please point
 your (web) server configuration directly to those files (or create
 symlinks). During the <a class="reference internal" href="#renewal">renewal</a>, <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt/live</span></code> is updated
 with the latest necessary files.</p>
@@ -1010,6 +992,12 @@ contain all previous keys and certificates, while
 it with anyone, including Certbot developers. You cannot
 put it into a safe, however - your server still needs to access
 this file in order for SSL/TLS to work.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As of Certbot version 0.29.0, private keys for new certificate
+default to <code class="docutils literal notranslate"><span class="pre">0600</span></code>. Any changes to the group mode or group owner (gid)
+of this file will be preserved on renewals.</p>
 </div>
 <p class="last">This is what Apache needs for <a class="reference external" href="https://httpd.apache.org/docs/2.4/mod/mod_ssl.html#sslcertificatekeyfile">SSLCertificateKeyFile</a>,
 and Nginx for <a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate_key">ssl_certificate_key</a>.</p>
@@ -1059,9 +1047,6 @@ variables to these scripts:</p>
 <li><code class="docutils literal notranslate"><span class="pre">CERTBOT_DOMAIN</span></code>: The domain being authenticated</li>
 <li><code class="docutils literal notranslate"><span class="pre">CERTBOT_VALIDATION</span></code>: The validation string (HTTP-01 and DNS-01 only)</li>
 <li><code class="docutils literal notranslate"><span class="pre">CERTBOT_TOKEN</span></code>: Resource name part of the HTTP-01 challenge (HTTP-01 only)</li>
-<li><code class="docutils literal notranslate"><span class="pre">CERTBOT_CERT_PATH</span></code>: The challenge SSL certificate (TLS-SNI-01 only)</li>
-<li><code class="docutils literal notranslate"><span class="pre">CERTBOT_KEY_PATH</span></code>: The private key associated with the aforementioned SSL certificate (TLS-SNI-01 only)</li>
-<li><code class="docutils literal notranslate"><span class="pre">CERTBOT_SNI_DOMAIN</span></code>: The SNI name for which the ACME server expects to be presented the self-signed certificate located at <code class="docutils literal notranslate"><span class="pre">$CERTBOT_CERT_PATH</span></code> (TLS-SNI-01 only)</li>
 </ul>
 <p>Additionally for cleanup:</p>
 <ul class="simple">
@@ -1177,7 +1162,7 @@ that by default two instances of Certbot will not be able to run in parallel.</p
 <p>Since the directories used by Certbot are configurable, Certbot
 will write a lock file for all of the directories it uses. This include Certbot’s
 <code class="docutils literal notranslate"><span class="pre">--work-dir</span></code>, <code class="docutils literal notranslate"><span class="pre">--logs-dir</span></code>, and <code class="docutils literal notranslate"><span class="pre">--config-dir</span></code>. By default these are
-<code class="docutils literal notranslate"><span class="pre">/var/lib/letsencrypt</span></code>, <code class="docutils literal notranslate"><span class="pre">/var/logs/letsencrypt</span></code>, and <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt</span></code>
+<code class="docutils literal notranslate"><span class="pre">/var/lib/letsencrypt</span></code>, <code class="docutils literal notranslate"><span class="pre">/var/log/letsencrypt</span></code>, and <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt</span></code>
 respectively. Additionally if you are using Certbot with Apache or nginx it will
 lock the configuration folder for that program, which are typically also in the
 <code class="docutils literal notranslate"><span class="pre">/etc</span></code> directory.</p>
@@ -1213,7 +1198,6 @@ example configuration file is shown below:</p>
 
 <span class="c1"># Uncomment to use the standalone authenticator on port 443</span>
 <span class="c1"># authenticator = standalone</span>
-<span class="c1"># standalone-supported-challenges = tls-sni-01</span>
 
 <span class="c1"># Uncomment to use the webroot authenticator. Replace webroot-path with the</span>
 <span class="c1"># path to the public_html / webroot folder being served by your web server.</span>
@@ -1282,11 +1266,13 @@ obtain, install, and renew certificates:
 
 manage certificates:
     certificates    Display information about certificates you have from Certbot
-    revoke          Revoke a certificate (supply --cert-path)
+    revoke          Revoke a certificate (supply --cert-path or --cert-name)
     delete          Delete a certificate
 
 manage your account with Let&#39;s Encrypt:
     register        Create a Let&#39;s Encrypt ACME account
+    unregister      Deactivate a Let&#39;s Encrypt ACME account
+    update_account  Update a Let&#39;s Encrypt ACME account
   --agree-tos       Agree to the ACME server&#39;s Subscriber Agreement
    -m EMAIL         Email address for important account notifications
 
@@ -1325,6 +1311,10 @@ optional arguments:
                         with the same name. In the case of a name collision it
                         will append a number like 0001 to the file path name.
                         (default: Ask)
+  --eab-kid EAB_KID     Key Identifier for External Account Binding (default:
+                        None)
+  --eab-hmac-key EAB_HMAC_KEY
+                        HMAC key for External Account Binding (default: None)
   --cert-name CERTNAME  Certificate name to apply. This name is used by
                         Certbot for housekeeping and in file paths; it doesn&#39;t
                         affect the content of the certificate itself. To see
@@ -1352,11 +1342,10 @@ optional arguments:
   --preferred-challenges PREF_CHALLS
                         A sorted, comma delimited list of the preferred
                         challenge to use during authorization with the most
-                        preferred challenge listed first (Eg, &quot;dns&quot; or &quot;tls-
-                        sni-01,http,dns&quot;). Not all plugins support all
-                        challenges. See
-                        https://certbot.eff.org/docs/using.html#plugins for
-                        details. ACME Challenges are versioned, but if you
+                        preferred challenge listed first (Eg, &quot;dns&quot; or
+                        &quot;http,dns&quot;). Not all plugins support all challenges.
+                        See https://certbot.eff.org/docs/using.html#plugins
+                        for details. ACME Challenges are versioned, but if you
                         pick &quot;http&quot; rather than &quot;http-01&quot;, Certbot will select
                         the latest version automatically. (default: [])
   --user-agent USER_AGENT
@@ -1366,7 +1355,7 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/0.27.1
+                        &quot;&quot;. (default: CertbotACMEClient/0.33.1
                         (certbot(-auto); OS_NAME OS_VERSION) Authenticator/XXX
                         Installer/YYY (SUBCOMMAND; flags: FLAGS)
                         Py/major.minor.patchlevel). The flags encoded in the
@@ -1470,14 +1459,6 @@ testing:
                         False)
   --no-verify-ssl       Disable verification of the ACME server&#39;s certificate.
                         (default: False)
-  --tls-sni-01-port TLS_SNI_01_PORT
-                        Port used during tls-sni-01 challenge. This only
-                        affects the port Certbot listens on. A conforming ACME
-                        server will still attempt to connect on port 443.
-                        (default: 443)
-  --tls-sni-01-address TLS_SNI_01_ADDRESS
-                        The address the server listens to during tls-sni-01
-                        challenge. (default: )
   --http-01-port HTTP01_PORT
                         Port used in the http-01 challenge. This only affects
                         the port Certbot listens on. A conforming ACME server
@@ -1486,6 +1467,10 @@ testing:
   --http-01-address HTTP01_ADDRESS
                         The address the server listens to during http-01
                         challenge. (default: )
+  --https-port HTTPS_PORT
+                        Port used to serve HTTPS. This affects which port
+                        Nginx will listen on after a LE certificate is
+                        installed. (default: 443)
   --break-my-certs      Be willing to replace or renew valid certificates with
                         invalid (testing/staging) certificates (default:
                         False)
@@ -1519,7 +1504,8 @@ manage:
   delete                Clean up all files related to a certificate
   renew                 Renew all certificates (or one specified with --cert-
                         name)
-  revoke                Revoke a certificate specified with --cert-path
+  revoke                Revoke a certificate specified with --cert-path or
+                        --cert-name
   update_symlinks       Recreate symlinks in your /etc/letsencrypt/live/
                         directory
 
@@ -1603,8 +1589,9 @@ revoke:
                         Specify reason for revoking certificate. (default:
                         unspecified)
   --delete-after-revoke
-                        Delete certificates after revoking them. (default:
-                        None)
+                        Delete certificates after revoking them, along with
+                        all previous and later versions of those certificates.
+                        (default: None)
   --no-delete-after-revoke
                         Do not delete certificates after revoking them. This
                         option should be used with caution because the &#39;renew&#39;
@@ -1612,7 +1599,7 @@ revoke:
                         certificates. (default: None)
 
 register:
-  Options for account registration &amp; modification
+  Options for account registration
 
   --register-unsafely-without-email
                         Specifying this flag enables registering an account
@@ -1624,11 +1611,6 @@ register:
                         to the Subscriber Agreement will still affect you, and
                         will be effective 14 days after posting an update to
                         the web site. (default: False)
-  --update-registration
-                        With the register verb, indicates that details
-                        associated with an existing registration, such as the
-                        e-mail address, should be updated, rather than
-                        registering a new account. (default: False)
   -m EMAIL, --email EMAIL
                         Email used for registration and recovery contact. Use
                         comma to register multiple emails, ex:
@@ -1636,6 +1618,9 @@ register:
   --eff-email           Share your e-mail address with EFF (default: None)
   --no-eff-email        Don&#39;t share your e-mail address with EFF (default:
                         None)
+
+update_account:
+  Options for account modification
 
 unregister:
   Options for account deactivation.
@@ -1730,13 +1715,14 @@ plugins:
                         using Sakura Cloud for DNS). (default: False)
 
 apache:
-  Apache Web Server plugin - Beta
+  Apache Web Server plugin (Please note that the default values of the
+  Apache plugin options change depending on the operating system Certbot is
+  run on.)
 
   --apache-enmod APACHE_ENMOD
-                        Path to the Apache &#39;a2enmod&#39; binary (default: a2enmod)
+                        Path to the Apache &#39;a2enmod&#39; binary (default: None)
   --apache-dismod APACHE_DISMOD
-                        Path to the Apache &#39;a2dismod&#39; binary (default:
-                        a2dismod)
+                        Path to the Apache &#39;a2dismod&#39; binary (default: None)
   --apache-le-vhost-ext APACHE_LE_VHOST_EXT
                         SSL vhost configuration extension (default: -le-
                         ssl.conf)
@@ -1753,22 +1739,13 @@ apache:
                         /etc/apache2)
   --apache-handle-modules APACHE_HANDLE_MODULES
                         Let installer handle enabling required modules for you
-                        (Only Ubuntu/Debian currently) (default: True)
+                        (Only Ubuntu/Debian currently) (default: False)
   --apache-handle-sites APACHE_HANDLE_SITES
                         Let installer handle enabling sites for you (Only
-                        Ubuntu/Debian currently) (default: True)
+                        Ubuntu/Debian currently) (default: False)
   --apache-ctl APACHE_CTL
                         Full path to Apache control script (default:
                         apache2ctl)
-
-certbot-route53:auth:
-  Obtain certificates using a DNS TXT record (if you are using AWS Route53
-  for DNS).
-
-  --certbot-route53:auth-propagation-seconds CERTBOT_ROUTE53:AUTH_PROPAGATION_SECONDS
-                        The number of seconds to wait for DNS to propagate
-                        before asking the ACME server to verify the DNS
-                        record. (default: 10)
 
 dns-cloudflare:
   Obtain certificates using a DNS TXT record (if you are using Cloudflare
@@ -1860,7 +1837,7 @@ dns-linode:
   --dns-linode-propagation-seconds DNS_LINODE_PROPAGATION_SECONDS
                         The number of seconds to wait for DNS to propagate
                         before asking the ACME server to verify the DNS
-                        record. (default: 960)
+                        record. (default: 1200)
   --dns-linode-credentials DNS_LINODE_CREDENTIALS
                         Linode credentials INI file. (default: None)
 
@@ -1933,12 +1910,8 @@ manual:
   challenge. $CERTBOT_DOMAIN will always contain the domain being
   authenticated. For HTTP-01 and DNS-01, $CERTBOT_VALIDATION is the
   validation string, and $CERTBOT_TOKEN is the filename of the resource
-  requested when performing an HTTP-01 challenge. When performing a TLS-
-  SNI-01 challenge, $CERTBOT_SNI_DOMAIN will contain the SNI name for which
-  the ACME server expects to be presented with the self-signed certificate
-  located at $CERTBOT_CERT_PATH. The secret key needed to complete the TLS
-  handshake is located at $CERTBOT_KEY_PATH. An additional cleanup script
-  can also be provided and can use the additional variable
+  requested when performing an HTTP-01 challenge. An additional cleanup
+  script can also be provided and can use the additional variable
   $CERTBOT_AUTH_OUTPUT which contains the stdout output from the auth
   script.
 
@@ -2065,7 +2038,7 @@ also might contain personally identifiable information)</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.28.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -2092,7 +2065,7 @@ also might contain personally identifiable information)</li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

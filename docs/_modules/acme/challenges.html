@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>acme.challenges &mdash; Certbot 0.28.0.dev0 documentation</title>
+  <title>acme.challenges &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="acme.challenges &mdash; Certbot 0.28.0.dev0 documentation">
+<meta name="twitter:title" content="acme.challenges &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.28.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.28
+                0.34
               </div>
             
           
@@ -188,6 +188,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">hashlib</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="k">import</span> <span class="n">hashes</span>  <span class="c1"># type: ignore</span>
 <span class="kn">import</span> <span class="nn">josepy</span> <span class="k">as</span> <span class="nn">jose</span>
@@ -198,15 +199,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">fields</span>
+<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">_TLSSNI01DeprecationModule</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="c1"># pylint: disable=too-few-public-methods</span>
-
-
 <span class="k">class</span> <span class="nc">Challenge</span><span class="p">(</span><span class="n">jose</span><span class="o">.</span><span class="n">TypedJSONObjectWithFields</span><span class="p">):</span>
-    <span class="c1"># _fields_to_partial_json | pylint: disable=abstract-method</span>
+    <span class="c1"># _fields_to_partial_json</span>
     <span class="sd">&quot;&quot;&quot;ACME challenge.&quot;&quot;&quot;</span>
     <span class="n">TYPES</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: dict</span>
 
@@ -220,7 +219,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <span class="k">class</span> <span class="nc">ChallengeResponse</span><span class="p">(</span><span class="n">jose</span><span class="o">.</span><span class="n">TypedJSONObjectWithFields</span><span class="p">):</span>
-    <span class="c1"># _fields_to_partial_json | pylint: disable=abstract-method</span>
+    <span class="c1"># _fields_to_partial_json</span>
     <span class="sd">&quot;&quot;&quot;ACME challenge response.&quot;&quot;&quot;</span>
     <span class="n">TYPES</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: dict</span>
     <span class="n">resource_type</span> <span class="o">=</span> <span class="s1">&#39;challenge&#39;</span>
@@ -279,6 +278,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: check that path combined with uri does not go above</span>
         <span class="c1"># URI_ROOT_PATH!</span>
+        <span class="c1"># pylint: disable=unsupported-membership-test</span>
         <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;..&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="ow">and</span> <span class="sa">b</span><span class="s1">&#39;/&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span>
 
 
@@ -290,6 +290,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">key_authorization</span> <span class="o">=</span> <span class="n">jose</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s2">&quot;keyAuthorization&quot;</span><span class="p">)</span>
     <span class="n">thumbprint_hash_function</span> <span class="o">=</span> <span class="n">hashes</span><span class="o">.</span><span class="n">SHA256</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">KeyAuthorizationChallengeResponse</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dump_authorization_key</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chall</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Verify the key authorization.</span>
@@ -323,10 +327,25 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
         <span class="k">return</span> <span class="kc">True</span>
 
+    <span class="k">def</span> <span class="nf">_dump_authorization_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dump</span><span class="p">):</span>
+        <span class="c1"># type: (bool) -&gt; None</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set if keyAuthorization is dumped in the JSON representation of this ChallengeResponse.</span>
+<span class="sd">        NB: This method is declared as private because it will eventually be removed.</span>
+<span class="sd">        :param bool dump: True to dump the keyAuthorization, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_dump_auth_key&#39;</span><span class="p">,</span> <span class="n">dump</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">to_partial_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">jobj</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">KeyAuthorizationChallengeResponse</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">to_partial_json</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dump_auth_key</span><span class="p">:</span>  <span class="c1"># pylint: disable=no-member</span>
+            <span class="n">jobj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;keyAuthorization&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">jobj</span>
+
 
 <span class="nd">@six</span><span class="o">.</span><span class="n">add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">KeyAuthorizationChallenge</span><span class="p">(</span><span class="n">_TokenChallenge</span><span class="p">):</span>
-    <span class="c1"># pylint: disable=abstract-class-little-used,too-many-ancestors</span>
     <span class="sd">&quot;&quot;&quot;Challenge based on Key Authorization.</span>
 
 <span class="sd">    :param response_cls: Subclass of `KeyAuthorizationChallengeResponse`</span>
@@ -358,7 +377,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        :rtype: KeyAuthorizationChallengeResponse</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response_cls</span><span class="p">(</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response_cls</span><span class="p">(</span>  <span class="c1"># pylint: disable=not-callable</span>
             <span class="n">key_authorization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span><span class="p">(</span><span class="n">account_key</span><span class="p">))</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
@@ -395,7 +414,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="sd">&quot;&quot;&quot;ACME dns-01 challenge response.&quot;&quot;&quot;</span>
     <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;dns-01&quot;</span>
 
-    <span class="k">def</span> <span class="nf">simple_verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chall</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">simple_verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chall</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
         <span class="sd">&quot;&quot;&quot;Simple verify.</span>
 
 <span class="sd">        This method no longer checks DNS records and is a simple wrapper</span>
@@ -411,7 +430,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        :rtype: bool</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># pylint: disable=unused-argument</span>
         <span class="n">verified</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">chall</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">verified</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Verification of key authorization in response failed&quot;</span><span class="p">)</span>
@@ -616,7 +634,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;port&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PORT</span><span class="p">)</span>
         <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_domain</span>
         <span class="c1"># TODO: try different methods?</span>
-        <span class="c1"># pylint: disable=protected-access</span>
         <span class="k">return</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">probe_sni</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">verify_cert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert</span><span class="p">):</span>
@@ -691,6 +708,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">account_key</span><span class="p">)</span><span class="o">.</span><span class="n">gen_cert</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cert_key&#39;</span><span class="p">))</span>
 
 
+<span class="nd">@ChallengeResponse</span><span class="o">.</span><span class="n">register</span>
+<span class="k">class</span> <span class="nc">TLSALPN01Response</span><span class="p">(</span><span class="n">KeyAuthorizationChallengeResponse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ACME TLS-ALPN-01 challenge response.</span>
+
+<span class="sd">    This class only allows initiating a TLS-ALPN-01 challenge returned from the</span>
+<span class="sd">    CA. Full support for responding to TLS-ALPN-01 challenges by generating and</span>
+<span class="sd">    serving the expected response certificate is not currently provided.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;tls-alpn-01&quot;</span>
+
+
 <span class="nd">@Challenge</span><span class="o">.</span><span class="n">register</span>  <span class="c1"># pylint: disable=too-many-ancestors</span>
 <span class="k">class</span> <span class="nc">TLSALPN01</span><span class="p">(</span><span class="n">KeyAuthorizationChallenge</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;ACME tls-alpn-01 challenge.</span>
@@ -700,13 +728,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;tls-alpn-01&quot;</span>
+    <span class="n">response_cls</span> <span class="o">=</span> <span class="n">TLSALPN01Response</span>
 
     <span class="k">def</span> <span class="nf">validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Generate validation for the challenge.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 
 
-<span class="nd">@Challenge</span><span class="o">.</span><span class="n">register</span>  <span class="c1"># pylint: disable=too-many-ancestors</span>
+<span class="nd">@Challenge</span><span class="o">.</span><span class="n">register</span>
 <span class="k">class</span> <span class="nc">DNS</span><span class="p">(</span><span class="n">_TokenChallenge</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;ACME &quot;dns&quot; challenge.&quot;&quot;&quot;</span>
     <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;dns&quot;</span>
@@ -787,6 +816,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">chall</span><span class="o">.</span><span class="n">check_validation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">validation</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">)</span>
+
+
+<span class="c1"># Patching ourselves to warn about TLS-SNI challenge deprecation and removal.</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">_TLSSNI01DeprecationModule</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">])</span>
 </pre></div>
 
            </div>
@@ -843,7 +876,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.28.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -870,7 +903,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=acme.challenges%E2%80%94%20Certbot%200.28.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=acme.challenges%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
