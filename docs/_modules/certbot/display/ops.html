@@ -184,7 +184,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <h1>Source code for certbot.display.ops</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Contains UI methods for LE user operations.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">import</span> <span class="nn">zope.component</span>
 
@@ -192,6 +191,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">misc</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">display_util</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -269,8 +269,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="s2">&quot;Please choose an account&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">accounts</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="choose_values"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.choose_values">[docs]</a><span class="k">def</span> <span class="nf">choose_values</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Display screen to let user pick one or multiple values from the provided</span>
@@ -285,8 +284,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">question</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span> <span class="ow">and</span> <span class="n">items</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">items</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+    <span class="k">return</span> <span class="p">[]</span></div>
 
 <div class="viewcode-block" id="choose_names"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.choose_names">[docs]</a><span class="k">def</span> <span class="nf">choose_names</span><span class="p">(</span><span class="n">installer</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Display screen to select domains to validate.</span>
@@ -315,8 +313,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">code</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="n">_filter_names</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">question</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span> <span class="ow">and</span> <span class="n">names</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">names</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[]</span></div>
+    <span class="k">return</span> <span class="p">[]</span></div>
 
 
 <div class="viewcode-block" id="get_valid_domains"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.get_valid_domains">[docs]</a><span class="k">def</span> <span class="nf">get_valid_domains</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
@@ -400,7 +397,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ConfigurationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="n">invalid_domains</span><span class="p">[</span><span class="n">domain</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">invalid_domains</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">invalid_domains</span><span class="p">:</span>
             <span class="n">retry_message</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">&quot;One or more of the entered domain names was not valid:&quot;</span>
                 <span class="s2">&quot;</span><span class="si">{0}{0}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>

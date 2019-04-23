@@ -186,10 +186,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+
 <span class="kn">import</span> <span class="nn">pkg_resources</span>
 <span class="kn">import</span> <span class="nn">six</span>
-
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
 
 <span class="kn">import</span> <span class="nn">zope.interface</span>
 <span class="kn">import</span> <span class="nn">zope.interface.verify</span>
@@ -374,7 +373,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="c1"># This prevents deadlock caused by plugins acquiring a lock</span>
         <span class="c1"># and ensures at least one concurrent Certbot instance will run</span>
         <span class="c1"># successfully.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">six</span><span class="o">.</span><span class="n">iteritems</span><span class="p">(</span><span class="n">plugins</span><span class="p">)))</span>
+
+        <span class="c1"># Pylint checks for super init, but also claims the super</span>
+        <span class="c1"># has no __init__member</span>
+        <span class="c1"># pylint: disable=super-init-not-called</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plugins</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">six</span><span class="o">.</span><span class="n">iteritems</span><span class="p">(</span><span class="n">plugins</span><span class="p">)))</span>
 
 <div class="viewcode-block" id="PluginsRegistry.find_all"><a class="viewcode-back" href="../../../api/plugins/disco.html#certbot.plugins.disco.PluginsRegistry.find_all">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">find_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
@@ -423,7 +426,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <div class="viewcode-block" id="PluginsRegistry.ifaces"><a class="viewcode-back" href="../../../api/plugins/disco.html#certbot.plugins.disco.PluginsRegistry.ifaces">[docs]</a>    <span class="k">def</span> <span class="nf">ifaces</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">ifaces_groups</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Filter plugins based on interfaces.&quot;&quot;&quot;</span>
-        <span class="c1"># pylint: disable=star-args</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">p_ep</span><span class="p">:</span> <span class="n">p_ep</span><span class="o">.</span><span class="n">ifaces</span><span class="p">(</span><span class="o">*</span><span class="n">ifaces_groups</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="PluginsRegistry.verify"><a class="viewcode-back" href="../../../api/plugins/disco.html#certbot.plugins.disco.PluginsRegistry.verify">[docs]</a>    <span class="k">def</span> <span class="nf">verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ifaces</span><span class="p">):</span>
@@ -459,8 +461,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span>
         <span class="k">if</span> <span class="n">candidates</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">None</span></div>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">(</span><span class="si">{1}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>

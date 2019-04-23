@@ -252,15 +252,17 @@ an alternate method for installing <code class="docutils literal notranslate"><s
 from your web server OS and putting others in a python virtual environment. You can
 download and run it as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@webserver:~$ wget https://dl.eff.org/certbot-auto
-user@webserver:~$ chmod a+x ./certbot-auto
-user@webserver:~$ ./certbot-auto --help
+user@webserver:~$ sudo mv certbot-auto /usr/local/bin/certbot-auto
+user@webserver:~$ sudo chown root /usr/local/bin/certbot-auto
+user@webserver:~$ chmod 0755 /usr/local/bin/certbot-auto
+user@webserver:~$ /usr/local/bin/certbot-auto --help
 </pre></div>
 </div>
 <p>To check the integrity of the <code class="docutils literal notranslate"><span class="pre">certbot-auto</span></code> script,
 you can use these steps:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@webserver:~$ wget -N https://dl.eff.org/certbot-auto.asc
 user@webserver:~$ gpg2 --keyserver pool.sks-keyservers.net --recv-key A2CFB51FA275A7286234E7B24D17C995CD9775F2
-user@webserver:~$ gpg2 --trusted-key 4D17C995CD9775F2 --verify certbot-auto.asc certbot-auto
+user@webserver:~$ gpg2 --trusted-key 4D17C995CD9775F2 --verify certbot-auto.asc /usr/local/bin/certbot-auto
 </pre></div>
 </div>
 <p>The output of the last command should look something like:</p>
@@ -280,7 +282,7 @@ Since <code class="docutils literal notranslate"><span class="pre">certbot-auto<
 the same command line flags and arguments. For more information, see
 <a class="reference external" href="https://certbot.eff.org/docs/using.html#command-line-options">Certbot command-line options</a>.</p>
 <p>For full command line help, you can type:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span> <span class="o">--</span><span class="n">help</span> <span class="nb">all</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span> <span class="o">--</span><span class="n">help</span> <span class="nb">all</span>
 </pre></div>
 </div>
 </div>

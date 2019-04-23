@@ -185,7 +185,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span></span><span class="sd">&quot;&quot;&quot;Implements file locks compatible with Linux and Windows for locking files and directories.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">errno</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">fcntl</span>  <span class="c1"># pylint: disable=import-error</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
@@ -194,8 +193,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="k">else</span><span class="p">:</span>
     <span class="n">POSIX_MODE</span> <span class="o">=</span> <span class="kc">True</span>
 
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Optional</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Callable</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 

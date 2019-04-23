@@ -185,19 +185,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span></span><span class="sd">&quot;&quot;&quot;Certbot command line argument &amp; config processing.&quot;&quot;&quot;</span>
 <span class="c1"># pylint: disable=too-many-lines</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">glob</span>
-<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">logging.handlers</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">import</span> <span class="nn">configargparse</span>
 <span class="kn">import</span> <span class="nn">six</span>
 <span class="kn">import</span> <span class="nn">zope.component</span>
 <span class="kn">import</span> <span class="nn">zope.interface</span>
-
 <span class="kn">from</span> <span class="nn">zope.interface</span> <span class="k">import</span> <span class="n">interfaces</span> <span class="k">as</span> <span class="n">zope_interfaces</span>
 
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">challenges</span>
@@ -206,18 +204,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># pylint: enable=unused-import, no-name-in-module</span>
 
 <span class="kn">import</span> <span class="nn">certbot</span>
-
+<span class="kn">import</span> <span class="nn">certbot.plugins.enhancements</span> <span class="k">as</span> <span class="nn">enhancements</span>
+<span class="kn">import</span> <span class="nn">certbot.plugins.selection</span> <span class="k">as</span> <span class="nn">plugin_selection</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">hooks</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
-
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">display_util</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">disco</span> <span class="k">as</span> <span class="n">plugins_disco</span>
-<span class="kn">import</span> <span class="nn">certbot.plugins.enhancements</span> <span class="k">as</span> <span class="nn">enhancements</span>
-<span class="kn">import</span> <span class="nn">certbot.plugins.selection</span> <span class="k">as</span> <span class="nn">plugin_selection</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -496,9 +493,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="c1"># pylint: disable=no-member</span>
     <span class="k">if</span> <span class="n">hidden</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">field</span> <span class="o">=</span> <span class="n">interfaces</span><span class="o">.</span><span class="n">IConfig</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="c1"># type: zope.interface.interface.Attribute</span>
-        <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="vm">__doc__</span></div>
+    <span class="n">field</span> <span class="o">=</span> <span class="n">interfaces</span><span class="o">.</span><span class="n">IConfig</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>  <span class="c1"># type: zope.interface.interface.Attribute  # pylint: disable=no-value-for-parameter</span>
+    <span class="k">return</span> <span class="n">field</span><span class="o">.</span><span class="vm">__doc__</span></div>
 
 
 <div class="viewcode-block" id="HelpfulArgumentGroup"><a class="viewcode-back" href="../../api/cli.html#certbot.cli.HelpfulArgumentGroup">[docs]</a><span class="k">class</span> <span class="nc">HelpfulArgumentGroup</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -724,7 +720,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="c1"># Help that are synonyms for --help subcommands</span>
     <span class="n">COMMANDS_TOPICS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="s2">&quot;commands&quot;</span><span class="p">,</span> <span class="s2">&quot;subcommand&quot;</span><span class="p">,</span> <span class="s2">&quot;subcommands&quot;</span><span class="p">,</span> <span class="s2">&quot;verbs&quot;</span><span class="p">]</span>
     <span class="k">def</span> <span class="nf">_list_subcommands</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">longest</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">VERB_HELP_MAP</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">longest</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">VERB_HELP_MAP</span><span class="p">)</span>
 
         <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;The full list of available SUBCOMMANDS is:</span><span class="se">\n\n</span><span class="s2">&quot;</span>
         <span class="k">for</span> <span class="n">verb</span><span class="p">,</span> <span class="n">props</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">VERB_HELP</span><span class="p">):</span>
@@ -752,7 +748,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">apache_doc</span> <span class="o">=</span> <span class="s2">&quot;(the certbot apache plugin is not installed)&quot;</span>
 
         <span class="n">usage</span> <span class="o">=</span> <span class="n">SHORT_USAGE</span>
-        <span class="k">if</span> <span class="n">help_arg</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">help_arg</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="n">usage</span> <span class="o">+</span> <span class="n">COMMAND_OVERVIEW</span> <span class="o">%</span> <span class="p">(</span><span class="n">apache_doc</span><span class="p">,</span> <span class="n">nginx_doc</span><span class="p">)</span> <span class="o">+</span> <span class="n">HELP_AND_VERSION_USAGE</span><span class="p">)</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">help_arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">COMMANDS_TOPICS</span><span class="p">:</span>
@@ -1058,8 +1054,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                          <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_topics</span><span class="p">])</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">chosen_topic</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">t</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_topics</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span> <span class="o">==</span> <span class="n">chosen_topic</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_topics</span><span class="p">])</span></div></div>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">([(</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span> <span class="o">==</span> <span class="n">chosen_topic</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_topics</span><span class="p">])</span></div></div>
 
 <span class="k">def</span> <span class="nf">_add_all_groups</span><span class="p">(</span><span class="n">helpful</span><span class="p">):</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span><span class="s2">&quot;automation&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Flags for automating execution &amp; other tweaks&quot;</span><span class="p">)</span>

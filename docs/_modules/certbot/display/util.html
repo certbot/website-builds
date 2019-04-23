@@ -184,7 +184,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <h1>Source code for certbot.display.util</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Certbot display.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">textwrap</span>
 
@@ -194,6 +193,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">misc</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">completer</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -306,10 +306,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Not pausing for user confirmation&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FileDisplay.menu"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay.menu">[docs]</a>    <span class="k">def</span> <span class="nf">menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">ok_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cancel_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-             <span class="n">help_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="FileDisplay.menu"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay.menu">[docs]</a>    <span class="k">def</span> <span class="nf">menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">ok_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cancel_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># pylint: disable=unused-argument</span>
+             <span class="n">help_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># pylint: disable=unused-argument</span>
              <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
-        <span class="c1"># pylint: disable=unused-argument</span>
         <span class="sd">&quot;&quot;&quot;Display a menu.</span>
 
 <span class="sd">        .. todo:: This doesn&#39;t enable the help label/button (I wasn&#39;t sold on</span>
@@ -365,8 +364,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
         <span class="k">if</span> <span class="n">ans</span> <span class="o">==</span> <span class="s2">&quot;c&quot;</span> <span class="ow">or</span> <span class="n">ans</span> <span class="o">==</span> <span class="s2">&quot;C&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">CANCEL</span><span class="p">,</span> <span class="s2">&quot;-1&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">ans</span></div>
+        <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">ans</span></div>
 
 <div class="viewcode-block" id="FileDisplay.yesno"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay.yesno">[docs]</a>    <span class="k">def</span> <span class="nf">yesno</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">yes_label</span><span class="o">=</span><span class="s2">&quot;Yes&quot;</span><span class="p">,</span> <span class="n">no_label</span><span class="o">=</span><span class="s2">&quot;No&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
               <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
@@ -412,7 +410,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <div class="viewcode-block" id="FileDisplay.checklist"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.FileDisplay.checklist">[docs]</a>    <span class="k">def</span> <span class="nf">checklist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
-        <span class="c1"># pylint: disable=unused-argument</span>
         <span class="sd">&quot;&quot;&quot;Display a checklist.</span>
 
 <span class="sd">        :param str message: Message to display to user</span>
@@ -440,7 +437,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                                    <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">OK</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ans</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">ans</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
                     <span class="n">ans</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
                 <span class="n">indices</span> <span class="o">=</span> <span class="n">separate_list_input</span><span class="p">(</span><span class="n">ans</span><span class="p">)</span>
                 <span class="n">selected_tags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scrub_checklist_input</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">tags</span><span class="p">)</span>
@@ -652,8 +649,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">(You can set this with the </span><span class="si">{0}</span><span class="s2"> flag)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cli_flag</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">MissingCommandlineFlag</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="NoninteractiveDisplay.notification"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay.notification">[docs]</a>    <span class="k">def</span> <span class="nf">notification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
-        <span class="c1"># pylint: disable=unused-argument</span>
+<div class="viewcode-block" id="NoninteractiveDisplay.notification"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay.notification">[docs]</a>    <span class="k">def</span> <span class="nf">notification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
         <span class="sd">&quot;&quot;&quot;Displays a notification without waiting for user acceptance.</span>
 
 <span class="sd">        :param str message: Message to display to stdout</span>
@@ -706,12 +702,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_interaction_fail</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">default</span></div>
+        <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">default</span></div>
 
-<div class="viewcode-block" id="NoninteractiveDisplay.yesno"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay.yesno">[docs]</a>    <span class="k">def</span> <span class="nf">yesno</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">yes_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="NoninteractiveDisplay.yesno"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay.yesno">[docs]</a>    <span class="k">def</span> <span class="nf">yesno</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">yes_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># pylint: disable=unused-argument</span>
               <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
-        <span class="c1"># pylint: disable=unused-argument</span>
         <span class="sd">&quot;&quot;&quot;Decide Yes or No, without asking anybody</span>
 
 <span class="sd">        :param str message: question for the user</span>
@@ -724,8 +718,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_interaction_fail</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">default</span></div>
+        <span class="k">return</span> <span class="n">default</span></div>
 
 <div class="viewcode-block" id="NoninteractiveDisplay.checklist"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay.checklist">[docs]</a>    <span class="k">def</span> <span class="nf">checklist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
@@ -743,8 +736,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_interaction_fail</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="s2">&quot;? &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tags</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">default</span></div>
+        <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">default</span></div>
 
 <div class="viewcode-block" id="NoninteractiveDisplay.directory_select"><a class="viewcode-back" href="../../../api/display.html#certbot.display.util.NoninteractiveDisplay.directory_select">[docs]</a>    <span class="k">def</span> <span class="nf">directory_select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>

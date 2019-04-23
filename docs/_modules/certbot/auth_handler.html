@@ -448,7 +448,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="n">achallenges</span><span class="o">.</span><span class="n">DNS</span><span class="p">(</span><span class="n">challb</span><span class="o">=</span><span class="n">challb</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span>
-            <span class="s2">&quot;Received unsupported challenge of type: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">chall</span><span class="o">.</span><span class="n">typ</span><span class="p">)</span></div>
+            <span class="s2">&quot;Received unsupported challenge of type: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chall</span><span class="o">.</span><span class="n">typ</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="gen_challenge_path"><a class="viewcode-back" href="../../api/auth_handler.html#certbot.auth_handler.gen_challenge_path">[docs]</a><span class="k">def</span> <span class="nf">gen_challenge_path</span><span class="p">(</span><span class="n">challbs</span><span class="p">,</span> <span class="n">preferences</span><span class="p">,</span> <span class="n">combinations</span><span class="p">):</span>
@@ -479,8 +479,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">combinations</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_find_smart_path</span><span class="p">(</span><span class="n">challbs</span><span class="p">,</span> <span class="n">preferences</span><span class="p">,</span> <span class="n">combinations</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_find_dumb_path</span><span class="p">(</span><span class="n">challbs</span><span class="p">,</span> <span class="n">preferences</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_find_dumb_path</span><span class="p">(</span><span class="n">challbs</span><span class="p">,</span> <span class="n">preferences</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="_find_smart_path"><a class="viewcode-back" href="../../api/auth_handler.html#certbot.auth_handler._find_smart_path">[docs]</a><span class="k">def</span> <span class="nf">_find_smart_path</span><span class="p">(</span><span class="n">challbs</span><span class="p">,</span> <span class="n">preferences</span><span class="p">,</span> <span class="n">combinations</span><span class="p">):</span>

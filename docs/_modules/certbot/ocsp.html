@@ -253,8 +253,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_openssl_binary</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_ocsp_openssl_bin</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">_check_ocsp_cryptography</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">_check_ocsp_cryptography</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_check_ocsp_openssl_bin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
         <span class="c1"># type: (str, str, str, str) -&gt; bool</span>
@@ -305,9 +304,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="k">if</span> <span class="n">host</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">host</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cannot process OCSP host from URL (</span><span class="si">%s</span><span class="s2">) in cert at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cannot process OCSP host from URL (</span><span class="si">%s</span><span class="s2">) in cert at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div>
 
 
 <span class="k">def</span> <span class="nf">_check_ocsp_cryptography</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>

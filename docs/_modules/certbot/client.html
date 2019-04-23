@@ -185,7 +185,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span></span><span class="sd">&quot;&quot;&quot;Certbot client API.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">platform</span>
 
 <span class="kn">import</span> <span class="nn">OpenSSL</span>
@@ -216,6 +215,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">storage</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">misc</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">enhancements</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">ops</span> <span class="k">as</span> <span class="n">display_ops</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">selection</span> <span class="k">as</span> <span class="n">plugin_selection</span>
@@ -532,7 +532,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
         <span class="n">orderr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_order_and_authorizations</span><span class="p">(</span><span class="n">csr</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">allow_subset_of_names</span><span class="p">)</span>
         <span class="n">authzr</span> <span class="o">=</span> <span class="n">orderr</span><span class="o">.</span><span class="n">authorizations</span>
-        <span class="n">auth_domains</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">identifier</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">authzr</span><span class="p">)</span>
+        <span class="n">auth_domains</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">identifier</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">authzr</span><span class="p">)</span>  <span class="c1"># pylint: disable=not-an-iterable</span>
         <span class="n">successful_domains</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">domains</span> <span class="k">if</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">auth_domains</span><span class="p">]</span>
 
         <span class="c1"># allow_subset_of_names is currently disabled for wildcard</span>
@@ -601,11 +601,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Dry run: Skipping creating new lineage for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
                         <span class="n">new_name</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">storage</span><span class="o">.</span><span class="n">RenewableCert</span><span class="o">.</span><span class="n">new_lineage</span><span class="p">(</span>
-                <span class="n">new_name</span><span class="p">,</span> <span class="n">cert</span><span class="p">,</span>
-                <span class="n">key</span><span class="o">.</span><span class="n">pem</span><span class="p">,</span> <span class="n">chain</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">storage</span><span class="o">.</span><span class="n">RenewableCert</span><span class="o">.</span><span class="n">new_lineage</span><span class="p">(</span>
+            <span class="n">new_name</span><span class="p">,</span> <span class="n">cert</span><span class="p">,</span>
+            <span class="n">key</span><span class="o">.</span><span class="n">pem</span><span class="p">,</span> <span class="n">chain</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Client._choose_lineagename"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client._choose_lineagename">[docs]</a>    <span class="k">def</span> <span class="nf">_choose_lineagename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">certname</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Chooses a name for the new lineage.</span>
@@ -624,8 +623,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">elif</span> <span class="n">util</span><span class="o">.</span><span class="n">is_wildcard_domain</span><span class="p">(</span><span class="n">domains</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
             <span class="c1"># Don&#39;t make files and directories starting with *.</span>
             <span class="k">return</span> <span class="n">domains</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">:]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">domains</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="n">domains</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="Client.save_certificate"><a class="viewcode-back" href="../../api/client.html#certbot.client.Client.save_certificate">[docs]</a>    <span class="k">def</span> <span class="nf">save_certificate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_pem</span><span class="p">,</span> <span class="n">chain_pem</span><span class="p">,</span>
                          <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">fullchain_path</span><span class="p">):</span>
@@ -911,9 +909,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">if</span> <span class="n">cli</span><span class="o">.</span><span class="n">set_by_cli</span><span class="p">(</span><span class="n">cli_arg_path</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_open</span><span class="p">(</span><span class="n">pem_path</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="mo">0o644</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;wb&quot;</span><span class="p">),</span>\
             <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">pem_path</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">uniq</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">unique_file</span><span class="p">(</span><span class="n">pem_path</span><span class="p">,</span> <span class="mo">0o644</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">uniq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">uniq</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+    <span class="n">uniq</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">unique_file</span><span class="p">(</span><span class="n">pem_path</span><span class="p">,</span> <span class="mo">0o644</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">uniq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">uniq</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="_save_chain"><a class="viewcode-back" href="../../api/client.html#certbot.client._save_chain">[docs]</a><span class="k">def</span> <span class="nf">_save_chain</span><span class="p">(</span><span class="n">chain_pem</span><span class="p">,</span> <span class="n">chain_file</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Saves chain_pem at a unique path based on chain_path.</span>
