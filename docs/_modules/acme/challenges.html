@@ -291,10 +291,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">key_authorization</span> <span class="o">=</span> <span class="n">jose</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="s2">&quot;keyAuthorization&quot;</span><span class="p">)</span>
     <span class="n">thumbprint_hash_function</span> <span class="o">=</span> <span class="n">hashes</span><span class="o">.</span><span class="n">SHA256</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">KeyAuthorizationChallengeResponse</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_dump_authorization_key</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-
     <span class="k">def</span> <span class="nf">verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chall</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Verify the key authorization.</span>
 
@@ -327,20 +323,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
         <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">_dump_authorization_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dump</span><span class="p">):</span>
-        <span class="c1"># type: (bool) -&gt; None</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set if keyAuthorization is dumped in the JSON representation of this ChallengeResponse.</span>
-<span class="sd">        NB: This method is declared as private because it will eventually be removed.</span>
-<span class="sd">        :param bool dump: True to dump the keyAuthorization, False otherwise</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_dump_auth_key&#39;</span><span class="p">,</span> <span class="n">dump</span><span class="p">)</span>
-
     <span class="k">def</span> <span class="nf">to_partial_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">jobj</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">KeyAuthorizationChallengeResponse</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">to_partial_json</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dump_auth_key</span><span class="p">:</span>  <span class="c1"># pylint: disable=no-member</span>
-            <span class="n">jobj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;keyAuthorization&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
+        <span class="n">jobj</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;keyAuthorization&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">jobj</span>
 
 

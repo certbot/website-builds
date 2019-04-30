@@ -733,6 +733,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="k">if</span> <span class="n">ask_redirect</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">config_name</span> <span class="o">==</span> <span class="s2">&quot;redirect&quot;</span> <span class="ow">and</span> <span class="n">config_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="n">config_value</span> <span class="o">=</span> <span class="n">enhancements</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="n">enhancement_name</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">config_value</span><span class="p">:</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Future versions of Certbot will automatically &quot;</span>
+                                <span class="s2">&quot;configure the webserver so that all requests redirect to secure &quot;</span>
+                                <span class="s2">&quot;HTTPS access. You can control this behavior and disable this &quot;</span>
+                                <span class="s2">&quot;warning with the --redirect and --no-redirect flags.&quot;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">config_value</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">apply_enhancement</span><span class="p">(</span><span class="n">domains</span><span class="p">,</span> <span class="n">enhancement_name</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
                     <span class="n">enhanced</span> <span class="o">=</span> <span class="kc">True</span>
