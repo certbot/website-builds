@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.hooks &mdash; Certbot 0.29.0.dev0 documentation</title>
+  <title>certbot.hooks &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.hooks &mdash; Certbot 0.29.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.hooks &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.29.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.29
+                0.34
               </div>
             
           
@@ -186,14 +186,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
-
 <span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
 
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Set</span><span class="p">,</span> <span class="n">List</span> <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Set</span><span class="p">,</span> <span class="n">List</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
-
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">plug_util</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -277,8 +276,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="n">executed_pre_hooks</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Pre-hook command already run, skipping: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running pre-hook command: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
-        <span class="n">_run_hook</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="n">_run_hook</span><span class="p">(</span><span class="s2">&quot;pre-hook&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
         <span class="n">executed_pre_hooks</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
 
 
@@ -310,8 +308,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">_run_eventually</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
     <span class="c1"># certonly / run</span>
     <span class="k">elif</span> <span class="n">cmd</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running post-hook command: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
-        <span class="n">_run_hook</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span></div>
+        <span class="n">_run_hook</span><span class="p">(</span><span class="s2">&quot;post-hook&quot;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span></div>
 
 
 <span class="n">post_hooks</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
@@ -333,8 +330,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="viewcode-block" id="run_saved_post_hooks"><a class="viewcode-back" href="../../api/hooks.html#certbot.hooks.run_saved_post_hooks">[docs]</a><span class="k">def</span> <span class="nf">run_saved_post_hooks</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Run any post hooks that were saved up in the course of the &#39;renew&#39; verb&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">post_hooks</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running post-hook command: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
-        <span class="n">_run_hook</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span></div>
+        <span class="n">_run_hook</span><span class="p">(</span><span class="s2">&quot;post-hook&quot;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="deploy_hook"><a class="viewcode-back" href="../../api/hooks.html#certbot.hooks.deploy_hook">[docs]</a><span class="k">def</span> <span class="nf">deploy_hook</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">lineage_path</span><span class="p">):</span>
@@ -404,23 +400,30 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;RENEWED_DOMAINS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">domains</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;RENEWED_LINEAGE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lineage_path</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running deploy-hook command: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
-    <span class="n">_run_hook</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
+    <span class="n">_run_hook</span><span class="p">(</span><span class="s2">&quot;deploy-hook&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="_run_hook"><a class="viewcode-back" href="../../api/hooks.html#certbot.hooks._run_hook">[docs]</a><span class="k">def</span> <span class="nf">_run_hook</span><span class="p">(</span><span class="n">shell_cmd</span><span class="p">):</span>
+<div class="viewcode-block" id="_run_hook"><a class="viewcode-back" href="../../api/hooks.html#certbot.hooks._run_hook">[docs]</a><span class="k">def</span> <span class="nf">_run_hook</span><span class="p">(</span><span class="n">cmd_name</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Run a hook command.</span>
 
-<span class="sd">    :returns: stderr if there was any&quot;&quot;&quot;</span>
+<span class="sd">    :param str cmd_name: the user facing name of the hook being run</span>
+<span class="sd">    :param shell_cmd: shell command to execute</span>
+<span class="sd">    :type shell_cmd: `list` of `str` or `str`</span>
 
-    <span class="n">err</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">shell_cmd</span><span class="p">)</span>
+<span class="sd">    :returns: stderr if there was any&quot;&quot;&quot;</span>
+    <span class="n">err</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">cmd_name</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">err</span></div>
 
 
-<div class="viewcode-block" id="execute"><a class="viewcode-back" href="../../api/hooks.html#certbot.hooks.execute">[docs]</a><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">shell_cmd</span><span class="p">):</span>
+<div class="viewcode-block" id="execute"><a class="viewcode-back" href="../../api/hooks.html#certbot.hooks.execute">[docs]</a><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">cmd_name</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Run a command.</span>
 
+<span class="sd">    :param str cmd_name: the user facing name of the hook being run</span>
+<span class="sd">    :param shell_cmd: shell command to execute</span>
+<span class="sd">    :type shell_cmd: `list` of `str` or `str`</span>
+
 <span class="sd">    :returns: `tuple` (`str` stderr, `str` stdout)&quot;&quot;&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running </span><span class="si">%s</span><span class="s2"> command: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cmd_name</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">)</span>
 
     <span class="c1"># universal_newlines causes Popen.communicate()</span>
     <span class="c1"># to return str objects instead of bytes in Python 3</span>
@@ -429,12 +432,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
     <span class="n">base_cmd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">shell_cmd</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">out</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Output from </span><span class="si">%s</span><span class="s1">:</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">base_cmd</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Output from </span><span class="si">%s</span><span class="s1"> command </span><span class="si">%s</span><span class="s1">:</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cmd_name</span><span class="p">,</span> <span class="n">base_cmd</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">cmd</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Hook command &quot;</span><span class="si">%s</span><span class="s1">&quot; returned error code </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span>
-                     <span class="n">shell_cmd</span><span class="p">,</span> <span class="n">cmd</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> command &quot;</span><span class="si">%s</span><span class="s1">&quot; returned error code </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span>
+                     <span class="n">cmd_name</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">,</span> <span class="n">cmd</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">err</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Error output from </span><span class="si">%s</span><span class="s1">:</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">base_cmd</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Error output from </span><span class="si">%s</span><span class="s1"> command </span><span class="si">%s</span><span class="s1">:</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cmd_name</span><span class="p">,</span> <span class="n">base_cmd</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span></div>
 
 
@@ -505,7 +508,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.29.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -532,7 +535,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.hooks%E2%80%94%20Certbot%200.29.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.hooks%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

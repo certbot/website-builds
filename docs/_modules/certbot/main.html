@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.main &mdash; Certbot 0.29.0.dev0 documentation</title>
+  <title>certbot.main &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.main &mdash; Certbot 0.29.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.main &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.29.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.29
+                0.34
               </div>
             
           
@@ -185,9 +185,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span></span><span class="sd">&quot;&quot;&quot;Certbot main entry point.&quot;&quot;&quot;</span>
 <span class="c1"># pylint: disable=too-many-lines</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+
 <span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">logging.handlers</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">import</span> <span class="nn">configobj</span>
@@ -198,12 +198,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Union</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
 
 <span class="kn">import</span> <span class="nn">certbot</span>
-
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">account</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">cert_manager</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">cli</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">client</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">compat</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">configuration</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
@@ -217,11 +215,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">storage</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">updater</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
-
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">misc</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">display_util</span><span class="p">,</span> <span class="n">ops</span> <span class="k">as</span> <span class="n">display_ops</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">disco</span> <span class="k">as</span> <span class="n">plugins_disco</span>
-<span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">selection</span> <span class="k">as</span> <span class="n">plug_sel</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">enhancements</span>
+<span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">selection</span> <span class="k">as</span> <span class="n">plug_sel</span>
 
 <span class="n">USER_CANCELLED</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;User chose to cancel the operation and may &quot;</span>
                   <span class="s2">&quot;reinvoke the client.&quot;</span><span class="p">)</span>
@@ -408,8 +407,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="s2">&quot;reinstall&quot;</span><span class="p">,</span> <span class="n">lineage</span>
     <span class="k">elif</span> <span class="n">response</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;renew&quot;</span><span class="p">,</span> <span class="n">lineage</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;This is impossible&quot;</span></div>
+    <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;This is impossible&#39;</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="_find_lineage_for_domains"><a class="viewcode-back" href="../../api/main.html#certbot.main._find_lineage_for_domains">[docs]</a><span class="k">def</span> <span class="nf">_find_lineage_for_domains</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">domains</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Determine whether there are duplicated names and how to handle</span>
@@ -447,7 +446,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">if</span> <span class="n">ident_names_cert</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_handle_identical_cert_request</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">ident_names_cert</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">subset_names_cert</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_handle_subset_cert_request</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">subset_names_cert</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">_handle_subset_cert_request</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">subset_names_cert</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="_find_cert"><a class="viewcode-back" href="../../api/main.html#certbot.main._find_cert">[docs]</a><span class="k">def</span> <span class="nf">_find_cert</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">certname</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Finds an existing certificate object given domains and/or a certificate name.</span>
@@ -526,7 +526,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="viewcode-block" id="_format_list"><a class="viewcode-back" href="../../api/main.html#certbot.main._format_list">[docs]</a><span class="k">def</span> <span class="nf">_format_list</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">strings</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Format list with given character</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">strings</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">strings</span><span class="p">:</span>
         <span class="n">formatted</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{br}</span><span class="s2">(None)&quot;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">formatted</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{br}{ch}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{br}{ch}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">strings</span><span class="p">)</span>
@@ -685,6 +685,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span>
                 <span class="s2">&quot;Registration cannot proceed without accepting &quot;</span>
                 <span class="s2">&quot;Terms of Service.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
     <span class="n">account_storage</span> <span class="o">=</span> <span class="n">account</span><span class="o">.</span><span class="n">AccountFileStorage</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
     <span class="n">acme</span> <span class="o">=</span> <span class="kc">None</span>
@@ -732,7 +733,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="n">attempt_deletion</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">delete_after_revoke</span>
     <span class="k">if</span> <span class="n">attempt_deletion</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Would you like to delete the cert(s) you just revoked?&quot;</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Would you like to delete the cert(s) you just revoked, along with all earlier and &quot;</span>
+            <span class="s2">&quot;later versions of the cert?&quot;</span><span class="p">)</span>
         <span class="n">attempt_deletion</span> <span class="o">=</span> <span class="n">display</span><span class="o">.</span><span class="n">yesno</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">yes_label</span><span class="o">=</span><span class="s2">&quot;Yes (recommended)&quot;</span><span class="p">,</span> <span class="n">no_label</span><span class="o">=</span><span class="s2">&quot;No&quot;</span><span class="p">,</span>
                 <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -832,11 +834,50 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="c1"># delete local account files</span>
     <span class="n">account_files</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">account</span><span class="p">)</span>
 
-    <span class="n">reporter_util</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="s2">&quot;Account deactivated.&quot;</span><span class="p">,</span> <span class="n">reporter_util</span><span class="o">.</span><span class="n">MEDIUM_PRIORITY</span><span class="p">)</span></div>
+    <span class="n">reporter_util</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="s2">&quot;Account deactivated.&quot;</span><span class="p">,</span> <span class="n">reporter_util</span><span class="o">.</span><span class="n">MEDIUM_PRIORITY</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="register"><a class="viewcode-back" href="../../api/main.html#certbot.main.register">[docs]</a><span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">unused_plugins</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Create or modify accounts on the server.</span>
+    <span class="sd">&quot;&quot;&quot;Create accounts on the server.</span>
+
+<span class="sd">    :param config: Configuration object</span>
+<span class="sd">    :type config: interfaces.IConfig</span>
+
+<span class="sd">    :param unused_plugins: List of plugins (deprecated)</span>
+<span class="sd">    :type unused_plugins: `list` of `str`</span>
+
+<span class="sd">    :returns: `None` or a string indicating and error</span>
+<span class="sd">    :rtype: None or str</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: When `certbot register --update-registration` is fully deprecated,</span>
+    <span class="c1"># delete the true case of if block</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">update_registration</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Usage &#39;certbot register --update-registration&#39; is deprecated.</span><span class="se">\n</span><span class="s2">&quot;</span>
+               <span class="s2">&quot;Please use &#39;cerbot update_account [options]&#39; instead.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">update_account</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">unused_plugins</span><span class="p">)</span>
+
+    <span class="c1"># Portion of _determine_account logic to see whether accounts already</span>
+    <span class="c1"># exist or not.</span>
+    <span class="n">account_storage</span> <span class="o">=</span> <span class="n">account</span><span class="o">.</span><span class="n">AccountFileStorage</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">accounts</span> <span class="o">=</span> <span class="n">account_storage</span><span class="o">.</span><span class="n">find_all</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">accounts</span><span class="p">:</span>
+        <span class="c1"># TODO: add a flag to register a duplicate account (this will</span>
+        <span class="c1">#       also require extending _determine_account&#39;s behavior</span>
+        <span class="c1">#       or else extracting the registration code from there)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;There is an existing account; registration of a &quot;</span>
+                <span class="s2">&quot;duplicate account with this command is currently &quot;</span>
+                <span class="s2">&quot;unsupported.&quot;</span><span class="p">)</span>
+    <span class="c1"># _determine_account will register an account</span>
+    <span class="n">_determine_account</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="update_account"><a class="viewcode-back" href="../../api/main.html#certbot.main.update_account">[docs]</a><span class="k">def</span> <span class="nf">update_account</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">unused_plugins</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modify accounts on the server.</span>
 
 <span class="sd">    :param config: Configuration object</span>
 <span class="sd">    :type config: interfaces.IConfig</span>
@@ -855,21 +896,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">reporter_util</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IReporter</span><span class="p">)</span>
     <span class="n">add_msg</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">reporter_util</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">reporter_util</span><span class="o">.</span><span class="n">MEDIUM_PRIORITY</span><span class="p">)</span>
 
-    <span class="c1"># registering a new account</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">update_registration</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">accounts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="c1"># TODO: add a flag to register a duplicate account (this will</span>
-            <span class="c1">#       also require extending _determine_account&#39;s behavior</span>
-            <span class="c1">#       or else extracting the registration code from there)</span>
-            <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;There is an existing account; registration of a &quot;</span>
-                    <span class="s2">&quot;duplicate account with this command is currently &quot;</span>
-                    <span class="s2">&quot;unsupported.&quot;</span><span class="p">)</span>
-        <span class="c1"># _determine_account will register an account</span>
-        <span class="n">_determine_account</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-        <span class="k">return</span>
-
-    <span class="c1"># --update-registration</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">accounts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">accounts</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;Could not find an existing account to update.&quot;</span>
     <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">email</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">register_unsafely_without_email</span><span class="p">:</span>
@@ -891,7 +918,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">acc</span><span class="o">.</span><span class="n">regr</span> <span class="o">=</span> <span class="n">acc</span><span class="o">.</span><span class="n">regr</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">uri</span><span class="o">=</span><span class="n">prev_regr_uri</span><span class="p">)</span>
     <span class="n">account_storage</span><span class="o">.</span><span class="n">save_regr</span><span class="p">(</span><span class="n">acc</span><span class="p">,</span> <span class="n">cb_client</span><span class="o">.</span><span class="n">acme</span><span class="p">)</span>
     <span class="n">eff</span><span class="o">.</span><span class="n">handle_subscription</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-    <span class="n">add_msg</span><span class="p">(</span><span class="s2">&quot;Your e-mail address was updated to </span><span class="si">{0}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">email</span><span class="p">))</span></div>
+    <span class="n">add_msg</span><span class="p">(</span><span class="s2">&quot;Your e-mail address was updated to </span><span class="si">{0}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">email</span><span class="p">))</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="_install_cert"><a class="viewcode-back" href="../../api/main.html#certbot.main._install_cert">[docs]</a><span class="k">def</span> <span class="nf">_install_cert</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">le_client</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">lineage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Install a cert</span>
@@ -918,6 +946,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">le_client</span><span class="o">.</span><span class="n">deploy_certificate</span><span class="p">(</span><span class="n">domains</span><span class="p">,</span> <span class="n">path_provider</span><span class="o">.</span><span class="n">key_path</span><span class="p">,</span>
         <span class="n">path_provider</span><span class="o">.</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">path_provider</span><span class="o">.</span><span class="n">chain_path</span><span class="p">,</span> <span class="n">path_provider</span><span class="o">.</span><span class="n">fullchain_path</span><span class="p">)</span>
     <span class="n">le_client</span><span class="o">.</span><span class="n">enhance_config</span><span class="p">(</span><span class="n">domains</span><span class="p">,</span> <span class="n">path_provider</span><span class="o">.</span><span class="n">chain_path</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="install"><a class="viewcode-back" href="../../api/main.html#certbot.main.install">[docs]</a><span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Install a previously obtained cert in a server.</span>
@@ -974,7 +1003,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">if</span> <span class="n">enhancements</span><span class="o">.</span><span class="n">are_requested</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
         <span class="c1"># In the case where we don&#39;t have certname, we have errored out already</span>
         <span class="n">lineage</span> <span class="o">=</span> <span class="n">cert_manager</span><span class="o">.</span><span class="n">lineage_for_certname</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">certname</span><span class="p">)</span>
-        <span class="n">enhancements</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="n">lineage</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">installer</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span></div>
+        <span class="n">enhancements</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="n">lineage</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">installer</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 <div class="viewcode-block" id="_populate_from_certname"><a class="viewcode-back" href="../../api/main.html#certbot.main._populate_from_certname">[docs]</a><span class="k">def</span> <span class="nf">_populate_from_certname</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Helper function for install to populate missing config values from lineage</span>
@@ -1038,6 +1069,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Prepared plugins: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">available</span><span class="p">)</span>
     <span class="n">notify</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">available</span><span class="p">))</span></div>
 
+
 <div class="viewcode-block" id="enhance"><a class="viewcode-back" href="../../api/main.html#certbot.main.enhance">[docs]</a><span class="k">def</span> <span class="nf">enhance</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Add security enhancements to existing configuration</span>
 
@@ -1092,7 +1124,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">le_client</span> <span class="o">=</span> <span class="n">_init_le_client</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">authenticator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">installer</span><span class="o">=</span><span class="n">installer</span><span class="p">)</span>
         <span class="n">le_client</span><span class="o">.</span><span class="n">enhance_config</span><span class="p">(</span><span class="n">domains</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">chain_path</span><span class="p">,</span> <span class="n">ask_redirect</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">enhancements</span><span class="o">.</span><span class="n">are_requested</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
-        <span class="n">enhancements</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="n">lineage</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">installer</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span></div>
+        <span class="n">enhancements</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="n">lineage</span><span class="p">,</span> <span class="n">domains</span><span class="p">,</span> <span class="n">installer</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="rollback"><a class="viewcode-back" href="../../api/main.html#certbot.main.rollback">[docs]</a><span class="k">def</span> <span class="nf">rollback</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
@@ -1197,7 +1231,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cert_manager</span><span class="o">.</span><span class="n">certificates</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="revoke"><a class="viewcode-back" href="../../api/main.html#certbot.main.revoke">[docs]</a><span class="k">def</span> <span class="nf">revoke</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">unused_plugins</span><span class="p">):</span>  <span class="c1"># TODO: coop with renewal config</span>
+<span class="c1"># TODO: coop with renewal config</span>
+<div class="viewcode-block" id="revoke"><a class="viewcode-back" href="../../api/main.html#certbot.main.revoke">[docs]</a><span class="k">def</span> <span class="nf">revoke</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">unused_plugins</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Revoke a previously obtained certificate.</span>
 
 <span class="sd">    :param config: Configuration object</span>
@@ -1238,7 +1273,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">except</span> <span class="n">acme_errors</span><span class="o">.</span><span class="n">ClientError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-    <span class="n">display_ops</span><span class="o">.</span><span class="n">success_revocation</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">cert_path</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+    <span class="n">display_ops</span><span class="o">.</span><span class="n">success_revocation</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">cert_path</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="run"><a class="viewcode-back" href="../../api/main.html#certbot.main.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>  <span class="c1"># pylint: disable=too-many-branches,too-many-locals</span>
@@ -1292,7 +1328,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">else</span><span class="p">:</span>
         <span class="n">display_ops</span><span class="o">.</span><span class="n">success_renewal</span><span class="p">(</span><span class="n">domains</span><span class="p">)</span>
 
-    <span class="n">_suggest_donation_if_appropriate</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></div>
+    <span class="n">_suggest_donation_if_appropriate</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="_csr_get_and_save_cert"><a class="viewcode-back" href="../../api/main.html#certbot.main._csr_get_and_save_cert">[docs]</a><span class="k">def</span> <span class="nf">_csr_get_and_save_cert</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">le_client</span><span class="p">):</span>
@@ -1444,16 +1481,16 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">util</span><span class="o">.</span><span class="n">set_up_core_dir</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">config_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span>
-                         <span class="n">compat</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span> <span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+                         <span class="n">misc</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span> <span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
     <span class="n">util</span><span class="o">.</span><span class="n">set_up_core_dir</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">work_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span>
-                         <span class="n">compat</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span> <span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+                         <span class="n">misc</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span> <span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
     <span class="n">hook_dirs</span> <span class="o">=</span> <span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">renewal_pre_hooks_dir</span><span class="p">,</span>
                  <span class="n">config</span><span class="o">.</span><span class="n">renewal_deploy_hooks_dir</span><span class="p">,</span>
                  <span class="n">config</span><span class="o">.</span><span class="n">renewal_post_hooks_dir</span><span class="p">,)</span>
     <span class="k">for</span> <span class="n">hook_dir</span> <span class="ow">in</span> <span class="n">hook_dirs</span><span class="p">:</span>
         <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span><span class="n">hook_dir</span><span class="p">,</span>
-                                <span class="n">uid</span><span class="o">=</span><span class="n">compat</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span>
+                                <span class="n">uid</span><span class="o">=</span><span class="n">misc</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span>
                                 <span class="n">strict</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span></div>
 
 
@@ -1479,7 +1516,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">provideUtility</span><span class="p">(</span><span class="n">displayer</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../api/main.html#certbot.main.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">cli_args</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../api/main.html#certbot.main.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">cli_args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Command line argument parsing and main script execution.</span>
 
 <span class="sd">    :returns: result of requested command</span>
@@ -1488,6 +1525,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :raises errors.Error: error if plugin command is not supported</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cli_args</span><span class="p">:</span>
+        <span class="n">cli_args</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 
     <span class="n">log</span><span class="o">.</span><span class="n">pre_arg_parse_setup</span><span class="p">()</span>
 
@@ -1504,7 +1543,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="c1"># On windows, shell without administrative right cannot create symlinks required by certbot.</span>
     <span class="c1"># So we check the rights before continuing.</span>
-    <span class="n">compat</span><span class="o">.</span><span class="n">raise_for_non_administrative_windows_rights</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">verb</span><span class="p">)</span>
+    <span class="n">misc</span><span class="o">.</span><span class="n">raise_for_non_administrative_windows_rights</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">verb</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">log</span><span class="o">.</span><span class="n">post_arg_parse_setup</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
@@ -1585,7 +1624,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.29.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1612,7 +1651,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.main%E2%80%94%20Certbot%200.29.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.main%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

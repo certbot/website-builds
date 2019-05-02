@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.standalone &mdash; Certbot 0.29.0.dev0 documentation</title>
+  <title>certbot.plugins.standalone &mdash; Certbot 0.34.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.standalone &mdash; Certbot 0.29.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.standalone &mdash; Certbot 0.34.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.29.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.34.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="API Documentation" href="../../api.html"/>
         <link rel="next" title="certbot.plugins.util" href="util.html"/>
         <link rel="prev" title="certbot.plugins.selection" href="selection.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.29
+                0.34
               </div>
             
           
@@ -248,7 +248,7 @@ will serve the same URLs!</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Port to run the server on.</li>
 <li><strong>challenge_type</strong> – Subclass of <a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.Challenge" title="(in acme-python v0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">acme.challenges.Challenge</span></code></a>,
-either <code class="xref py py-obj docutils literal notranslate"><span class="pre">acme.challenge.HTTP01</span></code> or <a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.TLSSNI01" title="(in acme-python v0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">acme.challenges.TLSSNI01</span></code></a>.</li>
+currently only <code class="xref py py-obj docutils literal notranslate"><span class="pre">acme.challenge.HTTP01</span></code>.</li>
 <li><strong>listenaddr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (optional) The address to listen on. Defaults to all addrs.</li>
 </ul>
 </td>
@@ -298,38 +298,12 @@ returned.</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="certbot.plugins.standalone.SupportedChallengesAction">
-<em class="property">class </em><code class="descclassname">certbot.plugins.standalone.</code><code class="descname">SupportedChallengesAction</code><span class="sig-paren">(</span><em>option_strings</em>, <em>dest</em>, <em>nargs=None</em>, <em>const=None</em>, <em>default=None</em>, <em>type=None</em>, <em>choices=None</em>, <em>required=False</em>, <em>help=None</em>, <em>metavar=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/standalone.html#SupportedChallengesAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.standalone.SupportedChallengesAction" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/argparse.html#argparse.Action" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">argparse.Action</span></code></a></p>
-<p>Action class for parsing standalone_supported_challenges.</p>
-<dl class="method">
-<dt id="certbot.plugins.standalone.SupportedChallengesAction._convert_and_validate">
-<code class="descname">_convert_and_validate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/standalone.html#SupportedChallengesAction._convert_and_validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.standalone.SupportedChallengesAction._convert_and_validate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Validate the value of supported challenges provided by the user.</p>
-<p>References to “dvsni” are automatically converted to “tls-sni-01”.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – comma delimited list of challenge types</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">validated and converted list of challenge types</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
 <dt id="certbot.plugins.standalone.Authenticator">
 <em class="property">class </em><code class="descclassname">certbot.plugins.standalone.</code><code class="descname">Authenticator</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/standalone.html#Authenticator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.standalone.Authenticator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="common.html#certbot.plugins.common.Plugin" title="certbot.plugins.common.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.plugins.common.Plugin</span></code></a></p>
 <p>Standalone Authenticator.</p>
 <p>This authenticator creates its own ephemeral TCP listener on the
-necessary port in order to respond to incoming tls-sni-01 and http-01
+necessary port in order to respond to incoming http-01
 challenges from the certificate authority. Therefore, it does not
 rely on any existing server program.</p>
 <dl class="classmethod">
@@ -349,12 +323,6 @@ with unique plugin name prefix.</td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="certbot.plugins.standalone.Authenticator.supported_challenges">
-<code class="descname">supported_challenges</code><a class="headerlink" href="#certbot.plugins.standalone.Authenticator.supported_challenges" title="Permalink to this definition">¶</a></dt>
-<dd><p>Challenges supported by this plugin.</p>
 </dd></dl>
 
 </dd></dl>
@@ -416,7 +384,7 @@ with unique plugin name prefix.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.29.0.dev0',
+            VERSION:'0.34.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -443,7 +411,7 @@ with unique plugin name prefix.</td>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.standalone%E2%80%94%20Certbot%200.29.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.standalone%E2%80%94%20Certbot%200.34.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
