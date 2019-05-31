@@ -129,7 +129,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l3"><a class="reference internal" href="#running-a-local-copy-of-the-client">Running a local copy of the client</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#find-issues-to-work-on">Find issues to work on</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#testing">Testing</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#integration-testing-with-the-pebble-ca">Integration testing with the Pebble CA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#integration-testing-with-the-boulder-ca">Integration testing with the Boulder CA</a></li>
 </ul>
 </li>
 </ul>
@@ -227,7 +227,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li><a class="reference internal" href="#running-a-local-copy-of-the-client" id="id5">Running a local copy of the client</a></li>
 <li><a class="reference internal" href="#find-issues-to-work-on" id="id6">Find issues to work on</a></li>
 <li><a class="reference internal" href="#testing" id="id7">Testing</a><ul>
-<li><a class="reference internal" href="#integration-testing-with-the-pebble-ca" id="id8">Integration testing with the Pebble CA</a></li>
+<li><a class="reference internal" href="#integration-testing-with-the-boulder-ca" id="id8">Integration testing with the Boulder CA</a></li>
 </ul>
 </li>
 </ul>
@@ -344,19 +344,27 @@ of output can make it hard to find specific failures when they happen.</p>
 config if your user has sudo permissions, so it should not be run on a
 production Apache server.</p>
 </div>
-<div class="section" id="integration-testing-with-the-pebble-ca">
-<span id="integration"></span><h4><a class="toc-backref" href="#id8">Integration testing with the Pebble CA</a><a class="headerlink" href="#integration-testing-with-the-pebble-ca" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="integration-testing-with-the-boulder-ca">
+<span id="integration"></span><h4><a class="toc-backref" href="#id8">Integration testing with the Boulder CA</a><a class="headerlink" href="#integration-testing-with-the-boulder-ca" title="Permalink to this headline">¶</a></h4>
 <p>Generally it is sufficient to open a pull request and let Github and Travis run
-integration tests for you. However, you may want to run them locally before submitting
-your pull request. You need Docker and docker-compose installed and working.</p>
-<p>The tox environment <code class="xref py py-obj docutils literal notranslate"><span class="pre">integration</span></code> will setup Pebble, the Let’s Encrypt ACME CA server
-for integration testing, then launch the Certbot integration tests.</p>
-<p>With a user allowed to access your local Docker daemon, run:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>tox -e integration
+integration tests for you, however, if you want to run them locally you need
+Docker and docker-compose installed and working. Fetch and start Boulder, Let’s
+Encrypt’s ACME CA software, by using:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./tests/boulder-fetch.sh
 </pre></div>
 </div>
-<p>Tests will be run using pytest. A test report and a code coverage report will be
-displayed at the end of the integration tests execution.</p>
+<p>If you have problems with Docker, you may want to try <a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes">removing all containers and
+volumes</a> and making sure you have at least 1GB of memory.</p>
+<p>Set up a certbot_test alias that enables easily running against the local
+Boulder:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">SERVER</span><span class="o">=</span>http://localhost:4000/directory
+<span class="nb">source</span> tests/integration/_common.sh
+</pre></div>
+</div>
+<p>Run the integration tests using:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./tests/boulder-integration.sh
+</pre></div>
+</div>
 </div>
 </div>
 </div>
