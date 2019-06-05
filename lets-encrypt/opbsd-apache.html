@@ -252,34 +252,38 @@
       </li>
 
       <li>
-          SSH into the server
-          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
-      </li>
-
-      <li>
-          <h2>Install Certbot</h2>
+          Install Certbot
+          <p>
           Run these commands on the command line on the machine to install Certbot.
           <pre>
-              wget https://dl.eff.org/certbot-auto
-              sudo mv certbot-auto /usr/local/bin/certbot-auto
-              sudo chown root /usr/local/bin/certbot-auto
-              sudo chmod 0755 /usr/local/bin/certbot-auto
+            wget https://dl.eff.org/certbot-auto
+            sudo mv certbot-auto /usr/local/bin/certbot-auto
+            sudo chown root /usr/local/bin/certbot-auto
+            sudo chmod 0755 /usr/local/bin/certbot-auto
           </pre>
+          </p>
       </li>
       <li>
-        <h2>either a. Run Certbot: Get &amp; Install your certificates</h2>
-        Run this command to get a certificate for you and have Certbot edit your Apache configuration
-        automatically to serve it, turning on HTTPS access in a single step.
-        <pre>
-          $ sudo /usr/local/bin/certbot-auto --apache
-        </pre>
+        Choose how to run Certbot
+        <ul>
+          <li>
+            Run Certbot: Get &amp; Install your certificates
+            <p>
+            Run this command to get a certificate for you and have Certbot edit your Apache configuration
+            automatically to serve it, turning on HTTPS access in a single step.
+            <pre>$ sudo /usr/local/bin/certbot-auto --apache</pre>
+            </p>
+          </li>
 
-        <h2>or b. Run Certbot: Just get a certificate</h2>
-        If you’re feeling more conservative and would like to make the changes to your Apache
-        configuration by hand, run this command.
-        <pre>
-          $ sudo /usr/local/bin/certbot-auto certonly --apache
-        </pre>
+          <li>
+            Run Certbot: Just get a certificate
+            <p>
+            If you’re feeling more conservative and would like to make the changes to your Apache
+            configuration by hand, run this command.
+            <pre>$ sudo /usr/local/bin/certbot-auto certonly --apache</pre>
+            </p>
+          </li>
+        </ul>
       </li>
 
 
@@ -287,7 +291,7 @@
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre>echo “0 0,12 * * * python -c ‘import random; import time; time.sleep(random.random() * 3600)’ &amp;&amp; certbot renew” | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo “0 0,12 * * * python -c ‘import random; import time; time.sleep(random.random() * 3600)’ &amp;&amp; certbot renew” | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
       </li>
 
@@ -298,7 +302,9 @@
         look for the lock icon in the URL bar.
         If you want to check that you have the top-of-the-line installation, you can head to
         <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
-        <!-- button with "check your site’s [icon] https:// at SSL Labs" -->
+        </p>
+        <p class="centered">
+        <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's ICON https:// at SSL Labs</a>.
         </p>
       </li>
     </ol>
@@ -308,20 +314,11 @@
     <ol>
       <li>
           Not supported
+          <p>
           If your DNS provider is not supported, pause here: run Certbot in Docker by using
           <a href="https://certbot.eff.org/docs/install.html#running-with-docker">these
-          steps from our documentation</a>.
-      </li>
-
-      <li>
-          SSH into the server
-          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
-      </li>
-      <li>
-          Not supported
-          If your DNS provider is not supported, pause here: run Certbot in Docker by using
-          <a href="https://certbot.eff.org/docs/install.html#running-with-docker">these
-          steps from our documentation</a>.
+            steps from our documentation</a>.
+          </p>
       </li>
 
       <li>
@@ -330,29 +327,38 @@
       </li>
 
       <li>
-          <h2>Install Certbot</h2>
+          Install Certbot
+          <p>
           Run these commands on the command line on the machine to install Certbot.
           <pre>
-              wget https://dl.eff.org/certbot-auto
-              sudo mv certbot-auto /usr/local/bin/certbot-auto
-              sudo chown root /usr/local/bin/certbot-auto
-              sudo chmod 0755 /usr/local/bin/certbot-auto
+            wget https://dl.eff.org/certbot-auto
+            sudo mv certbot-auto /usr/local/bin/certbot-auto
+            sudo chown root /usr/local/bin/certbot-auto
+            sudo chmod 0755 /usr/local/bin/certbot-auto
           </pre>
+          </p>
       </li>
       <li>
-        <h2>either a. Run Certbot: Get &amp; Install your certificates</h2>
-        Run this command to get a certificate for you and have Certbot edit your Apache configuration
-        automatically to serve it, turning on HTTPS access in a single step.
-        <pre>
-          $ sudo /usr/local/bin/certbot-auto --apache
-        </pre>
+        Choose how to run Certbot
+        <ul>
+          <li>
+            Run Certbot: Get &amp; Install your certificates
+            <p>
+            Run this command to get a certificate for you and have Certbot edit your Apache configuration
+            automatically to serve it, turning on HTTPS access in a single step.
+            <pre>$ sudo /usr/local/bin/certbot-auto --apache</pre>
+            </p>
+          </li>
 
-        <h2>or b. Run Certbot: Just get a certificate</h2>
-        If you’re feeling more conservative and would like to make the changes to your Apache
-        configuration by hand, run this command.
-        <pre>
-          $ sudo /usr/local/bin/certbot-auto certonly --apache
-        </pre>
+          <li>
+            Run Certbot: Just get a certificate
+            <p>
+            If you’re feeling more conservative and would like to make the changes to your Apache
+            configuration by hand, run this command.
+            <pre>$ sudo /usr/local/bin/certbot-auto certonly --apache</pre>
+            </p>
+          </li>
+        </ul>
       </li>
 
 
@@ -360,7 +366,7 @@
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre>echo “0 0,12 * * * python -c ‘import random; import time; time.sleep(random.random() * 3600)’ &amp;&amp; certbot renew” | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo “0 0,12 * * * python -c ‘import random; import time; time.sleep(random.random() * 3600)’ &amp;&amp; certbot renew” | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
       </li>
 
@@ -371,7 +377,9 @@
         look for the lock icon in the URL bar.
         If you want to check that you have the top-of-the-line installation, you can head to
         <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
-        <!-- button with "check your site’s [icon] https:// at SSL Labs" -->
+        </p>
+        <p class="centered">
+        <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's ICON https:// at SSL Labs</a>.
         </p>
       </li>
     </ol>
@@ -421,19 +429,27 @@
     </div>
   </div>
 </div>
-<p>dd a cron job to the default crontab.
-        &lt;pre&gt;echo “0 0,12 * * * python -c ‘import random; import time; time.sleep(random.random() * 3600)’ &amp;&amp; certbot renew” | sudo tee -a /etc/crontab &gt; /dev/null&lt;/pre&gt;
-        &lt;/p&gt;
-      &lt;/li&gt;</p>
+<p>.example.com
+      &lt;/pre&gt;</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  &lt;li&gt;
+    Set up automatic renewal
+    &lt;p&gt;
+    We recommend running the following line, which will add a cron job to the default crontab.
+    &lt;pre class="one-line"&gt;echo “0 0,12 * * * python -c ‘import random; import time; time.sleep(random.random() * 3600)’ &amp;&amp; certbot renew” | sudo tee -a /etc/crontab &gt; /dev/null&lt;/pre&gt;
+    &lt;/p&gt;
+  &lt;/li&gt;
+
+  &lt;li&gt;
     Confirm that Certbot worked
     &lt;p&gt;
     To confirm that your site is set up properly, visit https://yourwebsite.com/ in your browser and
     look for the lock icon in the URL bar.
     If you want to check that you have the top-of-the-line installation, you can head to
     &lt;a href='https://www.ssllabs.com/ssltest/'&gt;https://www.ssllabs.com/ssltest/&lt;/a&gt;.
-    &lt;!-- button with "check your site’s [icon] https:// at SSL Labs" --&gt;
+    &lt;/p&gt;
+    &lt;p class="centered"&gt;
+    &lt;a class="link-button" href='https://www.ssllabs.com/ssltest/'&gt;check your site's ICON https:// at SSL Labs&lt;/a&gt;.
     &lt;/p&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
