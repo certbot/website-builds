@@ -121,7 +121,7 @@ pre {
  * Wrapper
  */
 .wrapper {
-  max-width: calc(800px - (30px * 2));
+  max-width: calc(1200px - (30px * 2));
   margin-right: auto;
   margin-left: auto;
   padding-right: 30px;
@@ -891,6 +891,42 @@ footer.footer ul {
     display: inline-block;
     max-width: 120px; }
 
+.instructions h1 {
+  padding: 2rem 3rem;
+  font-size: 3em; }
+
+.instructions .instruction-widget span {
+  font-size: 30px; }
+
+.instructions-footer {
+  margin-top: 3em;
+  margin-bottom: 1em;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  width: 100%; }
+  .instructions-footer img {
+    width: 100px;
+    height: 100px; }
+  .instructions-footer .text-wrapper {
+    display: inline-block;
+    margin: 1rem 10%;
+    font-size: 16px; }
+  .instructions-footer .link-button-wide {
+    background-color: #FFFFFF;
+    color: #111;
+    border: 1px solid #ec1c23;
+    border-radius: 20px;
+    font-size: 18px;
+    padding: 5px 0;
+    width: 90%;
+    margin: 0 5%;
+    display: block; }
+    .instructions-footer .link-button-wide:hover {
+      color: #ec1c23;
+      cursor: pointer;
+      text-decoration: none; }
+
 input,
 select {
   background: transparent;
@@ -926,11 +962,11 @@ input[type=submit] {
 
 select {
   width: 200px;
-  text-align: left;
+  text-align: center;
   background: url(../images/chevron-down.png) 94%/15% no-repeat transparent;
   background-size: 12px; }
   select option {
-    text-align: left; }
+    text-align: center; }
 
 #using, #on {
   display: none; }
@@ -956,15 +992,12 @@ select {
     font-size: 40px;
     font-weight: bold; }
   .instruction-widget .js-only {
-    padding-top: 2rem;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: center;
         justify-content: center;
     -ms-flex-align: center;
         align-items: center; }
-    .instruction-widget .js-only select {
-      margin-top: 1rem; }
 
 tt {
   font-family: 'VeraMono' !important;
@@ -975,14 +1008,26 @@ h1.instruct {
   color: #838383; }
 
 .instruction-pane-wrapper {
-  border: 1px solid rgba(203, 209, 218, 0.4);
+  border: 1px solid #7c7c7c;
   padding: 2em; }
 
-.instruction-pane h1, .instruction-pane h3, .instruction-pane h2 {
+.instruction-pane ol {
   font-family: 'Roboto Slab';
   font-weight: 400;
   margin-top: 1em;
-  font-size: 1.4em; }
+  font-size: 30px; }
+  .instruction-pane ol p {
+    font-size: 18px;
+    margin-bottom: 2em; }
+  .instruction-pane ol ul {
+    list-style-type: none;
+    margin-top: 0;
+    margin-left: 1em; }
+  .instruction-pane ol h3 {
+    font-size: 22px;
+    font-weight: bold;
+    font-style: italic;
+    font-family: "Roboto", Helvetica, Arial, sans-serif; }
 
 .instructions.content {
   background-color: #fff;
@@ -1018,9 +1063,9 @@ h1.instruct {
         border-right: 1px solid #e6e6e6;
         border-top: 1px solid #e6e6e6; }
     .instructions.content .tab.active {
-      border-left: 1px solid rgba(203, 209, 218, 0.4);
-      border-right: 1px solid rgba(203, 209, 218, 0.4);
-      border-top: 1px solid rgba(203, 209, 218, 0.4); }
+      border-left: 1px solid #7c7c7c;
+      border-right: 1px solid #7c7c7c;
+      border-top: 1px solid #7c7c7c; }
   .instructions.content .tab.automated.active, .instructions.content .tab.advanced.active {
     color: black; }
     .instructions.content .tab.automated.active:after, .instructions.content .tab.advanced.active:after {
@@ -1036,7 +1081,7 @@ h1.instruct {
     margin-bottom: 1.2em;
     overflow: hidden; }
     .instructions.content #instructions-header a {
-      color: #838383;
+      color: #000;
       font-family: 'Roboto Slab';
       font-size: 1.4em;
       outline: none; }
@@ -1299,6 +1344,14 @@ body.privacy .post-content h2 {
       text-indent: -22px;
       margin: 1rem 20%; }
 
+.instructions .use-certbot h1 {
+  padding: 0;
+  font-size: 2em; }
+
+.instructions .use-certbot .reqs {
+  width: 90%;
+  margin: 5%; }
+
 .lightest-gray-bg {
   background-color: #F4F4F4;
   padding: 10px 0; }
@@ -1320,8 +1373,10 @@ body.privacy .post-content h2 {
   width: 100%; }
 
 div.home-https {
-  text-align: center;
-  display: block; }
+  display: block;
+  text-align: center; }
+  div.home-https h1 {
+    text-align: center; }
   div.home-https img {
     width: 100px;
     height: 200px; }
@@ -1332,18 +1387,6 @@ div.home-https {
     margin: 0 10%; }
     div.home-https .content-wrapper h2 {
       margin-bottom: 30px; }
-
-.link-button {
-  background-color: #FFFFFF;
-  color: #111;
-  border: 1px solid #ec1c23;
-  border-radius: 20px;
-  font-size: 18px;
-  padding: 5px 15px; }
-  .link-button:hover {
-    color: #ec1c23;
-    cursor: pointer;
-    text-decoration: none; }
 
 .col-thirds {
   text-align: center;
@@ -1485,13 +1528,24 @@ a {
   a:hover {
     color: #40748e; }
 
+.link-button {
+  background-color: #FFFFFF;
+  color: #111;
+  border: 1px solid #ec1c23;
+  border-radius: 20px;
+  font-size: 18px;
+  padding: 5px 15px; }
+  .link-button:hover {
+    color: #ec1c23;
+    cursor: pointer;
+    text-decoration: none; }
+
 html, body, div, h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0; }
 
 body {
-  margin-top: 60px;
-  background-color: #f4f5f7; }
+  margin-top: 60px; }
 
 body.index {
   background-color: #fff; }
@@ -1508,7 +1562,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 2em;
   font-weight: 400;
-  text-align: center;
+  text-align: left;
   margin-top: 0.25em;
   margin-bottom: 0.35em; }
 

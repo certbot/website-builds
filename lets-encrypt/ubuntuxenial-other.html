@@ -1,16 +1,3 @@
-<!--
-
- ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
-██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
-██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
-██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
-╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
- ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
-
-Like looking at code? Help us! https://github.com/certbot/certbot
-                               https://github.com/certbot/website
-
--->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </head>
 
 
-  <body class="index">
+  <body class="instructions">
 
     <nav class="main-nav fixed">
   <ul>
@@ -72,48 +59,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </div>
 
 
-    <div class="home-https">
-  <!-- get your site on https:// -->
-  <div class="lightest-gray-bg">
-    <h1>Get your site on https://</h1>
-  </div>
-  <div>
-    <div class="med-gray-bg col-50">
-      <div class="white-bg padded"><br/></div>
-      <div class="col-40">
-        <img src="/images/support-icon.svg">
-      </div>
-      <div class="col-60">
-        <div class="content-wrapper">
-          <h2>Find out if your hosting provider has HTTPS built in &mdash; no Cerbot required.</h2>
-          <a class="link-button">See the list of providers</a>
-        </div>
-      </div>
-    </div>
-    <div class="light-gray-bg col-50">
-      <div class="white-bg padded"><br/></div>
-      <div class="col-60">
-        <div class="content-wrapper">
-          <h2>Or, run Certbot once to automatically get free HTTPS certificates forever.</h2>
-          <a class="link-button">Get Certbot instructions</a>
-        </div>
-      </div>
-      <div class="col-40">
-        <img src="/images/support-icon.svg">
-      </div>
-    </div>
-  </div>
-</div>
+    <h1>certbot instructions</h1>
 
-
-
-    <div class="hero">
-  <h1>Ready to use Certbot?</h1>
-  <p>Use our instruction generator to find custom commands to get Certbot on
-  your server's environment. Pick your server's software and system below.</p>
-
-  <div class="instruction-widget">
-    <div class="js-only">
+    <div class="instruction-widget">
+      <div class="js-only">
   <span id="using">My HTTP website is running</span>
   <select id="server-select" name="server">
     <optgroup>
@@ -199,12 +148,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   No javascript? See all setup instructions <a href="/all-instructions">here</a>. Read the full documentation <a href="/docs/">here</a>.
 </div>
 
-  </div>
-
-</div>
-
-
-    <div class="use-certbot">
+    </div>
+    
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="instructions content">
+          <div class="use-certbot">
   <h1>To use Certbot, you'll need...</h1>
   <div class="reqs">
     <div class="col-thirds">
@@ -289,22 +238,319 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </p>
 </div>
 
+          <h2 id="instructions-header"><a href="/lets-encrypt/ubuntuxenial-other.html">None of the above on Ubuntu 16.04 (xenial)</a></h2>
+<div class="tab automated active">default</div>
+<div class="tab advanced">wildcard certificate</div>
 
+<div class="instruction-pane-wrapper">
+  <div class="instruction-pane automated">
+    <ol>
+      
+      <li>
+          SSH into the server
+          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
+      </li>
 
-    <div class="home-further-links">
-      <div class="col-50 centered">
-        <img src="/images/support-icon.svg">
-      </div>
-      <div class="col-50 centered">
-        <img src="/images/support-icon.svg">
-      </div>
-      <div class="col-50 centered">
-        <a class="link-button">See our explainers</a>
-      </div>
-      <div class="col-50 centered">
-        <a class="link-button">See opportunites to help</a>
+      <li>
+          <h2>Add Certbot PPA</h2>
+          You'll need to add the Certbot PPA to your list of repositories. To do so,
+          run the following commands on the command line on the machine:
+          <pre>
+          $ sudo apt-get update
+          $ sudo apt-get install software-properties-common
+          $ sudo add-apt-repository universe
+          $ sudo add-apt-repository ppa:certbot/certbot
+          $ sudo apt-get update
+          </pre>
+      </li>
+
+      <li>
+          <h2>Install Certbot</h2>
+          Run this command on the command line on the machine to install Certbot.
+          <pre>
+          $ sudo apt-get install certbot 
+          </pre>
+      </li>
+      <p>
+      Certbot supports a number of different “plugins” that can be used to obtain and/or install certificates.
+      </p>
+      <p>
+      Since your server architecture doesn't yet  support automatic
+      installation you&#39;ll have to use the <tt>certonly</tt> command to obtain your
+      certificate.
+      </p>
+      <pre>$ sudo certbot certonly</pre>
+      <p>
+      This will allow you interactively select the plugin and options used to obtain
+      your certificate. If you already have a webserver running, we recommend
+      choosing the <a href="/docs/using.html#webroot">"webroot" plugin</a>.
+      </p>
+      <p>
+      Alternatively, you can specify more information on the command line.
+      </p>
+      <p>
+      To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</a>,
+      which can work with the webroot directory of any webserver software:
+      </p>
+      <pre>
+      $ sudo certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
+      </pre>
+      <p>
+      This command will obtain a single cert for <tt>example.com</tt>,
+      <tt>www.example.com</tt>, <tt>thing.is</tt>, and <tt>m.thing.is</tt>; it will
+      place files below <tt>/var/www/example</tt> to prove control of the first two
+      domains, and under <tt>/var/www/thing</tt> for the second pair.
+      </p>
+      <aside class="note">
+              <h4>Note:</h4>
+                  <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If /.well-known is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside /.well-known/acme-challenge are served by the webserver.</p>
+      </aside>
+      <p>
+      To obtain a cert using a built-in “standalone” webserver (you may need to
+      temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
+      <tt>www.example.com</tt>:
+      </p>
+      <pre>
+      $ sudo certbot certonly --standalone -d example.com -d www.example.com
+      </pre>
+      <p>
+      <strong>You can also use one of Certbot's DNS plugins to obtain a certificate if it's
+      installed and you have configured DNS for the domain you want to obtain a
+      certificate for with the DNS provider matching the plugin.</strong> To see more
+      information about using these plugins, click
+      <a href="/docs/using.html#dns-plugins">here</a>. If you want to use one of
+      these plugins with Let's Encrypt's new ACMEv2 server that will issue wildcard
+      certificates, you'll also need to include the following flag on the command
+      line:
+      </p>
+      <pre>
+      --server https://acme-v02.api.letsencrypt.org/directory
+      </pre>
+
+      <li>
+        Test automatic renewal
+        <p>
+        The Certbot packages on your system come with a cron job that will renew your certificates
+        automatically before they expire. You will not need to run Certbot again, unless you change your
+        configuration. You can test automatic renewal for your certificates by running this command:
+        <pre>$ sudo certbot renew --dry-run</pre>
+        </p>
+      </li>
+
+      <li>
+        Confirm that Certbot worked
+        <p>
+        To confirm that your site is set up properly, visit https://yourwebsite.com/ in your browser and
+        look for the lock icon in the URL bar.
+        If you want to check that you have the top-of-the-line installation, you can head to
+        <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
+        <!-- button with "check your site’s [icon] https:// at SSL Labs" -->
+        </p>
+      </li>
+    </ol>
+  </div>
+
+  <div class="instruction-pane advanced">
+    <ol>
+      <li>
+          Check if your DNS provider is supported
+          <p>
+          See if your DNS provider is supported by Certbot by checking
+          <a href="https://certbot.eff.org/docs/using.html#dns-plugins">this list in our
+            documentation</a>.
+          <!-- button with text "check if your DNS provider supports Certbot" -->
+          </p>
+          <h3>Not supported?</h3>
+          <p>
+          If your DNS provider is not supported, pause here: run Certbot with the manual plugin by using
+          <a href="https://certbot.eff.org/docs/using.html#manual">these steps from our documentation.</a>
+          </p>
+          <h3>Supported?</h3>
+          <p>
+          If your DNS provider is supported, continue with the remaining instructions below.
+          </p>
+      </li>
+
+      <li>
+          SSH into the server
+          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
+      </li>
+
+      <li>
+          <h2>Add Certbot PPA</h2>
+          You'll need to add the Certbot PPA to your list of repositories. To do so,
+          run the following commands on the command line on the machine:
+          <pre>
+          $ sudo apt-get update
+          $ sudo apt-get install software-properties-common
+          $ sudo add-apt-repository universe
+          $ sudo add-apt-repository ppa:certbot/certbot
+          $ sudo apt-get update
+          </pre>
+      </li>
+
+      <li>
+          <h2>Install Certbot</h2>
+          Run this command on the command line on the machine to install Certbot.
+          <pre>
+          $ sudo apt-get install certbot 
+          </pre>
+      </li>
+      <li>
+          Install correct DNS plugin
+          <p>
+          Run the following command, replacing &lt;PLUGIN&gt; with the name of your DNS provider.
+          <pre>$ sudo apt-get install python3-certbot-dns-&lt;PLUGIN&gt;</pre>
+          For example, if your DNS provider is RFC2136, you'd run the following command:
+          <pre>$ sudo apt-get install python3-certbot-dns-rfc2136</pre>
+      &lt;/li&gt;
+      <li>
+          Set up credentials
+          <p>
+          You’ll need to set up DNS credentials.<br />
+          Follow the steps in the “Credentials” section for your DNS provider to access or create the
+          appropriate credential configuration file. Find credentials instructions for your DNS provider
+          by clicking the <a href="https://certbot.eff.org/docs/using.html#dns-plugins">DNS plugin’s
+            name on the Documentation list</a>.
+          </p>
+          <!-- button with "find your DNS provider’s Credential steps" -->
+      </li>
+      <p>
+      Certbot supports a number of different “plugins” that can be used to obtain and/or install certificates.
+      </p>
+      <p>
+      Since your server architecture doesn't yet  support automatic
+      installation you&#39;ll have to use the <tt>certonly</tt> command to obtain your
+      certificate.
+      </p>
+      <pre>$ sudo certbot certonly</pre>
+      <p>
+      This will allow you interactively select the plugin and options used to obtain
+      your certificate. If you already have a webserver running, we recommend
+      choosing the <a href="/docs/using.html#webroot">"webroot" plugin</a>.
+      </p>
+      <p>
+      Alternatively, you can specify more information on the command line.
+      </p>
+      <p>
+      To obtain a cert using the <a href="/docs/using.html#webroot">"webroot" plugin</a>,
+      which can work with the webroot directory of any webserver software:
+      </p>
+      <pre>
+      $ sudo certbot certonly --webroot -w /var/www/example -d example.com -d www.example.com -w /var/www/thing -d thing.is -d m.thing.is
+      </pre>
+      <p>
+      This command will obtain a single cert for <tt>example.com</tt>,
+      <tt>www.example.com</tt>, <tt>thing.is</tt>, and <tt>m.thing.is</tt>; it will
+      place files below <tt>/var/www/example</tt> to prove control of the first two
+      domains, and under <tt>/var/www/thing</tt> for the second pair.
+      </p>
+      <aside class="note">
+              <h4>Note:</h4>
+                  <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If /.well-known is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside /.well-known/acme-challenge are served by the webserver.</p>
+      </aside>
+      <p>
+      To obtain a cert using a built-in “standalone” webserver (you may need to
+      temporarily stop your existing webserver, if any) for <tt>example.com</tt> and
+      <tt>www.example.com</tt>:
+      </p>
+      <pre>
+      $ sudo certbot certonly --standalone -d example.com -d www.example.com
+      </pre>
+      <p>
+      <strong>You can also use one of Certbot's DNS plugins to obtain a certificate if it's
+      installed and you have configured DNS for the domain you want to obtain a
+      certificate for with the DNS provider matching the plugin.</strong> To see more
+      information about using these plugins, click
+      <a href="/docs/using.html#dns-plugins">here</a>. If you want to use one of
+      these plugins with Let's Encrypt's new ACMEv2 server that will issue wildcard
+      certificates, you'll also need to include the following flag on the command
+      line:
+      </p>
+      <pre>
+      --server https://acme-v02.api.letsencrypt.org/directory
+      </pre>
+
+      <li>
+        Test automatic renewal
+        <p>
+        The Certbot packages on your system come with a cron job that will renew your certificates
+        automatically before they expire. You will not need to run Certbot again, unless you change your
+        configuration. You can test automatic renewal for your certificates by running this command:
+        <pre>$ sudo certbot renew --dry-run</pre>
+        </p>
+      </li>
+
+      <li>
+        Confirm that Certbot worked
+        <p>
+        To confirm that your site is set up properly, visit https://yourwebsite.com/ in your browser and
+        look for the lock icon in the URL bar.
+        If you want to check that you have the top-of-the-line installation, you can head to
+        <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
+        <!-- button with "check your site’s [icon] https:// at SSL Labs" -->
+        </p>
+      </li>
+    &lt;/ol&gt;
+  &lt;/div&gt;
+
+  <div class="instructions-footer">
+    <div class="col-thirds">
+      <img src="/images/support-icon.svg" />
+    </div>
+    <div class="col-thirds">
+      <img src="/images/support-icon.svg" />
+    </div>
+    <div class="col-thirds">
+      <img src="/images/support-icon.svg" />
+    </div>
+    <div class="col-thirds">
+      <div class="text-wrapper">
+        <span>
+          Troubleshooting?<br />
+          Encountering an error?
+        </span>
       </div>
     </div>
+    <div class="col-thirds">
+      <div class="text-wrapper">
+        <span>
+          Need more options to customize your setup?
+        </span>
+      </div>
+    </div>
+    <div class="col-thirds">
+      <div class="text-wrapper">
+        <span>
+          Like Certbot? This free, open source project is part of EFF's 
+          commitment to make encryption accessible for all.
+        </span>
+      </div>
+    </div>
+    <div class="col-thirds">
+      <a class="link-button-wide" href="/docs/">Get help</a>
+    </div>
+    <div class="col-thirds">
+      <a class="link-button-wide" href="/docs/">See how to work with Certbot</a>
+    </div>
+    <div class="col-thirds">
+      <a class="link-button-wide" href="/docs/">Donate to Certbot and EFF</a>
+    </div>
+  </div>
+&lt;/div&gt;
+</p></li></ol></div></div>
+
+        </div>
+      </div>
+    </div>
+    
+    <footer class="social">
+  <ul>
+    <li><a href="https://www.facebook.com/share.php?u=https%3A%2F%2Fcertbot.eff.org&amp;title=Certbot" target="_blank" rel="noreferrer"><i class="icon-facebook"></i></a></li>
+    <li><a href="https://twitter.com/intent/tweet?text=Check%20out%20Certbot%2C%20an%20%40EFF%20tool%20that%20makes%20it%20easy%20to%20get%20and%20configure%20HTTPS%20with%20Let%27s%20Encrypt%20certificates&amp;url=https%3A%2F%2Fcertbot.eff.org&amp;related=eff" target="_blank" rel="noreferrer"><i class="icon-twitter"></i></a></li>
+    <li><a href="https://plus.google.com/share?url=https%3A%2F%2Fcertbot.eff.org" target="_blank" rel="noreferrer"><i class="icon-google"></i></a></li>
+  </ul>
+</footer>
 
     <footer class="footer">
 
@@ -328,8 +574,8 @@ document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.
 
 </footer>
 
-
-
+    
+    
   </body>
 
 </html>
