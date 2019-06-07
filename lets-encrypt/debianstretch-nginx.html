@@ -254,8 +254,8 @@
       <li>
         Enable Stretch backports repo
         <p>
-        You'll need to enable Debian Strech’s backports repo. <br />
-        Follow these instructions at <a href="http://backports.debian.org/Instructions/">Debian’s site
+        You'll need to enable Debian Strech's backports repo. <br />
+        Follow these instructions at <a href="http://backports.debian.org/Instructions/">Debian's site
           to enable the Stretch backports repo.</a>
         </p>
         <p class="centered">
@@ -270,19 +270,22 @@
         </p>
       </li>
 
-      <li> Choose how to run Certbot
+      <li> Choose how you'd like to run Certbot
         <ul>
         <li>
-          Either... Get &amp; Install your certificates
+          Either get and install your certificates...
           <p>
-          Run one of the commands in the "Examples" section of the instructions for your DNS provider,
-          along with the flag <tt>-i nginx</tt>.
+          Run this command to get a certificate and have Certbot edit your Nginx configuration
+          automatically to serve it, turning on HTTPS access in a single step.
+          <pre>sudo certbot --nginx</pre>
           </p>
         </li>
         <li>
-          Or just get a certificate
+          Or, just get a certificate
           <p>
-          Run one of the commands in the “Examples” section of the instructions for your DNS provider.
+          If you're feeling more conservative and would like to make the changes to your Nginx
+          configuration by hand, run this command.
+          <pre>sudo certbot certonly --nginx</pre>
           </p>
         </li>
         </ul>
@@ -291,11 +294,22 @@
       <li>
         Test automatic renewal
         <p>
-        The Certbot packages on your system come with a cron job that will renew your certificates
+        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
         automatically before they expire. You will not need to run Certbot again, unless you change your
         configuration. You can test automatic renewal for your certificates by running this command:
         <pre>sudo certbot renew --dry-run</pre>
         </p>
+
+        <p>
+        The command to renew certbot is installed in one of the following locations:
+        <ul>
+          <li><tt>/etc/crontab/</tt></li>
+          <li><tt>/etc/cron.*/*</tt></li>
+          <li><tt>systemctl list-timers</tt></li>
+        </ul>
+        </p>
+
+
       </li>
 
       <li>
@@ -344,8 +358,8 @@
       <li>
         Enable Stretch backports repo
         <p>
-        You'll need to enable Debian Strech’s backports repo. <br />
-        Follow these instructions at <a href="http://backports.debian.org/Instructions/">Debian’s site
+        You'll need to enable Debian Strech's backports repo. <br />
+        Follow these instructions at <a href="http://backports.debian.org/Instructions/">Debian's site
           to enable the Stretch backports repo.</a>
         </p>
         <p class="centered">
@@ -372,28 +386,28 @@
       <li>
           Set up credentials
           <p>
-          You’ll need to set up DNS credentials.<br />
-          Follow the steps in the “Credentials” section for your DNS provider to access or create the
+          You'll need to set up DNS credentials.<br />
+          Follow the steps in the "Credentials" section for your DNS provider to access or create the
           appropriate credential configuration file. Find credentials instructions for your DNS provider
-          by clicking the <a href="https://certbot.eff.org/docs/using.html#dns-plugins">DNS plugin’s name on the Documentation list</a>.
+          by clicking the <a href="https://certbot.eff.org/docs/using.html#dns-plugins">DNS plugin's name on the Documentation list</a>.
           </p>
           <p class="centered">
-          <a class="link-button" href="https://certbot.eff.org/docs/using.html#dns-plugins">Find your DNS plugin’s Credential steps</a>
+          <a class="link-button" href="https://certbot.eff.org/docs/using.html#dns-plugins">Find your DNS plugin's Credential steps</a>
           </p>
       </li>
-      <li> Choose how to run Certbot
+      <li> Choose how you'd like to run Certbot
         <ul>
         <li>
-          Either... Get &amp; Install your certificates
+          Either get and install your certificates...
           <p>
           Run one of the commands in the "Examples" section of the instructions for your DNS provider,
           along with the flag <tt>-i nginx</tt>.
           </p>
         </li>
         <li>
-          Or just get a certificate
+          Or, just get a certificate
           <p>
-          Run one of the commands in the “Examples” section of the instructions for your DNS provider.
+          Run one of the commands in the "Examples" section of the instructions for your DNS provider.
           </p>
         </li>
         </ul>
@@ -402,11 +416,22 @@
       <li>
         Test automatic renewal
         <p>
-        The Certbot packages on your system come with a cron job that will renew your certificates
+        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
         automatically before they expire. You will not need to run Certbot again, unless you change your
         configuration. You can test automatic renewal for your certificates by running this command:
         <pre>sudo certbot renew --dry-run</pre>
         </p>
+
+        <p>
+        The command to renew certbot is installed in one of the following locations:
+        <ul>
+          <li><tt>/etc/crontab/</tt></li>
+          <li><tt>/etc/cron.*/*</tt></li>
+          <li><tt>systemctl list-timers</tt></li>
+        </ul>
+        </p>
+
+
       </li>
 
       <li>

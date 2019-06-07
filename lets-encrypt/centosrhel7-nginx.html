@@ -291,19 +291,22 @@
 
 
 
-      <li> Choose how to run Certbot
+      <li> Choose how you'd like to run Certbot
         <ul>
         <li>
-          Either... Get &amp; Install your certificates
+          Either get and install your certificates...
           <p>
-          Run one of the commands in the "Examples" section of the instructions for your DNS provider,
-          along with the flag <tt>-i nginx</tt>.
+          Run this command to get a certificate and have Certbot edit your Nginx configuration
+          automatically to serve it, turning on HTTPS access in a single step.
+          <pre>sudo certbot --nginx</pre>
           </p>
         </li>
         <li>
-          Or just get a certificate
+          Or, just get a certificate
           <p>
-          Run one of the commands in the “Examples” section of the instructions for your DNS provider.
+          If you're feeling more conservative and would like to make the changes to your Nginx
+          configuration by hand, run this command.
+          <pre>sudo certbot certonly --nginx</pre>
           </p>
         </li>
         </ul>
@@ -314,8 +317,9 @@
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo “0 0,12 * * * python -c ‘import random; import time; time.sleep(random.random() * 3600)’ &amp;&amp; certbot renew” | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
+
       </li>
 
       <li>
@@ -413,28 +417,28 @@
       <li>
           Set up credentials
           <p>
-          You’ll need to set up DNS credentials.<br />
-          Follow the steps in the “Credentials” section for your DNS provider to access or create the
+          You'll need to set up DNS credentials.<br />
+          Follow the steps in the "Credentials" section for your DNS provider to access or create the
           appropriate credential configuration file. Find credentials instructions for your DNS provider
-          by clicking the <a href="https://certbot.eff.org/docs/using.html#dns-plugins">DNS plugin’s name on the Documentation list</a>.
+          by clicking the <a href="https://certbot.eff.org/docs/using.html#dns-plugins">DNS plugin's name on the Documentation list</a>.
           </p>
           <p class="centered">
-          <a class="link-button" href="https://certbot.eff.org/docs/using.html#dns-plugins">Find your DNS plugin’s Credential steps</a>
+          <a class="link-button" href="https://certbot.eff.org/docs/using.html#dns-plugins">Find your DNS plugin's Credential steps</a>
           </p>
       </li>
-      <li> Choose how to run Certbot
+      <li> Choose how you'd like to run Certbot
         <ul>
         <li>
-          Either... Get &amp; Install your certificates
+          Either get and install your certificates...
           <p>
           Run one of the commands in the "Examples" section of the instructions for your DNS provider,
           along with the flag <tt>-i nginx</tt>.
           </p>
         </li>
         <li>
-          Or just get a certificate
+          Or, just get a certificate
           <p>
-          Run one of the commands in the “Examples” section of the instructions for your DNS provider.
+          Run one of the commands in the "Examples" section of the instructions for your DNS provider.
           </p>
         </li>
         </ul>
@@ -445,8 +449,9 @@
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo “0 0,12 * * * python -c ‘import random; import time; time.sleep(random.random() * 3600)’ &amp;&amp; certbot renew” | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
+
       </li>
 
       <li>
