@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Certbot - Opbsd6 Other</title>
+    <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
+">
+    <link rel="stylesheet" href="/css/main.css">
+    <link ref="shortcut icon" href="/favicon.ico" />
+    <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@EFF">
+    <meta name="twitter:title" content="Certbot - Opbsd6 Other">
+    <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
+">
+    <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+    <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+    <script src='/js/main.js' type="text/javascript" defer="defer"></script>
+
+    
+      
+        <script src='/js/instructions.js' type="text/javascript" defer="defer"></script>
+      
+    
+</head>
+
+
+  <body class="instructions page">
+
+    <nav class="main-nav fixed">
+  <div class="logo">
+    <a href="/"><img src="/images/certbot-logo-1A.svg" alt="Certbot logo, a robot holding a key"/></a>
+  </div>
+
+  <ul>
+    <li class="mobile-hidden"><a href="/instructions">certbot instructions</a></li>
+    <li class="mobile-hidden"><a href="/about/">about certbot</a></li>
+    <li class="mobile-hidden"><a href="/contribute/">contribute to certbot</a></li>
+    <li class="mobile-hidden"><a href="/hosting_providers/">hosting providers with HTTPS</a></li>
+    <li class="mobile-hidden"><a href="/help/">get help</a></li>
+    <li class="donate mobile-hidden"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate</a></li>
+    <li class="donate mobile-only"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+    <div id="shelf">
+  <ul>
+    <li><a href="/">home</a></li>
+    <li><a href="/instructions">certbot instructions</a></li>
+    <li><a href="/about/">about certbot</a></li>
+    <li><a href="/contribute/">contribute to certbot</a></li>
+    <li><a href="/hosting_providers/">hosting providers with HTTPS</a></li>
+    <li><a href="/help/">get help</a></li>
+    <li><a href="https://supporters.eff.org/donate/support-work-on-certbot">donate</a></li>
+    <li id="close">&times;</li>
+  </ul>
+</div>
+
+
+    <div class="header-wrapper">
+      <h1>certbot instructions</h1>
+    </div>
+
+    <div class="hero">
+      <div class="instruction-widget">
+        <div class="js-only">
+  <h1 class="mobile-only">What's your HTTP website running on?</h1>
+  <span id="using">My HTTP website is running</span>
+  <select id="server-select" name="server">
+    <optgroup>
+      <option value="" disabled selected>Software</option>
+      
+        <option value="apache">Apache</option>
+      
+        <option value="nginx">Nginx</option>
+      
+        <option value="haproxy">Haproxy</option>
+      
+        <option value="plesk">Plesk</option>
+      
+        <option value="other">None of the above</option>
+      
+    </optgroup>
+  </select>
+
+  <span id="on">on</span>
+  <select id="os-select" name="os">
+    <optgroup>
+      <option value="" disabled selected>System</option>
+      
+        <option value="sharedhost" data-distro="sharedhost" data-version="0">Web Hosting Service</option>
+      
+        <option value="debianjessie" data-distro="debian" data-version="8">Debian 8 (jessie)</option>
+      
+        <option value="debianstretch" data-distro="debian" data-version="9">Debian 9 (stretch)</option>
+      
+        <option value="debiantesting" data-distro="debian" data-version="10">Debian testing/unstable</option>
+      
+        <option value="debianother" data-distro="debian" data-version="0">Debian (other)</option>
+      
+        <option value="ubuntubionic" data-distro="ubuntu" data-version="18.04">Ubuntu 18.04 LTS (bionic)</option>
+      
+        <option value="ubuntuxenial" data-distro="ubuntu" data-version="16.04">Ubuntu 16.04 (xenial)</option>
+      
+        <option value="ubuntutrusty" data-distro="ubuntu" data-version="14.04">Ubuntu 14.04 (trusty)</option>
+      
+        <option value="ubuntuother" data-distro="ububtu" data-version="0">Ubuntu (other)</option>
+      
+        <option value="gentoo" data-distro="gentoo" data-version="0">Gentoo</option>
+      
+        <option value="arch" data-distro="arch" data-version="0">Arch Linux</option>
+      
+        <option value="fedora" data-distro="fedora" data-version="26">Fedora 26+</option>
+      
+        <option value="centos6" data-distro="centos" data-version="6">CentOS 6</option>
+      
+        <option value="centosrhel6" data-distro="rhel" data-version="6">RHEL 6</option>
+      
+        <option value="centosrhel7" data-distro="centos" data-version="7">CentOS/RHEL 7</option>
+      
+        <option value="freebsd" data-distro="freebsd" data-version="0">FreeBSD</option>
+      
+        <option value="opbsd5" data-distro="opbsd" data-version="5.9">OpenBSD 5.9</option>
+      
+        <option value="opbsd6" data-distro="opbsd" data-version="6">OpenBSD 6.0+</option>
+      
+        <option value="opbsd" data-distro="auto" data-version="0">OpenBSD (other)</option>
+      
+        <option value="osx" data-distro="macos" data-version="10">macOS</option>
+      
+        <option value="devuanascii" data-distro="devuan" data-version="2">Devuan ASCII 2.0</option>
+      
+        <option value="devuanjessie" data-distro="devuan" data-version="1">Devuan Jessie 1.0</option>
+      
+        <option value="devuanother" data-distro="devuan" data-version="3">Devuan testing/unstable</option>
+      
+        <option value="tumbleweed" data-distro="opensuse" data-version="0">openSUSE Tumbleweed</option>
+      
+        <option value="leap" data-distro="opensuse" data-version="15.0">openSUSE Leap 15.0</option>
+      
+        <option value="pip" data-distro="python" data-version="0">Other UNIX</option>
+      
+        <option value="nonunix" data-distro="nonunix" data-version="0">Non-UNIX</option>
+      
+    </optgroup>
+  </select>
+  <div class="not-sure">
+    <a href="/help">Help, I'm not sure!</a>
+  </div>
+</div>
+
+<div class="no-js-only">
+  No javascript? See all setup instructions <a href="/all-instructions">here</a>. Read the full documentation <a href="/docs/">here</a>.
+</div>
+
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="use-certbot">
+  <h1>To use Certbot, you'll need...</h1>
+  <div class="three-col reqs">
+    <div class="col">
+      <img src="/images/Computer.svg">
+      <div class="text-wrapper hanging-indent">
+        <span>comfort with the command line</span>
+      </div>
+    </div>
+    <div class="col">
+      <img src="/images/HTTPsite.svg">
+      <div class="text-wrapper hanging-indent">
+        <span>
+          ...and an
+          
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">HTTP</a>
+  <div class="tooltip js">
+    <div class="close-button"><img class="close-tooltip" src="/images/close.svg"></div>
+    <div class="tooltip-title">
+      <a>HTTP</a>
+    </div>
+    <p>HTTP is the traditional, but insecure, method for web browsers to request the content of web pages and other online resources from web servers. It is an Internet standard and normally used with TCP port 80. Almost all websites in the world support HTTP, but websites that have been configured with Certbot or some other method of setting up HTTPS may automatically redirect users from the HTTP version of the site to the HTTPS version.</p>
+
+    <div class="bottom-text">
+      From our <a>Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">HTTP</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title">HTTP</a>
+    <p>HTTP is the traditional, but insecure, method for web browsers to request the content of web pages and other online resources from web servers. It is an Internet standard and normally used with TCP port 80. Almost all websites in the world support HTTP, but websites that have been configured with Certbot or some other method of setting up HTTPS may automatically redirect users from the HTTP version of the site to the HTTPS version.</p>
+
+    <div class="bottom-text">
+      From our <a>Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+
+          website
+          <br/>
+          that is already online
+          <br/>
+          with an open Port 80
+        </span>
+      </div>
+    </div>
+    <div class="col">
+      <img src="/images/Server.svg">
+      <div class="text-wrapper hanging-indent">
+        <span>
+          ...which is hosted on a server
+          <br/>
+          which you can access via SSH
+          <br/>
+          with the ability to sudo
+          <br/>
+        </span>
+        <span class="italic">
+          optional if you want a wildcard cert:
+          DNS credentials
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-hidden">
+    <h1>Don't have these requirements?</h1>
+    <p>
+    Not to worry! Some hosting providers automate the HTTPS process.
+    <a href="/hosting_providers">See the full list of hosting providers</a>, or <a href="/help">find out more about how to set up your system</a>.
+    </p>
+  </div>
+</div>
+
+        <div class="instructions content">
+          <h2 id="instructions-header"><a href="/lets-encrypt/opbsd6-other.html">None of the above on OpenBSD 6.0+</a></h2>
+<div class="tab automated active">default</div>
+<div class="tab advanced">wildcard</div>
+
+<div class="instruction-pane-wrapper">
+  <div class="instruction-pane automated">
+    <ol>
+      
+      <li>
+          SSH into the server
+          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
+      </li>
+
+      <li>
+          Install Certbot package
+          <p>
+          Run this command on the command line on the machine to install the Certbot package.
+          <pre>pkg_add certbot</pre>
+          </p>
+      </li>
+
+      <li>
+          Choose how you'd like to run Certbot
+          <p>
+              Are you ok with temporarily stopping your website?
+          </p>
+          <h3>Yes, my web server is not currently running on this machine.</h3>
+          <p>
+              Stop your webserver, then run this command to get a certificate.
+              Certbot will temporarily spin up a webserver on your machine.
+              <pre>
+                  sudo certbot certonly --standalone
+              </pre>
+          </p>
+          <h3>No, I need to keep my web server running.</h3>
+          <p>
+              If you have a webserver that's already using port 80 and don't want to stop it
+              while Certbot runs, run this command and follow the instructions in the terminal.
+              <pre>
+                  sudo certbot certonly --webroot
+              </pre>
+          </p>
+          <aside class="note">
+              <h4>Note:</h4>
+                  <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If <tt>/.well-known</tt> is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside <tt>/.well-known/acme-challenge</tt> are served by the webserver.</p>
+          </aside>
+      </li>
+
+      <li>
+          Install your certificate
+          <p>
+              You'll need to install your new certificate in the configuration file for
+              your webserver.
+          </p>
+      </li>
+
+
+      <li>
+        Set up automatic renewal
+        <p>
+        We recommend running the following line, which will add a cron job to the default crontab.
+        <pre class="one-line">echo "0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        </p>
+
+        <p>
+        If you needed to stop your webserver to run Certbot, you'll want to
+        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
+        and start your webserver automatically. For example, if your webserver is HAProxy, modify the
+        command as follows:
+
+        <pre class="one-line">echo "0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        </p>
+
+        <p>
+        More information is available in the
+        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
+        Certbot documentation on renewing certificates</a>.
+        </p>
+      </li>
+
+      <li>
+        Confirm that Certbot worked
+        <p>
+        To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
+        look for the lock icon in the URL bar.
+        If you want to check that you have the top-of-the-line installation, you can head to
+        <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
+        </p>
+        <p class="centered">
+        <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's ICON https:// at SSL Labs</a>.
+        </p>
+      </li>
+    </ol>
+  </div>
+
+  <div class="instruction-pane advanced">
+    <ol>
+      <aside class="note">
+          <h4>Follow Docker instructions</h4>
+          <p>
+          To get a wildcard certificate on this system, you'll need to run Certbot in Docker. You
+          can do so by following
+          <a href="/docs/install.html#running-with-docker">these
+            steps from our documentation</a>.
+          </p>
+      </aside>
+
+      <li>
+          SSH into the server
+          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
+      </li>
+
+      <li>
+          Install Certbot package
+          <p>
+          Run this command on the command line on the machine to install the Certbot package.
+          <pre>pkg_add certbot</pre>
+          </p>
+      </li>
+
+      <li>
+          Get a certificate
+          <p>
+          Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>.
+          </p>
+      </li>
+
+      <li>
+          Install your certificate
+          <p>
+              You'll need to install your new certificate in the configuration file for
+              your webserver.
+          </p>
+      </li>
+
+
+      <li>
+        Set up automatic renewal
+        <p>
+        We recommend running the following line, which will add a cron job to the default crontab.
+        <pre class="one-line">echo "0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        </p>
+
+        <p>
+        If you needed to stop your webserver to run Certbot, you'll want to
+        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
+        and start your webserver automatically. For example, if your webserver is HAProxy, modify the
+        command as follows:
+
+        <pre class="one-line">echo "0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        </p>
+
+        <p>
+        More information is available in the
+        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
+        Certbot documentation on renewing certificates</a>.
+        </p>
+      </li>
+
+      <li>
+        Confirm that Certbot worked
+        <p>
+        To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
+        look for the lock icon in the URL bar.
+        If you want to check that you have the top-of-the-line installation, you can head to
+        <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
+        </p>
+        <p class="centered">
+        <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's ICON https:// at SSL Labs</a>.
+        </p>
+      </li>
+    </ol>
+  </div>
+
+  <div class="instructions-footer">
+    <div class="col">
+      <img src="/images/support-icon.svg" />
+      <div class="text-wrapper">
+        <span>
+          Troubleshooting?<br class="mobile-hidden" />
+          Encountering an error?
+        </span>
+      </div>
+      <a class="link-button-wide" href="/docs/">Get help<img src="/images/chevron-right.png" class="mobile-only link-arrow" /></a>
+    </div>
+    <div class="col">
+      <img src="/images/support-icon.svg" />
+      <div class="text-wrapper">
+        <span>
+          Need more options to customize your setup?
+        </span>
+      </div>
+      <a class="link-button-wide" href="/docs/">See how to work with Certbot<img src="/images/chevron-right.png" class="mobile-only link-arrow" /></a>
+    </div>
+    <div class="col">
+      <img src="/images/support-icon.svg" />
+      <div class="text-wrapper">
+        <span class="mobile-hidden">
+          Like Certbot? This free, open source project is part of EFF's 
+          commitment to make encryption accessible for all.
+        </span>
+        <span class="mobile-only">
+          Like Certbot?
+        </span>
+      </div>
+      <a class="link-button-wide" href="/docs/">Donate to Certbot and EFF<img src="/images/chevron-right.png" class="mobile-only link-arrow" /></a>
+    </div>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    
+    <footer class="social">
+  <ul>
+    <li>
+      <a href="https://www.facebook.com/share.php?u=https%3A%2F%2Fcertbot.eff.org&amp;title=Certbot" target="_blank" rel="noreferrer"><div class="social-icon facebook"></div></a>
+    </li>
+    <li><a href="https://twitter.com/intent/tweet?text=Check%20out%20Certbot%2C%20an%20%40EFF%20tool%20that%20makes%20it%20easy%20to%20get%20and%20configure%20HTTPS%20with%20Let%27s%20Encrypt%20certificates&amp;url=https%3A%2F%2Fcertbot.eff.org&amp;related=eff" target="_blank" rel="noreferrer"><div class="social-icon twitter"></div></a></li>
+    <li><a href="https://supporters.eff.org/donate/support-work-on-certbot" target="_blank" rel="noreferrer"><div class="social-icon donate"></div></a></li>
+  </ul>
+</footer>
+
+    <footer class="footer">
+
+  <a target="_blank" href="https://www.eff.org"><img class="project-of" src="/images/EFF-bw-logo-white.svg" alt="Electronic Frontier Foundation"></a>
+
+  <ul>
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/support">Contact</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://letsencrypt.org/" class="letsencrypt">Let's Encrypt&trade;</a></li>
+    
+      <li><a target="_blank" href="https://www.eff.org/copyright"><img src="/images/cc-by-logo.png" alt="Creative Commons Attribution License"></a></li>
+    
+
+  </ul>
+
+<noscript><img src="https://anon-stats.eff.org/js/?idsite=24&amp;rec=1&amp;action_name=" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/js/?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+
+</footer>
+
+    
+    
+  </body>
+
+</html>
