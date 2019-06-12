@@ -236,7 +236,7 @@
     <h1>Don't have these requirements?</h1>
     <p>
     Not to worry! Some hosting providers automate the HTTPS process.
-    <a href="/hosting_providers">See the full list of hosting providers</a>, or <a href="/instructions">checkout a tutorial to get these things set up.</a>
+    <a href="/hosting_providers">See the full list of hosting providers</a>, or <a href="/help">find out more about how to set up your system</a>.
     </p>
   </div>
 </div>
@@ -303,7 +303,7 @@
           </p>
           <aside class="note">
               <h4>Note:</h4>
-                  <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If /.well-known is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside /.well-known/acme-challenge are served by the webserver.</p>
+                  <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If <tt>/.well-known</tt> is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside <tt>/.well-known/acme-challenge</tt> are served by the webserver.</p>
           </aside>
       </li>
 
@@ -325,23 +325,24 @@
 
         <p>
         If you needed to stop your webserver to run Certbot, you'll want to
-        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt>to stop
+        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
         and start your webserver automatically. For example, if your webserver is HAProxy, modify the
         command as follows:
 
         <pre class="one-line">echo "0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
+        <p>
         More information is available in the
-        <a href="https://certbot.eff.org/docs/using.html?highlight=hooks#renewing-certificates">
+        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
         Certbot documentation on renewing certificates</a>.
-        &lt;/p&gt;
+        </p>
       </li>
 
       <li>
         Confirm that Certbot worked
         <p>
-        To confirm that your site is set up properly, visit https://yourwebsite.com/ in your browser and
+        To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
         look for the lock icon in the URL bar.
         If you want to check that you have the top-of-the-line installation, you can head to
         <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
@@ -360,7 +361,7 @@
           <p>
           To get a wildcard certificate on this system, you'll need to run Certbot in Docker. You
           can do so by following
-          <a href="https://certbot.eff.org/docs/install.html#running-with-docker">these
+          <a href="/docs/install.html#running-with-docker">these
             steps from our documentation</a>.
           </p>
       </aside>
@@ -398,7 +399,7 @@
       <li>
           Get a certificate
           <p>
-          Run one of the commands in the "Examples" section of the instructions for your DNS provider.
+          Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>.
           </p>
       </li>
 
@@ -420,23 +421,24 @@
 
         <p>
         If you needed to stop your webserver to run Certbot, you'll want to
-        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt>to stop
+        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
         and start your webserver automatically. For example, if your webserver is HAProxy, modify the
         command as follows:
 
         <pre class="one-line">echo "0 0,12 * * * python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
+        <p>
         More information is available in the
-        <a href="https://certbot.eff.org/docs/using.html?highlight=hooks#renewing-certificates">
+        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
         Certbot documentation on renewing certificates</a>.
-        &lt;/p&gt;
+        </p>
       </li>
 
       <li>
         Confirm that Certbot worked
         <p>
-        To confirm that your site is set up properly, visit https://yourwebsite.com/ in your browser and
+        To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
         look for the lock icon in the URL bar.
         If you want to check that you have the top-of-the-line installation, you can head to
         <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
