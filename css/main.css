@@ -541,24 +541,6 @@ body {
     body {
       margin-top: 150px; } }
 
-body.use-certbot nav.main-nav ul li:nth-of-type(2) a {
-  color: #000; }
-
-body.about nav.main-nav ul li:nth-of-type(3) a {
-  color: #000; }
-
-body.faq nav.main-nav ul li:nth-of-type(4) a {
-  color: #000; }
-
-body.docs nav.main-nav ul li:nth-of-type(5) a {
-  color: #000; }
-
-body.support nav.main-nav ul li:nth-of-type(6) a {
-  color: #000; }
-
-nav.main-nav body.source ul li:nth-of-type(2) a {
-  color: #000; }
-
 nav.main-nav {
   z-index: 10;
   position: relative;
@@ -575,33 +557,13 @@ nav.main-nav {
       height: 150px; } }
   nav.main-nav .logo {
     padding: 0;
-    max-width: 40em;
-    margin-left: auto;
-    margin-right: auto; }
-    nav.main-nav .logo:after {
-      content: " ";
-      display: block;
-      clear: both; }
-    @media (min-width: 48em) {
+    width: 95%;
+    margin: 0 auto;
+    display: inline-block; }
+    @media (min-width: 80em) {
       nav.main-nav .logo {
-        max-width: 60em;
-        margin-left: auto;
-        margin-right: auto; }
-        nav.main-nav .logo:after {
-          content: " ";
-          display: block;
-          clear: both; } }
-    @media (min-width: 66em) {
-      nav.main-nav .logo {
-        max-width: 80em;
-        margin-left: auto;
-        margin-right: auto;
-        letter-spacing: 0.07em;
-        font-size: 0.9em; }
-        nav.main-nav .logo:after {
-          content: " ";
-          display: block;
-          clear: both; } }
+        font-size: 16px;
+        width: 80em; } }
     nav.main-nav .logo a {
       float: left; }
     nav.main-nav .logo img {
@@ -621,42 +583,25 @@ nav.main-nav {
       color: inherit; }
   nav.main-nav ul {
     padding: 0;
-    max-width: 40em;
-    margin-left: auto;
-    margin-right: auto;
     display: -ms-flexbox;
     display: flex;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
+    -ms-flex-pack: justify;
+        justify-content: space-between;
     margin-bottom: 0 !important;
     list-style-type: none;
     line-height: 70px;
     font-size: 0.75em;
     letter-spacing: 0em; }
-    nav.main-nav ul:after {
-      content: " ";
-      display: block;
-      clear: both; }
     @media (min-width: 48em) {
       nav.main-nav ul {
-        max-width: 80em;
-        margin-left: auto;
-        margin-right: auto; }
-        nav.main-nav ul:after {
-          content: " ";
-          display: block;
-          clear: both; } }
-    @media (min-width: 66em) {
+        margin: 0;
+        padding: 0 1em;
+        width: 100%; } }
+    @media (min-width: 80em) {
       nav.main-nav ul {
-        max-width: 80em;
-        margin-left: auto;
-        margin-right: auto;
-        letter-spacing: 0.07em;
-        font-size: 0.9em; }
-        nav.main-nav ul:after {
-          content: " ";
-          display: block;
-          clear: both; } }
+        width: 80em;
+        font-size: 16px;
+        margin: 0 auto; } }
     nav.main-nav ul:after {
       content: ""; }
     nav.main-nav ul li {
@@ -664,16 +609,16 @@ nav.main-nav {
       text-align: center;
       text-transform: lowercase;
       font-family: "Roboto Slab";
-      font-size: 10.66667px;
       color: #000; }
       @media (min-width: 48em) {
         nav.main-nav ul li {
           display: inline-block; } }
-      @media (min-width: 48em) {
-        nav.main-nav ul li {
-          font-size: 16px; } }
       nav.main-nav ul li a {
-        font-weight: bold; }
+        font-weight: bold;
+        font-size: 14px; }
+        @media (min-width: 80em) {
+          nav.main-nav ul li a {
+            font-size: 16px; } }
       nav.main-nav ul li.donate {
         text-transform: none;
         display: inline-block;
@@ -683,6 +628,11 @@ nav.main-nav {
         text-align: center;
         width: 100%;
         font-size: 1.5em; }
+        nav.main-nav ul li.donate.mobile-only {
+          display: inline-block; }
+          @media (min-width: 48em) {
+            nav.main-nav ul li.donate.mobile-only {
+              display: none; } }
         @media (min-width: 48em) {
           nav.main-nav ul li.donate {
             color: #ec1c23;
@@ -943,12 +893,16 @@ footer.footer ul {
         background-image: none;
         font-family: "Roboto", Helvetica, Arial, sans-serif;
         text-decoration: none;
+        padding: 5px 10px;
         padding: 5px 0;
         width: 90%;
         margin: 0 5%; }
         .instructions-footer .link-button-wide:hover {
           color: #ec1c23;
           cursor: pointer; } }
+  @media (min-width: 48em) and (min-width: 66em) {
+    .instructions-footer .link-button-wide {
+      padding: 5px 15px; } }
   @media (min-width: 48em) and (min-width: 80em) {
     .instructions-footer .link-button-wide {
       font-weight: 400;
@@ -1269,7 +1223,7 @@ footer.social {
   height: 100px;
   background-color: rgba(255, 255, 255, 0.95);
   text-align: center;
-  z-index: 1000; }
+  z-index: 10; }
   @media (min-width: 48em) {
     footer.social {
       position: relative;
@@ -1316,51 +1270,36 @@ footer.social {
         padding: 0;
         margin: 0; }
 
-@font-face {
-  font-family: "Social";
-  src: url("../fonts/Social.woff") format("woff");
-  font-weight: 400;
-  font-style: normal; }
-
-[class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "Social";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
+.social-icon {
   display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
   text-align: center;
-  /* opacity: .8; */
-  /* For safety - reset parent styles, that can break glyph codes*/
-  font-variant: normal;
-  text-transform: none;
-  /* fix buttons height, for twitter bootstrap */
-  line-height: 1em;
-  /* Animation center compensation - margins should be symmetric */
-  /* remove if not needed */
-  margin-left: .2em;
-  /* you can be more comfortable with increased icons size */
-  /* font-size: 120%; */
-  /* Font smoothing. That was taken from TWBS */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* Uncomment for 3D effect */
-  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */ }
+  margin-top: 10px;
+  width: 40px;
+  height: 40px;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: center; }
+  @media (min-width: 48em) {
+    .social-icon {
+      background-size: 30px; } }
+  .social-icon.facebook {
+    background-size: 10px;
+    background-image: url("../images/Facebook-Mobile.svg"); }
+    @media (min-width: 48em) {
+      .social-icon.facebook {
+        background-size: 20px;
+        background-image: url("../images/Facebook.svg"); } }
+  .social-icon.twitter {
+    background-image: url("../images/Twitter-Mobile.svg"); }
+    @media (min-width: 48em) {
+      .social-icon.twitter {
+        background-image: url("../images/Twitter.svg"); } }
+  .social-icon.donate {
+    background-image: url("../images/Heart-Mobile.svg"); }
+    @media (min-width: 48em) {
+      .social-icon.donate {
+        background-image: url("../images/Heart.svg"); } }
 
-.icon-facebook:before {
-  content: '\e800'; }
-
-/* '' */
-.icon-twitter:before {
-  content: '\e801'; }
-
-/* '' */
-.icon-google:before {
-  content: '\e802'; }
-
-/* '' */
 body.privacy .post-content h2 {
   font-size: 1.3rem;
   font-weight: 400;
@@ -1377,7 +1316,7 @@ body.privacy .post-content h2 {
  */
 div.home-https {
   display: block;
-  text-align: center;
+  text-align: left;
   min-height: 225px; }
   @media (min-width: 48em) {
     div.home-https {
@@ -1408,11 +1347,11 @@ div.home-https {
         margin-bottom: 1.2em;
         font-weight: 300;
         font-family: "Roboto Slab";
-        font-size: 20px; } }
+        font-size: 18px; } }
     @media (min-width: 66em) {
       div.home-https h2 {
         font-size: 22px; } }
-    @media (min-width: 80em) {
+    @media (min-width: 1350px) {
       div.home-https h2 {
         font-size: 24px; } }
     div.home-https h2 a {
@@ -1437,19 +1376,19 @@ div.home-https {
         background-color: #D9D9D9; } }
   div.home-https .col-50 {
     float: left;
-    width: 47%;
-    min-height: 170px;
-    padding-left: 1.5%;
-    padding-right: 1.5%;
+    width: 48%;
+    min-height: 190px;
+    padding-left: 1%;
+    padding-right: 1%;
     padding-top: 1em; }
     @media (min-width: 48em) {
       div.home-https .col-50 {
-        height: 250px;
+        height: 220px;
         width: 50%;
         padding: 0; } }
     @media (min-width: 66em) {
       div.home-https .col-50 {
-        height: 300px; } }
+        height: 310px; } }
     @media (min-width: 80em) {
       div.home-https .col-50 {
         height: 350px; } }
@@ -1461,6 +1400,9 @@ div.home-https {
         display: block;
         margin: 0 10%;
         margin-top: 2em; } }
+    div.home-https .gif img {
+      height: 30px;
+      padding: 0.5em 0; }
   div.home-https .content-wrapper {
     text-align: left; }
     @media (min-width: 48em) {
@@ -1476,8 +1418,7 @@ div.home-https {
         flex-direction: column;
     -ms-flex-align: center;
         align-items: center;
-    width: 100%;
-    min-height: 175px; }
+    width: 100%; }
     @media (min-width: 48em) {
       div.home-https .col {
         padding-top: 2em;
@@ -1509,6 +1450,9 @@ div.home-https {
       width: 75px;
       height: 70px;
       margin-bottom: 5px; }
+      div.home-https .col img.icon.right {
+        margin-top: 5px;
+        margin-bottom: 0; }
       @media (min-width: 48em) {
         div.home-https .col img.icon {
           width: 150px;
@@ -1520,25 +1464,22 @@ div.home-https {
           width: 250px;
           height: 150px;
           padding-left: 1em; } }
-      @media (min-width: 80em) {
+      @media (min-width: 1350px) {
         div.home-https .col img.icon {
           width: 300px;
           height: 200px;
           padding-left: 5%; } }
-  div.home-https img.right {
-    margin-top: 5px;
-    margin-bottom: 0; }
-    @media (min-width: 48em) {
-      div.home-https img.right {
-        -ms-flex-order: 99;
-            order: 99;
-        margin: 0;
-        padding-left: 0;
-        padding-right: 1em; } }
-    @media (min-width: 80em) {
-      div.home-https img.right {
-        padding-left: 0;
-        padding-right: 5%; } }
+  @media (min-width: 48em) {
+    div.home-https img.right {
+      -ms-flex-order: 99;
+          order: 99;
+      margin: 0;
+      padding-left: 0;
+      padding-right: 1em; } }
+  @media (min-width: 80em) {
+    div.home-https img.right {
+      padding-left: 0;
+      padding-right: 5%; } }
 
 .use-certbot {
   border-top: 1px solid #000000;
@@ -1619,10 +1560,14 @@ div.home-https {
         background-image: none;
         font-family: "Roboto", Helvetica, Arial, sans-serif;
         text-decoration: none;
+        padding: 5px 10px;
         padding: 5px 35px; }
         .home-further-links a.link-button:hover {
           color: #ec1c23;
           cursor: pointer; } }
+  @media (min-width: 48em) and (min-width: 66em) {
+    .home-further-links a.link-button {
+      padding: 5px 15px; } }
   @media (min-width: 48em) and (min-width: 80em) {
     .home-further-links a.link-button {
       font-weight: 400;
@@ -1657,24 +1602,37 @@ div.home-https {
     position: absolute; }
   .glossary-term .tooltip.js {
     position: fixed;
-    left: 20%;
-    right: 20%;
     overflow-y: hidden;
     opacity: 0;
+    left: 1%;
+    right: 1%;
+    z-index: 20;
     border-radius: 6px;
     box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.3);
     max-height: 0rem;
     padding: 0rem 2rem;
     transition: bottom 200ms ease-out, max-height 200ms ease-out, padding-top 200ms ease-out, padding-bottom 200ms ease-out, opacity 100ms ease-out;
     bottom: 0; }
+    @media (min-width: 48em) {
+      .glossary-term .tooltip.js {
+        left: 10%;
+        right: 10%; } }
+    @media (min-width: 80em) {
+      .glossary-term .tooltip.js {
+        left: 20%;
+        right: 20%; } }
     .glossary-term .tooltip.js.open {
       opacity: 1;
       bottom: 4rem;
       max-height: 100vh;
       padding: 2rem; }
-    .glossary-term .tooltip.js .close-tooltip {
-      float: right;
-      cursor: pointer; }
+    .glossary-term .tooltip.js .close-button {
+      float: right; }
+      .glossary-term .tooltip.js .close-button:hover {
+        cursor: pointer; }
+      .glossary-term .tooltip.js .close-button img {
+        height: 30px;
+        width: 30px; }
   .glossary-term .tooltip a {
     cursor: pointer;
     text-decoration: underline;
@@ -1682,16 +1640,25 @@ div.home-https {
     color: #40748e; }
   .glossary-term .tooltip p {
     color: #111;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400; }
+    @media (min-width: 48em) {
+      .glossary-term .tooltip p {
+        font-size: 18px; } }
   .glossary-term .tooltip .tooltip-title {
     font-family: "Roboto Slab";
-    font-size: 40px; }
+    font-size: 24px; }
+    @media (min-width: 48em) {
+      .glossary-term .tooltip .tooltip-title {
+        font-size: 40px; } }
   .glossary-term .tooltip .bottom-text {
     text-align: right;
-    font-size: 24px;
     font-style: italic;
-    font-weight: bold; }
+    font-weight: bold;
+    font-size: 20px; }
+    @media (min-width: 48em) {
+      .glossary-term .tooltip .bottom-text {
+        font-size: 24px; } }
 
 /* Show the tooltip text when you mouse over the tooltip container */
 .glossary-term:hover .tooltip.no-js, .tooltip:hover.no-js {
@@ -1977,10 +1944,13 @@ a.link-button {
   background-image: none;
   font-family: "Roboto", Helvetica, Arial, sans-serif;
   text-decoration: none;
-  padding: 5px 15px; }
+  padding: 5px 10px; }
   a.link-button:hover {
     color: #ec1c23;
     cursor: pointer; }
+  @media (min-width: 66em) {
+    a.link-button {
+      padding: 5px 15px; } }
   @media (min-width: 80em) {
     a.link-button {
       font-weight: 400;
@@ -2016,6 +1986,6 @@ h1 {
     clear: both; }
 
 img.link-arrow {
-  padding-left: 1em;
-  height: 20px;
-  width: 10px; }
+  padding-left: 0.5em;
+  height: 18px;
+  width: 8px; }
