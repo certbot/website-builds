@@ -1073,9 +1073,31 @@ h1.instruct {
     text-align: left; }
   .instructions.content .centered {
     text-align: center; }
+  .instructions.content pre:before {
+    content: '$ '; }
   @media (min-width: 48em) {
     .instructions.content pre {
       white-space: pre-line; } }
+  .instructions.content pre.no-before {
+    white-space: nowrap;
+    overflow: scroll; }
+    @media (min-width: 48em) {
+      .instructions.content pre.no-before {
+        overflow: auto; } }
+    .instructions.content pre.no-before:before {
+      content: ''; }
+    .instructions.content pre.no-before ol {
+      margin: 0; }
+    .instructions.content pre.no-before li {
+      list-style-type: none;
+      white-space: nowrap;
+      font-family: 'VeraMono';
+      font-size: 14px; }
+      .instructions.content pre.no-before li:before {
+        content: '$ '; }
+      @media (min-width: 48em) {
+        .instructions.content pre.no-before li {
+          white-space: normal; } }
   .instructions.content pre.one-line {
     white-space: nowrap; }
   .instructions.content .tab {
@@ -1220,7 +1242,7 @@ footer.social {
   position: fixed;
   width: 100%;
   bottom: 0;
-  height: 100px;
+  height: 50px;
   background-color: rgba(255, 255, 255, 0.95);
   text-align: center;
   z-index: 10; }
@@ -1232,7 +1254,6 @@ footer.social {
     position: relative;
     padding: 0;
     margin: 0;
-    margin-top: 10px;
     list-style-type: none;
     display: block;
     width: 100%; }
@@ -1245,11 +1266,10 @@ footer.social {
       transition: all 75ms linear; }
       footer.social ul li:last-of-type {
         margin-right: 0; }
-      footer.social ul li:hover {
-        background-color: #ec1c23;
-        transition: all 75ms linear; }
-        footer.social ul li:hover i {
-          color: #fff; }
+      @media (min-width: 48em) {
+        footer.social ul li:hover {
+          background-color: #ec1c23;
+          transition: all 75ms linear; } }
       @media (min-width: 48em) {
         footer.social ul li {
           border: 1px solid #ec1c23;
@@ -1257,15 +1277,6 @@ footer.social {
           height: 60px;
           border-radius: 60px;
           margin-right: 110px; } }
-      footer.social ul li i {
-        color: #ec1c23;
-        font-size: 25px;
-        line-height: 0; }
-        @media (min-width: 48em) {
-          footer.social ul li i {
-            font-size: 40px;
-            line-height: 60px;
-            color: black; } }
       footer.social ul li a {
         padding: 0;
         margin: 0; }
@@ -1273,15 +1284,14 @@ footer.social {
 .social-icon {
   display: inline-block;
   text-align: center;
-  margin-top: 10px;
   width: 40px;
   height: 40px;
-  background-size: 20px;
   background-repeat: no-repeat;
-  background-position: center; }
+  background-position: center;
+  margin-top: 5px; }
   @media (min-width: 48em) {
     .social-icon {
-      background-size: 30px; } }
+      margin-top: 10px; } }
   .social-icon.facebook {
     background-size: 10px;
     background-image: url("../images/Facebook-Mobile.svg"); }
@@ -1290,14 +1300,18 @@ footer.social {
         background-size: 20px;
         background-image: url("../images/Facebook.svg"); } }
   .social-icon.twitter {
-    background-image: url("../images/Twitter-Mobile.svg"); }
+    background-image: url("../images/Twitter-Mobile.svg");
+    background-size: 20px; }
     @media (min-width: 48em) {
       .social-icon.twitter {
+        background-size: 30px;
         background-image: url("../images/Twitter.svg"); } }
   .social-icon.donate {
-    background-image: url("../images/Heart-Mobile.svg"); }
+    background-image: url("../images/Heart-Mobile.svg");
+    background-size: 18px; }
     @media (min-width: 48em) {
       .social-icon.donate {
+        background-size: 30px;
         background-image: url("../images/Heart.svg"); } }
 
 body.privacy .post-content h2 {
