@@ -3,7 +3,8 @@
  * Reset some basic elements
  */
 h1, h2, h3, h4, h5, h6,
-p, blockquote, pre, hr,
+p,
+.page div.p, blockquote, pre, hr,
 dl, dd, ol, ul, figure {
   margin: 0;
   padding: 0; }
@@ -28,7 +29,8 @@ body {
  * Set `margin-bottom` to maintain vertical rhythm
  */
 h1, h2, h3, h4, h5, h6,
-p, blockquote, pre,
+p,
+.page div.p, blockquote, pre,
 ul, ol, dl, figure, aside.note,
 .highlight {
   margin-bottom: 15px; }
@@ -559,11 +561,13 @@ nav.main-nav {
     padding: 0;
     width: 95%;
     margin: 0 auto;
-    display: inline-block; }
+    display: inline-block;
+    z-index: 11; }
     @media (min-width: 80em) {
       nav.main-nav .logo {
         font-size: 16px;
-        width: 80em; } }
+        width: 1280px;
+        padding: 0 10px; } }
     nav.main-nav .logo a {
       float: left; }
     nav.main-nav .logo img {
@@ -595,11 +599,11 @@ nav.main-nav {
     @media (min-width: 48em) {
       nav.main-nav ul {
         margin: 0;
-        padding: 0 1em;
+        padding: 0 10px;
         width: 100%; } }
     @media (min-width: 80em) {
       nav.main-nav ul {
-        width: 80em;
+        width: 1280px;
         font-size: 16px;
         margin: 0 auto; } }
     nav.main-nav ul:after {
@@ -629,7 +633,9 @@ nav.main-nav {
         width: 100%;
         font-size: 1.5em; }
         nav.main-nav ul li.donate.mobile-only {
-          display: inline-block; }
+          display: inline-block;
+          padding-left: 2em;
+          z-index: 11; }
           @media (min-width: 48em) {
             nav.main-nav ul li.donate.mobile-only {
               display: none; } }
@@ -694,8 +700,10 @@ body.active {
   position: absolute;
   right: 9px;
   top: 0px;
+  padding: 0 9px;
   font-size: 32px;
-  display: inline-block; }
+  display: inline-block;
+  z-index: 11; }
   @media (min-width: 48em) {
     #hamburger {
       display: none; } }
@@ -739,13 +747,13 @@ div.hero {
     font-size: 18px;
     font-weight: bold;
     font-family: "Roboto", Helvetica, Arial, sans-serif; }
-  div.hero p {
+  div.hero p, div.hero .page div.p, .page div.hero div.p {
     text-align: left;
     font-size: 14px;
     padding: 0 1em;
     margin-top: auto; }
     @media (min-width: 48em) {
-      div.hero p {
+      div.hero p, div.hero .page div.p, .page div.hero div.p {
         text-align: center;
         font-size: 16px; } }
 
@@ -872,33 +880,66 @@ footer.footer ul {
     max-width: 120px; }
 
 .instructions .instruction-widget span {
-  font-size: 30px; }
+  font-size: 22px; }
+  @media (min-width: 66em) {
+    .instructions .instruction-widget span {
+      font-size: 30px; } }
 
 .instructions .wrapper {
   padding: 0; }
   @media (min-width: 48em) {
     .instructions .wrapper {
-      padding-right: 30px;
-      padding-left: 30px; } }
+      width: 70%; } }
+
+.instructions h1 {
+  margin-left: 0.5em; }
+  @media (min-width: 48em) {
+    .instructions h1 {
+      padding: 1em 0;
+      font-size: 35px; } }
+  @media (min-width: 66em) {
+    .instructions h1 {
+      font-size: 45px;
+      margin-left: 80px; } }
+
+@media (min-width: 48em) {
+  .instructions .hero {
+    height: 130px;
+    margin-top: 1em; } }
 
 .instructions .use-certbot {
   margin-bottom: 2em; }
   @media (min-width: 48em) {
     .instructions .use-certbot {
       margin: 0;
+      margin-bottom: 2em;
       padding: 1em 2.5em; } }
   @media (min-width: 48em) {
     .instructions .use-certbot h1 {
       padding: 0;
       margin: 0.5em 0;
-      font-size: 2em; } }
-  .instructions .use-certbot .reqs {
-    width: 90%;
-    margin: 5%; }
+      font-size: 24px; } }
+  .instructions .use-certbot p, .instructions .use-certbot .page div.p, .page .instructions .use-certbot div.p {
+    font-size: 16px; }
+  @media (min-width: 48em) {
+    .instructions .use-certbot .three-col.reqs {
+      width: 100%;
+      margin: 0;
+      padding: 0; } }
+  @media (min-width: 48em) {
+    .instructions .use-certbot .three-col.reqs .col {
+      margin-bottom: 0;
+      width: 33%; } }
+  .instructions .use-certbot .three-col.reqs .col .text-wrapper {
+    font-size: 14px; }
+    @media (min-width: 48em) {
+      .instructions .use-certbot .three-col.reqs .col .text-wrapper {
+        margin: 1em 5%; } }
+    .instructions .use-certbot .three-col.reqs .col .text-wrapper a {
+      font-size: 14px; }
 
 .instructions-footer {
   margin-top: 3em;
-  margin-bottom: 1em;
   position: relative;
   text-align: center;
   width: 100%; }
@@ -916,12 +957,14 @@ footer.footer ul {
     @media (min-width: 48em) {
       .instructions-footer .col {
         min-height: 250px;
-        width: 33%; } }
+        width: 31%;
+        margin-left: 1%;
+        margin-right: 1%; } }
   .instructions-footer img {
     width: 100px;
     height: 100px; }
   .instructions-footer .text-wrapper {
-    margin: 1em 10%;
+    margin: 1em 5%;
     font-size: 16px; }
     @media (min-width: 48em) {
       .instructions-footer .text-wrapper {
@@ -940,7 +983,7 @@ footer.footer ul {
       .instructions-footer .link-button-wide {
         background-color: #FFFFFF;
         color: #111;
-        border: 1px solid #ec1c23;
+        border: 2px solid #ec1c23;
         border-radius: 20px;
         font-size: 14px;
         font-weight: bold;
@@ -1086,19 +1129,21 @@ h1.instruct {
     .instruction-pane ol {
       margin-left: 30px;
       font-size: 30px; } }
-  .instruction-pane ol p {
+  .instruction-pane ol .hidden {
+    display: none; }
+  .instruction-pane ol p, .instruction-pane ol .page div.p, .page .instruction-pane ol div.p {
     font-size: 16px;
     margin-bottom: 2em;
     margin-left: -1em; }
     @media (min-width: 48em) {
-      .instruction-pane ol p {
+      .instruction-pane ol p, .instruction-pane ol .page div.p, .page .instruction-pane ol div.p {
         margin-left: 0;
         font-size: 18px; } }
   .instruction-pane ol ul {
     list-style-type: none;
     margin-top: 0;
     margin-left: 1em; }
-    .instruction-pane ol ul p {
+    .instruction-pane ol ul p, .instruction-pane ol ul .page div.p, .page .instruction-pane ol ul div.p {
       margin-left: 0; }
   .instruction-pane ol h3 {
     font-size: 22px;
@@ -1109,6 +1154,8 @@ h1.instruct {
     @media (min-width: 48em) {
       .instruction-pane ol h3 {
         margin-left: 0; } }
+  .instruction-pane ol tt {
+    font-size: 14px; }
   .instruction-pane ol .link-button {
     font-size: 14px;
     font-weight: bold;
@@ -1127,6 +1174,10 @@ h1.instruct {
     text-align: left; }
   .instructions.content .centered {
     text-align: center; }
+  .instructions.content a img {
+    height: 20px;
+    width: 20px;
+    margin-bottom: 0.3em; }
   .instructions.content pre:before {
     content: '$ '; }
   @media (min-width: 48em) {
@@ -1215,29 +1266,35 @@ h1.instruct {
 .advanced.instruction-pane {
   display: none; }
 
-aside {
+aside.note {
   box-sizing: border-box;
-  padding: 0.5em 1.4em 0.5em 1.8em;
+  padding: 1.5em;
   width: 100%;
   min-height: 100px;
-  text-align: left; }
-  aside h1 {
-    text-align: left;
-    color: #fff;
-    font-size: 1.4em;
-    font-weight: bold;
-    font-family: 'Roboto Slab'; }
-  aside h4 {
-    margin-top: 8px; }
-  aside p {
-    font-family: 'Roboto';
-    font-weight: 400; }
-
-aside.note {
-  background-color: rgba(185, 200, 212, 0.9); }
-
-aside.warning {
-  background-color: rgba(255, 170, 98, 0.9); }
+  text-align: left;
+  border: 2px solid #000; }
+  @media (min-width: 48em) {
+    aside.note {
+      padding: 1em; } }
+  aside.note .note-header {
+    background-image: url("../images/ImportantNote.svg");
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position: left center;
+    margin-left: -1em;
+    padding-left: 50px; }
+    @media (min-width: 48em) {
+      aside.note .note-header {
+        background-size: 30px;
+        margin-left: 0;
+        padding-left: 40px; } }
+    aside.note .note-header h3 {
+      font-family: "Roboto Slab";
+      font-style: normal; }
+  aside.note p, aside.note .page div.p, .page aside.note div.p {
+    font-size: 16px;
+    margin-bottom: 0;
+    padding-bottom: 0; }
 
 body.faq .post-title {
   margin-left: 30px; }
@@ -1245,7 +1302,7 @@ body.faq .post-title {
 .faq-toc, .faq-content {
   text-align: left; }
   .faq-toc .post-link, .faq-content .post-link {
-    display: block;
+    display: inline-block;
     text-decoration: none;
     line-height: 1rem;
     font-size: 1rem;
@@ -1270,14 +1327,21 @@ body.faq .post-title {
     margin-bottom: 0;
     margin-top: 0.5em; }
 
-.faq-content {
-  list-style-type: none; }
-  .faq-content .post-link {
-    margin-top: 20px;
+.page .content-wrapper .faq-content {
+  list-style: none; }
+  .page .content-wrapper .faq-content li {
+    margin-top: 30px; }
+    .page .content-wrapper .faq-content li:before {
+      content: ''; }
+    .page .content-wrapper .faq-content li p, .page .content-wrapper .faq-content li div.p {
+      margin-bottom: 15px; }
+  .page .content-wrapper .faq-content .anchor {
     line-height: 1.8rem;
     font-size: 1.3rem;
+    font-weight: 400;
+    text-decoration: none;
     color: #000; }
-    .faq-content .post-link:visited {
+    .page .content-wrapper .faq-content .anchor:visited {
       color: #000; }
 
 hr.faq-hr {
@@ -1326,7 +1390,7 @@ footer.social {
           transition: all 75ms linear; } }
       @media (min-width: 48em) {
         footer.social ul li {
-          border: 1px solid #ec1c23;
+          border: 2px solid #ec1c23;
           width: 60px;
           height: 60px;
           border-radius: 60px;
@@ -1376,7 +1440,7 @@ body.privacy .post-content h2 {
 #wc-warning {
   min-height: 50px;
   text-align: center; }
-  #wc-warning > p {
+  #wc-warning > p, .page #wc-warning > div.p {
     margin-bottom: 0; }
 
 /*
@@ -1418,8 +1482,8 @@ div.home-https {
         font-size: 18px; } }
     @media (min-width: 66em) {
       div.home-https h2 {
-        font-size: 22px; } }
-    @media (min-width: 1350px) {
+        font-size: 20px; } }
+    @media (min-width: 80em) {
       div.home-https h2 {
         font-size: 24px; } }
     div.home-https h2 a {
@@ -1475,10 +1539,16 @@ div.home-https {
     text-align: left; }
     @media (min-width: 48em) {
       div.home-https .content-wrapper {
-        margin: 0 2em; } }
+        margin: 0 1.5em; } }
     @media (min-width: 66em) {
       div.home-https .content-wrapper {
         margin: 0 10%; } }
+    div.home-https .content-wrapper a {
+      position: absolute;
+      top: 90%; }
+      @media (min-width: 66em) {
+        div.home-https .content-wrapper a {
+          top: 65%; } }
   div.home-https .col {
     display: -ms-inline-flexbox;
     display: inline-flex;
@@ -1523,8 +1593,9 @@ div.home-https {
         margin-bottom: 0; }
       @media (min-width: 48em) {
         div.home-https .col img.icon {
-          width: 150px;
-          height: 100px;
+          opacity: 0.5;
+          width: 120px;
+          height: 80px;
           margin: 0;
           padding-left: 1em; } }
       @media (min-width: 66em) {
@@ -1621,7 +1692,7 @@ div.home-https {
       .home-further-links a.link-button {
         background-color: #FFFFFF;
         color: #111;
-        border: 1px solid #ec1c23;
+        border: 2px solid #ec1c23;
         border-radius: 20px;
         font-size: 14px;
         font-weight: bold;
@@ -1646,7 +1717,13 @@ div.home-https {
   text-indent: 0; }
   .glossary-term a.glossary-link {
     text-decoration: underline;
-    color: #111; }
+    color: #111;
+    padding-right: 1.2em;
+    background-image: url("../images/GlossaryQuestion.svg");
+    background-size: 14px;
+    background-position: 99% center;
+    background-repeat: no-repeat;
+    display: inline-block; }
     .glossary-term a.glossary-link:hover {
       cursor: pointer; }
   .glossary-term.js-only.disabled {
@@ -1695,7 +1772,8 @@ div.home-https {
       max-height: 100vh;
       padding: 2rem; }
     .glossary-term .tooltip.js .close-button {
-      float: right; }
+      float: right;
+      z-index: 2; }
       .glossary-term .tooltip.js .close-button:hover {
         cursor: pointer; }
       .glossary-term .tooltip.js .close-button img {
@@ -1706,13 +1784,14 @@ div.home-https {
     text-decoration: underline;
     font-weight: bold;
     color: #40748e; }
-  .glossary-term .tooltip p {
+  .glossary-term .tooltip p, .glossary-term .tooltip .page div.p, .page .glossary-term .tooltip div.p {
     color: #111;
-    font-size: 16px;
-    font-weight: 400; }
+    font-family: "Roboto", Helvetica, Arial, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 400 !important; }
     @media (min-width: 48em) {
-      .glossary-term .tooltip p {
-        font-size: 18px; } }
+      .glossary-term .tooltip p, .glossary-term .tooltip .page div.p, .page .glossary-term .tooltip div.p {
+        font-size: 18px !important; } }
   .glossary-term .tooltip .tooltip-title {
     font-family: "Roboto Slab";
     font-size: 24px; }
@@ -1763,19 +1842,21 @@ body.page .page-content {
       padding: 30px 20%; } }
   .page .content-wrapper h2 {
     font-size: 22px; }
+    .page .content-wrapper h2 a {
+      color: #111; }
     @media (min-width: 48em) {
       .page .content-wrapper h2 {
         font-weight: 400;
         font-size: 32px;
         margin-bottom: 0.4em; } }
-  .page .content-wrapper p {
+  .page .content-wrapper p, .page .content-wrapper div.p {
     font-size: 16px; }
     @media (min-width: 48em) {
-      .page .content-wrapper p {
+      .page .content-wrapper p, .page .content-wrapper div.p {
         font-size: 18px; } }
   .page .content-wrapper ul {
     list-style: none; }
-    .page .content-wrapper ul li p {
+    .page .content-wrapper ul li p, .page .content-wrapper ul li div.p {
       margin-bottom: 0; }
     .page .content-wrapper ul li:before {
       content: '+ '; }
@@ -1920,21 +2001,49 @@ a.anchor {
 .anchor:target {
   padding-top: 180px; }
 
+div.indent {
+  padding-left: 2em; }
+
+.hosting-footer h2 {
+  font-weight: 400;
+  font-size: 22px; }
+  @media (min-width: 48em) {
+    .hosting-footer h2 {
+      font-size: 26px; } }
+
+.hosting-footer p, .hosting-footer .page div.p, .page .hosting-footer div.p {
+  font-family: "Roboto Slab"; }
+  @media (min-width: 48em) {
+    .hosting-footer p, .hosting-footer .page div.p, .page .hosting-footer div.p {
+      font-size: 20px; } }
+
+.hosting-footer a {
+  text-decoration: underline;
+  font-weight: bold; }
+
 .three-col {
   min-height: 350px;
-  width: 100%; }
+  width: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column; }
   @media (min-width: 48em) {
     .three-col {
       min-height: 200px;
-      margin: 1em 0; } }
+      margin: 1em 0;
+      -ms-flex-direction: row;
+          flex-direction: row;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap; } }
   @media (min-width: 48em) {
     .three-col.reqs {
       width: 95%;
       padding: 0 2.5%; } }
   @media (min-width: 80em) {
     .three-col.reqs {
-      width: 80%;
-      margin: 0 10%; } }
+      width: 90%;
+      margin: 0 5%; } }
   .three-col img {
     width: 70px;
     height: 70px; }
@@ -1963,8 +2072,10 @@ a.anchor {
     margin-left: 1em; }
     @media (min-width: 48em) {
       .three-col .text-wrapper {
-        font-size: 16px;
-        margin: 1em 0; } }
+        margin: 1em; } }
+    @media (min-width: 80em) {
+      .three-col .text-wrapper {
+        font-size: 16px; } }
   .three-col .hanging-indent {
     margin-left: 2em;
     padding-left: 2em;
@@ -1973,7 +2084,152 @@ a.anchor {
       .three-col .hanging-indent {
         padding-left: 22px;
         text-indent: -22px;
-        margin: 1rem 20%; } }
+        margin: 1rem 10%; } }
+
+.hosting-table-wrapper {
+  width: 98%;
+  margin: 2em 1%; }
+  @media (min-width: 48em) {
+    .hosting-table-wrapper {
+      width: 58%;
+      margin: 3em 20%;
+      border: 2px solid #D9D9D9; } }
+  .hosting-table-wrapper .tab-header-wrapper {
+    display: none; }
+    .hosting-table-wrapper .tab-header-wrapper.visible {
+      display: block; }
+    .hosting-table-wrapper .tab-header-wrapper span {
+      display: block;
+      font-family: "Roboto Slab";
+      font-weight: bold;
+      margin: 0 1em; }
+      @media (min-width: 48em) {
+        .hosting-table-wrapper .tab-header-wrapper span {
+          text-align: center; } }
+      .hosting-table-wrapper .tab-header-wrapper span a {
+        font-family: "Roboto Slab";
+        font-weight: bold; }
+    .hosting-table-wrapper .tab-header-wrapper#partial-header img {
+      margin-right: 1em; }
+  .hosting-table-wrapper .tab-header {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    margin: 1em 10%; }
+    .hosting-table-wrapper .tab-header img {
+      height: 80px; }
+      @media (min-width: 48em) {
+        .hosting-table-wrapper .tab-header img {
+          height: 100px; } }
+    .hosting-table-wrapper .tab-header .header-text {
+      margin-top: auto; }
+    .hosting-table-wrapper .tab-header h2 {
+      line-height: 0.9em;
+      font-size: 20px;
+      font-weight: 400; }
+      @media (min-width: 48em) {
+        .hosting-table-wrapper .tab-header h2 {
+          font-weight: bold;
+          font-size: 28px; } }
+      @media (min-width: 66em) {
+        .hosting-table-wrapper .tab-header h2 {
+          font-size: 32px; } }
+    .hosting-table-wrapper .tab-header p, .hosting-table-wrapper .tab-header .page div.p, .page .hosting-table-wrapper .tab-header div.p {
+      font-family: "Roboto Slab";
+      margin-bottom: 0;
+      font-size: 16px; }
+      @media (min-width: 48em) {
+        .hosting-table-wrapper .tab-header p, .hosting-table-wrapper .tab-header .page div.p, .page .hosting-table-wrapper .tab-header div.p {
+          font-size: 20px; } }
+      @media (min-width: 66em) {
+        .hosting-table-wrapper .tab-header p, .hosting-table-wrapper .tab-header .page div.p, .page .hosting-table-wrapper .tab-header div.p {
+          font-size: 22px; } }
+
+.hosting-table-tabs {
+  width: 98%;
+  margin: 0.5em auto;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  height: 80px; }
+  @media (min-width: 48em) {
+    .hosting-table-tabs {
+      height: 50px;
+      -ms-flex-direction: row;
+          flex-direction: row; } }
+  .hosting-table-tabs .hosting-tab {
+    font-weight: bold;
+    font-family: "Roboto Slab";
+    text-align: center;
+    text-decoration: underline; }
+    .hosting-table-tabs .hosting-tab:hover {
+      cursor: pointer; }
+    .hosting-table-tabs .hosting-tab img {
+      display: block;
+      margin: 0 auto;
+      margin-bottom: -1em; }
+      @media (min-width: 48em) {
+        .hosting-table-tabs .hosting-tab img {
+          padding-left: 0.5em;
+          float: right; } }
+
+.dataTables_filter {
+  text-align: right;
+  padding-bottom: 0.5em; }
+  .dataTables_filter input {
+    margin-left: 0.5em; }
+    @media (min-width: 48em) {
+      .dataTables_filter input {
+        margin: 0.5em; } }
+
+@media (min-width: 48em) {
+  .dataTables_wrapper {
+    width: 100% !important; } }
+
+.dataTable {
+  border: none;
+  border-spacing: unset;
+  border-collapse: separate;
+  border-spacing: 0 1em;
+  white-space: nowrap;
+  table-layout: fixed; }
+  @media (min-width: 48em) {
+    .dataTable {
+      width: 100% !important; } }
+  .dataTable thead {
+    background-color: #D9D9D9;
+    font-size: 18px;
+    text-align: left;
+    vertical-align: bottom; }
+  .dataTable th {
+    padding: 0 0.5em;
+    padding-bottom: 5px;
+    height: 3em; }
+  .dataTable th:last-of-type {
+    text-align: center;
+    white-space: normal; }
+  .dataTable td {
+    vertical-align: center;
+    min-width: 20px;
+    padding: 0 0.5em; }
+  @media (min-width: 48em) {
+    .dataTable td:first-child {
+      white-space: normal;
+      word-wrap: break-word; } }
+  .dataTable td:last-child {
+    font-size: 14px; }
+    @media (min-width: 48em) {
+      .dataTable td:last-child {
+        white-space: normal;
+        word-wrap: break-word; } }
+  .dataTable a {
+    text-decoration: underline; }
+  .dataTable img {
+    width: 20px; }
+  .dataTable .fixed-width {
+    width: 25px !important; }
 
 .page-content {
   max-width: 100%;
@@ -2011,7 +2267,7 @@ a {
 a.link-button {
   background-color: #FFFFFF;
   color: #111;
-  border: 1px solid #ec1c23;
+  border: 2px solid #ec1c23;
   border-radius: 20px;
   font-size: 14px;
   font-weight: bold;
@@ -2037,7 +2293,9 @@ html, div, h1, h2, h3, h4, h5, h6 {
 body.index {
   background-color: #fff; }
 
-body, p, div {
+body,
+p,
+.page div.p, div {
   font-family: "Roboto", Helvetica, Arial, sans-serif;
   font-size: 16px;
   font-weight: 300;
