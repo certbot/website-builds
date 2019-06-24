@@ -204,6 +204,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">reverter</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">filesystem</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins.storage</span> <span class="k">import</span> <span class="n">PluginStorage</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -666,9 +667,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">config_dir</span> <span class="o">=</span> <span class="n">expanded_tempdir</span><span class="p">(</span><span class="s2">&quot;config&quot;</span><span class="p">)</span>
     <span class="n">work_dir</span> <span class="o">=</span> <span class="n">expanded_tempdir</span><span class="p">(</span><span class="s2">&quot;work&quot;</span><span class="p">)</span>
 
-    <span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="n">config_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">)</span>
+    <span class="n">filesystem</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">)</span>
+    <span class="n">filesystem</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="n">config_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">)</span>
+    <span class="n">filesystem</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="n">work_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">)</span>
 
     <span class="n">test_configs</span> <span class="o">=</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">resource_filename</span><span class="p">(</span>
         <span class="n">pkg</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;testdata&quot;</span><span class="p">,</span> <span class="n">test_dir</span><span class="p">))</span>
