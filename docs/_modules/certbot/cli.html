@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.cli &mdash; Certbot 0.35.0.dev0 documentation</title>
+  <title>certbot.cli &mdash; Certbot 0.36.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.cli &mdash; Certbot 0.35.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.cli &mdash; Certbot 0.36.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.35.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.36.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.35
+                0.36
               </div>
             
           
@@ -280,10 +280,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="s2">    revoke          Revoke a certificate (supply --cert-path or --cert-name)</span>
 <span class="s2">    delete          Delete a certificate</span>
 
-<span class="s2">manage your account with Let&#39;s Encrypt:</span>
-<span class="s2">    register        Create a Let&#39;s Encrypt ACME account</span>
-<span class="s2">    unregister      Deactivate a Let&#39;s Encrypt ACME account</span>
-<span class="s2">    update_account  Update a Let&#39;s Encrypt ACME account</span>
+<span class="s2">manage your account:</span>
+<span class="s2">    register        Create an ACME account</span>
+<span class="s2">    unregister      Deactivate an ACME account</span>
+<span class="s2">    update_account  Update an ACME account</span>
 <span class="s2">  --agree-tos       Agree to the ACME server&#39;s Subscriber Agreement</span>
 <span class="s2">   -m EMAIL         Email address for important account notifications</span>
 <span class="s2">&quot;&quot;&quot;</span>
@@ -602,8 +602,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="p">}),</span>
     <span class="p">(</span><span class="s2">&quot;config_changes&quot;</span><span class="p">,</span> <span class="p">{</span>
         <span class="s2">&quot;short&quot;</span><span class="p">:</span> <span class="s2">&quot;Show changes that Certbot has made to server configurations&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;opts&quot;</span><span class="p">:</span> <span class="s2">&quot;Options for controlling which changes are displayed&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;usage&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">  certbot config_changes --num NUM [options]</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;opts&quot;</span><span class="p">:</span> <span class="s2">&quot;Options for viewing configuration changes&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;usage&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">  certbot config_changes [options]</span><span class="se">\n\n</span><span class="s2">&quot;</span>
     <span class="p">}),</span>
     <span class="p">(</span><span class="s2">&quot;rollback&quot;</span><span class="p">,</span> <span class="p">{</span>
         <span class="s2">&quot;short&quot;</span><span class="p">:</span> <span class="s2">&quot;Roll back server conf changes made during certificate installation&quot;</span><span class="p">,</span>
@@ -612,7 +612,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="p">}),</span>
     <span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="p">{</span>
         <span class="s2">&quot;short&quot;</span><span class="p">:</span> <span class="s2">&quot;List plugins that are installed and available on your system&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;opts&quot;</span><span class="p">:</span> <span class="s1">&#39;Options for for the &quot;plugins&quot; subcommand&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;opts&quot;</span><span class="p">:</span> <span class="s1">&#39;Options for the &quot;plugins&quot; subcommand&#39;</span><span class="p">,</span>
         <span class="s2">&quot;usage&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">  certbot plugins [options]</span><span class="se">\n\n</span><span class="s2">&quot;</span>
     <span class="p">}),</span>
     <span class="p">(</span><span class="s2">&quot;update_symlinks&quot;</span><span class="p">,</span> <span class="p">{</span>
@@ -935,9 +935,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="sd">&quot;&quot;&quot;Add a new command line argument.</span>
 
 <span class="sd">        :param topics: str or [str] help topic(s) this should be listed under,</span>
-<span class="sd">                       or None for &quot;always documented&quot;. The first entry</span>
-<span class="sd">                       determines where the flag lives in the &quot;--help all&quot;</span>
-<span class="sd">                       output (None -&gt; &quot;optional arguments&quot;).</span>
+<span class="sd">                       or None for options that don&#39;t fit under a specific</span>
+<span class="sd">                       topic which will only be shown in &quot;--help all&quot; output.</span>
+<span class="sd">                       The first entry determines where the flag lives in the</span>
+<span class="sd">                       &quot;--help all&quot; output (None -&gt; &quot;optional arguments&quot;).</span>
 <span class="sd">        :param list *args: the names of this argument flag</span>
 <span class="sd">        :param dict **kwargs: various argparse settings for this argument</span>
 
@@ -1472,9 +1473,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <span class="k">def</span> <span class="nf">_create_subparsers</span><span class="p">(</span><span class="n">helpful</span><span class="p">):</span>
-    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;config_changes&quot;</span><span class="p">,</span> <span class="s2">&quot;--num&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;num&quot;</span><span class="p">),</span>
-                <span class="n">help</span><span class="o">=</span><span class="s2">&quot;How many past revisions you want to be displayed&quot;</span><span class="p">)</span>
-
     <span class="kn">from</span> <span class="nn">certbot.client</span> <span class="k">import</span> <span class="n">sample_user_agent</span> <span class="c1"># avoid import loops</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;--user-agent&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;user_agent&quot;</span><span class="p">),</span>
@@ -1604,10 +1602,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Authenticator plugin name.&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;-i&quot;</span><span class="p">,</span> <span class="s2">&quot;--installer&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;installer&quot;</span><span class="p">),</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Installer plugin name (also used to find domains).&quot;</span><span class="p">)</span>
-    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;config_changes&quot;</span><span class="p">],</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">],</span>
                 <span class="s2">&quot;--apache&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;apache&quot;</span><span class="p">),</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Obtain and install certificates using Apache&quot;</span><span class="p">)</span>
-    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;config_changes&quot;</span><span class="p">],</span>
+    <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">],</span>
                 <span class="s2">&quot;--nginx&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;nginx&quot;</span><span class="p">),</span>
                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Obtain and install certificates using Nginx&quot;</span><span class="p">)</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--standalone&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
@@ -1637,7 +1635,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                       <span class="s2">&quot;using DNSimple for DNS).&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--dns-dnsmadeeasy&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
                 <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dns_dnsmadeeasy&quot;</span><span class="p">),</span>
-                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Obtain certificates using a DNS TXT record (if you are&quot;</span>
+                <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Obtain certificates using a DNS TXT record (if you are &quot;</span>
                       <span class="s2">&quot;using DNS Made Easy for DNS).&quot;</span><span class="p">))</span>
     <span class="n">helpful</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="s2">&quot;certonly&quot;</span><span class="p">],</span> <span class="s2">&quot;--dns-gehirn&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
                 <span class="n">default</span><span class="o">=</span><span class="n">flag_default</span><span class="p">(</span><span class="s2">&quot;dns_gehirn&quot;</span><span class="p">),</span>
@@ -1871,7 +1869,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.35.0.dev0',
+            VERSION:'0.36.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1898,7 +1896,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cli%E2%80%94%20Certbot%200.35.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.cli%E2%80%94%20Certbot%200.36.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

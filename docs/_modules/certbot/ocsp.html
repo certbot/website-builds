@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.ocsp &mdash; Certbot 0.35.0.dev0 documentation</title>
+  <title>certbot.ocsp &mdash; Certbot 0.36.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.ocsp &mdash; Certbot 0.35.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.ocsp &mdash; Certbot 0.36.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.35.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.36.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.35
+                0.36
               </div>
             
           
@@ -339,7 +339,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="c1"># Check OCSP signature</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">_check_ocsp_response</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">issuer</span><span class="p">)</span>
+        <span class="n">_check_ocsp_response</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">issuer</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">UnsupportedAlgorithm</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
     <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -357,7 +357,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="kc">False</span>
 
 
-<div class="viewcode-block" id="_check_ocsp_response"><a class="viewcode-back" href="../../api/ocsp.html#certbot.ocsp._check_ocsp_response">[docs]</a><span class="k">def</span> <span class="nf">_check_ocsp_response</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">request_ocsp</span><span class="p">,</span> <span class="n">issuer_cert</span><span class="p">):</span>
+<div class="viewcode-block" id="_check_ocsp_response"><a class="viewcode-back" href="../../api/ocsp.html#certbot.ocsp._check_ocsp_response">[docs]</a><span class="k">def</span> <span class="nf">_check_ocsp_response</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">request_ocsp</span><span class="p">,</span> <span class="n">issuer_cert</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Verify that the OCSP is valid for serveral criterias&quot;&quot;&quot;</span>
     <span class="c1"># Assert OCSP response corresponds to the certificate we are talking about</span>
     <span class="k">if</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">serial_number</span> <span class="o">!=</span> <span class="n">request_ocsp</span><span class="o">.</span><span class="n">serial_number</span><span class="p">:</span>
@@ -365,7 +365,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                              <span class="s1">&#39;to the certificate in request&#39;</span><span class="p">)</span>
 
     <span class="c1"># Assert signature is valid</span>
-    <span class="n">_check_ocsp_response_signature</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">issuer_cert</span><span class="p">)</span>
+    <span class="n">_check_ocsp_response_signature</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">issuer_cert</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
 
     <span class="c1"># Assert issuer in response is the expected one</span>
     <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response_ocsp</span><span class="o">.</span><span class="n">hash_algorithm</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">request_ocsp</span><span class="o">.</span><span class="n">hash_algorithm</span><span class="p">))</span>
@@ -391,11 +391,52 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;param nextUpdate is in the past.&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="_check_ocsp_response_signature"><a class="viewcode-back" href="../../api/ocsp.html#certbot.ocsp._check_ocsp_response_signature">[docs]</a><span class="k">def</span> <span class="nf">_check_ocsp_response_signature</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">issuer_cert</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Verify an OCSP response signature against certificate issuer&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="_check_ocsp_response_signature"><a class="viewcode-back" href="../../api/ocsp.html#certbot.ocsp._check_ocsp_response_signature">[docs]</a><span class="k">def</span> <span class="nf">_check_ocsp_response_signature</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">issuer_cert</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verify an OCSP response signature against certificate issuer or responder&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">responder_name</span> <span class="o">==</span> <span class="n">issuer_cert</span><span class="o">.</span><span class="n">subject</span><span class="p">:</span>
+        <span class="c1"># Case where the OCSP responder is also the certificate issuer</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;OCSP response for certificate </span><span class="si">%s</span><span class="s1"> is signed by the certificate</span><span class="se">\&#39;</span><span class="s1">s issuer.&#39;</span><span class="p">,</span>
+                     <span class="n">cert_path</span><span class="p">)</span>
+        <span class="n">responder_cert</span> <span class="o">=</span> <span class="n">issuer_cert</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Case where the OCSP responder is not the certificate issuer</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;OCSP response for certificate </span><span class="si">%s</span><span class="s1"> is delegated to an external responder.&#39;</span><span class="p">,</span>
+                     <span class="n">cert_path</span><span class="p">)</span>
+
+        <span class="n">responder_certs</span> <span class="o">=</span> <span class="p">[</span><span class="n">cert</span> <span class="k">for</span> <span class="n">cert</span> <span class="ow">in</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">certificates</span>
+                           <span class="k">if</span> <span class="n">cert</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">responder_name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">responder_certs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;no matching responder certificate could be found&#39;</span><span class="p">)</span>
+
+        <span class="c1"># We suppose here that the ACME server support only one certificate in the OCSP status</span>
+        <span class="c1"># request. This is currently the case for LetsEncrypt servers.</span>
+        <span class="c1"># See https://github.com/letsencrypt/boulder/issues/2331</span>
+        <span class="n">responder_cert</span> <span class="o">=</span> <span class="n">responder_certs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">responder_cert</span><span class="o">.</span><span class="n">issuer</span> <span class="o">!=</span> <span class="n">issuer_cert</span><span class="o">.</span><span class="n">subject</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;responder certificate is not signed &#39;</span>
+                                 <span class="s1">&#39;by the certificate</span><span class="se">\&#39;</span><span class="s1">s issuer&#39;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">extension</span> <span class="o">=</span> <span class="n">responder_cert</span><span class="o">.</span><span class="n">extensions</span><span class="o">.</span><span class="n">get_extension_for_class</span><span class="p">(</span><span class="n">x509</span><span class="o">.</span><span class="n">ExtendedKeyUsage</span><span class="p">)</span>
+            <span class="n">delegate_authorized</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">oid</span><span class="o">.</span><span class="n">ExtendedKeyUsageOID</span><span class="o">.</span><span class="n">OCSP_SIGNING</span> <span class="ow">in</span> <span class="n">extension</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">x509</span><span class="o">.</span><span class="n">ExtensionNotFound</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">):</span>
+            <span class="n">delegate_authorized</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">delegate_authorized</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;responder is not authorized by issuer to sign OCSP responses&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Following line may raise UnsupportedAlgorithm</span>
+        <span class="n">chosen_hash</span> <span class="o">=</span> <span class="n">responder_cert</span><span class="o">.</span><span class="n">signature_hash_algorithm</span>
+        <span class="c1"># For a delegate OCSP responder, we need first check that its certificate is effectively</span>
+        <span class="c1"># signed by the certificate issuer.</span>
+        <span class="n">crypto_util</span><span class="o">.</span><span class="n">verify_signed_payload</span><span class="p">(</span><span class="n">issuer_cert</span><span class="o">.</span><span class="n">public_key</span><span class="p">(),</span> <span class="n">responder_cert</span><span class="o">.</span><span class="n">signature</span><span class="p">,</span>
+                                          <span class="n">responder_cert</span><span class="o">.</span><span class="n">tbs_certificate_bytes</span><span class="p">,</span> <span class="n">chosen_hash</span><span class="p">)</span>
+
     <span class="c1"># Following line may raise UnsupportedAlgorithm</span>
     <span class="n">chosen_hash</span> <span class="o">=</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">signature_hash_algorithm</span>
-    <span class="n">crypto_util</span><span class="o">.</span><span class="n">verify_signed_payload</span><span class="p">(</span><span class="n">issuer_cert</span><span class="o">.</span><span class="n">public_key</span><span class="p">(),</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">signature</span><span class="p">,</span>
+    <span class="c1"># We check that the OSCP response is effectively signed by the responder</span>
+    <span class="c1"># (an authorized delegate one or the certificate issuer itself).</span>
+    <span class="n">crypto_util</span><span class="o">.</span><span class="n">verify_signed_payload</span><span class="p">(</span><span class="n">responder_cert</span><span class="o">.</span><span class="n">public_key</span><span class="p">(),</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">signature</span><span class="p">,</span>
                                       <span class="n">response_ocsp</span><span class="o">.</span><span class="n">tbs_response_bytes</span><span class="p">,</span> <span class="n">chosen_hash</span><span class="p">)</span></div>
 
 
@@ -479,7 +520,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.35.0.dev0',
+            VERSION:'0.36.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -506,7 +547,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.ocsp%E2%80%94%20Certbot%200.35.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.ocsp%E2%80%94%20Certbot%200.36.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
