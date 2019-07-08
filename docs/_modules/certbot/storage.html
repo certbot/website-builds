@@ -1168,7 +1168,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cli_config</span><span class="o">.</span><span class="n">renewal_configs_dir</span><span class="p">,</span> <span class="n">cli_config</span><span class="o">.</span><span class="n">default_archive_dir</span><span class="p">,</span>
                   <span class="n">cli_config</span><span class="o">.</span><span class="n">live_dir</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mo">0o700</span><span class="p">)</span>
+                <span class="n">filesystem</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mo">0o700</span><span class="p">)</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Creating directory </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
         <span class="n">config_file</span><span class="p">,</span> <span class="n">config_filename</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">unique_lineage_name</span><span class="p">(</span>
             <span class="n">cli_config</span><span class="o">.</span><span class="n">renewal_configs_dir</span><span class="p">,</span> <span class="n">lineagename</span><span class="p">)</span>
@@ -1190,8 +1190,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">config_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">CertStorageError</span><span class="p">(</span>
                 <span class="s2">&quot;live directory exists for &quot;</span> <span class="o">+</span> <span class="n">lineagename</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">archive</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">live_dir</span><span class="p">)</span>
+        <span class="n">filesystem</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">archive</span><span class="p">)</span>
+        <span class="n">filesystem</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">live_dir</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Archive directory </span><span class="si">%s</span><span class="s2"> and live &quot;</span>
                      <span class="s2">&quot;directory </span><span class="si">%s</span><span class="s2"> created.&quot;</span><span class="p">,</span> <span class="n">archive</span><span class="p">,</span> <span class="n">live_dir</span><span class="p">)</span>
 

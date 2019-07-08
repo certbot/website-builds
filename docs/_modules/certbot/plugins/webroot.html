@@ -203,6 +203,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">filesystem</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">ops</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">display_util</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">common</span>
@@ -357,10 +358,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="c1"># as it does not correspond to a folder path (&#39;/&#39; or &#39;C:&#39;)</span>
                 <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">get_prefixes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">full_roots</span><span class="p">[</span><span class="n">name</span><span class="p">])[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">):</span>
                     <span class="k">try</span><span class="p">:</span>
-                        <span class="c1"># This is coupled with the &quot;umask&quot; call above because</span>
-                        <span class="c1"># os.mkdir&#39;s &quot;mode&quot; parameter may not always work:</span>
+                        <span class="c1"># This is coupled with the &quot;umask&quot; call above because os.mkdir&#39;s</span>
+                        <span class="c1"># &quot;mode&quot; parameter may not always work under Linux:</span>
                         <span class="c1"># https://docs.python.org/3/library/os.html#os.mkdir</span>
-                        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="mo">0o0755</span><span class="p">)</span>
+                        <span class="n">filesystem</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="mo">0o0755</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_created_dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
                         <span class="c1"># Set owner as parent directory if possible</span>
                         <span class="k">try</span><span class="p">:</span>

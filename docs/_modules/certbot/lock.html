@@ -197,6 +197,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">filesystem</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -315,7 +316,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="sd">&quot;&quot;&quot;Acquire the lock.&quot;&quot;&quot;</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fd</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Open the file</span>
-            <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_WRONLY</span><span class="p">,</span> <span class="mo">0o600</span><span class="p">)</span>
+            <span class="n">fd</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_WRONLY</span><span class="p">,</span> <span class="mo">0o600</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_try_lock</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock_success</span><span class="p">(</span><span class="n">fd</span><span class="p">):</span>
@@ -407,11 +408,15 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="sd">&quot;&quot;&quot;Acquire the lock&quot;&quot;&quot;</span>
         <span class="n">open_mode</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_TRUNC</span>
 
-        <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="n">open_mode</span><span class="p">,</span> <span class="mo">0o600</span><span class="p">)</span>
+        <span class="n">fd</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Under Windows, filesystem.open will raise directly an EACCES error</span>
+            <span class="c1"># if the lock file is already locked.</span>
+            <span class="n">fd</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="p">,</span> <span class="n">open_mode</span><span class="p">,</span> <span class="mo">0o600</span><span class="p">)</span>
             <span class="n">msvcrt</span><span class="o">.</span><span class="n">locking</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">msvcrt</span><span class="o">.</span><span class="n">LK_NBLCK</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">fd</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
             <span class="c1"># Anything except EACCES is unexpected. Raise directly the error in that case.</span>
             <span class="k">if</span> <span class="n">err</span><span class="o">.</span><span class="n">errno</span> <span class="o">!=</span> <span class="n">errno</span><span class="o">.</span><span class="n">EACCES</span><span class="p">:</span>
                 <span class="k">raise</span>

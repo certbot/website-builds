@@ -207,6 +207,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">lock</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">misc</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">filesystem</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -364,7 +365,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="n">filesystem</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">exception</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">errno</span><span class="o">.</span><span class="n">EEXIST</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">strict</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">check_permissions</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">uid</span><span class="p">):</span>
@@ -390,24 +391,20 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">misc</span><span class="o">.</span><span class="n">compare_file_modes</span><span class="p">(</span><span class="n">file_stat</span><span class="o">.</span><span class="n">st_mode</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="ow">and</span> <span class="n">file_stat</span><span class="o">.</span><span class="n">st_uid</span> <span class="o">==</span> <span class="n">uid</span></div>
 
 
-<div class="viewcode-block" id="safe_open"><a class="viewcode-back" href="../../api/util.html#certbot.util.safe_open">[docs]</a><span class="k">def</span> <span class="nf">safe_open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">buffering</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="safe_open"><a class="viewcode-back" href="../../api/util.html#certbot.util.safe_open">[docs]</a><span class="k">def</span> <span class="nf">safe_open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Safely open a file.</span>
 
 <span class="sd">    :param str path: Path to a file.</span>
 <span class="sd">    :param str mode: Same os `mode` for `open`.</span>
-<span class="sd">    :param int chmod: Same as `mode` for `os.open`, uses Python defaults</span>
+<span class="sd">    :param int chmod: Same as `mode` for `filesystem.open`, uses Python defaults</span>
 <span class="sd">        if ``None``.</span>
-<span class="sd">    :param int buffering: Same as `bufsize` for `os.fdopen`, uses Python</span>
-<span class="sd">        defaults if ``None``.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">open_args</span> <span class="o">=</span> <span class="p">()</span>  <span class="c1"># type: Union[Tuple[()], Tuple[int]]</span>
     <span class="k">if</span> <span class="n">chmod</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">open_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">chmod</span><span class="p">,)</span>
     <span class="n">fdopen_args</span> <span class="o">=</span> <span class="p">()</span>  <span class="c1"># type: Union[Tuple[()], Tuple[int]]</span>
-    <span class="k">if</span> <span class="n">buffering</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">fdopen_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">buffering</span><span class="p">,)</span>
-    <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_EXCL</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span><span class="p">,</span> <span class="o">*</span><span class="n">open_args</span><span class="p">)</span>
+    <span class="n">fd</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_EXCL</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span><span class="p">,</span> <span class="o">*</span><span class="n">open_args</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">fdopen</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="o">*</span><span class="n">fdopen_args</span><span class="p">)</span></div>
 
 
