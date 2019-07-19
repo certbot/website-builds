@@ -567,7 +567,7 @@ You should never share these credentials publicly or with an unauthorized person
               Stop your webserver, then run this command to get a certificate.
               Certbot will temporarily spin up a webserver on your machine.
               <pre>
-                  sudo certbot certonly --standalone
+                  sudo letsencrypt certonly --standalone
               </pre>
           </p>
           <h3>No, I need to keep my web server running.</h3>
@@ -575,7 +575,7 @@ You should never share these credentials publicly or with an unauthorized person
               If you have a webserver that's already using port 80 and don't want to stop it
               while Certbot runs, run this command and follow the instructions in the terminal.
               <pre>
-                  sudo certbot certonly --webroot
+                  sudo letsencrypt certonly --webroot
               </pre>
           </p>
           <aside class="note">
@@ -597,7 +597,7 @@ You should never share these credentials publicly or with an unauthorized person
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; letsencrypt renew" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
       </li>
@@ -683,7 +683,7 @@ You should never share these credentials publicly or with an unauthorized person
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; letsencrypt renew" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
       </li>

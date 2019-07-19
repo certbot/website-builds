@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.webroot &mdash; Certbot 0.36.0.dev0 documentation</title>
+  <title>certbot.plugins.webroot &mdash; Certbot 0.37.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.webroot &mdash; Certbot 0.36.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.webroot &mdash; Certbot 0.37.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 0.36.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 0.37.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.36
+                0.37
               </div>
             
           
@@ -353,19 +353,19 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="c1"># run as non-root (GH #1795)</span>
             <span class="n">old_umask</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">umask</span><span class="p">(</span><span class="mo">0o022</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">stat_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
                 <span class="c1"># We ignore the last prefix in the next iteration,</span>
                 <span class="c1"># as it does not correspond to a folder path (&#39;/&#39; or &#39;C:&#39;)</span>
                 <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">get_prefixes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">full_roots</span><span class="p">[</span><span class="n">name</span><span class="p">])[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">):</span>
                     <span class="k">try</span><span class="p">:</span>
-                        <span class="c1"># This is coupled with the &quot;umask&quot; call above because os.mkdir&#39;s</span>
-                        <span class="c1"># &quot;mode&quot; parameter may not always work under Linux:</span>
+                        <span class="c1"># Set owner as parent directory if possible, apply mode for Linux/Windows.</span>
+                        <span class="c1"># For Linux, this is coupled with the &quot;umask&quot; call above because</span>
+                        <span class="c1"># os.mkdir&#39;s &quot;mode&quot; parameter may not always work:</span>
                         <span class="c1"># https://docs.python.org/3/library/os.html#os.mkdir</span>
-                        <span class="n">filesystem</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="mo">0o0755</span><span class="p">)</span>
+                        <span class="n">filesystem</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="mo">0o755</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_created_dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
-                        <span class="c1"># Set owner as parent directory if possible</span>
                         <span class="k">try</span><span class="p">:</span>
-                            <span class="n">os</span><span class="o">.</span><span class="n">chown</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">stat_path</span><span class="o">.</span><span class="n">st_uid</span><span class="p">,</span> <span class="n">stat_path</span><span class="o">.</span><span class="n">st_gid</span><span class="p">)</span>
+                            <span class="n">filesystem</span><span class="o">.</span><span class="n">copy_ownership_and_apply_mode</span><span class="p">(</span>
+                                <span class="n">path</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="mo">0o755</span><span class="p">,</span> <span class="n">copy_user</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">copy_group</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                         <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
                             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Unable to change owner and uid of webroot directory&quot;</span><span class="p">)</span>
                             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Error was: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exception</span><span class="p">)</span>
@@ -525,7 +525,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.36.0.dev0',
+            VERSION:'0.37.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -552,7 +552,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.webroot%E2%80%94%20Certbot%200.36.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.webroot%E2%80%94%20Certbot%200.37.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
