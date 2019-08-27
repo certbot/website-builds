@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.client &mdash; Certbot 0.37.0.dev0 documentation</title>
+  <title>certbot.client &mdash; Certbot 0.38.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.client &mdash; Certbot 0.37.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.client &mdash; Certbot 0.38.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.37.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 0.38.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.37
+                0.38
               </div>
             
           
@@ -214,7 +214,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">reverter</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">storage</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
-<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">misc</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">enhancements</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">ops</span> <span class="k">as</span> <span class="n">display_ops</span>
@@ -643,9 +642,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">fullchain_path</span><span class="p">:</span>
-            <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="mo">0o755</span><span class="p">,</span> <span class="n">misc</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+            <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="mo">0o755</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
 
         <span class="n">cert_file</span><span class="p">,</span> <span class="n">abs_cert_path</span> <span class="o">=</span> <span class="n">_open_pem_file</span><span class="p">(</span><span class="s1">&#39;cert_path&#39;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
@@ -811,7 +808,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">reporter</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span>
                 <span class="s2">&quot;An error occurred and we failed to restore your config and &quot;</span>
                 <span class="s2">&quot;restart your server. Please post to &quot;</span>
-                <span class="s2">&quot;https://community.letsencrypt.org/c/server-config &quot;</span>
+                <span class="s2">&quot;https://community.letsencrypt.org/c/help &quot;</span>
                 <span class="s2">&quot;with details about your configuration and this error you received.&quot;</span><span class="p">,</span>
                 <span class="n">reporter</span><span class="o">.</span><span class="n">HIGH_PRIORITY</span><span class="p">)</span>
             <span class="k">raise</span>
@@ -986,7 +983,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.37.0.dev0',
+            VERSION:'0.38.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1013,7 +1010,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.client%E2%80%94%20Certbot%200.37.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.client%E2%80%94%20Certbot%200.38.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

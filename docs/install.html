@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Get Certbot &mdash; Certbot 0.37.0.dev0 documentation</title>
+  <title>Get Certbot &mdash; Certbot 0.38.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Get Certbot &mdash; Certbot 0.37.0.dev0 documentation">
+<meta name="twitter:title" content="Get Certbot &mdash; Certbot 0.38.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.37.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 0.38.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="User Guide" href="using.html"/>
         <link rel="prev" title="What is a Certificate?" href="what.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.37
+                0.38
               </div>
             
           
@@ -234,7 +234,7 @@ without root privileges, but for most users who want to avoid running an ACME
 client as root, either <a class="reference external" href="https://github.com/diafygi/letsencrypt-nosudo">letsencrypt-nosudo</a> or <a class="reference external" href="https://github.com/zenhack/simp_le">simp_le</a> are more appropriate choices.</p>
 <p>The Apache plugin currently requires an OS with augeas version 1.0; currently <a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot-apache/certbot_apache/constants.py">it
 supports</a>
-modern OSes based on Debian, Fedora, SUSE, Gentoo and Darwin.</p>
+modern OSes based on Debian, Ubuntu, Fedora, SUSE, Gentoo and Darwin.</p>
 <p>Additional integrity verification of certbot-auto script can be done by verifying its digital signature.
 This requires a local installation of gpg2, which comes packaged in many Linux distributions under name gnupg or gnupg2.</p>
 <p>Installing with <code class="docutils literal notranslate"><span class="pre">certbot-auto</span></code> requires 512MB of RAM in order to build some
@@ -358,17 +358,48 @@ of the <code class="docutils literal notranslate"><span class="pre">/etc/letsenc
 </pre></div>
 </div>
 <p><strong>Debian</strong></p>
-<p>If you run Debian Stretch or Debian Sid, you can install certbot packages.</p>
+<p>If you run Debian Buster or Debian testing/Sid, you can easily install certbot
+packages through commands like:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get update
-sudo apt-get install certbot python-certbot-apache
+sudo apt-get install certbot
 </pre></div>
 </div>
-<p>If you don’t want to use the Apache plugin, you can omit the
-<code class="docutils literal notranslate"><span class="pre">python-certbot-apache</span></code> package. Or you can install <code class="docutils literal notranslate"><span class="pre">python-certbot-nginx</span></code> instead.</p>
-<p>Packages exist for Debian Jessie via backports. First you’ll have to follow the
-instructions at <a class="reference external" href="http://backports.debian.org/Instructions/">http://backports.debian.org/Instructions/</a> to enable the Jessie backports
-repo, if you have not already done so. Then run:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get install certbot python-certbot-apache -t jessie-backports
+<p>If you run Debian Stretch, we recommend you use the packages in Debian
+backports repository. First you’ll have to follow the instructions at
+<a class="reference external" href="https://backports.debian.org/Instructions/">https://backports.debian.org/Instructions/</a> to enable the Stretch backports repo,
+if you have not already done so. Then run:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get install certbot -t stretch-backports
+</pre></div>
+</div>
+<p>In all of these cases, there also packages available to help Certbot integrate
+with Apache, nginx, or various DNS services. If you are using Apache or nginx,
+we strongly recommend that you install the <code class="docutils literal notranslate"><span class="pre">python-certbot-apache</span></code> or
+<code class="docutils literal notranslate"><span class="pre">python-certbot-nginx</span></code> package so that Certbot can fully automate HTTPS
+configuration for your server. A full list of these packages can be found
+through a command like:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>apt search <span class="s1">&#39;python-certbot*&#39;</span>
+</pre></div>
+</div>
+<p>They can be installed by running the same installation command above but
+replacing <code class="docutils literal notranslate"><span class="pre">certbot</span></code> with the name of the desired package.</p>
+<p>There are no Certbot packages available for Debian Jessie and Jessie users
+should instead use <a class="reference internal" href="#certbot-auto">certbot-auto</a>.</p>
+<p><strong>Ubuntu</strong></p>
+<p>If you run Ubuntu Trusty, Xenial, or Bionic, certbot is available through the official PPA,
+that can be installed as followed:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get install software-properties-common
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+</pre></div>
+</div>
+<p>Then, certbot can be installed using:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get install certbot
+</pre></div>
+</div>
+<p>Optionally to install the Certbot Apache plugin, you can use:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get install python-certbot-apache
 </pre></div>
 </div>
 <p><strong>Fedora</strong></p>
@@ -500,7 +531,7 @@ system and are <strong>not supported</strong> by the Certbot team!</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.37.0.dev0',
+            VERSION:'0.38.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -527,7 +558,7 @@ system and are <strong>not supported</strong> by the Certbot team!</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Get%20Certbot%E2%80%94%20Certbot%200.37.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Get%20Certbot%E2%80%94%20Certbot%200.38.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
