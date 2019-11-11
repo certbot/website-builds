@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.common &mdash; Certbot 0.40.0.dev0 documentation</title>
+  <title>certbot.plugins.common &mdash; Certbot 1.0.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.common &mdash; Certbot 0.40.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.common &mdash; Certbot 1.0.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 0.40.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.40
+                1.0
               </div>
             
           
@@ -190,7 +190,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">OpenSSL</span>
 <span class="kn">import</span> <span class="nn">pkg_resources</span>
 <span class="kn">import</span> <span class="nn">zope.interface</span>
 
@@ -204,7 +203,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">reverter</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">filesystem</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins.storage</span> <span class="k">import</span> <span class="n">PluginStorage</span>
@@ -376,26 +374,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Installer.view_config_changes"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Installer.view_config_changes">[docs]</a>    <span class="k">def</span> <span class="nf">view_config_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Show all of the configuration changes that have taken place.</span>
-
-<span class="sd">        :raises .errors.PluginError: If there is a problem while processing</span>
-<span class="sd">            the checkpoints directories.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;The view_config_changes method is no longer part of Certbot&#39;s&quot;</span>
-            <span class="s2">&quot; plugin interface, has been deprecated, and will be removed in a&quot;</span>
-            <span class="s2">&quot; future release.&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-            <span class="c1"># Don&#39;t let the reverter code warn about this function. Calling</span>
-            <span class="c1"># this function in the first place is the real problem.</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="s2">&quot;.*view_config_changes&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">reverter</span><span class="o">.</span><span class="n">view_config_changes</span><span class="p">()</span>
-            <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span></div>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">ssl_dhparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Full absolute path to ssl_dhparams file.&quot;&quot;&quot;</span>
@@ -551,63 +529,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
-
-
-<div class="viewcode-block" id="TLSSNI01"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.TLSSNI01">[docs]</a><span class="k">class</span> <span class="nc">TLSSNI01</span><span class="p">(</span><span class="n">ChallengePerformer</span><span class="p">):</span>
-    <span class="c1"># pylint: disable=abstract-method</span>
-    <span class="sd">&quot;&quot;&quot;Abstract base for TLS-SNI-01 challenge performers&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configurator</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">TLSSNI01</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">configurator</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">challenge_conf</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="n">configurator</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">config_dir</span><span class="p">,</span> <span class="s2">&quot;le_tls_sni_01_cert_challenge.conf&quot;</span><span class="p">)</span>
-        <span class="c1"># self.completed = 0</span>
-
-<div class="viewcode-block" id="TLSSNI01.get_cert_path"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.TLSSNI01.get_cert_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_cert_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns standardized name for challenge certificate.</span>
-
-<span class="sd">        :param .KeyAuthorizationAnnotatedChallenge achall: Annotated</span>
-<span class="sd">            tls-sni-01 challenge.</span>
-
-<span class="sd">        :returns: certificate file name</span>
-<span class="sd">        :rtype: str</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configurator</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">work_dir</span><span class="p">,</span>
-                            <span class="n">achall</span><span class="o">.</span><span class="n">chall</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.crt&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="TLSSNI01.get_key_path"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.TLSSNI01.get_key_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_key_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get standardized path to challenge key.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configurator</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">work_dir</span><span class="p">,</span>
-                            <span class="n">achall</span><span class="o">.</span><span class="n">chall</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.pem&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="TLSSNI01.get_z_domain"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.TLSSNI01.get_z_domain">[docs]</a>    <span class="k">def</span> <span class="nf">get_z_domain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns z_domain (SNI) name for the challenge.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">achall</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">account_key</span><span class="p">)</span><span class="o">.</span><span class="n">z_domain</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="TLSSNI01._setup_challenge_cert"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.TLSSNI01._setup_challenge_cert">[docs]</a>    <span class="k">def</span> <span class="nf">_setup_challenge_cert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">,</span> <span class="n">cert_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-
-        <span class="sd">&quot;&quot;&quot;Generate and write out challenge certificate.&quot;&quot;&quot;</span>
-        <span class="n">cert_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cert_path</span><span class="p">(</span><span class="n">achall</span><span class="p">)</span>
-        <span class="n">key_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_key_path</span><span class="p">(</span><span class="n">achall</span><span class="p">)</span>
-        <span class="c1"># Register the path before you write out the file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">configurator</span><span class="o">.</span><span class="n">reverter</span><span class="o">.</span><span class="n">register_file_creation</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">key_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">configurator</span><span class="o">.</span><span class="n">reverter</span><span class="o">.</span><span class="n">register_file_creation</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
-
-        <span class="n">response</span><span class="p">,</span> <span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">=</span> <span class="n">achall</span><span class="o">.</span><span class="n">response_and_validation</span><span class="p">(</span>
-            <span class="n">cert_key</span><span class="o">=</span><span class="n">cert_key</span><span class="p">)</span>
-        <span class="n">cert_pem</span> <span class="o">=</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">dump_certificate</span><span class="p">(</span>
-            <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">cert</span><span class="p">)</span>
-        <span class="n">key_pem</span> <span class="o">=</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">dump_privatekey</span><span class="p">(</span>
-            <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-
-        <span class="c1"># Write out challenge cert and key</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cert_chall_fd</span><span class="p">:</span>
-            <span class="n">cert_chall_fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cert_pem</span><span class="p">)</span>
-        <span class="k">with</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_open</span><span class="p">(</span><span class="n">key_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="mo">0o400</span><span class="p">)</span> <span class="k">as</span> <span class="n">key_file</span><span class="p">:</span>
-            <span class="n">key_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">key_pem</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">response</span></div></div>
 
 
 <div class="viewcode-block" id="install_version_controlled_file"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.install_version_controlled_file">[docs]</a><span class="k">def</span> <span class="nf">install_version_controlled_file</span><span class="p">(</span><span class="n">dest_path</span><span class="p">,</span> <span class="n">digest_path</span><span class="p">,</span> <span class="n">src_path</span><span class="p">,</span> <span class="n">all_hashes</span><span class="p">):</span>
@@ -775,7 +696,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.40.0.dev0',
+            VERSION:'1.0.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -802,7 +723,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%E2%80%94%20Certbot%200.40.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
