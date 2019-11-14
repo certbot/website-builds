@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Packaging Guide &mdash; Certbot 0.23.0.dev0 documentation</title>
+  <title>Packaging Guide &mdash; Certbot 1.0.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Packaging Guide &mdash; Certbot 0.23.0.dev0 documentation">
+<meta name="twitter:title" content="Packaging Guide &mdash; Certbot 1.0.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.23.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Resources" href="resources.html"/>
         <link rel="prev" title="Developer Guide" href="contributing.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.23
+                1.0
               </div>
             
           
@@ -128,16 +128,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Packaging Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#releases">Releases</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#notes-for-package-maintainers">Notes for package maintainers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#already-ongoing-efforts">Already ongoing efforts</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#arch">Arch</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#debian-and-its-derivatives-including-ubuntu">Debian (and its derivatives, including Ubuntu)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#fedora">Fedora</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#freebsd">FreeBSD</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#gentoo">Gentoo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#gnu-guix">GNU Guix</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#openbsd">OpenBSD</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="resources.html">Resources</a></li>
@@ -210,96 +200,30 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li><a class="reference external" href="https://pypi.python.org/pypi/certbot-dns-dnsimple">https://pypi.python.org/pypi/certbot-dns-dnsimple</a></li>
 <li><a class="reference external" href="https://pypi.python.org/pypi/certbot-dns-dnsmadeeasy">https://pypi.python.org/pypi/certbot-dns-dnsmadeeasy</a></li>
 <li><a class="reference external" href="https://pypi.python.org/pypi/certbot-dns-google">https://pypi.python.org/pypi/certbot-dns-google</a></li>
+<li><a class="reference external" href="https://pypi.python.org/pypi/certbot-dns-linode">https://pypi.python.org/pypi/certbot-dns-linode</a></li>
 <li><a class="reference external" href="https://pypi.python.org/pypi/certbot-dns-luadns">https://pypi.python.org/pypi/certbot-dns-luadns</a></li>
 <li><a class="reference external" href="https://pypi.python.org/pypi/certbot-dns-nsone">https://pypi.python.org/pypi/certbot-dns-nsone</a></li>
+<li><a class="reference external" href="https://pypi.python.org/pypi/certbot-dns-ovh">https://pypi.python.org/pypi/certbot-dns-ovh</a></li>
 <li><a class="reference external" href="https://pypi.python.org/pypi/certbot-dns-rfc2136">https://pypi.python.org/pypi/certbot-dns-rfc2136</a></li>
 <li><a class="reference external" href="https://pypi.python.org/pypi/certbot-dns-route53">https://pypi.python.org/pypi/certbot-dns-route53</a></li>
 </ul>
 <p>The following scripts are used in the process:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/letsencrypt/letsencrypt/blob/master/tools/release.sh">https://github.com/letsencrypt/letsencrypt/blob/master/tools/release.sh</a></li>
+<li><a class="reference external" href="https://github.com/certbot/certbot/blob/master/tools/release.sh">https://github.com/certbot/certbot/blob/master/tools/release.sh</a></li>
 </ul>
 <p>We use git tags to identify releases, using <a class="reference external" href="http://semver.org/">Semantic Versioning</a>. For
-example: <code class="xref py py-obj docutils literal"><span class="pre">v0.11.1</span></code>.</p>
+example: <code class="xref py py-obj docutils literal notranslate"><span class="pre">v0.11.1</span></code>.</p>
 </div>
 <div class="section" id="notes-for-package-maintainers">
 <h2>Notes for package maintainers<a class="headerlink" href="#notes-for-package-maintainers" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple" start="0">
-<li>Please use our tagged releases, not <code class="docutils literal"><span class="pre">master</span></code>!</li>
-<li>Do not package <code class="docutils literal"><span class="pre">certbot-compatibility-test</span></code> or <code class="docutils literal"><span class="pre">letshelp-certbot</span></code> - it&#8217;s only used internally.</li>
-<li>If you&#8217;d like to include automated renewal in your package <code class="docutils literal"><span class="pre">certbot</span> <span class="pre">renew</span> <span class="pre">-q</span></code> should be added to crontab or systemd timer. Additionally you should include a random per-machine time offset to avoid having a large number of your clients hit Let&#8217;s Encrypt&#8217;s servers simultaneously.</li>
-<li><code class="docutils literal"><span class="pre">jws</span></code> is an internal script for <code class="docutils literal"><span class="pre">acme</span></code> module and it doesn&#8217;t have to be packaged - it&#8217;s mostly for debugging: you can use it as <code class="docutils literal"><span class="pre">echo</span> <span class="pre">foo</span> <span class="pre">|</span> <span class="pre">jws</span> <span class="pre">sign</span> <span class="pre">|</span> <span class="pre">jws</span> <span class="pre">verify</span></code>.</li>
-<li>Do get in touch with us. We are happy to make any changes that will make packaging easier. If you need to apply some patches don&#8217;t do it downstream - make a PR here.</li>
+<li>Please use our tagged releases, not <code class="docutils literal notranslate"><span class="pre">master</span></code>!</li>
+<li>Do not package <code class="docutils literal notranslate"><span class="pre">certbot-compatibility-test</span></code> or <code class="docutils literal notranslate"><span class="pre">letshelp-certbot</span></code> - it’s only used internally.</li>
+<li>To run tests on our packages, you should use <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">test</span></code>. Doing things like running <code class="docutils literal notranslate"><span class="pre">pytest</span></code> directly on our package files may not work because Certbot relies on setuptools to register and find its plugins.</li>
+<li>If you’d like to include automated renewal in your package <code class="docutils literal notranslate"><span class="pre">certbot</span> <span class="pre">renew</span> <span class="pre">-q</span></code> should be added to crontab or systemd timer. Additionally you should include a random per-machine time offset to avoid having a large number of your clients hit Let’s Encrypt’s servers simultaneously.</li>
+<li><code class="docutils literal notranslate"><span class="pre">jws</span></code> is an internal script for <code class="docutils literal notranslate"><span class="pre">acme</span></code> module and it doesn’t have to be packaged - it’s mostly for debugging: you can use it as <code class="docutils literal notranslate"><span class="pre">echo</span> <span class="pre">foo</span> <span class="pre">|</span> <span class="pre">jws</span> <span class="pre">sign</span> <span class="pre">|</span> <span class="pre">jws</span> <span class="pre">verify</span></code>.</li>
+<li>Do get in touch with us. We are happy to make any changes that will make packaging easier. If you need to apply some patches don’t do it downstream - make a PR here.</li>
 </ol>
-</div>
-<div class="section" id="already-ongoing-efforts">
-<h2>Already ongoing efforts<a class="headerlink" href="#already-ongoing-efforts" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="arch">
-<h3>Arch<a class="headerlink" href="#arch" title="Permalink to this headline">¶</a></h3>
-<p>From our official releases:</p>
-<ul class="simple">
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/python-acme">https://www.archlinux.org/packages/community/any/python-acme</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot">https://www.archlinux.org/packages/community/any/certbot</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-apache">https://www.archlinux.org/packages/community/any/certbot-apache</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-nginx">https://www.archlinux.org/packages/community/any/certbot-nginx</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-dns-cloudflare">https://www.archlinux.org/packages/community/any/certbot-dns-cloudflare</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-dns-cloudxns">https://www.archlinux.org/packages/community/any/certbot-dns-cloudxns</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-dns-digitalocean">https://www.archlinux.org/packages/community/any/certbot-dns-digitalocean</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-dns-dnsimple">https://www.archlinux.org/packages/community/any/certbot-dns-dnsimple</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-dns-dnsmadeeasy">https://www.archlinux.org/packages/community/any/certbot-dns-dnsmadeeasy</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-dns-google">https://www.archlinux.org/packages/community/any/certbot-dns-google</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-dns-luadns">https://www.archlinux.org/packages/community/any/certbot-dns-luadns</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-dns-nsone">https://www.archlinux.org/packages/community/any/certbot-dns-nsone</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-dns-rfc2136">https://www.archlinux.org/packages/community/any/certbot-dns-rfc2136</a></li>
-<li><a class="reference external" href="https://www.archlinux.org/packages/community/any/certbot-dns-route53">https://www.archlinux.org/packages/community/any/certbot-dns-route53</a></li>
-</ul>
-<p>From <code class="docutils literal"><span class="pre">master</span></code>: <a class="reference external" href="https://aur.archlinux.org/packages/certbot-git">https://aur.archlinux.org/packages/certbot-git</a></p>
-</div>
-<div class="section" id="debian-and-its-derivatives-including-ubuntu">
-<h3>Debian (and its derivatives, including Ubuntu)<a class="headerlink" href="#debian-and-its-derivatives-including-ubuntu" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference external" href="https://packages.debian.org/sid/certbot">https://packages.debian.org/sid/certbot</a></li>
-<li><a class="reference external" href="https://packages.debian.org/sid/python-certbot">https://packages.debian.org/sid/python-certbot</a></li>
-<li><a class="reference external" href="https://packages.debian.org/sid/python-certbot-apache">https://packages.debian.org/sid/python-certbot-apache</a></li>
-</ul>
-</div>
-<div class="section" id="fedora">
-<h3>Fedora<a class="headerlink" href="#fedora" title="Permalink to this headline">¶</a></h3>
-<p>In Fedora 23+.</p>
-<ul class="simple">
-<li><a class="reference external" href="https://admin.fedoraproject.org/pkgdb/package/certbot/">https://admin.fedoraproject.org/pkgdb/package/certbot/</a></li>
-<li><a class="reference external" href="https://admin.fedoraproject.org/pkgdb/package/python-acme/">https://admin.fedoraproject.org/pkgdb/package/python-acme/</a></li>
-</ul>
-</div>
-<div class="section" id="freebsd">
-<h3>FreeBSD<a class="headerlink" href="#freebsd" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference external" href="https://www.freshports.org/security/py-acme/">https://www.freshports.org/security/py-acme/</a></li>
-<li><a class="reference external" href="https://www.freshports.org/security/py-certbot/">https://www.freshports.org/security/py-certbot/</a></li>
-</ul>
-</div>
-<div class="section" id="gentoo">
-<h3>Gentoo<a class="headerlink" href="#gentoo" title="Permalink to this headline">¶</a></h3>
-<p>Currently, all <code class="docutils literal"><span class="pre">certbot</span></code> related packages are in the testing branch:</p>
-<ul class="simple">
-<li><a class="reference external" href="https://packages.gentoo.org/packages/app-crypt/certbot">https://packages.gentoo.org/packages/app-crypt/certbot</a></li>
-<li><a class="reference external" href="https://packages.gentoo.org/packages/app-crypt/certbot-apache">https://packages.gentoo.org/packages/app-crypt/certbot-apache</a></li>
-<li><a class="reference external" href="https://packages.gentoo.org/packages/app-crypt/certbot-nginx">https://packages.gentoo.org/packages/app-crypt/certbot-nginx</a></li>
-<li><a class="reference external" href="https://packages.gentoo.org/packages/app-crypt/acme">https://packages.gentoo.org/packages/app-crypt/acme</a></li>
-</ul>
-</div>
-<div class="section" id="gnu-guix">
-<h3>GNU Guix<a class="headerlink" href="#gnu-guix" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference external" href="https://www.gnu.org/software/guix/package-list.html#certbot">https://www.gnu.org/software/guix/package-list.html#certbot</a></li>
-</ul>
-</div>
-<div class="section" id="openbsd">
-<h3>OpenBSD<a class="headerlink" href="#openbsd" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference external" href="http://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/security/letsencrypt/client/">http://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/security/letsencrypt/client/</a></li>
-</ul>
-</div>
 </div>
 </div>
 
@@ -358,7 +282,7 @@ example: <code class="xref py py-obj docutils literal"><span class="pre">v0.11.1
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.23.0.dev0',
+            VERSION:'1.0.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -385,7 +309,7 @@ example: <code class="xref py py-obj docutils literal"><span class="pre">v0.11.1
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Packaging%20Guide%E2%80%94%20Certbot%200.23.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Packaging%20Guide%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Challenges &mdash; Certbot 0.23.0.dev0 documentation</title>
+  <title>Challenges &mdash; Certbot 1.0.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Challenges &mdash; Certbot 0.23.0.dev0 documentation">
+<meta name="twitter:title" content="Challenges &mdash; Certbot 1.0.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.23.0.dev0 documentation" href="index.html"/> 
+    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -96,7 +96,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.23
+                1.0
               </div>
             
           
@@ -180,35 +180,34 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
   <div class="section" id="challenges">
 <h1>Challenges<a class="headerlink" href="#challenges" title="Permalink to this headline">¶</a></h1>
-<p>To receive a certificate from Let&#8217;s Encrypt certificate authority (CA), you must pass a <em>challenge</em> to
+<p>To receive a certificate from Let’s Encrypt certificate authority (CA), you must pass a <em>challenge</em> to
 prove you control each of the domain names that will be listed in the certificate. A challenge is one of
-three tasks that only someone who controls the domain should be able to accomplish:</p>
+a list of specified tasks that only someone who controls the domain should be able to accomplish, such as:</p>
 <ul class="simple">
 <li>Posting a specified file in a specified location on a web site (the HTTP-01 challenge)</li>
-<li>Offering a specified temporary certificate on a web site (the TLS-SNI-01 challenge)</li>
 <li>Posting a specified DNS record in the domain name system (the DNS-01 challenge)</li>
 </ul>
 <p>It’s possible to complete each type of challenge <em>automatically</em> (Certbot directly makes the necessary
 changes itself, or runs another program that does so), or <em>manually</em> (Certbot tells you to make a
-certain change, and you edit a configuration file of some kind in order to accomplish it). Certbot&#8217;s
+certain change, and you edit a configuration file of some kind in order to accomplish it). Certbot’s
 design favors performing challenges automatically, and this is the normal case for most users of Certbot.</p>
 <p>Some plugins offer an <em>authenticator</em>, meaning that they can satisfy challenges:</p>
 <ul class="simple">
-<li>Apache plugin: (TLS-SNI-01) Tries to edit your Apache configuration files to temporarily serve
-a Certbot-generated certificate for a specified name. Use the Apache plugin when you&#8217;re running
-Certbot on a web server with Apache listening on port 443.</li>
-<li>NGINX plugin: (TLS-SNI-01) Tries to edit your NGINX configuration files to temporarily serve a
-Certbot-generated certificate for a specified name. Use the NGINX plugin when you&#8217;re running
-Certbot on a web server with NGINX listening on port 443.</li>
+<li>Apache plugin: (HTTP-01) Tries to edit your Apache configuration files to temporarily serve files to
+satisfy challenges from the certificate authority. Use the Apache plugin when you’re running Certbot on a
+web server with Apache listening on port 80.</li>
+<li>Nginx plugin: (HTTP-01) Tries to edit your nginx configuration files to temporarily serve files to
+satisfy challenges from the certificate authority. Use the nginx plugin when you’re running Certbot on a
+web server with nginx listening on port 80.</li>
 <li>Webroot plugin: (HTTP-01) Tries to place a file where it can be served over HTTP on port 80 by a
-web server running on your system. Use the Webroot plugin when you&#8217;re running Certbot on
+web server running on your system. Use the Webroot plugin when you’re running Certbot on
 a web server with any server application listening on port 80 serving files from a folder on disk in response.</li>
-<li>Standalone plugin: (TLS-SNI-01 or HTTP-01) Tries to run a temporary web server listening on either HTTP on
-port 80 (for HTTP-01) or HTTPS on port 443 (for TLS-SNI-01). Use the Standalone plugin if no existing program
-is listening to these ports. Choose TLS-SNI-01 or HTTP-01 using the <code class="xref py py-obj docutils literal"><span class="pre">--preferred-challenges</span></code> option.</li>
+<li>Standalone plugin: (HTTP-01) Tries to run a temporary web server listening on HTTP on port 80. Use the
+Standalone plugin if no existing program is listening to this port.</li>
 <li>Manual plugin: (DNS-01 or HTTP-01) Either tells you what changes to make to your configuration or updates
 your DNS records using an external script (for DNS-01) or your webroot (for HTTP-01). Use the Manual
-plugin if you have the technical knowledge to make configuration changes yourself when asked to do so.</li>
+plugin if you have the technical knowledge to make configuration changes yourself when asked to do so,
+and are prepared to repeat these steps every time the certificate needs to be renewed.</li>
 </ul>
 <div class="section" id="tips-for-challenges">
 <h2>Tips for Challenges<a class="headerlink" href="#tips-for-challenges" title="Permalink to this headline">¶</a></h2>
@@ -227,34 +226,19 @@ issuing a certificate, even if it does not prevent your site from loading in a b
 you’re requesting the certificate.</li>
 <li>Make sure port 80 is open, publicly reachable from the Internet, and not blocked by a router or firewall.</li>
 <li>When using the Webroot plugin or the manual plugin, make sure the the webroot directory exists and that you
-specify it properly. If you set the webroot directory for example.com to <code class="xref py py-obj docutils literal"><span class="pre">/var/www/example.com</span></code>
-then a file placed in <code class="xref py py-obj docutils literal"><span class="pre">/var/www/example.com/.well-known/acme-challenge/testfile</span></code> should appear on
-your web site at <code class="xref py py-obj docutils literal"><span class="pre">http://example.com/.well-known/acme-challenge/testfile</span></code> (A redirection to HTTPS
+specify it properly. If you set the webroot directory for example.com to <code class="xref py py-obj docutils literal notranslate"><span class="pre">/var/www/example.com</span></code>
+then a file placed in <code class="xref py py-obj docutils literal notranslate"><span class="pre">/var/www/example.com/.well-known/acme-challenge/testfile</span></code> should appear on
+your web site at <code class="xref py py-obj docutils literal notranslate"><span class="pre">http://example.com/.well-known/acme-challenge/testfile</span></code> (A redirection to HTTPS
 is OK here and should not stop the challenge from working.)</li>
 <li>In some web server configurations, all pages are dynamically generated by some kind of framework,
 usually using a database backend. In this case, there might not be a particular directory
 from which the web server can serve filesdirectly. Using the Webroot plugin in this case
 requires making a change to your web server configuration first.</li>
 <li>Make sure your web server serves files properly from the directory where the challenge
-file is placed (e. g. <code class="xref py py-obj docutils literal"><span class="pre">/.well-known/acme-challenge</span></code>) to the expected location on the
+file is placed (e. g. <code class="xref py py-obj docutils literal notranslate"><span class="pre">/.well-known/acme-challenge</span></code>) to the expected location on the
 website without adding a header or footer.</li>
 <li>When using the Standalone plugin, make sure another program is not already listening to port 80 on the server.</li>
 <li>When using the Webroot plugin, make sure there is a web server listening on port 80.</li>
-</ul>
-</div>
-<div class="section" id="tls-sni-01-challenge">
-<h3>TLS-SNI-01 Challenge<a class="headerlink" href="#tls-sni-01-challenge" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li>The TLS-SNI-01 challenge doesn’t work with content delivery networks (CDNs)
-like CloudFlare and Akamai because the domain name is pointed at the CDN, not directly at your server.</li>
-<li>Make sure port 443 is open, publicly reachable from the Internet, and not blocked by a router or firewall.</li>
-<li>When using the Apache plugin, make sure you are running Apache and no other web server on port 443.</li>
-<li>When using the NGINX plugin, make sure you are running NGINX and no other web server on port 443.</li>
-<li>With either the Apache or NGINX plugin, certbot modifies your web server configuration. If you get
-an error after successfully completing the challenge, then you have received a certificate but the
-plugin was unable to modify your web server configuration, meaning that you&#8217;ll have to install the certificate manually.
-In that case, please file a bug to help us improve certbot!</li>
-<li>When using the Standalone plugin, make sure another program is not already listening to port 443 on the server.</li>
 </ul>
 </div>
 <div class="section" id="dns-01-challenge">
@@ -322,7 +306,7 @@ you must be able to make appropriate changes to your DNS zone in order to pass t
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.23.0.dev0',
+            VERSION:'1.0.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -349,7 +333,7 @@ you must be able to make appropriate changes to your DNS zone in order to pass t
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Challenges%E2%80%94%20Certbot%200.23.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Challenges%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

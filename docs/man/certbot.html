@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; Certbot 0.23.0.dev0 documentation</title>
+  <title>&lt;no title&gt; &mdash; Certbot 1.0.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="&lt;no title&gt; &mdash; Certbot 0.23.0.dev0 documentation">
+<meta name="twitter:title" content="&lt;no title&gt; &mdash; Certbot 1.0.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 0.23.0.dev0 documentation" href="../index.html"/> 
+    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,7 +96,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.23
+                1.0
               </div>
             
           
@@ -178,7 +178,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="highlight-default"><div class="highlight"><pre><span></span>usage: 
+  <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage: 
   certbot [SUBCOMMAND] [options] [-d DOMAIN] [-d DOMAIN] ...
 
 Certbot can obtain and install HTTPS/TLS/SSL certificates.  By default,
@@ -189,6 +189,7 @@ obtain, install, and renew certificates:
     (default) run   Obtain &amp; install a certificate in your current webserver
     certonly        Obtain or renew a certificate, but do not install it
     renew           Renew all previously obtained certificates that are near expiry
+    enhance         Add security enhancements to your existing configuration
    -d DOMAINS       Comma-separated list of domains to obtain a certificate for
 
   --apache          Use the Apache plugin for authentication &amp; installation
@@ -203,11 +204,13 @@ obtain, install, and renew certificates:
 
 manage certificates:
     certificates    Display information about certificates you have from Certbot
-    revoke          Revoke a certificate (supply --cert-path)
+    revoke          Revoke a certificate (supply --cert-path or --cert-name)
     delete          Delete a certificate
 
-manage your account with Let&#39;s Encrypt:
-    register        Create a Let&#39;s Encrypt ACME account
+manage your account:
+    register        Create an ACME account
+    unregister      Deactivate an ACME account
+    update_account  Update an ACME account
   --agree-tos       Agree to the ACME server&#39;s Subscriber Agreement
    -m EMAIL         Email address for important account notifications
 
@@ -246,6 +249,10 @@ optional arguments:
                         with the same name. In the case of a name collision it
                         will append a number like 0001 to the file path name.
                         (default: Ask)
+  --eab-kid EAB_KID     Key Identifier for External Account Binding (default:
+                        None)
+  --eab-hmac-key EAB_HMAC_KEY
+                        HMAC key for External Account Binding (default: None)
   --cert-name CERTNAME  Certificate name to apply. This name is used by
                         Certbot for housekeeping and in file paths; it doesn&#39;t
                         affect the content of the certificate itself. To see
@@ -273,11 +280,10 @@ optional arguments:
   --preferred-challenges PREF_CHALLS
                         A sorted, comma delimited list of the preferred
                         challenge to use during authorization with the most
-                        preferred challenge listed first (Eg, &quot;dns&quot; or &quot;tls-
-                        sni-01,http,dns&quot;). Not all plugins support all
-                        challenges. See
-                        https://certbot.eff.org/docs/using.html#plugins for
-                        details. ACME Challenges are versioned, but if you
+                        preferred challenge listed first (Eg, &quot;dns&quot; or
+                        &quot;http,dns&quot;). Not all plugins support all challenges.
+                        See https://certbot.eff.org/docs/using.html#plugins
+                        for details. ACME Challenges are versioned, but if you
                         pick &quot;http&quot; rather than &quot;http-01&quot;, Certbot will select
                         the latest version automatically. (default: [])
   --user-agent USER_AGENT
@@ -287,12 +293,12 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/0.22.0 (certbot;
-                        darwin 10.13.3) Authenticator/XXX Installer/YYY
-                        (SUBCOMMAND; flags: FLAGS) Py/3.6.4). The flags
-                        encoded in the user agent are: --duplicate, --force-
-                        renew, --allow-subset-of-names, -n, and whether any
-                        hooks are set.
+                        &quot;&quot;. (default: CertbotACMEClient/0.40.1
+                        (certbot(-auto); OS_NAME OS_VERSION) Authenticator/XXX
+                        Installer/YYY (SUBCOMMAND; flags: FLAGS)
+                        Py/major.minor.patchlevel). The flags encoded in the
+                        user agent are: --duplicate, --force-renew, --allow-
+                        subset-of-names, -n, and whether any hooks are set.
   --user-agent-comment USER_AGENT_COMMENT
                         Add a comment to the default user agent string. May be
                         used when repackaging Certbot or calling it from
@@ -322,6 +328,8 @@ automation:
                         certificate name but does not match the requested
                         domains, renew it now, regardless of whether it is
                         near expiry. (default: False)
+  --reuse-key           When renewing, use the same private key as the
+                        existing certificate. (default: False)
   --allow-subset-of-names
                         When performing domain validation, do not consider it
                         a failure if authorizations can not be obtained for a
@@ -343,6 +351,10 @@ automation:
                         from installing OS-level dependencies (default: Prompt
                         to install OS-wide dependencies, but exit if the user
                         says &#39;No&#39;)
+  --no-permissions-check
+                        (certbot-auto only) skip the check on the file system
+                        permissions of the certbot-auto script (default:
+                        False)
   -q, --quiet           Silence all output except errors. Useful for
                         automation via cron. Implies --non-interactive.
                         (default: False)
@@ -373,28 +385,22 @@ security:
   --strict-permissions  Require that all configuration files are owned by the
                         current user; only needed if your config is somewhere
                         unsafe like /tmp/ (default: False)
+  --auto-hsts           Gradually increasing max-age value for HTTP Strict
+                        Transport Security security header (default: False)
 
 testing:
   The following flags are meant for testing and integration purposes only.
 
   --test-cert, --staging
                         Use the staging server to obtain or revoke test
-                        (invalid) certificates; equivalent to --server
-                        https://acme-staging.api.letsencrypt.org/directory
+                        (invalid) certificates; equivalent to --server https
+                        ://acme-staging-v02.api.letsencrypt.org/directory
                         (default: False)
   --debug               Show tracebacks in case of errors, and allow certbot-
                         auto execution on experimental platforms (default:
                         False)
   --no-verify-ssl       Disable verification of the ACME server&#39;s certificate.
                         (default: False)
-  --tls-sni-01-port TLS_SNI_01_PORT
-                        Port used during tls-sni-01 challenge. This only
-                        affects the port Certbot listens on. A conforming ACME
-                        server will still attempt to connect on port 443.
-                        (default: 443)
-  --tls-sni-01-address TLS_SNI_01_ADDRESS
-                        The address the server listens to during tls-sni-01
-                        challenge. (default: )
   --http-01-port HTTP01_PORT
                         Port used in the http-01 challenge. This only affects
                         the port Certbot listens on. A conforming ACME server
@@ -403,6 +409,10 @@ testing:
   --http-01-address HTTP01_ADDRESS
                         The address the server listens to during http-01
                         challenge. (default: )
+  --https-port HTTPS_PORT
+                        Port used to serve HTTPS. This affects which port
+                        Nginx will listen on after a LE certificate is
+                        installed. (default: 443)
   --break-my-certs      Be willing to replace or renew valid certificates with
                         invalid (testing/staging) certificates (default:
                         False)
@@ -426,7 +436,7 @@ paths:
   --work-dir WORK_DIR   Working directory. (default: /var/lib/letsencrypt)
   --logs-dir LOGS_DIR   Logs directory. (default: /var/log/letsencrypt)
   --server SERVER       ACME Directory Resource URI. (default:
-                        https://acme-v01.api.letsencrypt.org/directory)
+                        https://acme-v02.api.letsencrypt.org/directory)
 
 manage:
   Various subcommands and flags are available for managing your
@@ -436,7 +446,8 @@ manage:
   delete                Clean up all files related to a certificate
   renew                 Renew all certificates (or one specified with --cert-
                         name)
-  revoke                Revoke a certificate specified with --cert-path
+  revoke                Revoke a certificate specified with --cert-path or
+                        --cert-name
   update_symlinks       Recreate symlinks in your /etc/letsencrypt/live/
                         directory
 
@@ -488,8 +499,8 @@ renew:
                         of renewed certificate domains (for example,
                         &quot;example.com www.example.com&quot; (default: None)
   --disable-hook-validation
-                        Ordinarily the commands specified for --pre-
-                        hook/--post-hook/--deploy-hook will be checked for
+                        Ordinarily the commands specified for --pre-hook
+                        /--post-hook/--deploy-hook will be checked for
                         validity, to see if the programs being run are in the
                         $PATH, so that mistakes can be caught early, even when
                         the hooks aren&#39;t being run just yet. The validation is
@@ -498,6 +509,14 @@ renew:
                         disable it. (default: False)
   --no-directory-hooks  Disable running executables found in Certbot&#39;s hook
                         directories during renewal. (default: False)
+  --disable-renew-updates
+                        Disable automatic updates to your server configuration
+                        that would otherwise be done by the selected installer
+                        plugin, and triggered when the user executes &quot;certbot
+                        renew&quot;, regardless of if the certificate is renewed.
+                        This setting does not apply to important TLS
+                        configuration updates. (default: False)
+  --no-autorenew        Disable auto renewal of certificates. (default: True)
 
 certificates:
   List certificates managed by Certbot
@@ -512,8 +531,9 @@ revoke:
                         Specify reason for revoking certificate. (default:
                         unspecified)
   --delete-after-revoke
-                        Delete certificates after revoking them. (default:
-                        None)
+                        Delete certificates after revoking them, along with
+                        all previous and later versions of those certificates.
+                        (default: None)
   --no-delete-after-revoke
                         Do not delete certificates after revoking them. This
                         option should be used with caution because the &#39;renew&#39;
@@ -521,7 +541,7 @@ revoke:
                         certificates. (default: None)
 
 register:
-  Options for account registration &amp; modification
+  Options for account registration
 
   --register-unsafely-without-email
                         Specifying this flag enables registering an account
@@ -533,17 +553,16 @@ register:
                         to the Subscriber Agreement will still affect you, and
                         will be effective 14 days after posting an update to
                         the web site. (default: False)
-  --update-registration
-                        With the register verb, indicates that details
-                        associated with an existing registration, such as the
-                        e-mail address, should be updated, rather than
-                        registering a new account. (default: False)
   -m EMAIL, --email EMAIL
-                        Email used for registration and recovery contact.
-                        (default: Ask)
+                        Email used for registration and recovery contact. Use
+                        comma to register multiple emails, ex:
+                        u1@example.com,u2@example.com. (default: Ask).
   --eff-email           Share your e-mail address with EFF (default: None)
   --no-eff-email        Don&#39;t share your e-mail address with EFF (default:
                         None)
+
+update_account:
+  Options for account modification
 
 unregister:
   Options for account deactivation.
@@ -553,12 +572,6 @@ unregister:
 install:
   Options for modifying how a certificate is deployed
 
-config_changes:
-  Options for controlling which changes are displayed
-
-  --num NUM             How many past revisions you want to be displayed
-                        (default: None)
-
 rollback:
   Options for rolling back server configuration changes
 
@@ -566,7 +579,7 @@ rollback:
                         (default: 1)
 
 plugins:
-  Options for for the &quot;plugins&quot; subcommand
+  Options for the &quot;plugins&quot; subcommand
 
   --init                Initialize plugins. (default: False)
   --prepare             Initialize and prepare plugins. (default: False)
@@ -576,6 +589,10 @@ plugins:
 update_symlinks:
   Recreates certificate and key symlinks in /etc/letsencrypt/live, if you
   changed them by hand or edited a renewal configuration file
+
+enhance:
+  Helps to harden the TLS configuration by adding security enhancements to
+  already existing configuration.
 
 plugins:
   Plugin Selection: Certbot client supports an extensible plugins
@@ -611,31 +628,42 @@ plugins:
                         using DigitalOcean for DNS). (default: False)
   --dns-dnsimple        Obtain certificates using a DNS TXT record (if you are
                         using DNSimple for DNS). (default: False)
-  --dns-dnsmadeeasy     Obtain certificates using a DNS TXT record (if you
-                        areusing DNS Made Easy for DNS). (default: False)
+  --dns-dnsmadeeasy     Obtain certificates using a DNS TXT record (if you are
+                        using DNS Made Easy for DNS). (default: False)
+  --dns-gehirn          Obtain certificates using a DNS TXT record (if you are
+                        using Gehirn Infrastracture Service for DNS).
+                        (default: False)
   --dns-google          Obtain certificates using a DNS TXT record (if you are
                         using Google Cloud DNS). (default: False)
+  --dns-linode          Obtain certificates using a DNS TXT record (if you are
+                        using Linode for DNS). (default: False)
   --dns-luadns          Obtain certificates using a DNS TXT record (if you are
                         using LuaDNS for DNS). (default: False)
   --dns-nsone           Obtain certificates using a DNS TXT record (if you are
                         using NS1 for DNS). (default: False)
+  --dns-ovh             Obtain certificates using a DNS TXT record (if you are
+                        using OVH for DNS). (default: False)
   --dns-rfc2136         Obtain certificates using a DNS TXT record (if you are
                         using BIND for DNS). (default: False)
   --dns-route53         Obtain certificates using a DNS TXT record (if you are
                         using Route53 for DNS). (default: False)
+  --dns-sakuracloud     Obtain certificates using a DNS TXT record (if you are
+                        using Sakura Cloud for DNS). (default: False)
 
 apache:
-  Apache Web Server plugin - Beta
+  Apache Web Server plugin (Please note that the default values of the
+  Apache plugin options change depending on the operating system Certbot is
+  run on.)
 
   --apache-enmod APACHE_ENMOD
-                        Path to the Apache &#39;a2enmod&#39; binary. (default: None)
+                        Path to the Apache &#39;a2enmod&#39; binary (default: None)
   --apache-dismod APACHE_DISMOD
-                        Path to the Apache &#39;a2dismod&#39; binary. (default: None)
+                        Path to the Apache &#39;a2dismod&#39; binary (default: None)
   --apache-le-vhost-ext APACHE_LE_VHOST_EXT
-                        SSL vhost configuration extension. (default: -le-
+                        SSL vhost configuration extension (default: -le-
                         ssl.conf)
   --apache-server-root APACHE_SERVER_ROOT
-                        Apache server root directory. (default: /etc/apache2)
+                        Apache server root directory (default: /etc/apache2)
   --apache-vhost-root APACHE_VHOST_ROOT
                         Apache server VirtualHost configuration root (default:
                         None)
@@ -643,23 +671,17 @@ apache:
                         Apache server logs directory (default:
                         /var/log/apache2)
   --apache-challenge-location APACHE_CHALLENGE_LOCATION
-                        Directory path for challenge configuration. (default:
-                        /etc/apache2/other)
+                        Directory path for challenge configuration (default:
+                        /etc/apache2)
   --apache-handle-modules APACHE_HANDLE_MODULES
-                        Let installer handle enabling required modules for
-                        you.(Only Ubuntu/Debian currently) (default: False)
+                        Let installer handle enabling required modules for you
+                        (Only Ubuntu/Debian currently) (default: False)
   --apache-handle-sites APACHE_HANDLE_SITES
-                        Let installer handle enabling sites for you.(Only
+                        Let installer handle enabling sites for you (Only
                         Ubuntu/Debian currently) (default: False)
-
-certbot-route53:auth:
-  Obtain certificates using a DNS TXT record (if you are using AWS Route53
-  for DNS).
-
-  --certbot-route53:auth-propagation-seconds CERTBOT_ROUTE53:AUTH_PROPAGATION_SECONDS
-                        The number of seconds to wait for DNS to propagate
-                        before asking the ACME server to verify the DNS
-                        record. (default: 10)
+  --apache-ctl APACHE_CTL
+                        Full path to Apache control script (default:
+                        apache2ctl)
 
 dns-cloudflare:
   Obtain certificates using a DNS TXT record (if you are using Cloudflare
@@ -716,6 +738,18 @@ dns-dnsmadeeasy:
   --dns-dnsmadeeasy-credentials DNS_DNSMADEEASY_CREDENTIALS
                         DNS Made Easy credentials INI file. (default: None)
 
+dns-gehirn:
+  Obtain certificates using a DNS TXT record (if you are using Gehirn
+  Infrastracture Service for DNS).
+
+  --dns-gehirn-propagation-seconds DNS_GEHIRN_PROPAGATION_SECONDS
+                        The number of seconds to wait for DNS to propagate
+                        before asking the ACME server to verify the DNS
+                        record. (default: 30)
+  --dns-gehirn-credentials DNS_GEHIRN_CREDENTIALS
+                        Gehirn Infrastracture Service credentials file.
+                        (default: None)
+
 dns-google:
   Obtain certificates using a DNS TXT record (if you are using Google Cloud
   DNS for DNS).
@@ -732,6 +766,16 @@ dns-google:
                         https://cloud.google.com/dns/access-
                         control#permissions_and_roles for information about
                         therequired permissions.) (default: None)
+
+dns-linode:
+  Obtain certs using a DNS TXT record (if you are using Linode for DNS).
+
+  --dns-linode-propagation-seconds DNS_LINODE_PROPAGATION_SECONDS
+                        The number of seconds to wait for DNS to propagate
+                        before asking the ACME server to verify the DNS
+                        record. (default: 1200)
+  --dns-linode-credentials DNS_LINODE_CREDENTIALS
+                        Linode credentials INI file. (default: None)
 
 dns-luadns:
   Obtain certificates using a DNS TXT record (if you are using LuaDNS for
@@ -754,6 +798,16 @@ dns-nsone:
   --dns-nsone-credentials DNS_NSONE_CREDENTIALS
                         NS1 credentials file. (default: None)
 
+dns-ovh:
+  Obtain certificates using a DNS TXT record (if you are using OVH for DNS).
+
+  --dns-ovh-propagation-seconds DNS_OVH_PROPAGATION_SECONDS
+                        The number of seconds to wait for DNS to propagate
+                        before asking the ACME server to verify the DNS
+                        record. (default: 30)
+  --dns-ovh-credentials DNS_OVH_CREDENTIALS
+                        OVH credentials INI file. (default: None)
+
 dns-rfc2136:
   Obtain certificates using a DNS TXT record (if you are using BIND for
   DNS).
@@ -774,6 +828,17 @@ dns-route53:
                         before asking the ACME server to verify the DNS
                         record. (default: 10)
 
+dns-sakuracloud:
+  Obtain certificates using a DNS TXT record (if you are using Sakura Cloud
+  for DNS).
+
+  --dns-sakuracloud-propagation-seconds DNS_SAKURACLOUD_PROPAGATION_SECONDS
+                        The number of seconds to wait for DNS to propagate
+                        before asking the ACME server to verify the DNS
+                        record. (default: 90)
+  --dns-sakuracloud-credentials DNS_SAKURACLOUD_CREDENTIALS
+                        Sakura Cloud credentials file. (default: None)
+
 manual:
   Authenticate through manual configuration or custom shell scripts. When
   using shell scripts, an authenticator script must be provided. The
@@ -781,12 +846,8 @@ manual:
   challenge. $CERTBOT_DOMAIN will always contain the domain being
   authenticated. For HTTP-01 and DNS-01, $CERTBOT_VALIDATION is the
   validation string, and $CERTBOT_TOKEN is the filename of the resource
-  requested when performing an HTTP-01 challenge. When performing a TLS-
-  SNI-01 challenge, $CERTBOT_SNI_DOMAIN will contain the SNI name for which
-  the ACME server expects to be presented with the self-signed certificate
-  located at $CERTBOT_CERT_PATH. The secret key needed to complete the TLS
-  handshake is located at $CERTBOT_KEY_PATH. An additional cleanup script
-  can also be provided and can use the additional variable
+  requested when performing an HTTP-01 challenge. An additional cleanup
+  script can also be provided and can use the additional variable
   $CERTBOT_AUTH_OUTPUT which contains the stdout output from the auth
   script.
 
@@ -800,10 +861,11 @@ manual:
                         Automatically allows public IP logging (default: Ask)
 
 nginx:
-  Nginx Web Server plugin - Alpha
+  Nginx Web Server plugin
 
   --nginx-server-root NGINX_SERVER_ROOT
-                        Nginx server root directory. (default: /etc/nginx)
+                        Nginx server root directory. (default: /etc/nginx or
+                        /usr/local/etc/nginx)
   --nginx-ctl NGINX_CTL
                         Path to the &#39;nginx&#39; binary, used for &#39;configtest&#39; and
                         retrieving nginx version number. (default: nginx)
@@ -892,7 +954,7 @@ webroot:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.23.0.dev0',
+            VERSION:'1.0.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -919,7 +981,7 @@ webroot:
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=%3Cno%20title%3E%E2%80%94%20Certbot%200.23.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=%3Cno%20title%3E%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

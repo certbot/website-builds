@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.reverter &mdash; Certbot 0.23.0.dev0 documentation</title>
+  <title>certbot.reverter &mdash; Certbot 1.0.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.reverter &mdash; Certbot 0.23.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.reverter &mdash; Certbot 1.0.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.23.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.23
+                1.0
               </div>
             
           
@@ -186,19 +186,18 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">csv</span>
 <span class="kn">import</span> <span class="nn">glob</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
 
 <span class="kn">import</span> <span class="nn">six</span>
-<span class="kn">import</span> <span class="nn">zope.component</span>
 
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
+<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
-
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">filesystem</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -249,8 +248,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
 
         <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
-            <span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">(),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Reverter.revert_temporary_config"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.revert_temporary_config">[docs]</a>    <span class="k">def</span> <span class="nf">revert_temporary_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reload users original configuration files after a temporary save.</span>
@@ -266,8 +264,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="bp">self</span><span class="o">.</span><span class="n">_recover_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">:</span>
                 <span class="c1"># We have a partial or incomplete recovery</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">&quot;Incomplete or failed recovery for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span>
+                    <span class="s2">&quot;Incomplete or failed recovery for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span><span class="s2">&quot;Unable to revert temporary config&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Reverter.rollback_checkpoints"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.rollback_checkpoints">[docs]</a>    <span class="k">def</span> <span class="nf">rollback_checkpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rollback</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -307,65 +307,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_recover_checkpoint</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">&quot;Failed to load checkpoint during rollback&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Failed to load checkpoint during rollback&quot;</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
                     <span class="s2">&quot;Unable to load checkpoint during rollback&quot;</span><span class="p">)</span>
             <span class="n">rollback</span> <span class="o">-=</span> <span class="mi">1</span></div>
-
-<div class="viewcode-block" id="Reverter.view_config_changes"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.view_config_changes">[docs]</a>    <span class="k">def</span> <span class="nf">view_config_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_logging</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Displays all saved checkpoints.</span>
-
-<span class="sd">        All checkpoints are printed by</span>
-<span class="sd">        :meth:`certbot.interfaces.IDisplay.notification`.</span>
-
-<span class="sd">        .. todo:: Decide on a policy for error handling, OSError IOError...</span>
-
-<span class="sd">        :raises .errors.ReverterError: If invalid directory structure.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">backups</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">)</span>
-        <span class="n">backups</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">num</span><span class="p">:</span>
-            <span class="n">backups</span> <span class="o">=</span> <span class="n">backups</span><span class="p">[:</span><span class="n">num</span><span class="p">]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">backups</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Certbot has not saved backups of your configuration&quot;</span><span class="p">)</span>
-
-            <span class="k">return</span>
-        <span class="c1"># Make sure there isn&#39;t anything unexpected in the backup folder</span>
-        <span class="c1"># There should only be timestamped (float) directories</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">bkup</span> <span class="ow">in</span> <span class="n">backups</span><span class="p">:</span>
-                <span class="nb">float</span><span class="p">(</span><span class="n">bkup</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
-                <span class="s2">&quot;Invalid directories in </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">))</span>
-
-        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">bkup</span> <span class="ow">in</span> <span class="n">backups</span><span class="p">:</span>
-            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">bkup</span><span class="p">)))</span>
-            <span class="n">cur_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">bkup</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s2">&quot;CHANGES_SINCE&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">changes_fd</span><span class="p">:</span>
-                <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">changes_fd</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-
-            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Affected files:&quot;</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s2">&quot;FILEPATHS&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">paths_fd</span><span class="p">:</span>
-                <span class="n">filepaths</span> <span class="o">=</span> <span class="n">paths_fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">filepaths</span><span class="p">:</span>
-                    <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
-
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s2">&quot;NEW_FILES&quot;</span><span class="p">)):</span>
-                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s2">&quot;NEW_FILES&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">new_fd</span><span class="p">:</span>
-                    <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;New Configuration Files:&quot;</span><span class="p">)</span>
-                    <span class="n">filepaths</span> <span class="o">=</span> <span class="n">new_fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
-                    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">filepaths</span><span class="p">:</span>
-                        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
-
-            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">for_logging</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-        <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Reverter.add_to_temp_checkpoint"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.add_to_temp_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_temp_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add files to temporary checkpoint.</span>
@@ -401,8 +346,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
-            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">(),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
         <span class="n">op_fd</span><span class="p">,</span> <span class="n">existing_filepaths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_and_append</span><span class="p">(</span>
             <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">,</span> <span class="s2">&quot;FILEPATHS&quot;</span><span class="p">))</span>
@@ -419,7 +363,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
                         <span class="n">cp_dir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">idx</span><span class="p">)))</span>
-                    <span class="n">op_fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+                    <span class="n">op_fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
                 <span class="c1"># http://stackoverflow.com/questions/4726260/effective-use-of-python-shutil-copy2</span>
                 <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
                     <span class="n">op_fd</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -494,7 +438,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="sd">&quot;&quot;&quot;Run all commands in a file.&quot;&quot;&quot;</span>
         <span class="c1"># NOTE: csv module uses native strings. That is, bytes on Python 2 and</span>
         <span class="c1"># unicode on Python 3</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>
+        <span class="c1"># It is strongly advised to set newline = &#39;&#39; on Python 3 with CSV,</span>
+        <span class="c1"># and it fixes problems on Windows.</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;newline&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span> <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
             <span class="n">csvreader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">command</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">csvreader</span><span class="p">)):</span>
                 <span class="k">try</span><span class="p">:</span>
@@ -563,7 +510,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
             <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ex_files</span><span class="p">:</span>
-                    <span class="n">new_fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">))</span>
+                    <span class="n">new_fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unable to register file creation(s) - </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">files</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
@@ -590,11 +537,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">commands_fp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_cp_dir</span><span class="p">(</span><span class="n">temporary</span><span class="p">),</span> <span class="s2">&quot;COMMANDS&quot;</span><span class="p">)</span>
         <span class="n">command_file</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># It is strongly advised to set newline = &#39;&#39; on Python 3 with CSV,</span>
+        <span class="c1"># and it fixes problems on Windows.</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;newline&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span> <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="p">{}</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">):</span>
-                <span class="n">command_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span>
+                <span class="n">command_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">command_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+                <span class="n">command_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
 
             <span class="n">csvwriter</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">command_file</span><span class="p">)</span>
             <span class="n">csvwriter</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
@@ -615,8 +565,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">cp_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span>
 
         <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
-            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">geteuid</span><span class="p">(),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">cp_dir</span></div>
 
@@ -641,7 +590,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="bp">self</span><span class="o">.</span><span class="n">_recover_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">:</span>
                 <span class="c1"># We have a partial or incomplete recovery</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s2">&quot;Incomplete or failed recovery for IN_PROGRESS &quot;</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;Incomplete or failed recovery for IN_PROGRESS &quot;</span>
                              <span class="s2">&quot;checkpoint - </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
                              <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
@@ -674,11 +623,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                         <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                            <span class="s2">&quot;File: </span><span class="si">%s</span><span class="s2"> - Could not be found to be deleted </span><span class="si">%s</span><span class="s2"> - &quot;</span>
-                            <span class="s2">&quot;Certbot probably shut down unexpectedly&quot;</span><span class="p">,</span>
-                            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+                            <span class="s2">&quot;File: </span><span class="si">%s</span><span class="s2"> - Could not be found to be deleted</span><span class="se">\n</span><span class="s2">&quot;</span>
+                            <span class="s2">&quot; - Certbot probably shut down unexpectedly&quot;</span><span class="p">,</span>
+                            <span class="n">path</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span>
                 <span class="s2">&quot;Unable to remove filepaths contained within </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">file_list</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
                 <span class="s2">&quot;Unable to remove filepaths contained within &quot;</span>
@@ -757,7 +706,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">timestamp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint_timestamp</span><span class="p">()</span>
             <span class="n">final_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">,</span> <span class="n">final_dir</span><span class="p">)</span>
+                <span class="n">filesystem</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">,</span> <span class="n">final_dir</span><span class="p">)</span>
                 <span class="k">return</span>
             <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Extreme, unexpected race condition, retrying (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
@@ -824,7 +773,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.23.0.dev0',
+            VERSION:'1.0.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -851,7 +800,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%E2%80%94%20Certbot%200.23.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

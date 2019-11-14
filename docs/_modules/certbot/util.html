@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.util &mdash; Certbot 0.23.0.dev0 documentation</title>
+  <title>certbot.util &mdash; Certbot 1.0.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.util &mdash; Certbot 0.23.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.util &mdash; Certbot 1.0.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.23.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.23
+                1.0
               </div>
             
           
@@ -186,28 +186,34 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">argparse</span>
 <span class="kn">import</span> <span class="nn">atexit</span>
 <span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
 <span class="c1"># distutils.version under virtualenv confuses pylint</span>
 <span class="c1"># For more info, see: https://github.com/PyCQA/pylint/issues/73</span>
 <span class="kn">import</span> <span class="nn">distutils.version</span>  <span class="c1"># pylint: disable=import-error,no-name-in-module</span>
 <span class="kn">import</span> <span class="nn">errno</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">six</span>
 <span class="kn">import</span> <span class="nn">socket</span>
-<span class="kn">import</span> <span class="nn">stat</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
-
 <span class="kn">import</span> <span class="nn">configargparse</span>
+<span class="kn">import</span> <span class="nn">six</span>
 
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+
+<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">lock</span>
+<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">lock</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">filesystem</span>
 
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;linux&#39;</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">distro</span>
+    <span class="n">_USE_DISTRO</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">_USE_DISTRO</span> <span class="o">=</span> <span class="kc">False</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -238,14 +244,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># the dict are attempted to be cleaned up at program exit. If the</span>
 <span class="c1"># program exits before the lock is cleaned up, it is automatically</span>
 <span class="c1"># released, but the file isn&#39;t deleted.</span>
-<span class="n">_LOCKS</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+<span class="n">_LOCKS</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span> <span class="c1"># type: OrderedDict[str, lock.LockFile]</span>
 
 
 <div class="viewcode-block" id="run_script"><a class="viewcode-back" href="../../api/util.html#certbot.util.run_script">[docs]</a><span class="k">def</span> <span class="nf">run_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Run the script with the given params.</span>
 
 <span class="sd">    :param list params: List of parameters to pass to Popen</span>
-<span class="sd">    :param logging.Logger log: Logger to use for errors</span>
+<span class="sd">    :param callable log: Logger method to use for errors</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
@@ -271,18 +277,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span></div>
 
 
-<div class="viewcode-block" id="is_exe"><a class="viewcode-back" href="../../api/util.html#certbot.util.is_exe">[docs]</a><span class="k">def</span> <span class="nf">is_exe</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Is path an executable file?</span>
-
-<span class="sd">    :param str path: path to test</span>
-
-<span class="sd">    :returns: True iff path is an executable file</span>
-<span class="sd">    :rtype: bool</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">)</span></div>
-
-
 <div class="viewcode-block" id="exe_exists"><a class="viewcode-back" href="../../api/util.html#certbot.util.exe_exists">[docs]</a><span class="k">def</span> <span class="nf">exe_exists</span><span class="p">(</span><span class="n">exe</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Determine whether path/name refers to an executable.</span>
 
@@ -294,10 +288,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">path</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">exe</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">path</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">is_exe</span><span class="p">(</span><span class="n">exe</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">is_executable</span><span class="p">(</span><span class="n">exe</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PATH&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">pathsep</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">is_exe</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">exe</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">is_executable</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">exe</span><span class="p">)):</span>
                 <span class="k">return</span> <span class="kc">True</span>
 
     <span class="k">return</span> <span class="kc">False</span></div>
@@ -325,14 +319,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">except</span><span class="p">:</span>  <span class="c1"># pylint: disable=bare-except</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Exception occurred releasing lock: </span><span class="si">{0!r}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dir_lock</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">_LOCKS</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="set_up_core_dir"><a class="viewcode-back" href="../../api/util.html#certbot.util.set_up_core_dir">[docs]</a><span class="k">def</span> <span class="nf">set_up_core_dir</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">strict</span><span class="p">):</span>
+<div class="viewcode-block" id="set_up_core_dir"><a class="viewcode-back" href="../../api/util.html#certbot.util.set_up_core_dir">[docs]</a><span class="k">def</span> <span class="nf">set_up_core_dir</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">strict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Ensure directory exists with proper permissions and is locked.</span>
 
 <span class="sd">    :param str directory: Path to a directory.</span>
 <span class="sd">    :param int mode: Directory mode.</span>
-<span class="sd">    :param int uid: Directory owner.</span>
 <span class="sd">    :param bool strict: require directory to be owned by current user</span>
 
 <span class="sd">    :raises .errors.LockError: if the directory cannot be locked</span>
@@ -340,19 +334,18 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">make_or_verify_dir</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">strict</span><span class="p">)</span>
+        <span class="n">make_or_verify_dir</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">strict</span><span class="p">)</span>
         <span class="n">lock_dir_until_exit</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Exception was:&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">PERM_ERR_FMT</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="make_or_verify_dir"><a class="viewcode-back" href="../../api/util.html#certbot.util.make_or_verify_dir">[docs]</a><span class="k">def</span> <span class="nf">make_or_verify_dir</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o755</span><span class="p">,</span> <span class="n">uid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="make_or_verify_dir"><a class="viewcode-back" href="../../api/util.html#certbot.util.make_or_verify_dir">[docs]</a><span class="k">def</span> <span class="nf">make_or_verify_dir</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o755</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Make sure directory exists with proper permissions.</span>
 
 <span class="sd">    :param str directory: Path to a directory.</span>
 <span class="sd">    :param int mode: Directory mode.</span>
-<span class="sd">    :param int uid: Directory owner.</span>
 <span class="sd">    :param bool strict: require directory to be owned by current user</span>
 
 <span class="sd">    :raises .errors.Error: if a directory already exists,</span>
@@ -364,49 +357,32 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
+        <span class="n">filesystem</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">exception</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">errno</span><span class="o">.</span><span class="n">EEXIST</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">strict</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">check_permissions</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">uid</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">strict</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">check_permissions</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span>
-                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> exists, but it should be owned by user </span><span class="si">%d</span><span class="s2"> with&quot;</span>
-                    <span class="s2">&quot;permissions </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="nb">oct</span><span class="p">(</span><span class="n">mode</span><span class="p">)))</span>
+                    <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> exists, but it should be owned by current user with&quot;</span>
+                    <span class="s2">&quot; permissions </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="nb">oct</span><span class="p">(</span><span class="n">mode</span><span class="p">)))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span></div>
 
 
-<div class="viewcode-block" id="check_permissions"><a class="viewcode-back" href="../../api/util.html#certbot.util.check_permissions">[docs]</a><span class="k">def</span> <span class="nf">check_permissions</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">uid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Check file or directory permissions.</span>
-
-<span class="sd">    :param str filepath: Path to the tested file (or directory).</span>
-<span class="sd">    :param int mode: Expected file mode.</span>
-<span class="sd">    :param int uid: Expected file owner.</span>
-
-<span class="sd">    :returns: True if `mode` and `uid` match, False otherwise.</span>
-<span class="sd">    :rtype: bool</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">file_stat</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IMODE</span><span class="p">(</span><span class="n">file_stat</span><span class="o">.</span><span class="n">st_mode</span><span class="p">)</span> <span class="o">==</span> <span class="n">mode</span> <span class="ow">and</span> <span class="n">file_stat</span><span class="o">.</span><span class="n">st_uid</span> <span class="o">==</span> <span class="n">uid</span></div>
-
-
-<div class="viewcode-block" id="safe_open"><a class="viewcode-back" href="../../api/util.html#certbot.util.safe_open">[docs]</a><span class="k">def</span> <span class="nf">safe_open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">buffering</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="safe_open"><a class="viewcode-back" href="../../api/util.html#certbot.util.safe_open">[docs]</a><span class="k">def</span> <span class="nf">safe_open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Safely open a file.</span>
 
 <span class="sd">    :param str path: Path to a file.</span>
 <span class="sd">    :param str mode: Same os `mode` for `open`.</span>
-<span class="sd">    :param int chmod: Same as `mode` for `os.open`, uses Python defaults</span>
+<span class="sd">    :param int chmod: Same as `mode` for `filesystem.open`, uses Python defaults</span>
 <span class="sd">        if ``None``.</span>
-<span class="sd">    :param int buffering: Same as `bufsize` for `os.fdopen`, uses Python</span>
-<span class="sd">        defaults if ``None``.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># pylint: disable=star-args</span>
-    <span class="n">open_args</span> <span class="o">=</span> <span class="p">()</span> <span class="k">if</span> <span class="n">chmod</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">chmod</span><span class="p">,)</span>
-    <span class="n">fdopen_args</span> <span class="o">=</span> <span class="p">()</span> <span class="k">if</span> <span class="n">buffering</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">buffering</span><span class="p">,)</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">fdopen</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_EXCL</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span><span class="p">,</span> <span class="o">*</span><span class="n">open_args</span><span class="p">),</span>
-        <span class="n">mode</span><span class="p">,</span> <span class="o">*</span><span class="n">fdopen_args</span><span class="p">)</span></div>
+    <span class="n">open_args</span> <span class="o">=</span> <span class="p">()</span>  <span class="c1"># type: Union[Tuple[()], Tuple[int]]</span>
+    <span class="k">if</span> <span class="n">chmod</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">open_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">chmod</span><span class="p">,)</span>
+    <span class="n">fdopen_args</span> <span class="o">=</span> <span class="p">()</span>  <span class="c1"># type: Union[Tuple[()], Tuple[int]]</span>
+    <span class="n">fd</span> <span class="o">=</span> <span class="n">filesystem</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_EXCL</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_RDWR</span><span class="p">,</span> <span class="o">*</span><span class="n">open_args</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">fdopen</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="o">*</span><span class="n">fdopen_args</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_unique_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename_pat</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">chmod</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
@@ -487,82 +463,50 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">all_names</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">filtered_names</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">enforce_le_validity</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-        <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ConfigurationError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Not suggesting name &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Not suggesting name &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">filtered_names</span></div>
 
-
-<div class="viewcode-block" id="get_os_info"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_os_info">[docs]</a><span class="k">def</span> <span class="nf">get_os_info</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;/etc/os-release&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="get_os_info"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_os_info">[docs]</a><span class="k">def</span> <span class="nf">get_os_info</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get OS name and version</span>
 
-<span class="sd">    :param str filepath: File path of os-release file</span>
 <span class="sd">    :returns: (os_name, os_version)</span>
 <span class="sd">    :rtype: `tuple` of `str`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
-        <span class="c1"># Systemd os-release parsing might be viable</span>
-        <span class="n">os_name</span><span class="p">,</span> <span class="n">os_version</span> <span class="o">=</span> <span class="n">get_systemd_os_info</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">os_name</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">(</span><span class="n">os_name</span><span class="p">,</span> <span class="n">os_version</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">get_python_os_info</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
-    <span class="c1"># Fallback to platform module</span>
-    <span class="k">return</span> <span class="n">get_python_os_info</span><span class="p">()</span></div>
-
-
-<div class="viewcode-block" id="get_os_info_ua"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_os_info_ua">[docs]</a><span class="k">def</span> <span class="nf">get_os_info_ua</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;/etc/os-release&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="get_os_info_ua"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_os_info_ua">[docs]</a><span class="k">def</span> <span class="nf">get_os_info_ua</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get OS name and version string for User Agent</span>
 
-<span class="sd">    :param str filepath: File path of os-release file</span>
 <span class="sd">    :returns: os_ua</span>
 <span class="sd">    :rtype: `str`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">_USE_DISTRO</span><span class="p">:</span>
+        <span class="n">os_info</span> <span class="o">=</span> <span class="n">distro</span><span class="o">.</span><span class="n">name</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
-        <span class="n">os_ua</span> <span class="o">=</span> <span class="n">get_var_from_file</span><span class="p">(</span><span class="s2">&quot;PRETTY_NAME&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os_ua</span><span class="p">:</span>
-            <span class="n">os_ua</span> <span class="o">=</span> <span class="n">get_var_from_file</span><span class="p">(</span><span class="s2">&quot;NAME&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">os_ua</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">os_ua</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_USE_DISTRO</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os_info</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_python_os_info</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">os_info</span></div>
 
-    <span class="c1"># Fallback</span>
-    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_python_os_info</span><span class="p">())</span></div>
-
-
-<div class="viewcode-block" id="get_systemd_os_info"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_systemd_os_info">[docs]</a><span class="k">def</span> <span class="nf">get_systemd_os_info</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;/etc/os-release&quot;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Parse systemd /etc/os-release for distribution information</span>
-
-<span class="sd">    :param str filepath: File path of os-release file</span>
-<span class="sd">    :returns: (os_name, os_version)</span>
-<span class="sd">    :rtype: `tuple` of `str`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">os_name</span> <span class="o">=</span> <span class="n">get_var_from_file</span><span class="p">(</span><span class="s2">&quot;ID&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
-    <span class="n">os_version</span> <span class="o">=</span> <span class="n">get_var_from_file</span><span class="p">(</span><span class="s2">&quot;VERSION_ID&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="n">filepath</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="p">(</span><span class="n">os_name</span><span class="p">,</span> <span class="n">os_version</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="get_systemd_os_like"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_systemd_os_like">[docs]</a><span class="k">def</span> <span class="nf">get_systemd_os_like</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;/etc/os-release&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="get_systemd_os_like"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_systemd_os_like">[docs]</a><span class="k">def</span> <span class="nf">get_systemd_os_like</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get a list of strings that indicate the distribution likeness to</span>
 <span class="sd">    other distributions.</span>
 
-<span class="sd">    :param str filepath: File path of os-release file</span>
 <span class="sd">    :returns: List of distribution acronyms</span>
 <span class="sd">    :rtype: `list` of `str`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="n">get_var_from_file</span><span class="p">(</span><span class="s2">&quot;ID_LIKE&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span></div>
-
+    <span class="k">if</span> <span class="n">_USE_DISTRO</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">distro</span><span class="o">.</span><span class="n">like</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[]</span></div>
 
 <div class="viewcode-block" id="get_var_from_file"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_var_from_file">[docs]</a><span class="k">def</span> <span class="nf">get_var_from_file</span><span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;/etc/os-release&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get single value from systemd /etc/os-release</span>
+<span class="sd">    Get single value from a file formatted like systemd /etc/os-release</span>
 
 <span class="sd">    :param str varname: Name of variable to fetch</span>
 <span class="sd">    :param str filepath: File path of os-release file</span>
@@ -582,7 +526,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">return</span> <span class="n">_normalize_string</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()[</span><span class="nb">len</span><span class="p">(</span><span class="n">var_string</span><span class="p">):])</span>
     <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
 
-
 <div class="viewcode-block" id="_normalize_string"><a class="viewcode-back" href="../../api/util.html#certbot.util._normalize_string">[docs]</a><span class="k">def</span> <span class="nf">_normalize_string</span><span class="p">(</span><span class="n">orig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function for get_var_from_file() to remove quotes</span>
@@ -590,11 +533,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">orig</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
 
-
-<div class="viewcode-block" id="get_python_os_info"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_python_os_info">[docs]</a><span class="k">def</span> <span class="nf">get_python_os_info</span><span class="p">():</span>
+<div class="viewcode-block" id="get_python_os_info"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_python_os_info">[docs]</a><span class="k">def</span> <span class="nf">get_python_os_info</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get Operating System type/distribution and major version</span>
 <span class="sd">    using python platform module</span>
+
+<span class="sd">    :param bool pretty: If the returned OS name should be in longer (pretty) form</span>
 
 <span class="sd">    :returns: (os_name, os_version)</span>
 <span class="sd">    :rtype: `tuple` of `str`</span>
@@ -606,9 +550,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="p">)</span>
     <span class="n">os_type</span><span class="p">,</span> <span class="n">os_ver</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">info</span>
     <span class="n">os_type</span> <span class="o">=</span> <span class="n">os_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">os_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;linux&#39;</span><span class="p">):</span>
-        <span class="n">info</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">linux_distribution</span><span class="p">()</span>
-        <span class="c1"># On arch, platform.linux_distribution() is reportedly (&#39;&#39;,&#39;&#39;,&#39;&#39;),</span>
+    <span class="k">if</span> <span class="n">os_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;linux&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_USE_DISTRO</span><span class="p">:</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">distro</span><span class="o">.</span><span class="n">linux_distribution</span><span class="p">(</span><span class="n">pretty</span><span class="p">)</span>
+        <span class="c1"># On arch, distro.linux_distribution() is reportedly (&#39;&#39;,&#39;&#39;,&#39;&#39;),</span>
         <span class="c1"># so handle it defensively</span>
         <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
             <span class="n">os_type</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -649,16 +593,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="sd">&quot;&quot;&quot;Scrub email address before using it.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">EMAIL_REGEX</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">email</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="n">email</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;..&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">email</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Invalid email address: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Invalid email address: </span><span class="si">%s</span><span class="s2">.&quot;</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="_ShowWarning"><a class="viewcode-back" href="../../api/util.html#certbot.util._ShowWarning">[docs]</a><span class="k">class</span> <span class="nc">_ShowWarning</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Action to log a warning when an argument is used.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unused1</span><span class="p">,</span> <span class="n">unused2</span><span class="p">,</span> <span class="n">unused3</span><span class="p">,</span> <span class="n">option_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-            <span class="s2">&quot;Use of </span><span class="si">{0}</span><span class="s2"> is deprecated.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">option_string</span><span class="p">))</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Use of </span><span class="si">%s</span><span class="s2"> is deprecated.&quot;</span><span class="p">,</span> <span class="n">option_string</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="add_deprecated_argument"><a class="viewcode-back" href="../../api/util.html#certbot.util.add_deprecated_argument">[docs]</a><span class="k">def</span> <span class="nf">add_deprecated_argument</span><span class="p">(</span><span class="n">add_argument</span><span class="p">,</span> <span class="n">argument_name</span><span class="p">,</span> <span class="n">nargs</span><span class="p">):</span>
@@ -788,7 +730,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="viewcode-block" id="is_wildcard_domain"><a class="viewcode-back" href="../../api/util.html#certbot.util.is_wildcard_domain">[docs]</a><span class="k">def</span> <span class="nf">is_wildcard_domain</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;&quot;Is domain a wildcard domain?</span>
 
-<span class="sd">    :param damain: domain to check</span>
+<span class="sd">    :param domain: domain to check</span>
 <span class="sd">    :type domain: `bytes` or `str` or `unicode`</span>
 
 <span class="sd">    :returns: True if domain is a wildcard, otherwise, False</span>
@@ -899,7 +841,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.23.0.dev0',
+            VERSION:'1.0.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -926,7 +868,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.util%E2%80%94%20Certbot%200.23.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.util%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
