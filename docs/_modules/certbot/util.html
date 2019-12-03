@@ -171,7 +171,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/util" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/_modules/certbot/util" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -247,7 +247,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="n">_LOCKS</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span> <span class="c1"># type: OrderedDict[str, lock.LockFile]</span>
 
 
-<div class="viewcode-block" id="run_script"><a class="viewcode-back" href="../../api/util.html#certbot.util.run_script">[docs]</a><span class="k">def</span> <span class="nf">run_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">):</span>
+<div class="viewcode-block" id="run_script"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.run_script">[docs]</a><span class="k">def</span> <span class="nf">run_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Run the script with the given params.</span>
 
 <span class="sd">    :param list params: List of parameters to pass to Popen</span>
@@ -277,7 +277,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span></div>
 
 
-<div class="viewcode-block" id="exe_exists"><a class="viewcode-back" href="../../api/util.html#certbot.util.exe_exists">[docs]</a><span class="k">def</span> <span class="nf">exe_exists</span><span class="p">(</span><span class="n">exe</span><span class="p">):</span>
+<div class="viewcode-block" id="exe_exists"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.exe_exists">[docs]</a><span class="k">def</span> <span class="nf">exe_exists</span><span class="p">(</span><span class="n">exe</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Determine whether path/name refers to an executable.</span>
 
 <span class="sd">    :param str exe: Executable path or name</span>
@@ -297,7 +297,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<div class="viewcode-block" id="lock_dir_until_exit"><a class="viewcode-back" href="../../api/util.html#certbot.util.lock_dir_until_exit">[docs]</a><span class="k">def</span> <span class="nf">lock_dir_until_exit</span><span class="p">(</span><span class="n">dir_path</span><span class="p">):</span>
+<div class="viewcode-block" id="lock_dir_until_exit"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.lock_dir_until_exit">[docs]</a><span class="k">def</span> <span class="nf">lock_dir_until_exit</span><span class="p">(</span><span class="n">dir_path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Lock the directory at dir_path until program exit.</span>
 
 <span class="sd">    :param str dir_path: path to directory</span>
@@ -312,17 +312,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">_LOCKS</span><span class="p">[</span><span class="n">dir_path</span><span class="p">]</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="n">lock_dir</span><span class="p">(</span><span class="n">dir_path</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_release_locks</span><span class="p">():</span>
+<div class="viewcode-block" id="_release_locks"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util._release_locks">[docs]</a><span class="k">def</span> <span class="nf">_release_locks</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">dir_lock</span> <span class="ow">in</span> <span class="n">six</span><span class="o">.</span><span class="n">itervalues</span><span class="p">(</span><span class="n">_LOCKS</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">dir_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
         <span class="k">except</span><span class="p">:</span>  <span class="c1"># pylint: disable=bare-except</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Exception occurred releasing lock: </span><span class="si">{0!r}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dir_lock</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">_LOCKS</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="n">_LOCKS</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="set_up_core_dir"><a class="viewcode-back" href="../../api/util.html#certbot.util.set_up_core_dir">[docs]</a><span class="k">def</span> <span class="nf">set_up_core_dir</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">strict</span><span class="p">):</span>
+<div class="viewcode-block" id="set_up_core_dir"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.set_up_core_dir">[docs]</a><span class="k">def</span> <span class="nf">set_up_core_dir</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">strict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Ensure directory exists with proper permissions and is locked.</span>
 
 <span class="sd">    :param str directory: Path to a directory.</span>
@@ -341,7 +341,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">PERM_ERR_FMT</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="make_or_verify_dir"><a class="viewcode-back" href="../../api/util.html#certbot.util.make_or_verify_dir">[docs]</a><span class="k">def</span> <span class="nf">make_or_verify_dir</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o755</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="make_or_verify_dir"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.make_or_verify_dir">[docs]</a><span class="k">def</span> <span class="nf">make_or_verify_dir</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o755</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Make sure directory exists with proper permissions.</span>
 
 <span class="sd">    :param str directory: Path to a directory.</span>
@@ -368,7 +368,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">raise</span></div>
 
 
-<div class="viewcode-block" id="safe_open"><a class="viewcode-back" href="../../api/util.html#certbot.util.safe_open">[docs]</a><span class="k">def</span> <span class="nf">safe_open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="safe_open"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.safe_open">[docs]</a><span class="k">def</span> <span class="nf">safe_open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Safely open a file.</span>
 
 <span class="sd">    :param str path: Path to a file.</span>
@@ -385,7 +385,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">fdopen</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="o">*</span><span class="n">fdopen_args</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_unique_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename_pat</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">chmod</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+<div class="viewcode-block" id="_unique_file"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util._unique_file">[docs]</a><span class="k">def</span> <span class="nf">_unique_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename_pat</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">chmod</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">current_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename_pat</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
         <span class="k">try</span><span class="p">:</span>
@@ -395,10 +395,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="c1"># &quot;File exists,&quot; is okay, try a different name.</span>
             <span class="k">if</span> <span class="n">err</span><span class="o">.</span><span class="n">errno</span> <span class="o">!=</span> <span class="n">errno</span><span class="o">.</span><span class="n">EEXIST</span><span class="p">:</span>
                 <span class="k">raise</span>
-        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="unique_file"><a class="viewcode-back" href="../../api/util.html#certbot.util.unique_file">[docs]</a><span class="k">def</span> <span class="nf">unique_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="mo">0o777</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="unique_file"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.unique_file">[docs]</a><span class="k">def</span> <span class="nf">unique_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="mo">0o777</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Safely finds a unique file.</span>
 
 <span class="sd">    :param str path: path/filename.ext</span>
@@ -414,7 +414,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">count</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="n">chmod</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="unique_lineage_name"><a class="viewcode-back" href="../../api/util.html#certbot.util.unique_lineage_name">[docs]</a><span class="k">def</span> <span class="nf">unique_lineage_name</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="mo">0o644</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="unique_lineage_name"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.unique_lineage_name">[docs]</a><span class="k">def</span> <span class="nf">unique_lineage_name</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="mo">0o644</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Safely finds a unique file using lineage convention.</span>
 
 <span class="sd">    :param str path: directory path</span>
@@ -441,7 +441,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="n">chmod</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="safely_remove"><a class="viewcode-back" href="../../api/util.html#certbot.util.safely_remove">[docs]</a><span class="k">def</span> <span class="nf">safely_remove</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="safely_remove"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.safely_remove">[docs]</a><span class="k">def</span> <span class="nf">safely_remove</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Remove a file that may not exist.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -450,7 +450,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">raise</span></div>
 
 
-<div class="viewcode-block" id="get_filtered_names"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_filtered_names">[docs]</a><span class="k">def</span> <span class="nf">get_filtered_names</span><span class="p">(</span><span class="n">all_names</span><span class="p">):</span>
+<div class="viewcode-block" id="get_filtered_names"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.get_filtered_names">[docs]</a><span class="k">def</span> <span class="nf">get_filtered_names</span><span class="p">(</span><span class="n">all_names</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Removes names that aren&#39;t considered valid by Let&#39;s Encrypt.</span>
 
 <span class="sd">    :param set all_names: all names found in the configuration</span>
@@ -467,7 +467,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Not suggesting name &quot;</span><span class="si">%s</span><span class="s1">&quot;&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">filtered_names</span></div>
 
-<div class="viewcode-block" id="get_os_info"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_os_info">[docs]</a><span class="k">def</span> <span class="nf">get_os_info</span><span class="p">():</span>
+<div class="viewcode-block" id="get_os_info"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.get_os_info">[docs]</a><span class="k">def</span> <span class="nf">get_os_info</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get OS name and version</span>
 
@@ -477,7 +477,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="k">return</span> <span class="n">get_python_os_info</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="get_os_info_ua"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_os_info_ua">[docs]</a><span class="k">def</span> <span class="nf">get_os_info_ua</span><span class="p">():</span>
+<div class="viewcode-block" id="get_os_info_ua"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.get_os_info_ua">[docs]</a><span class="k">def</span> <span class="nf">get_os_info_ua</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get OS name and version string for User Agent</span>
 
@@ -491,7 +491,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_python_os_info</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">os_info</span></div>
 
-<div class="viewcode-block" id="get_systemd_os_like"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_systemd_os_like">[docs]</a><span class="k">def</span> <span class="nf">get_systemd_os_like</span><span class="p">():</span>
+<div class="viewcode-block" id="get_systemd_os_like"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.get_systemd_os_like">[docs]</a><span class="k">def</span> <span class="nf">get_systemd_os_like</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get a list of strings that indicate the distribution likeness to</span>
 <span class="sd">    other distributions.</span>
@@ -504,7 +504,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="n">distro</span><span class="o">.</span><span class="n">like</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">[]</span></div>
 
-<div class="viewcode-block" id="get_var_from_file"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_var_from_file">[docs]</a><span class="k">def</span> <span class="nf">get_var_from_file</span><span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;/etc/os-release&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="get_var_from_file"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.get_var_from_file">[docs]</a><span class="k">def</span> <span class="nf">get_var_from_file</span><span class="p">(</span><span class="n">varname</span><span class="p">,</span> <span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;/etc/os-release&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get single value from a file formatted like systemd /etc/os-release</span>
 
@@ -526,14 +526,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">return</span> <span class="n">_normalize_string</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()[</span><span class="nb">len</span><span class="p">(</span><span class="n">var_string</span><span class="p">):])</span>
     <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="_normalize_string"><a class="viewcode-back" href="../../api/util.html#certbot.util._normalize_string">[docs]</a><span class="k">def</span> <span class="nf">_normalize_string</span><span class="p">(</span><span class="n">orig</span><span class="p">):</span>
+<div class="viewcode-block" id="_normalize_string"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util._normalize_string">[docs]</a><span class="k">def</span> <span class="nf">_normalize_string</span><span class="p">(</span><span class="n">orig</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function for get_var_from_file() to remove quotes</span>
 <span class="sd">    and whitespaces</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">orig</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="get_python_os_info"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_python_os_info">[docs]</a><span class="k">def</span> <span class="nf">get_python_os_info</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="get_python_os_info"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.get_python_os_info">[docs]</a><span class="k">def</span> <span class="nf">get_python_os_info</span><span class="p">(</span><span class="n">pretty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get Operating System type/distribution and major version</span>
 <span class="sd">    using python platform module</span>
@@ -589,7 +589,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="n">EMAIL_REGEX</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+$&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="safe_email"><a class="viewcode-back" href="../../api/util.html#certbot.util.safe_email">[docs]</a><span class="k">def</span> <span class="nf">safe_email</span><span class="p">(</span><span class="n">email</span><span class="p">):</span>
+<div class="viewcode-block" id="safe_email"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.safe_email">[docs]</a><span class="k">def</span> <span class="nf">safe_email</span><span class="p">(</span><span class="n">email</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Scrub email address before using it.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">EMAIL_REGEX</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">email</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="n">email</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;..&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">email</span>
@@ -597,13 +597,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<div class="viewcode-block" id="_ShowWarning"><a class="viewcode-back" href="../../api/util.html#certbot.util._ShowWarning">[docs]</a><span class="k">class</span> <span class="nc">_ShowWarning</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
+<div class="viewcode-block" id="_ShowWarning"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util._ShowWarning">[docs]</a><span class="k">class</span> <span class="nc">_ShowWarning</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Action to log a warning when an argument is used.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unused1</span><span class="p">,</span> <span class="n">unused2</span><span class="p">,</span> <span class="n">unused3</span><span class="p">,</span> <span class="n">option_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Use of </span><span class="si">%s</span><span class="s2"> is deprecated.&quot;</span><span class="p">,</span> <span class="n">option_string</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="add_deprecated_argument"><a class="viewcode-back" href="../../api/util.html#certbot.util.add_deprecated_argument">[docs]</a><span class="k">def</span> <span class="nf">add_deprecated_argument</span><span class="p">(</span><span class="n">add_argument</span><span class="p">,</span> <span class="n">argument_name</span><span class="p">,</span> <span class="n">nargs</span><span class="p">):</span>
+<div class="viewcode-block" id="add_deprecated_argument"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.add_deprecated_argument">[docs]</a><span class="k">def</span> <span class="nf">add_deprecated_argument</span><span class="p">(</span><span class="n">add_argument</span><span class="p">,</span> <span class="n">argument_name</span><span class="p">,</span> <span class="n">nargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Adds a deprecated argument with the name argument_name.</span>
 
 <span class="sd">    Deprecated arguments are not shown in the help. If they are used on</span>
@@ -630,7 +630,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                  <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="n">nargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="enforce_le_validity"><a class="viewcode-back" href="../../api/util.html#certbot.util.enforce_le_validity">[docs]</a><span class="k">def</span> <span class="nf">enforce_le_validity</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
+<div class="viewcode-block" id="enforce_le_validity"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.enforce_le_validity">[docs]</a><span class="k">def</span> <span class="nf">enforce_le_validity</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Checks that Let&#39;s Encrypt will consider domain to be valid.</span>
 
 <span class="sd">    :param str domain: FQDN to check</span>
@@ -662,7 +662,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                     <span class="n">label</span><span class="p">,</span> <span class="n">domain</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">domain</span></div>
 
-<div class="viewcode-block" id="enforce_domain_sanity"><a class="viewcode-back" href="../../api/util.html#certbot.util.enforce_domain_sanity">[docs]</a><span class="k">def</span> <span class="nf">enforce_domain_sanity</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
+<div class="viewcode-block" id="enforce_domain_sanity"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.enforce_domain_sanity">[docs]</a><span class="k">def</span> <span class="nf">enforce_domain_sanity</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Method which validates domain value and errors out if</span>
 <span class="sd">    the requirements are not met.</span>
 
@@ -727,7 +727,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">domain</span></div>
 
 
-<div class="viewcode-block" id="is_wildcard_domain"><a class="viewcode-back" href="../../api/util.html#certbot.util.is_wildcard_domain">[docs]</a><span class="k">def</span> <span class="nf">is_wildcard_domain</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
+<div class="viewcode-block" id="is_wildcard_domain"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.is_wildcard_domain">[docs]</a><span class="k">def</span> <span class="nf">is_wildcard_domain</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;&quot;Is domain a wildcard domain?</span>
 
 <span class="sd">    :param domain: domain to check</span>
@@ -745,7 +745,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">domain</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">wildcard_marker</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_strict_version"><a class="viewcode-back" href="../../api/util.html#certbot.util.get_strict_version">[docs]</a><span class="k">def</span> <span class="nf">get_strict_version</span><span class="p">(</span><span class="n">normalized</span><span class="p">):</span>
+<div class="viewcode-block" id="get_strict_version"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.get_strict_version">[docs]</a><span class="k">def</span> <span class="nf">get_strict_version</span><span class="p">(</span><span class="n">normalized</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Converts a normalized version to a strict version.</span>
 
 <span class="sd">    :param str normalized: normalized version string</span>
@@ -759,7 +759,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">distutils</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">StrictVersion</span><span class="p">(</span><span class="n">normalized</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.dev&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="is_staging"><a class="viewcode-back" href="../../api/util.html#certbot.util.is_staging">[docs]</a><span class="k">def</span> <span class="nf">is_staging</span><span class="p">(</span><span class="n">srv</span><span class="p">):</span>
+<div class="viewcode-block" id="is_staging"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.is_staging">[docs]</a><span class="k">def</span> <span class="nf">is_staging</span><span class="p">(</span><span class="n">srv</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Determine whether a given ACME server is a known test / staging server.</span>
 
@@ -770,7 +770,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">srv</span> <span class="o">==</span> <span class="n">constants</span><span class="o">.</span><span class="n">STAGING_URI</span> <span class="ow">or</span> <span class="s2">&quot;staging&quot;</span> <span class="ow">in</span> <span class="n">srv</span></div>
 
 
-<div class="viewcode-block" id="atexit_register"><a class="viewcode-back" href="../../api/util.html#certbot.util.atexit_register">[docs]</a><span class="k">def</span> <span class="nf">atexit_register</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="atexit_register"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.atexit_register">[docs]</a><span class="k">def</span> <span class="nf">atexit_register</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Sets func to be called before the program exits.</span>
 
 <span class="sd">    Special care is taken to ensure func is only called when the process</span>
@@ -782,9 +782,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">_atexit_call</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_atexit_call</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="_atexit_call"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util._atexit_call">[docs]</a><span class="k">def</span> <span class="nf">_atexit_call</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">_INITIAL_PID</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">():</span>
-        <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

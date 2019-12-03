@@ -1,0 +1,1469 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>certbot.compat.os module &mdash; Certbot 1.0.0.dev0 documentation</title>
+  
+<!--
+
+ ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
+╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
+
+Like looking at code? Help us! https://github.com/certbot/certbot
+-->
+
+  
+  
+
+  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@EFF">
+<meta name="twitter:title" content="certbot.compat.os module &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="certbot.compat package" href="certbot.compat.html"/>
+        <link rel="next" title="certbot.display package" href="certbot.display.html"/>
+        <link rel="prev" title="certbot.compat.misc module" href="certbot.compat.misc.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <nav class="main-nav fixed">
+  <ul>
+    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Certbot</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/docs/">Documentation</a></li>
+    <li><a href="/support/">Support</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
+    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../" class="icon icon-home"> Certbot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../what.html">What is a Certificate?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Get Certbot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="certbot.html">certbot package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="certbot.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="certbot.compat.html">certbot.compat package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="certbot.display.html">certbot.display package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="certbot.plugins.html">certbot.plugins package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="certbot.tests.html">certbot.tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="certbot.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../">Certbot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="../api.html">API Documentation</a> &raquo;</li>
+      
+        <li><a href="certbot.html">certbot package</a> &raquo;</li>
+      
+        <li><a href="certbot.compat.html">certbot.compat package</a> &raquo;</li>
+      
+    <li>certbot.compat.os module</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/api/certbot.compat.os.rst" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-certbot.compat.os">
+<span id="certbot-compat-os-module"></span><h1>certbot.compat.os module<a class="headerlink" href="#module-certbot.compat.os" title="Permalink to this headline">¶</a></h1>
+<p>This compat modules is a wrapper of the core os module that forbids usage of specific operations
+(e.g. chown, chmod, getuid) that would be harmful to the Windows file security model of Certbot.
+This module is intended to replace standard os module throughout certbot projects (except acme).</p>
+<dl class="function">
+<dt id="certbot.compat.os.chmod">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">chmod</code><span class="sig-paren">(</span><em>*unused_args</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/os.html#chmod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.chmod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method os.chmod() is forbidden</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.chown">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">chown</code><span class="sig-paren">(</span><em>*unused_args</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/os.html#chown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.chown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method os.chown() is forbidden</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.open">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">open</code><span class="sig-paren">(</span><em>*unused_args</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/os.html#open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method os.open() is forbidden</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.mkdir">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">mkdir</code><span class="sig-paren">(</span><em>*unused_args</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/os.html#mkdir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.mkdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method os.mkdir() is forbidden</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.makedirs">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">makedirs</code><span class="sig-paren">(</span><em>*unused_args</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/os.html#makedirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.makedirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method os.makedirs() is forbidden</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.rename">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">rename</code><span class="sig-paren">(</span><em>*unused_args</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/os.html#rename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.rename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method os.rename() is forbidden</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.access">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">access</code><span class="sig-paren">(</span><em>*unused_args</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/os.html#access"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.access" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method os.access() is forbidden</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.stat">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">stat</code><span class="sig-paren">(</span><em>*unused_args</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/os.html#stat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.stat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method os.stat() is forbidden</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.fstat">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">fstat</code><span class="sig-paren">(</span><em>*unused_args</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/os.html#fstat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.fstat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method os.stat() is forbidden</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.WCOREDUMP">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">WCOREDUMP</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#certbot.compat.os.WCOREDUMP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the process returning ‘status’ was dumped to a core file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.WEXITSTATUS">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">WEXITSTATUS</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span> &#x2192; integer<a class="headerlink" href="#certbot.compat.os.WEXITSTATUS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the process return code from ‘status’.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.WIFCONTINUED">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">WIFCONTINUED</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#certbot.compat.os.WIFCONTINUED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the process returning ‘status’ was continued from a
+job control stop.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.WIFEXITED">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">WIFEXITED</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#certbot.compat.os.WIFEXITED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if the process returning ‘status’ exited using the exit()
+system call.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.WIFSIGNALED">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">WIFSIGNALED</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#certbot.compat.os.WIFSIGNALED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the process returning ‘status’ was terminated by a signal.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.WIFSTOPPED">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">WIFSTOPPED</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#certbot.compat.os.WIFSTOPPED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the process returning ‘status’ was stopped.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.WSTOPSIG">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">WSTOPSIG</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span> &#x2192; integer<a class="headerlink" href="#certbot.compat.os.WSTOPSIG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the signal that stopped the process that provided
+the ‘status’ value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.WTERMSIG">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">WTERMSIG</code><span class="sig-paren">(</span><em>status</em><span class="sig-paren">)</span> &#x2192; integer<a class="headerlink" href="#certbot.compat.os.WTERMSIG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the signal that terminated the process that provided the ‘status’
+value.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.abort">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; does not return!<a class="headerlink" href="#certbot.compat.os.abort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abort the interpreter immediately.  This ‘dumps core’ or otherwise fails
+in the hardest way possible on the hosting operating system.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.chdir">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">chdir</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.chdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the current working directory to the specified path.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.chroot">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">chroot</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.chroot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change root directory to path.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.close">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">close</code><span class="sig-paren">(</span><em>fd</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close a file descriptor (for low level IO).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.closerange">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">closerange</code><span class="sig-paren">(</span><em>fd_low</em>, <em>fd_high</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.closerange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes all file descriptors in [fd_low, fd_high), ignoring errors.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.confstr">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">confstr</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span> &#x2192; string<a class="headerlink" href="#certbot.compat.os.confstr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string-valued system configuration variable.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.ctermid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">ctermid</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; string<a class="headerlink" href="#certbot.compat.os.ctermid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the name of the controlling terminal for this process.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.dup">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">dup</code><span class="sig-paren">(</span><em>fd</em><span class="sig-paren">)</span> &#x2192; fd2<a class="headerlink" href="#certbot.compat.os.dup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a duplicate of a file descriptor.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.dup2">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">dup2</code><span class="sig-paren">(</span><em>old_fd</em>, <em>new_fd</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.dup2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Duplicate file descriptor.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.error">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">error</code><a class="headerlink" href="#certbot.compat.os.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">exceptions.OSError</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.execv">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">execv</code><span class="sig-paren">(</span><em>path</em>, <em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.execv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute an executable path with arguments, replacing current process.</p>
+<blockquote>
+<div>path: path of executable file
+args: tuple or list of strings</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.execve">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">execve</code><span class="sig-paren">(</span><em>path</em>, <em>args</em>, <em>env</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.execve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a path with arguments and environment, replacing current process.</p>
+<blockquote>
+<div>path: path of executable file
+args: tuple or list of arguments
+env: dictionary of strings mapping to strings</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.fchdir">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">fchdir</code><span class="sig-paren">(</span><em>fildes</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.fchdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change to the directory of the given file descriptor.  fildes must be
+opened on a directory, not a file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.fchmod">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">fchmod</code><span class="sig-paren">(</span><em>fd</em>, <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.fchmod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the access permissions of the file given by file
+descriptor fd.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.fchown">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">fchown</code><span class="sig-paren">(</span><em>fd</em>, <em>uid</em>, <em>gid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.fchown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the owner and group id of the file given by file descriptor
+fd to the numeric uid and gid.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.fdatasync">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">fdatasync</code><span class="sig-paren">(</span><em>fildes</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.fdatasync" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>force write of file with filedescriptor to disk.</dt>
+<dd>does not force update of metadata.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.fdopen">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">fdopen</code><span class="sig-paren">(</span><em>fd</em><span class="optional">[</span>, <em>mode='r'</em><span class="optional">[</span>, <em>bufsize</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; file_object<a class="headerlink" href="#certbot.compat.os.fdopen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an open file object connected to a file descriptor.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.fork">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">fork</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pid<a class="headerlink" href="#certbot.compat.os.fork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fork a child process.
+Return 0 to child process and PID of child to parent process.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.forkpty">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">forkpty</code><span class="sig-paren">(</span><em>) -&gt; (pid</em>, <em>master_fd</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.forkpty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fork a new process with a new pseudo-terminal as controlling tty.</p>
+<p>Like fork(), return 0 as pid to child process, and PID of child to parent.
+To both, return fd of newly opened pseudo-terminal.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.fpathconf">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">fpathconf</code><span class="sig-paren">(</span><em>fd</em>, <em>name</em><span class="sig-paren">)</span> &#x2192; integer<a class="headerlink" href="#certbot.compat.os.fpathconf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the configuration limit name for the file descriptor fd.
+If there is no limit, return -1.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.fstatvfs">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">fstatvfs</code><span class="sig-paren">(</span><em>fd</em><span class="sig-paren">)</span> &#x2192; statvfs result<a class="headerlink" href="#certbot.compat.os.fstatvfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform an fstatvfs system call on the given fd.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.fsync">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">fsync</code><span class="sig-paren">(</span><em>fildes</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.fsync" title="Permalink to this definition">¶</a></dt>
+<dd><p>force write of file with filedescriptor to disk.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.ftruncate">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">ftruncate</code><span class="sig-paren">(</span><em>fd</em>, <em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.ftruncate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Truncate a file to a specified length.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getcwd">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getcwd</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; path<a class="headerlink" href="#certbot.compat.os.getcwd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string representing the current working directory.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getcwdu">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getcwdu</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; path<a class="headerlink" href="#certbot.compat.os.getcwdu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a unicode string representing the current working directory.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getegid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getegid</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; egid<a class="headerlink" href="#certbot.compat.os.getegid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current process’s effective group id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.geteuid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">geteuid</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; euid<a class="headerlink" href="#certbot.compat.os.geteuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current process’s effective user id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getgid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getgid</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; gid<a class="headerlink" href="#certbot.compat.os.getgid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current process’s group id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getgroups">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getgroups</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; list of group IDs<a class="headerlink" href="#certbot.compat.os.getgroups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of supplemental group IDs for the process.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getloadavg">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getloadavg</code><span class="sig-paren">(</span><em>) -&gt; (float</em>, <em>float</em>, <em>float</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.getloadavg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of processes in the system run queue averaged over
+the last 1, 5, and 15 minutes or raises OSError if the load average
+was unobtainable</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getlogin">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getlogin</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; string<a class="headerlink" href="#certbot.compat.os.getlogin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the actual login name.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getpgid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getpgid</code><span class="sig-paren">(</span><em>pid</em><span class="sig-paren">)</span> &#x2192; pgid<a class="headerlink" href="#certbot.compat.os.getpgid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the system call getpgid().</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getpgrp">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getpgrp</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pgrp<a class="headerlink" href="#certbot.compat.os.getpgrp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current process group id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getpid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getpid</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; pid<a class="headerlink" href="#certbot.compat.os.getpid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current process id</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getppid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getppid</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; ppid<a class="headerlink" href="#certbot.compat.os.getppid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the parent’s process id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getresgid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getresgid</code><span class="sig-paren">(</span><em>) -&gt; (rgid</em>, <em>egid</em>, <em>sgid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.getresgid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get tuple of the current process’s real, effective, and saved group ids.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getresuid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getresuid</code><span class="sig-paren">(</span><em>) -&gt; (ruid</em>, <em>euid</em>, <em>suid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.getresuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get tuple of the current process’s real, effective, and saved user ids.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getsid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getsid</code><span class="sig-paren">(</span><em>pid</em><span class="sig-paren">)</span> &#x2192; sid<a class="headerlink" href="#certbot.compat.os.getsid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the system call getsid().</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getuid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getuid</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; uid<a class="headerlink" href="#certbot.compat.os.getuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current process’s user id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.initgroups">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">initgroups</code><span class="sig-paren">(</span><em>username</em>, <em>gid</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#certbot.compat.os.initgroups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the system initgroups() to initialize the group access list with all of
+the groups of which the specified username is a member, plus the specified
+group id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.isatty">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">isatty</code><span class="sig-paren">(</span><em>fd</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#certbot.compat.os.isatty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the file descriptor ‘fd’ is an open file descriptor
+connected to the slave end of a terminal.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.kill">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">kill</code><span class="sig-paren">(</span><em>pid</em>, <em>sig</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.kill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kill a process with a signal.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.killpg">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">killpg</code><span class="sig-paren">(</span><em>pgid</em>, <em>sig</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.killpg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kill a process group with a signal.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.lchown">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">lchown</code><span class="sig-paren">(</span><em>path</em>, <em>uid</em>, <em>gid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.lchown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the owner and group id of path to the numeric uid and gid.
+This function will not follow symbolic links.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.link">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">link</code><span class="sig-paren">(</span><em>src</em>, <em>dst</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a hard link to a file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.listdir">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">listdir</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span> &#x2192; list_of_strings<a class="headerlink" href="#certbot.compat.os.listdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list containing the names of the entries in the directory.</p>
+<blockquote>
+<div>path: path of directory to list</div></blockquote>
+<p>The list is in arbitrary order.  It does not include the special
+entries ‘.’ and ‘..’ even if they are present in the directory.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.lseek">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">lseek</code><span class="sig-paren">(</span><em>fd</em>, <em>pos</em>, <em>how</em><span class="sig-paren">)</span> &#x2192; newpos<a class="headerlink" href="#certbot.compat.os.lseek" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current position of a file descriptor.
+Return the new cursor position in bytes, starting from the beginning.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.lstat">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">lstat</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span> &#x2192; stat result<a class="headerlink" href="#certbot.compat.os.lstat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Like stat(path), but do not follow symbolic links.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.major">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">major</code><span class="sig-paren">(</span><em>device</em><span class="sig-paren">)</span> &#x2192; major number<a class="headerlink" href="#certbot.compat.os.major" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts a device major number from a raw device number.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.makedev">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">makedev</code><span class="sig-paren">(</span><em>major</em>, <em>minor</em><span class="sig-paren">)</span> &#x2192; device number<a class="headerlink" href="#certbot.compat.os.makedev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Composes a raw device number from the major and minor device numbers.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.minor">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">minor</code><span class="sig-paren">(</span><em>device</em><span class="sig-paren">)</span> &#x2192; minor number<a class="headerlink" href="#certbot.compat.os.minor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts a device minor number from a raw device number.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.mkfifo">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">mkfifo</code><span class="sig-paren">(</span><em>filename</em><span class="optional">[</span>, <em>mode=0666</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.mkfifo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a FIFO (a POSIX named pipe).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.mknod">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">mknod</code><span class="sig-paren">(</span><em>filename</em><span class="optional">[</span>, <em>mode=0600</em>, <em>device</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.mknod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a filesystem node (file, device special file or named pipe)
+named filename. mode specifies both the permissions to use and the
+type of node to be created, being combined (bitwise OR) with one of
+S_IFREG, S_IFCHR, S_IFBLK, and S_IFIFO. For S_IFCHR and S_IFBLK,
+device defines the newly created device special file (probably using
+os.makedev()), otherwise it is ignored.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.nice">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">nice</code><span class="sig-paren">(</span><em>inc</em><span class="sig-paren">)</span> &#x2192; new_priority<a class="headerlink" href="#certbot.compat.os.nice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decrease the priority of process by inc and return the new priority.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.openpty">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">openpty</code><span class="sig-paren">(</span><em>) -&gt; (master_fd</em>, <em>slave_fd</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.openpty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a pseudo-terminal, returning open fd’s for both master and slave end.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.pathconf">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">pathconf</code><span class="sig-paren">(</span><em>path</em>, <em>name</em><span class="sig-paren">)</span> &#x2192; integer<a class="headerlink" href="#certbot.compat.os.pathconf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the configuration limit name for the file or directory path.
+If there is no limit, return -1.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.pipe">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">pipe</code><span class="sig-paren">(</span><em>) -&gt; (read_end</em>, <em>write_end</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.pipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a pipe.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.popen">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">popen</code><span class="sig-paren">(</span><em>command</em><span class="optional">[</span>, <em>mode='r'</em><span class="optional">[</span>, <em>bufsize</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; pipe<a class="headerlink" href="#certbot.compat.os.popen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a pipe to/from a command returning a file object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.putenv">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">putenv</code><span class="sig-paren">(</span><em>key</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.putenv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change or add an environment variable.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.read">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">read</code><span class="sig-paren">(</span><em>fd</em>, <em>buffersize</em><span class="sig-paren">)</span> &#x2192; string<a class="headerlink" href="#certbot.compat.os.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a file descriptor.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.readlink">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">readlink</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span> &#x2192; path<a class="headerlink" href="#certbot.compat.os.readlink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string representing the path to which the symbolic link points.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.remove">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">remove</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a file (same as unlink(path)).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.rmdir">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">rmdir</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.rmdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a directory.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.setegid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">setegid</code><span class="sig-paren">(</span><em>gid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.setegid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current process’s effective group id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.seteuid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">seteuid</code><span class="sig-paren">(</span><em>uid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.seteuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current process’s effective user id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.setgid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">setgid</code><span class="sig-paren">(</span><em>gid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.setgid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current process’s group id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.setgroups">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">setgroups</code><span class="sig-paren">(</span><em>list</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.setgroups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the groups of the current process to list.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.setpgid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">setpgid</code><span class="sig-paren">(</span><em>pid</em>, <em>pgrp</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.setpgid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the system call setpgid().</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.setpgrp">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">setpgrp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.setpgrp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make this process the process group leader.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.setregid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">setregid</code><span class="sig-paren">(</span><em>rgid</em>, <em>egid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.setregid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current process’s real and effective group ids.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.setresgid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">setresgid</code><span class="sig-paren">(</span><em>rgid</em>, <em>egid</em>, <em>sgid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.setresgid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current process’s real, effective, and saved group ids.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.setresuid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">setresuid</code><span class="sig-paren">(</span><em>ruid</em>, <em>euid</em>, <em>suid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.setresuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current process’s real, effective, and saved user ids.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.setreuid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">setreuid</code><span class="sig-paren">(</span><em>ruid</em>, <em>euid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.setreuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current process’s real and effective user ids.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.setsid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">setsid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.setsid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call the system call setsid().</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.setuid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">setuid</code><span class="sig-paren">(</span><em>uid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.setuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current process’s user id.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.stat_float_times">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">stat_float_times</code><span class="sig-paren">(</span><span class="optional">[</span><em>newval</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; oldval<a class="headerlink" href="#certbot.compat.os.stat_float_times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine whether os.[lf]stat represents time stamps as float objects.
+If newval is True, future calls to stat() return floats, if it is False,
+future calls return ints. 
+If newval is omitted, return the current setting.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="certbot.compat.os.stat_result">
+<em class="property">class </em><code class="descclassname">certbot.compat.os.</code><code class="descname">stat_result</code><a class="headerlink" href="#certbot.compat.os.stat_result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>stat_result: Result from stat or lstat.</p>
+<dl class="docutils">
+<dt>This object may be accessed either as a tuple of</dt>
+<dd>(mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime)</dd>
+</dl>
+<p>or via the attributes st_mode, st_ino, st_dev, st_nlink, st_uid, and so on.</p>
+<p>Posix/windows: If your platform supports st_blksize, st_blocks, st_rdev,
+or st_flags, they are available as attributes only.</p>
+<p>See os.stat for more information.</p>
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.n_fields">
+<code class="descname">n_fields</code><em class="property"> = 16</em><a class="headerlink" href="#certbot.compat.os.stat_result.n_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.n_sequence_fields">
+<code class="descname">n_sequence_fields</code><em class="property"> = 10</em><a class="headerlink" href="#certbot.compat.os.stat_result.n_sequence_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.n_unnamed_fields">
+<code class="descname">n_unnamed_fields</code><em class="property"> = 3</em><a class="headerlink" href="#certbot.compat.os.stat_result.n_unnamed_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_atime">
+<code class="descname">st_atime</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_atime" title="Permalink to this definition">¶</a></dt>
+<dd><p>time of last access</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_blksize">
+<code class="descname">st_blksize</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_blksize" title="Permalink to this definition">¶</a></dt>
+<dd><p>blocksize for filesystem I/O</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_blocks">
+<code class="descname">st_blocks</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_blocks" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of blocks allocated</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_ctime">
+<code class="descname">st_ctime</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_ctime" title="Permalink to this definition">¶</a></dt>
+<dd><p>time of last change</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_dev">
+<code class="descname">st_dev</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_dev" title="Permalink to this definition">¶</a></dt>
+<dd><p>device</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_gid">
+<code class="descname">st_gid</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_gid" title="Permalink to this definition">¶</a></dt>
+<dd><p>group ID of owner</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_ino">
+<code class="descname">st_ino</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_ino" title="Permalink to this definition">¶</a></dt>
+<dd><p>inode</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_mode">
+<code class="descname">st_mode</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>protection bits</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_mtime">
+<code class="descname">st_mtime</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_mtime" title="Permalink to this definition">¶</a></dt>
+<dd><p>time of last modification</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_nlink">
+<code class="descname">st_nlink</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_nlink" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of hard links</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_rdev">
+<code class="descname">st_rdev</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_rdev" title="Permalink to this definition">¶</a></dt>
+<dd><p>device type (if inode device)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_size">
+<code class="descname">st_size</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>total size, in bytes</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.stat_result.st_uid">
+<code class="descname">st_uid</code><a class="headerlink" href="#certbot.compat.os.stat_result.st_uid" title="Permalink to this definition">¶</a></dt>
+<dd><p>user ID of owner</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.statvfs">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">statvfs</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span> &#x2192; statvfs result<a class="headerlink" href="#certbot.compat.os.statvfs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a statvfs system call on the given path.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="certbot.compat.os.statvfs_result">
+<em class="property">class </em><code class="descclassname">certbot.compat.os.</code><code class="descname">statvfs_result</code><a class="headerlink" href="#certbot.compat.os.statvfs_result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>statvfs_result: Result from statvfs or fstatvfs.</p>
+<dl class="docutils">
+<dt>This object may be accessed either as a tuple of</dt>
+<dd>(bsize, frsize, blocks, bfree, bavail, files, ffree, favail, flag, namemax),</dd>
+</dl>
+<p>or via the attributes f_bsize, f_frsize, f_blocks, f_bfree, and so on.</p>
+<p>See os.statvfs for more information.</p>
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.f_bavail">
+<code class="descname">f_bavail</code><a class="headerlink" href="#certbot.compat.os.statvfs_result.f_bavail" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.f_bfree">
+<code class="descname">f_bfree</code><a class="headerlink" href="#certbot.compat.os.statvfs_result.f_bfree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.f_blocks">
+<code class="descname">f_blocks</code><a class="headerlink" href="#certbot.compat.os.statvfs_result.f_blocks" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.f_bsize">
+<code class="descname">f_bsize</code><a class="headerlink" href="#certbot.compat.os.statvfs_result.f_bsize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.f_favail">
+<code class="descname">f_favail</code><a class="headerlink" href="#certbot.compat.os.statvfs_result.f_favail" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.f_ffree">
+<code class="descname">f_ffree</code><a class="headerlink" href="#certbot.compat.os.statvfs_result.f_ffree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.f_files">
+<code class="descname">f_files</code><a class="headerlink" href="#certbot.compat.os.statvfs_result.f_files" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.f_flag">
+<code class="descname">f_flag</code><a class="headerlink" href="#certbot.compat.os.statvfs_result.f_flag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.f_frsize">
+<code class="descname">f_frsize</code><a class="headerlink" href="#certbot.compat.os.statvfs_result.f_frsize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.f_namemax">
+<code class="descname">f_namemax</code><a class="headerlink" href="#certbot.compat.os.statvfs_result.f_namemax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.n_fields">
+<code class="descname">n_fields</code><em class="property"> = 10</em><a class="headerlink" href="#certbot.compat.os.statvfs_result.n_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.n_sequence_fields">
+<code class="descname">n_sequence_fields</code><em class="property"> = 10</em><a class="headerlink" href="#certbot.compat.os.statvfs_result.n_sequence_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.n_unnamed_fields">
+<code class="descname">n_unnamed_fields</code><em class="property"> = 0</em><a class="headerlink" href="#certbot.compat.os.statvfs_result.n_unnamed_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.strerror">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">strerror</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span> &#x2192; string<a class="headerlink" href="#certbot.compat.os.strerror" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate an error code to a message string.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.symlink">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">symlink</code><span class="sig-paren">(</span><em>src</em>, <em>dst</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.symlink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a symbolic link pointing to src named dst.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.sysconf">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">sysconf</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span> &#x2192; integer<a class="headerlink" href="#certbot.compat.os.sysconf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an integer-valued system configuration variable.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.system">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">system</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span> &#x2192; exit_status<a class="headerlink" href="#certbot.compat.os.system" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the command (a string) in a subshell.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.tcgetpgrp">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">tcgetpgrp</code><span class="sig-paren">(</span><em>fd</em><span class="sig-paren">)</span> &#x2192; pgid<a class="headerlink" href="#certbot.compat.os.tcgetpgrp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the process group associated with the terminal given by a fd.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.tcsetpgrp">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">tcsetpgrp</code><span class="sig-paren">(</span><em>fd</em>, <em>pgid</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.tcsetpgrp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the process group associated with the terminal given by a fd.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.tempnam">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">tempnam</code><span class="sig-paren">(</span><span class="optional">[</span><em>dir</em><span class="optional">[</span>, <em>prefix</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; string<a class="headerlink" href="#certbot.compat.os.tempnam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a unique name for a temporary file.
+The directory and a prefix may be specified as strings; they may be omitted
+or None if not needed.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.times">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">times</code><span class="sig-paren">(</span><em>) -&gt; (utime</em>, <em>stime</em>, <em>cutime</em>, <em>cstime</em>, <em>elapsed_time</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.times" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tuple of floating point numbers indicating process times.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.tmpfile">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">tmpfile</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; file object<a class="headerlink" href="#certbot.compat.os.tmpfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a temporary file with no directory entries.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.tmpnam">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">tmpnam</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; string<a class="headerlink" href="#certbot.compat.os.tmpnam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a unique name for a temporary file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.ttyname">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">ttyname</code><span class="sig-paren">(</span><em>fd</em><span class="sig-paren">)</span> &#x2192; string<a class="headerlink" href="#certbot.compat.os.ttyname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the name of the terminal device connected to ‘fd’.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.umask">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">umask</code><span class="sig-paren">(</span><em>new_mask</em><span class="sig-paren">)</span> &#x2192; old_mask<a class="headerlink" href="#certbot.compat.os.umask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current numeric umask and return the previous umask.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.uname">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">uname</code><span class="sig-paren">(</span><em>) -&gt; (sysname</em>, <em>nodename</em>, <em>release</em>, <em>version</em>, <em>machine</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.uname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tuple identifying the current operating system.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.unlink">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">unlink</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.unlink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a file (same as remove(path)).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.unsetenv">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">unsetenv</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.unsetenv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete an environment variable.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.urandom">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">urandom</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#certbot.compat.os.urandom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return n random bytes suitable for cryptographic use.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.utime">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">utime</code><span class="sig-paren">(</span><em>path</em>, <em>(atime</em>, <em>mtime)</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.utime" title="Permalink to this definition">¶</a></dt>
+<dd><p>utime(path, None)</p>
+<p>Set the access and modified time of the file to the given values.  If the
+second form is used, set the access and modified times to the current time.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.wait">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">wait</code><span class="sig-paren">(</span><em>) -&gt; (pid</em>, <em>status</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.wait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for completion of a child process.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.wait3">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">wait3</code><span class="sig-paren">(</span><em>options) -&gt; (pid</em>, <em>status</em>, <em>rusage</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.wait3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for completion of a child process.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.wait4">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">wait4</code><span class="sig-paren">(</span><em>pid</em>, <em>options) -&gt; (pid</em>, <em>status</em>, <em>rusage</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.wait4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for completion of a given child process.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.waitpid">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">waitpid</code><span class="sig-paren">(</span><em>pid</em>, <em>options) -&gt; (pid</em>, <em>status</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.waitpid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for completion of a given child process.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.write">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">write</code><span class="sig-paren">(</span><em>fd</em>, <em>string</em><span class="sig-paren">)</span> &#x2192; byteswritten<a class="headerlink" href="#certbot.compat.os.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a string to a file descriptor.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.removedirs">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">removedirs</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#removedirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.removedirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Super-rmdir; remove a leaf directory and all empty intermediate
+ones.  Works like rmdir except that, if the leaf directory is
+successfully removed, directories corresponding to rightmost path
+segments will be pruned away until either the whole path is
+consumed or an error occurs.  Errors during this latter phase are
+ignored – they generally mean that a directory was not empty.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.renames">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">renames</code><span class="sig-paren">(</span><em>old</em>, <em>new</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#renames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.renames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Super-rename; create directories as necessary and delete any left
+empty.  Works like rename, except creation of any intermediate
+directories needed to make the new pathname good is attempted
+first.  After the rename, directories corresponding to rightmost
+path segments of the old name will be pruned until either the
+whole path is consumed or a nonempty directory is found.</p>
+<p>Note: this function can fail with the new directory structure made
+if you lack permissions needed to unlink the leaf directory or
+file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.walk">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">walk</code><span class="sig-paren">(</span><em>top</em>, <em>topdown=True</em>, <em>onerror=None</em>, <em>followlinks=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#walk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.walk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Directory tree generator.</p>
+<p>For each directory in the directory tree rooted at top (including top
+itself, but excluding ‘.’ and ‘..’), yields a 3-tuple</p>
+<blockquote>
+<div>dirpath, dirnames, filenames</div></blockquote>
+<p>dirpath is a string, the path to the directory.  dirnames is a list of
+the names of the subdirectories in dirpath (excluding ‘.’ and ‘..’).
+filenames is a list of the names of the non-directory files in dirpath.
+Note that the names in the lists are just names, with no path components.
+To get a full path (which begins with top) to a file or directory in
+dirpath, do os.path.join(dirpath, name).</p>
+<p>If optional arg ‘topdown’ is true or not specified, the triple for a
+directory is generated before the triples for any of its subdirectories
+(directories are generated top down).  If topdown is false, the triple
+for a directory is generated after the triples for all of its
+subdirectories (directories are generated bottom up).</p>
+<p>When topdown is true, the caller can modify the dirnames list in-place
+(e.g., via del or slice assignment), and walk will only recurse into the
+subdirectories whose names remain in dirnames; this can be used to prune the
+search, or to impose a specific order of visiting.  Modifying dirnames when
+topdown is false is ineffective, since the directories in dirnames have
+already been generated by the time dirnames itself is generated. No matter
+the value of topdown, the list of subdirectories is retrieved before the
+tuples for the directory and its subdirectories are generated.</p>
+<p>By default errors from the os.listdir() call are ignored.  If
+optional arg ‘onerror’ is specified, it should be a function; it
+will be called with one argument, an os.error instance.  It can
+report the error to continue with the walk, or raise the exception
+to abort the walk.  Note that the filename is available as the
+filename attribute of the exception object.</p>
+<p>By default, os.walk does not follow symbolic links to subdirectories on
+systems that support them.  In order to get this functionality, set the
+optional argument ‘followlinks’ to true.</p>
+<p>Caution:  if you pass a relative pathname for top, don’t change the
+current working directory between resumptions of walk.  walk never
+changes the current directory, and assumes that the client doesn’t
+either.</p>
+<p>Example:</p>
+<p>import os
+from os.path import join, getsize
+for root, dirs, files in os.walk(‘python/Lib/email’):</p>
+<blockquote>
+<div><p>print root, “consumes”,
+print sum([getsize(join(root, name)) for name in files]),
+print “bytes in”, len(files), “non-directory files”
+if ‘CVS’ in dirs:</p>
+<blockquote>
+<div>dirs.remove(‘CVS’)  # don’t visit CVS directories</div></blockquote>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.execl">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">execl</code><span class="sig-paren">(</span><em>file</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#execl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.execl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the executable file with argument list args, replacing the
+current process.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.execle">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">execle</code><span class="sig-paren">(</span><em>file</em>, <em>*args</em>, <em>env</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#execle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.execle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the executable file with argument list args and
+environment env, replacing the current process.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.execlp">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">execlp</code><span class="sig-paren">(</span><em>file</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#execlp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.execlp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the executable file (which is searched for along $PATH)
+with argument list args, replacing the current process.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.execlpe">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">execlpe</code><span class="sig-paren">(</span><em>file</em>, <em>*args</em>, <em>env</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#execlpe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.execlpe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the executable file (which is searched for along $PATH)
+with argument list args and environment env, replacing the current
+process.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.execvp">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">execvp</code><span class="sig-paren">(</span><em>file</em>, <em>args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#execvp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.execvp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the executable file (which is searched for along $PATH)
+with argument list args, replacing the current process.
+args may be a list or tuple of strings.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.execvpe">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">execvpe</code><span class="sig-paren">(</span><em>file</em>, <em>args</em>, <em>env</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#execvpe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.execvpe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the executable file (which is searched for along $PATH)
+with argument list args and environment env , replacing the
+current process.
+args may be a list or tuple of strings.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.getenv">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getenv</code><span class="sig-paren">(</span><em>key</em>, <em>default=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#getenv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.getenv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an environment variable, return None if it doesn’t exist.
+The optional second argument can specify an alternate default.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.spawnv">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">spawnv</code><span class="sig-paren">(</span><em>mode</em>, <em>file</em>, <em>args</em><span class="sig-paren">)</span> &#x2192; integer<a class="reference internal" href="../_modules/os.html#spawnv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.spawnv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute file with arguments from args in a subprocess.
+If mode == P_NOWAIT return the pid of the process.
+If mode == P_WAIT return the process’s exit code if it exits normally;
+otherwise return -SIG, where SIG is the signal that killed it.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.spawnve">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">spawnve</code><span class="sig-paren">(</span><em>mode</em>, <em>file</em>, <em>args</em>, <em>env</em><span class="sig-paren">)</span> &#x2192; integer<a class="reference internal" href="../_modules/os.html#spawnve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.spawnve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute file with arguments from args in a subprocess with the
+specified environment.
+If mode == P_NOWAIT return the pid of the process.
+If mode == P_WAIT return the process’s exit code if it exits normally;
+otherwise return -SIG, where SIG is the signal that killed it.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.spawnl">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">spawnl</code><span class="sig-paren">(</span><em>mode</em>, <em>file</em>, <em>*args</em><span class="sig-paren">)</span> &#x2192; integer<a class="reference internal" href="../_modules/os.html#spawnl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.spawnl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute file with arguments from args in a subprocess.
+If mode == P_NOWAIT return the pid of the process.
+If mode == P_WAIT return the process’s exit code if it exits normally;
+otherwise return -SIG, where SIG is the signal that killed it.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.spawnle">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">spawnle</code><span class="sig-paren">(</span><em>mode</em>, <em>file</em>, <em>*args</em>, <em>env</em><span class="sig-paren">)</span> &#x2192; integer<a class="reference internal" href="../_modules/os.html#spawnle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.spawnle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute file with arguments from args in a subprocess with the
+supplied environment.
+If mode == P_NOWAIT return the pid of the process.
+If mode == P_WAIT return the process’s exit code if it exits normally;
+otherwise return -SIG, where SIG is the signal that killed it.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.spawnvp">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">spawnvp</code><span class="sig-paren">(</span><em>mode</em>, <em>file</em>, <em>args</em><span class="sig-paren">)</span> &#x2192; integer<a class="reference internal" href="../_modules/os.html#spawnvp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.spawnvp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute file (which is looked for along $PATH) with arguments from
+args in a subprocess.
+If mode == P_NOWAIT return the pid of the process.
+If mode == P_WAIT return the process’s exit code if it exits normally;
+otherwise return -SIG, where SIG is the signal that killed it.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.spawnvpe">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">spawnvpe</code><span class="sig-paren">(</span><em>mode</em>, <em>file</em>, <em>args</em>, <em>env</em><span class="sig-paren">)</span> &#x2192; integer<a class="reference internal" href="../_modules/os.html#spawnvpe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.spawnvpe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute file (which is looked for along $PATH) with arguments from
+args in a subprocess with the supplied environment.
+If mode == P_NOWAIT return the pid of the process.
+If mode == P_WAIT return the process’s exit code if it exits normally;
+otherwise return -SIG, where SIG is the signal that killed it.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.spawnlp">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">spawnlp</code><span class="sig-paren">(</span><em>mode</em>, <em>file</em>, <em>*args</em><span class="sig-paren">)</span> &#x2192; integer<a class="reference internal" href="../_modules/os.html#spawnlp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.spawnlp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute file (which is looked for along $PATH) with arguments from
+args in a subprocess with the supplied environment.
+If mode == P_NOWAIT return the pid of the process.
+If mode == P_WAIT return the process’s exit code if it exits normally;
+otherwise return -SIG, where SIG is the signal that killed it.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.spawnlpe">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">spawnlpe</code><span class="sig-paren">(</span><em>mode</em>, <em>file</em>, <em>*args</em>, <em>env</em><span class="sig-paren">)</span> &#x2192; integer<a class="reference internal" href="../_modules/os.html#spawnlpe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.spawnlpe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute file (which is looked for along $PATH) with arguments from
+args in a subprocess with the supplied environment.
+If mode == P_NOWAIT return the pid of the process.
+If mode == P_WAIT return the process’s exit code if it exits normally;
+otherwise return -SIG, where SIG is the signal that killed it.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.popen2">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">popen2</code><span class="sig-paren">(</span><em>cmd</em>, <em>mode='t'</em>, <em>bufsize=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#popen2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.popen2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the shell command ‘cmd’ in a sub-process.  On UNIX, ‘cmd’
+may be a sequence, in which case arguments will be passed directly to
+the program without shell intervention (as with os.spawnv()).  If ‘cmd’
+is a string it will be passed to the shell (as with os.system()). If
+‘bufsize’ is specified, it sets the buffer size for the I/O pipes.  The
+file objects (child_stdin, child_stdout) are returned.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.popen3">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">popen3</code><span class="sig-paren">(</span><em>cmd</em>, <em>mode='t'</em>, <em>bufsize=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#popen3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.popen3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the shell command ‘cmd’ in a sub-process.  On UNIX, ‘cmd’
+may be a sequence, in which case arguments will be passed directly to
+the program without shell intervention (as with os.spawnv()).  If ‘cmd’
+is a string it will be passed to the shell (as with os.system()). If
+‘bufsize’ is specified, it sets the buffer size for the I/O pipes.  The
+file objects (child_stdin, child_stdout, child_stderr) are returned.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.popen4">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">popen4</code><span class="sig-paren">(</span><em>cmd</em>, <em>mode='t'</em>, <em>bufsize=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#popen4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.popen4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the shell command ‘cmd’ in a sub-process.  On UNIX, ‘cmd’
+may be a sequence, in which case arguments will be passed directly to
+the program without shell intervention (as with os.spawnv()).  If ‘cmd’
+is a string it will be passed to the shell (as with os.system()). If
+‘bufsize’ is specified, it sets the buffer size for the I/O pipes.  The
+file objects (child_stdin, child_stdout_stderr) are returned.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    <span class="copyright">
+    &copy; Copyright 2014-2018 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at <a href="https://eff.org/cb-license">https://eff.org/cb-license</a>.
+    </span>
+    <br>
+    <br>
+    <span class="status">
+        <a href="https://letsencrypt.status.io/">Let's Encrypt Status</a>
+    </span>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Downloads</dt>
+        <dd><a href="../certbot.pdf">PDF</a></dd>
+        <dd><a href="../certbot.zip">HTML</a></dd>
+        <dd><a href="../certbot.epub">Epub</a></dd>
+      </dl>
+      <hr/>
+
+    </div>
+  </div>
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.os%20module%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+</body>
+</html>

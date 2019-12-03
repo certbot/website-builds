@@ -171,7 +171,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/plugins/dns_common" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/_modules/certbot/plugins/dns_common" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -204,7 +204,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="DNSAuthenticator"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.DNSAuthenticator">[docs]</a><span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IAuthenticator</span><span class="p">)</span>
+<div class="viewcode-block" id="DNSAuthenticator"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator">[docs]</a><span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IAuthenticator</span><span class="p">)</span>
 <span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">provider</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IPluginFactory</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">DNSAuthenticator</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for DNS  Authenticators&quot;&quot;&quot;</span>
@@ -214,7 +214,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_attempt_cleanup</span> <span class="o">=</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="DNSAuthenticator.add_parser_arguments"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.DNSAuthenticator.add_parser_arguments">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="DNSAuthenticator.add_parser_arguments"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator.add_parser_arguments">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">add_parser_arguments</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">default_propagation_seconds</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>  <span class="c1"># pylint: disable=arguments-differ</span>
         <span class="n">add</span><span class="p">(</span><span class="s1">&#39;propagation-seconds&#39;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="n">default_propagation_seconds</span><span class="p">,</span>
@@ -222,13 +222,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The number of seconds to wait for DNS to propagate before asking the ACME server &#39;</span>
                  <span class="s1">&#39;to verify the DNS record.&#39;</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">get_chall_pref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unused_domain</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring,no-self-use</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">challenges</span><span class="o">.</span><span class="n">DNS01</span><span class="p">]</span>
+<div class="viewcode-block" id="DNSAuthenticator.get_chall_pref"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator.get_chall_pref">[docs]</a>    <span class="k">def</span> <span class="nf">get_chall_pref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unused_domain</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring,no-self-use</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">challenges</span><span class="o">.</span><span class="n">DNS01</span><span class="p">]</span></div>
 
-    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># pylint: disable=missing-docstring</span>
-        <span class="k">pass</span>
+<div class="viewcode-block" id="DNSAuthenticator.prepare"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator.prepare">[docs]</a>    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># pylint: disable=missing-docstring</span>
+        <span class="k">pass</span></div>
 
-    <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achalls</span><span class="p">):</span> <span class="c1"># pylint: disable=missing-docstring</span>
+<div class="viewcode-block" id="DNSAuthenticator.perform"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator.perform">[docs]</a>    <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achalls</span><span class="p">):</span> <span class="c1"># pylint: disable=missing-docstring</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setup_credentials</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_attempt_cleanup</span> <span class="o">=</span> <span class="kc">True</span>
@@ -249,25 +249,25 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                     <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s1">&#39;propagation-seconds&#39;</span><span class="p">))</span>
         <span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s1">&#39;propagation-seconds&#39;</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">responses</span>
+        <span class="k">return</span> <span class="n">responses</span></div>
 
-    <span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achalls</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
+<div class="viewcode-block" id="DNSAuthenticator.cleanup"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator.cleanup">[docs]</a>    <span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achalls</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-docstring</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attempt_cleanup</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">achall</span> <span class="ow">in</span> <span class="n">achalls</span><span class="p">:</span>
                 <span class="n">domain</span> <span class="o">=</span> <span class="n">achall</span><span class="o">.</span><span class="n">domain</span>
                 <span class="n">validation_domain_name</span> <span class="o">=</span> <span class="n">achall</span><span class="o">.</span><span class="n">validation_domain_name</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
                 <span class="n">validation</span> <span class="o">=</span> <span class="n">achall</span><span class="o">.</span><span class="n">validation</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">account_key</span><span class="p">)</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">_cleanup</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">validation_domain_name</span><span class="p">,</span> <span class="n">validation</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cleanup</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">validation_domain_name</span><span class="p">,</span> <span class="n">validation</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DNSAuthenticator._setup_credentials"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._setup_credentials">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+<div class="viewcode-block" id="DNSAuthenticator._setup_credentials"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._setup_credentials">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">_setup_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Establish credentials, prompting if necessary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DNSAuthenticator._perform"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._perform">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+<div class="viewcode-block" id="DNSAuthenticator._perform"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._perform">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">_perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">validation_name</span><span class="p">,</span> <span class="n">validation</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Performs a dns-01 challenge by creating a DNS TXT record.</span>
@@ -279,7 +279,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DNSAuthenticator._cleanup"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._cleanup">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+<div class="viewcode-block" id="DNSAuthenticator._cleanup"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._cleanup">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">_cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">validation_name</span><span class="p">,</span> <span class="n">validation</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Deletes the DNS TXT record which would have been created by `_perform_achall`.</span>
@@ -292,7 +292,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="DNSAuthenticator._configure"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._configure">[docs]</a>    <span class="k">def</span> <span class="nf">_configure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+<div class="viewcode-block" id="DNSAuthenticator._configure"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._configure">[docs]</a>    <span class="k">def</span> <span class="nf">_configure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ensure that a configuration value is available.</span>
 
@@ -308,7 +308,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">new_value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DNSAuthenticator._configure_file"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._configure_file">[docs]</a>    <span class="k">def</span> <span class="nf">_configure_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DNSAuthenticator._configure_file"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._configure_file">[docs]</a>    <span class="k">def</span> <span class="nf">_configure_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Ensure that a configuration value is available for a path.</span>
 
@@ -324,7 +324,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">new_value</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="DNSAuthenticator._configure_credentials"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._configure_credentials">[docs]</a>    <span class="k">def</span> <span class="nf">_configure_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">required_variables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="DNSAuthenticator._configure_credentials"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._configure_credentials">[docs]</a>    <span class="k">def</span> <span class="nf">_configure_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">required_variables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        As `_configure_file`, but for a credential configuration file.</span>
 
@@ -361,7 +361,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
         <span class="k">return</span> <span class="n">credentials_configuration</span></div>
 
-<div class="viewcode-block" id="DNSAuthenticator._prompt_for_data"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._prompt_for_data">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DNSAuthenticator._prompt_for_data"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._prompt_for_data">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_prompt_for_data</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prompt the user for a piece of information.</span>
@@ -385,7 +385,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> required to proceed.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="DNSAuthenticator._prompt_for_file"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._prompt_for_file">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DNSAuthenticator._prompt_for_file"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator._prompt_for_file">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_prompt_for_file</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Prompt the user for a path.</span>
@@ -420,7 +420,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> required to proceed.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="CredentialsConfiguration"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.CredentialsConfiguration">[docs]</a><span class="k">class</span> <span class="nc">CredentialsConfiguration</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="CredentialsConfiguration"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.CredentialsConfiguration">[docs]</a><span class="k">class</span> <span class="nc">CredentialsConfiguration</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Represents a user-supplied filed which stores API credentials.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">mapper</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">):</span>
@@ -439,7 +439,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
         <span class="bp">self</span><span class="o">.</span><span class="n">mapper</span> <span class="o">=</span> <span class="n">mapper</span>
 
-<div class="viewcode-block" id="CredentialsConfiguration.require"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.CredentialsConfiguration.require">[docs]</a>    <span class="k">def</span> <span class="nf">require</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">required_variables</span><span class="p">):</span>
+<div class="viewcode-block" id="CredentialsConfiguration.require"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.CredentialsConfiguration.require">[docs]</a>    <span class="k">def</span> <span class="nf">require</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">required_variables</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Ensures that the supplied set of variables are all present in the file.</span>
 
 <span class="sd">        :param dict required_variables: Map of variable which must be present to error to display.</span>
@@ -464,7 +464,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                     <span class="p">)</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="CredentialsConfiguration.conf"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.CredentialsConfiguration.conf">[docs]</a>    <span class="k">def</span> <span class="nf">conf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+<div class="viewcode-block" id="CredentialsConfiguration.conf"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.CredentialsConfiguration.conf">[docs]</a>    <span class="k">def</span> <span class="nf">conf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Find a configuration value for variable `var`, as transformed by `mapper`.</span>
 
 <span class="sd">        :param str var: The variable to get.</span>
@@ -474,14 +474,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="n">var</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_has</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapper</span><span class="p">(</span><span class="n">var</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">confobj</span>
+<div class="viewcode-block" id="CredentialsConfiguration._has"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.CredentialsConfiguration._has">[docs]</a>    <span class="k">def</span> <span class="nf">_has</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapper</span><span class="p">(</span><span class="n">var</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">confobj</span></div>
 
-    <span class="k">def</span> <span class="nf">_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">confobj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mapper</span><span class="p">(</span><span class="n">var</span><span class="p">))</span></div>
+<div class="viewcode-block" id="CredentialsConfiguration._get"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.CredentialsConfiguration._get">[docs]</a>    <span class="k">def</span> <span class="nf">_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">confobj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mapper</span><span class="p">(</span><span class="n">var</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="validate_file"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.validate_file">[docs]</a><span class="k">def</span> <span class="nf">validate_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="validate_file"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.validate_file">[docs]</a><span class="k">def</span> <span class="nf">validate_file</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Ensure that the specified file exists.&quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
@@ -491,7 +491,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;Path is a directory: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="validate_file_permissions"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.validate_file_permissions">[docs]</a><span class="k">def</span> <span class="nf">validate_file_permissions</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="validate_file_permissions"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.validate_file_permissions">[docs]</a><span class="k">def</span> <span class="nf">validate_file_permissions</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Ensure that the specified file exists and warn about unsafe permissions.&quot;&quot;&quot;</span>
 
     <span class="n">validate_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -500,7 +500,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Unsafe permissions on credentials configuration file: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="base_domain_name_guesses"><a class="viewcode-back" href="../../../api/plugins/dns_common.html#certbot.plugins.dns_common.base_domain_name_guesses">[docs]</a><span class="k">def</span> <span class="nf">base_domain_name_guesses</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
+<div class="viewcode-block" id="base_domain_name_guesses"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.base_domain_name_guesses">[docs]</a><span class="k">def</span> <span class="nf">base_domain_name_guesses</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a list of progressively less-specific domain names.</span>
 
 <span class="sd">    One of these will probably be the domain name known to the DNS provider.</span>

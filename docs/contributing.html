@@ -210,7 +210,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/contributing.rst" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/contributing.rst" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -440,13 +440,13 @@ certbot_test certonly --standalone -d test.example.com
 different webservers, other TLS servers, and operating systems.
 The interfaces available for plugins to implement are defined in
 <a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot/interfaces.py">interfaces.py</a> and <a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot/plugins/common.py#L34">plugins/common.py</a>.</p>
-<p>The main two plugin interfaces are <a class="reference internal" href="api/interfaces.html#certbot.interfaces.IAuthenticator" title="certbot.interfaces.IAuthenticator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IAuthenticator</span></code></a>, which
+<p>The main two plugin interfaces are <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IAuthenticator" title="certbot.interfaces.IAuthenticator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IAuthenticator</span></code></a>, which
 implements various ways of proving domain control to a certificate authority,
-and <a class="reference internal" href="api/interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IInstaller</span></code></a>, which configures a server to use a
+and <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IInstaller</span></code></a>, which configures a server to use a
 certificate once it is issued. Some plugins, like the built-in Apache and Nginx
 plugins, implement both interfaces and perform both tasks. Others, like the
 built-in Standalone authenticator, implement just one interface.</p>
-<p>There are also <a class="reference internal" href="api/interfaces.html#certbot.interfaces.IDisplay" title="certbot.interfaces.IDisplay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IDisplay</span></code></a> plugins,
+<p>There are also <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IDisplay" title="certbot.interfaces.IDisplay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IDisplay</span></code></a> plugins,
 which can change how prompts are displayed to a user.</p>
 </div>
 <div class="section" id="authenticators">
@@ -470,7 +470,7 @@ DNS records that were needed only during authentication.</p>
 possibly tweak the security configuration to make it more correct and secure
 (Fix some mixed content problems, turn on HSTS, redirect to HTTPS, etc).
 Installer plugins tell the main client about their abilities to do the latter
-via the <a class="reference internal" href="api/interfaces.html#certbot.interfaces.IInstaller.supported_enhancements" title="certbot.interfaces.IInstaller.supported_enhancements"><code class="xref py py-meth docutils literal notranslate"><span class="pre">supported_enhancements()</span></code></a> call. We currently
+via the <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IInstaller.supported_enhancements" title="certbot.interfaces.IInstaller.supported_enhancements"><code class="xref py py-meth docutils literal notranslate"><span class="pre">supported_enhancements()</span></code></a> call. We currently
 have two Installers in the tree, the <code class="xref py py-obj docutils literal notranslate"><span class="pre">ApacheConfigurator</span></code>. and the
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">NginxConfigurator</span></code>.  External projects have made some progress toward
 support for IIS, Icecast and Plesk.</p>
@@ -487,19 +487,19 @@ cannot solve challenges itself (Such as MTA installers).</p>
 <div class="section" id="installer-development">
 <h3><a class="toc-backref" href="#id15">Installer Development</a><a class="headerlink" href="#installer-development" title="Permalink to this headline">¶</a></h3>
 <p>There are a few existing classes that may be beneficial while
-developing a new <a class="reference internal" href="api/interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IInstaller</span></code></a>.
+developing a new <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IInstaller</span></code></a>.
 Installers aimed to reconfigure UNIX servers may use Augeas for
 configuration parsing and can inherit from <code class="xref py py-obj docutils literal notranslate"><span class="pre">AugeasConfigurator</span></code> class
 to handle much of the interface. Installers that are unable to use
-Augeas may still find the <a class="reference internal" href="api/reverter.html#certbot.reverter.Reverter" title="certbot.reverter.Reverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reverter</span></code></a> class helpful in handling
+Augeas may still find the <a class="reference internal" href="api/certbot.reverter.html#certbot.reverter.Reverter" title="certbot.reverter.Reverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reverter</span></code></a> class helpful in handling
 configuration checkpoints and rollback.</p>
 <div class="section" id="writing-your-own-plugin">
 <span id="dev-plugin"></span><h4><a class="toc-backref" href="#id16">Writing your own plugin</a><a class="headerlink" href="#writing-your-own-plugin" title="Permalink to this headline">¶</a></h4>
 <p>Certbot client supports dynamic discovery of plugins through the
-<a class="reference external" href="http://setuptools.readthedocs.io/en/latest/pkg_resources.html#entry-points">setuptools entry points</a> using the <code class="xref py py-obj docutils literal notranslate"><span class="pre">certbot.plugins</span></code> group. This
+<a class="reference external" href="http://setuptools.readthedocs.io/en/latest/pkg_resources.html#entry-points">setuptools entry points</a> using the <a class="reference internal" href="api/certbot.plugins.html#module-certbot.plugins" title="certbot.plugins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">certbot.plugins</span></code></a> group. This
 way you can, for example, create a custom implementation of
-<a class="reference internal" href="api/interfaces.html#certbot.interfaces.IAuthenticator" title="certbot.interfaces.IAuthenticator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IAuthenticator</span></code></a> or the
-<a class="reference internal" href="api/interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IInstaller</span></code></a> without having to merge it
+<a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IAuthenticator" title="certbot.interfaces.IAuthenticator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IAuthenticator</span></code></a> or the
+<a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IInstaller</span></code></a> without having to merge it
 with the core upstream source code. An example is provided in
 <code class="docutils literal notranslate"><span class="pre">examples/plugins/</span></code> directory.</p>
 <p>While developing, you can install your plugin into a Certbot development
@@ -688,7 +688,7 @@ directory.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">If you skipped the “Getting Started” instructions above,
-run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">&quot;.[docs]&quot;</span></code> to install Certbot’s docs extras modules.</p>
+run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">&quot;certbot[docs]&quot;</span></code> to install Certbot’s docs extras modules.</p>
 </div>
 </div>
 <div class="section" id="running-the-client-with-docker">
