@@ -171,7 +171,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/interfaces" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/_modules/certbot/interfaces" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -188,14 +188,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">zope.interface</span>
 
 <span class="c1"># pylint: disable=no-self-argument,no-method-argument,no-init,inherit-non-class</span>
-<span class="c1"># pylint: disable=too-few-public-methods</span>
 
 
-<div class="viewcode-block" id="AccountStorage"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.AccountStorage">[docs]</a><span class="nd">@six</span><span class="o">.</span><span class="n">add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
+<div class="viewcode-block" id="AccountStorage"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.AccountStorage">[docs]</a><span class="nd">@six</span><span class="o">.</span><span class="n">add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">AccountStorage</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Accounts storage interface.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="AccountStorage.find_all"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.AccountStorage.find_all">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+<div class="viewcode-block" id="AccountStorage.find_all"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.AccountStorage.find_all">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">find_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;Find all accounts.</span>
 
@@ -205,7 +204,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="AccountStorage.load"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.AccountStorage.load">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+<div class="viewcode-block" id="AccountStorage.load"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.AccountStorage.load">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_id</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;Load an account by its id.</span>
 
@@ -215,7 +214,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="AccountStorage.save"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.AccountStorage.save">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+<div class="viewcode-block" id="AccountStorage.save"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.AccountStorage.save">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account</span><span class="p">,</span> <span class="n">client</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
         <span class="sd">&quot;&quot;&quot;Save account.</span>
 
@@ -225,7 +224,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
 
 
-<div class="viewcode-block" id="IPluginFactory"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.IPluginFactory">[docs]</a><span class="k">class</span> <span class="nc">IPluginFactory</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
+<div class="viewcode-block" id="IPluginFactory"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IPluginFactory">[docs]</a><span class="k">class</span> <span class="nc">IPluginFactory</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;IPlugin factory.</span>
 
 <span class="sd">    Objects providing this interface will be called without satisfying</span>
@@ -280,7 +279,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="IPlugin"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.IPlugin">[docs]</a><span class="k">class</span> <span class="nc">IPlugin</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
+<div class="viewcode-block" id="IPlugin"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IPlugin">[docs]</a><span class="k">class</span> <span class="nc">IPlugin</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Certbot plugin.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">prepare</span><span class="p">():</span>  <span class="c1"># type: ignore</span>
@@ -313,7 +312,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="IAuthenticator"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.IAuthenticator">[docs]</a><span class="k">class</span> <span class="nc">IAuthenticator</span><span class="p">(</span><span class="n">IPlugin</span><span class="p">):</span>
+<div class="viewcode-block" id="IAuthenticator"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IAuthenticator">[docs]</a><span class="k">class</span> <span class="nc">IAuthenticator</span><span class="p">(</span><span class="n">IPlugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generic Certbot Authenticator.</span>
 
 <span class="sd">    Class represents all possible tools processes that have the</span>
@@ -369,7 +368,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="IConfig"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.IConfig">[docs]</a><span class="k">class</span> <span class="nc">IConfig</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
+<div class="viewcode-block" id="IConfig"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IConfig">[docs]</a><span class="k">class</span> <span class="nc">IConfig</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Certbot user-supplied configuration.</span>
 
 <span class="sd">    .. warning:: The values stored in the configuration have not been</span>
@@ -438,7 +437,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="s2">&quot;If updates provided by installer enhancements when Certbot is being run&quot;</span>
         <span class="s2">&quot; with </span><span class="se">\&quot;</span><span class="s2">renew</span><span class="se">\&quot;</span><span class="s2"> verb should be disabled.&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="IInstaller"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.IInstaller">[docs]</a><span class="k">class</span> <span class="nc">IInstaller</span><span class="p">(</span><span class="n">IPlugin</span><span class="p">):</span>
+<div class="viewcode-block" id="IInstaller"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IInstaller">[docs]</a><span class="k">class</span> <span class="nc">IInstaller</span><span class="p">(</span><span class="n">IPlugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generic Certbot Installer Interface.</span>
 
 <span class="sd">    Represents any server that an X509 certificate can be placed.</span>
@@ -554,9 +553,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="IDisplay"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.IDisplay">[docs]</a><span class="k">class</span> <span class="nc">IDisplay</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
+<div class="viewcode-block" id="IDisplay"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IDisplay">[docs]</a><span class="k">class</span> <span class="nc">IDisplay</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generic display.&quot;&quot;&quot;</span>
-    <span class="c1"># pylint: disable=too-many-arguments</span>
     <span class="c1"># see https://github.com/certbot/certbot/issues/3915</span>
 
     <span class="k">def</span> <span class="nf">notification</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">pause</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -691,7 +689,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="IReporter"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.IReporter">[docs]</a><span class="k">class</span> <span class="nc">IReporter</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
+<div class="viewcode-block" id="IReporter"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IReporter">[docs]</a><span class="k">class</span> <span class="nc">IReporter</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Interface to collect and display information to the user.&quot;&quot;&quot;</span>
 
     <span class="n">HIGH_PRIORITY</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Attribute</span><span class="p">(</span>
@@ -718,6 +716,62 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="sd">&quot;&quot;&quot;Prints messages to the user and clears the message queue.&quot;&quot;&quot;</span></div>
 
 
+<div class="viewcode-block" id="RenewableCert"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.RenewableCert">[docs]</a><span class="nd">@six</span><span class="o">.</span><span class="n">add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">RenewableCert</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Interface to a certificate lineage.&quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractproperty</span>
+    <span class="k">def</span> <span class="nf">cert_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Path to the certificate file.</span>
+
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractproperty</span>
+    <span class="k">def</span> <span class="nf">key_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Path to the private key file.</span>
+
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractproperty</span>
+    <span class="k">def</span> <span class="nf">chain_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Path to the certificate chain file.</span>
+
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractproperty</span>
+    <span class="k">def</span> <span class="nf">fullchain_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Path to the full chain file.</span>
+
+<span class="sd">        The full chain is the certificate file plus the chain file.</span>
+
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractproperty</span>
+    <span class="k">def</span> <span class="nf">lineagename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Name given to the certificate lineage.</span>
+
+<span class="sd">        :rtype: str</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RenewableCert.names"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.RenewableCert.names">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;What are the subject names of this certificate?</span>
+
+<span class="sd">        :returns: the subject names</span>
+<span class="sd">        :rtype: `list` of `str`</span>
+<span class="sd">        :raises .CertStorageError: if could not find cert file.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span></div></div>
+
 <span class="c1"># Updater interfaces</span>
 <span class="c1">#</span>
 <span class="c1"># When &quot;certbot renew&quot; is run, Certbot will iterate over each lineage and check</span>
@@ -728,7 +782,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># an update during the run or install subcommand, it should do so when</span>
 <span class="c1"># :func:`IInstaller.deploy_cert` is called.</span>
 
-<div class="viewcode-block" id="GenericUpdater"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.GenericUpdater">[docs]</a><span class="nd">@six</span><span class="o">.</span><span class="n">add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
+<div class="viewcode-block" id="GenericUpdater"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.GenericUpdater">[docs]</a><span class="nd">@six</span><span class="o">.</span><span class="n">add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">GenericUpdater</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Interface for update types not currently specified by Certbot.</span>
 
@@ -744,7 +798,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    interface methods of `interfaces.IInstaller` such as prepare() and restart()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="GenericUpdater.generic_updates"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.GenericUpdater.generic_updates">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+<div class="viewcode-block" id="GenericUpdater.generic_updates"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.GenericUpdater.generic_updates">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">generic_updates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lineage</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Perform any update types defined by the installer.</span>
 
@@ -756,12 +810,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        This method is called once for each lineage.</span>
 
 <span class="sd">        :param lineage: Certificate lineage object</span>
-<span class="sd">        :type lineage: storage.RenewableCert</span>
+<span class="sd">        :type lineage: RenewableCert</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div></div>
 
 
-<div class="viewcode-block" id="RenewDeployer"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.RenewDeployer">[docs]</a><span class="nd">@six</span><span class="o">.</span><span class="n">add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
+<div class="viewcode-block" id="RenewDeployer"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.RenewDeployer">[docs]</a><span class="nd">@six</span><span class="o">.</span><span class="n">add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">RenewDeployer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Interface for update types run when a lineage is renewed</span>
 
@@ -773,7 +827,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    be called from the installer code.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="RenewDeployer.renew_deploy"><a class="viewcode-back" href="../../api/interfaces.html#certbot.interfaces.RenewDeployer.renew_deploy">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+<div class="viewcode-block" id="RenewDeployer.renew_deploy"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.RenewDeployer.renew_deploy">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">renew_deploy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lineage</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Perform updates defined by installer when a certificate has been renewed</span>
 
@@ -785,7 +839,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        This method is called once for each lineage renewed</span>
 
 <span class="sd">        :param lineage: Certificate lineage object</span>
-<span class="sd">        :type lineage: storage.RenewableCert</span>
+<span class="sd">        :type lineage: RenewableCert</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div></div>
 </pre></div>

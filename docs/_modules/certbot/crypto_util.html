@@ -171,7 +171,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/crypto_util" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/_modules/certbot/crypto_util" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -218,7 +218,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <span class="c1"># High level functions</span>
-<div class="viewcode-block" id="init_save_key"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.init_save_key">[docs]</a><span class="k">def</span> <span class="nf">init_save_key</span><span class="p">(</span><span class="n">key_size</span><span class="p">,</span> <span class="n">key_dir</span><span class="p">,</span> <span class="n">keyname</span><span class="o">=</span><span class="s2">&quot;key-certbot.pem&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="init_save_key"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.init_save_key">[docs]</a><span class="k">def</span> <span class="nf">init_save_key</span><span class="p">(</span><span class="n">key_size</span><span class="p">,</span> <span class="n">key_dir</span><span class="p">,</span> <span class="n">keyname</span><span class="o">=</span><span class="s2">&quot;key-certbot.pem&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Initializes and saves a privkey.</span>
 
 <span class="sd">    Inits key and saves it in PEM format on the filesystem.</span>
@@ -254,7 +254,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">Key</span><span class="p">(</span><span class="n">key_path</span><span class="p">,</span> <span class="n">key_pem</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="init_save_csr"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.init_save_csr">[docs]</a><span class="k">def</span> <span class="nf">init_save_csr</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<div class="viewcode-block" id="init_save_csr"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.init_save_csr">[docs]</a><span class="k">def</span> <span class="nf">init_save_csr</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Initialize a CSR with the given private key.</span>
 
 <span class="sd">    :param privkey: Key to include in the CSR</span>
@@ -289,7 +289,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># A. Do more checks to verify that the CSR is trusted/valid</span>
 <span class="c1"># B. Audit the parsing code for vulnerabilities</span>
 
-<div class="viewcode-block" id="valid_csr"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.valid_csr">[docs]</a><span class="k">def</span> <span class="nf">valid_csr</span><span class="p">(</span><span class="n">csr</span><span class="p">):</span>
+<div class="viewcode-block" id="valid_csr"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.valid_csr">[docs]</a><span class="k">def</span> <span class="nf">valid_csr</span><span class="p">(</span><span class="n">csr</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Validate CSR.</span>
 
 <span class="sd">    Check if `csr` is a valid CSR for the given domains.</span>
@@ -309,7 +309,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<div class="viewcode-block" id="csr_matches_pubkey"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.csr_matches_pubkey">[docs]</a><span class="k">def</span> <span class="nf">csr_matches_pubkey</span><span class="p">(</span><span class="n">csr</span><span class="p">,</span> <span class="n">privkey</span><span class="p">):</span>
+<div class="viewcode-block" id="csr_matches_pubkey"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.csr_matches_pubkey">[docs]</a><span class="k">def</span> <span class="nf">csr_matches_pubkey</span><span class="p">(</span><span class="n">csr</span><span class="p">,</span> <span class="n">privkey</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Does private key correspond to the subject public key in the CSR?</span>
 
 <span class="sd">    :param str csr: CSR in PEM.</span>
@@ -329,7 +329,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<div class="viewcode-block" id="import_csr_file"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.import_csr_file">[docs]</a><span class="k">def</span> <span class="nf">import_csr_file</span><span class="p">(</span><span class="n">csrfile</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="import_csr_file"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.import_csr_file">[docs]</a><span class="k">def</span> <span class="nf">import_csr_file</span><span class="p">(</span><span class="n">csrfile</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Import a CSR file, which can be either PEM or DER.</span>
 
 <span class="sd">    :param str csrfile: CSR filename</span>
@@ -358,7 +358,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">PEM</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">CSR</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">csrfile</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data_pem</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s2">&quot;pem&quot;</span><span class="p">),</span> <span class="n">domains</span></div>
 
 
-<div class="viewcode-block" id="make_key"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.make_key">[docs]</a><span class="k">def</span> <span class="nf">make_key</span><span class="p">(</span><span class="n">bits</span><span class="p">):</span>
+<div class="viewcode-block" id="make_key"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.make_key">[docs]</a><span class="k">def</span> <span class="nf">make_key</span><span class="p">(</span><span class="n">bits</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generate PEM encoded RSA key.</span>
 
 <span class="sd">    :param int bits: Number of bits, at least 1024.</span>
@@ -373,7 +373,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">crypto</span><span class="o">.</span><span class="n">dump_privatekey</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="valid_privkey"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.valid_privkey">[docs]</a><span class="k">def</span> <span class="nf">valid_privkey</span><span class="p">(</span><span class="n">privkey</span><span class="p">):</span>
+<div class="viewcode-block" id="valid_privkey"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.valid_privkey">[docs]</a><span class="k">def</span> <span class="nf">valid_privkey</span><span class="p">(</span><span class="n">privkey</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Is valid RSA private key?</span>
 
 <span class="sd">    :param str privkey: Private key file contents in PEM</span>
@@ -389,7 +389,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<div class="viewcode-block" id="verify_renewable_cert"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.verify_renewable_cert">[docs]</a><span class="k">def</span> <span class="nf">verify_renewable_cert</span><span class="p">(</span><span class="n">renewable_cert</span><span class="p">):</span>
+<div class="viewcode-block" id="verify_renewable_cert"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.verify_renewable_cert">[docs]</a><span class="k">def</span> <span class="nf">verify_renewable_cert</span><span class="p">(</span><span class="n">renewable_cert</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;For checking that your certs were not corrupted on disk.</span>
 
 <span class="sd">    Several things are checked:</span>
@@ -397,26 +397,28 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        2. That fullchain matches cert and chain when concatenated.</span>
 <span class="sd">        3. Check that the private key matches the certificate.</span>
 
-<span class="sd">    :param `.storage.RenewableCert` renewable_cert: cert to verify</span>
+<span class="sd">    :param renewable_cert: cert to verify</span>
+<span class="sd">    :type renewable_cert: certbot.interfaces.RenewableCert</span>
 
 <span class="sd">    :raises errors.Error: If verification fails.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">verify_renewable_cert_sig</span><span class="p">(</span><span class="n">renewable_cert</span><span class="p">)</span>
     <span class="n">verify_fullchain</span><span class="p">(</span><span class="n">renewable_cert</span><span class="p">)</span>
-    <span class="n">verify_cert_matches_priv_key</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert</span><span class="p">,</span> <span class="n">renewable_cert</span><span class="o">.</span><span class="n">privkey</span><span class="p">)</span></div>
+    <span class="n">verify_cert_matches_priv_key</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">renewable_cert</span><span class="o">.</span><span class="n">key_path</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="verify_renewable_cert_sig"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.verify_renewable_cert_sig">[docs]</a><span class="k">def</span> <span class="nf">verify_renewable_cert_sig</span><span class="p">(</span><span class="n">renewable_cert</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Verifies the signature of a `.storage.RenewableCert` object.</span>
+<div class="viewcode-block" id="verify_renewable_cert_sig"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.verify_renewable_cert_sig">[docs]</a><span class="k">def</span> <span class="nf">verify_renewable_cert_sig</span><span class="p">(</span><span class="n">renewable_cert</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verifies the signature of a RenewableCert object.</span>
 
-<span class="sd">    :param `.storage.RenewableCert` renewable_cert: cert to verify</span>
+<span class="sd">    :param renewable_cert: cert to verify</span>
+<span class="sd">    :type renewable_cert: certbot.interfaces.RenewableCert</span>
 
 <span class="sd">    :raises errors.Error: If signature verification fails.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">chain_file</span><span class="p">:</span>  <span class="c1"># type: IO[bytes]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">chain_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">chain_file</span><span class="p">:</span>  <span class="c1"># type: IO[bytes]</span>
             <span class="n">chain</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">load_pem_x509_certificate</span><span class="p">(</span><span class="n">chain_file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">default_backend</span><span class="p">())</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cert_file</span><span class="p">:</span>  <span class="c1"># type: IO[bytes]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cert_file</span><span class="p">:</span>  <span class="c1"># type: IO[bytes]</span>
             <span class="n">cert</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">load_pem_x509_certificate</span><span class="p">(</span><span class="n">cert_file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">default_backend</span><span class="p">())</span>
         <span class="n">pk</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">public_key</span><span class="p">()</span>
         <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
@@ -424,12 +426,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                                   <span class="n">cert</span><span class="o">.</span><span class="n">signature_hash_algorithm</span><span class="p">)</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="n">InvalidSignature</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">error_str</span> <span class="o">=</span> <span class="s2">&quot;verifying the signature of the cert located at </span><span class="si">{0}</span><span class="s2"> has failed. </span><span class="se">\</span>
-<span class="s2">                Details: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+<span class="s2">                Details: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="verify_signed_payload"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.verify_signed_payload">[docs]</a><span class="k">def</span> <span class="nf">verify_signed_payload</span><span class="p">(</span><span class="n">public_key</span><span class="p">,</span> <span class="n">signature</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">signature_hash_algorithm</span><span class="p">):</span>
+<div class="viewcode-block" id="verify_signed_payload"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.verify_signed_payload">[docs]</a><span class="k">def</span> <span class="nf">verify_signed_payload</span><span class="p">(</span><span class="n">public_key</span><span class="p">,</span> <span class="n">signature</span><span class="p">,</span> <span class="n">payload</span><span class="p">,</span> <span class="n">signature_hash_algorithm</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Check the signature of a payload.</span>
 
 <span class="sd">    :param RSAPublicKey/EllipticCurvePublicKey public_key: the public_key to check signature</span>
@@ -460,7 +462,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;Unsupported public key type&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="verify_cert_matches_priv_key"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.verify_cert_matches_priv_key">[docs]</a><span class="k">def</span> <span class="nf">verify_cert_matches_priv_key</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">key_path</span><span class="p">):</span>
+<div class="viewcode-block" id="verify_cert_matches_priv_key"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.verify_cert_matches_priv_key">[docs]</a><span class="k">def</span> <span class="nf">verify_cert_matches_priv_key</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">key_path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Verifies that the private key and cert match.</span>
 
 <span class="sd">    :param str cert_path: path to a cert in PEM format</span>
@@ -482,19 +484,20 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="verify_fullchain"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.verify_fullchain">[docs]</a><span class="k">def</span> <span class="nf">verify_fullchain</span><span class="p">(</span><span class="n">renewable_cert</span><span class="p">):</span>
+<div class="viewcode-block" id="verify_fullchain"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.verify_fullchain">[docs]</a><span class="k">def</span> <span class="nf">verify_fullchain</span><span class="p">(</span><span class="n">renewable_cert</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Verifies that fullchain is indeed cert concatenated with chain.</span>
 
-<span class="sd">    :param `.storage.RenewableCert` renewable_cert: cert to verify</span>
+<span class="sd">    :param renewable_cert: cert to verify</span>
+<span class="sd">    :type renewable_cert: certbot.interfaces.RenewableCert</span>
 
 <span class="sd">    :raises errors.Error: If cert and chain do not combine to fullchain.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">chain</span><span class="p">)</span> <span class="k">as</span> <span class="n">chain_file</span><span class="p">:</span>  <span class="c1"># type: IO[str]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">chain_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">chain_file</span><span class="p">:</span>  <span class="c1"># type: IO[str]</span>
             <span class="n">chain</span> <span class="o">=</span> <span class="n">chain_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert</span><span class="p">)</span> <span class="k">as</span> <span class="n">cert_file</span><span class="p">:</span>  <span class="c1"># type: IO[str]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">cert_file</span><span class="p">:</span>  <span class="c1"># type: IO[str]</span>
             <span class="n">cert</span> <span class="o">=</span> <span class="n">cert_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">fullchain</span><span class="p">)</span> <span class="k">as</span> <span class="n">fullchain_file</span><span class="p">:</span>  <span class="c1"># type: IO[str]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">fullchain_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">fullchain_file</span><span class="p">:</span>  <span class="c1"># type: IO[str]</span>
             <span class="n">fullchain</span> <span class="o">=</span> <span class="n">fullchain_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">cert</span> <span class="o">+</span> <span class="n">chain</span><span class="p">)</span> <span class="o">!=</span> <span class="n">fullchain</span><span class="p">:</span>
             <span class="n">error_str</span> <span class="o">=</span> <span class="s2">&quot;fullchain does not match cert + chain for </span><span class="si">{0}</span><span class="s2">!&quot;</span>
@@ -508,7 +511,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">raise</span> <span class="n">e</span></div>
 
 
-<div class="viewcode-block" id="pyopenssl_load_certificate"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.pyopenssl_load_certificate">[docs]</a><span class="k">def</span> <span class="nf">pyopenssl_load_certificate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="pyopenssl_load_certificate"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.pyopenssl_load_certificate">[docs]</a><span class="k">def</span> <span class="nf">pyopenssl_load_certificate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load PEM/DER certificate.</span>
 
 <span class="sd">    :raises errors.Error:</span>
@@ -526,23 +529,23 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">openssl_errors</span><span class="p">)))</span></div>
 
 
-<span class="k">def</span> <span class="nf">_load_cert_or_req</span><span class="p">(</span><span class="n">cert_or_req_str</span><span class="p">,</span> <span class="n">load_func</span><span class="p">,</span>
+<div class="viewcode-block" id="_load_cert_or_req"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util._load_cert_or_req">[docs]</a><span class="k">def</span> <span class="nf">_load_cert_or_req</span><span class="p">(</span><span class="n">cert_or_req_str</span><span class="p">,</span> <span class="n">load_func</span><span class="p">,</span>
                       <span class="n">typ</span><span class="o">=</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">load_func</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">cert_or_req_str</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">crypto</span><span class="o">.</span><span class="n">Error</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">raise</span>
+        <span class="k">raise</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_sans_from_cert_or_req</span><span class="p">(</span><span class="n">cert_or_req_str</span><span class="p">,</span> <span class="n">load_func</span><span class="p">,</span>
+<div class="viewcode-block" id="_get_sans_from_cert_or_req"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util._get_sans_from_cert_or_req">[docs]</a><span class="k">def</span> <span class="nf">_get_sans_from_cert_or_req</span><span class="p">(</span><span class="n">cert_or_req_str</span><span class="p">,</span> <span class="n">load_func</span><span class="p">,</span>
                                <span class="n">typ</span><span class="o">=</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">):</span>
     <span class="c1"># pylint: disable=protected-access</span>
     <span class="k">return</span> <span class="n">acme_crypto_util</span><span class="o">.</span><span class="n">_pyopenssl_cert_or_req_san</span><span class="p">(</span><span class="n">_load_cert_or_req</span><span class="p">(</span>
-        <span class="n">cert_or_req_str</span><span class="p">,</span> <span class="n">load_func</span><span class="p">,</span> <span class="n">typ</span><span class="p">))</span>
+        <span class="n">cert_or_req_str</span><span class="p">,</span> <span class="n">load_func</span><span class="p">,</span> <span class="n">typ</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="get_sans_from_cert"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.get_sans_from_cert">[docs]</a><span class="k">def</span> <span class="nf">get_sans_from_cert</span><span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">):</span>
+<div class="viewcode-block" id="get_sans_from_cert"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.get_sans_from_cert">[docs]</a><span class="k">def</span> <span class="nf">get_sans_from_cert</span><span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get a list of Subject Alternative Names from a certificate.</span>
 
 <span class="sd">    :param str cert: Certificate (encoded).</span>
@@ -556,17 +559,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">cert</span><span class="p">,</span> <span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">,</span> <span class="n">typ</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_names_from_cert_or_req</span><span class="p">(</span><span class="n">cert_or_req</span><span class="p">,</span> <span class="n">load_func</span><span class="p">,</span> <span class="n">typ</span><span class="p">):</span>
+<div class="viewcode-block" id="_get_names_from_cert_or_req"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util._get_names_from_cert_or_req">[docs]</a><span class="k">def</span> <span class="nf">_get_names_from_cert_or_req</span><span class="p">(</span><span class="n">cert_or_req</span><span class="p">,</span> <span class="n">load_func</span><span class="p">,</span> <span class="n">typ</span><span class="p">):</span>
     <span class="n">loaded_cert_or_req</span> <span class="o">=</span> <span class="n">_load_cert_or_req</span><span class="p">(</span><span class="n">cert_or_req</span><span class="p">,</span> <span class="n">load_func</span><span class="p">,</span> <span class="n">typ</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_get_names_from_loaded_cert_or_req</span><span class="p">(</span><span class="n">loaded_cert_or_req</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_get_names_from_loaded_cert_or_req</span><span class="p">(</span><span class="n">loaded_cert_or_req</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_names_from_loaded_cert_or_req</span><span class="p">(</span><span class="n">loaded_cert_or_req</span><span class="p">):</span>
+<div class="viewcode-block" id="_get_names_from_loaded_cert_or_req"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util._get_names_from_loaded_cert_or_req">[docs]</a><span class="k">def</span> <span class="nf">_get_names_from_loaded_cert_or_req</span><span class="p">(</span><span class="n">loaded_cert_or_req</span><span class="p">):</span>
     <span class="c1"># pylint: disable=protected-access</span>
-    <span class="k">return</span> <span class="n">acme_crypto_util</span><span class="o">.</span><span class="n">_pyopenssl_cert_or_req_all_names</span><span class="p">(</span><span class="n">loaded_cert_or_req</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">acme_crypto_util</span><span class="o">.</span><span class="n">_pyopenssl_cert_or_req_all_names</span><span class="p">(</span><span class="n">loaded_cert_or_req</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_names_from_cert"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.get_names_from_cert">[docs]</a><span class="k">def</span> <span class="nf">get_names_from_cert</span><span class="p">(</span><span class="n">csr</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">):</span>
+<div class="viewcode-block" id="get_names_from_cert"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.get_names_from_cert">[docs]</a><span class="k">def</span> <span class="nf">get_names_from_cert</span><span class="p">(</span><span class="n">csr</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get a list of domains from a cert, including the CN if it is set.</span>
 
 <span class="sd">    :param str cert: Certificate (encoded).</span>
@@ -580,7 +583,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">csr</span><span class="p">,</span> <span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">,</span> <span class="n">typ</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="dump_pyopenssl_chain"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.dump_pyopenssl_chain">[docs]</a><span class="k">def</span> <span class="nf">dump_pyopenssl_chain</span><span class="p">(</span><span class="n">chain</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">):</span>
+<div class="viewcode-block" id="dump_pyopenssl_chain"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.dump_pyopenssl_chain">[docs]</a><span class="k">def</span> <span class="nf">dump_pyopenssl_chain</span><span class="p">(</span><span class="n">chain</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Dump certificate chain into a bundle.</span>
 
 <span class="sd">    :param list chain: List of `crypto.X509` (or wrapped in</span>
@@ -592,7 +595,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">acme_crypto_util</span><span class="o">.</span><span class="n">dump_pyopenssl_chain</span><span class="p">(</span><span class="n">chain</span><span class="p">,</span> <span class="n">filetype</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="notBefore"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.notBefore">[docs]</a><span class="k">def</span> <span class="nf">notBefore</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
+<div class="viewcode-block" id="notBefore"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.notBefore">[docs]</a><span class="k">def</span> <span class="nf">notBefore</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;When does the cert at cert_path start being valid?</span>
 
 <span class="sd">    :param str cert_path: path to a cert in PEM format</span>
@@ -604,7 +607,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">_notAfterBefore</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">crypto</span><span class="o">.</span><span class="n">X509</span><span class="o">.</span><span class="n">get_notBefore</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="notAfter"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.notAfter">[docs]</a><span class="k">def</span> <span class="nf">notAfter</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
+<div class="viewcode-block" id="notAfter"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.notAfter">[docs]</a><span class="k">def</span> <span class="nf">notAfter</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;When does the cert at cert_path stop being valid?</span>
 
 <span class="sd">    :param str cert_path: path to a cert in PEM format</span>
@@ -616,7 +619,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">_notAfterBefore</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">crypto</span><span class="o">.</span><span class="n">X509</span><span class="o">.</span><span class="n">get_notAfter</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="_notAfterBefore"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util._notAfterBefore">[docs]</a><span class="k">def</span> <span class="nf">_notAfterBefore</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
+<div class="viewcode-block" id="_notAfterBefore"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util._notAfterBefore">[docs]</a><span class="k">def</span> <span class="nf">_notAfterBefore</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Internal helper function for finding notbefore/notafter.</span>
 
 <span class="sd">    :param str cert_path: path to a cert in PEM format</span>
@@ -644,7 +647,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">pyrfc3339</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">timestamp_str</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="sha256sum"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.sha256sum">[docs]</a><span class="k">def</span> <span class="nf">sha256sum</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="sha256sum"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.sha256sum">[docs]</a><span class="k">def</span> <span class="nf">sha256sum</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute a sha256sum of a file.</span>
 
 <span class="sd">    NB: In given file, platform specific newlines characters will be converted</span>
@@ -660,7 +663,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">sha256</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">file_d</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">sha256</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="cert_and_chain_from_fullchain"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.cert_and_chain_from_fullchain">[docs]</a><span class="k">def</span> <span class="nf">cert_and_chain_from_fullchain</span><span class="p">(</span><span class="n">fullchain_pem</span><span class="p">):</span>
+<div class="viewcode-block" id="cert_and_chain_from_fullchain"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.cert_and_chain_from_fullchain">[docs]</a><span class="k">def</span> <span class="nf">cert_and_chain_from_fullchain</span><span class="p">(</span><span class="n">fullchain_pem</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Split fullchain_pem into cert_pem and chain_pem</span>
 
 <span class="sd">    :param str fullchain_pem: concatenated cert + chain</span>
