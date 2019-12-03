@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.util &mdash; Certbot 1.0.0.dev0 documentation</title>
+  <title>certbot.main &mdash; Certbot 1.0.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.util &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.main &mdash; Certbot 1.0.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -54,9 +54,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
     <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../../index.html"/>
-        <link rel="up" title="API Documentation" href="../../api.html"/>
-        <link rel="next" title="certbot.reverter" href="../reverter.html"/>
-        <link rel="prev" title="certbot.plugins.dns_common_lexicon" href="dns_common_lexicon.html"/> 
+        <link rel="up" title="Module code" href="../index.html"/> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
@@ -129,23 +127,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="../../packaging.html">Packaging Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
 </ul>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../../api.html">API Documentation</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../achallenges.html"><code class="docutils literal notranslate"><span class="pre">certbot.achallenges</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../crypto_util.html"><code class="docutils literal notranslate"><span class="pre">certbot.crypto_util</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../display.html"><code class="docutils literal notranslate"><span class="pre">certbot.display</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../errors.html"><code class="docutils literal notranslate"><span class="pre">certbot.errors</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../index.html"><code class="docutils literal notranslate"><span class="pre">certbot</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../interfaces.html"><code class="docutils literal notranslate"><span class="pre">certbot.interfaces</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../main.html"><code class="docutils literal notranslate"><span class="pre">certbot.main</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="common.html"><code class="docutils literal notranslate"><span class="pre">certbot.plugins.common</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="dns_common.html"><code class="docutils literal notranslate"><span class="pre">certbot.plugins.dns_common</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="dns_common_lexicon.html"><code class="docutils literal notranslate"><span class="pre">certbot.plugins.dns_common_lexicon</span></code></a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">certbot.plugins.util</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reverter.html"><code class="docutils literal notranslate"><span class="pre">certbot.reverter</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../util.html"><code class="docutils literal notranslate"><span class="pre">certbot.util</span></code></a></li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Documentation</a></li>
 </ul>
 
             
@@ -168,7 +151,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <div class="rst-content">
           
 
- 
+
 
 
 
@@ -182,13 +165,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-        <li><a href="../../api.html">API Documentation</a> &raquo;</li>
+        <li><a href="../index.html">Module code</a> &raquo;</li>
       
-    <li><code class="docutils literal notranslate"><span class="pre">certbot.plugins.util</span></code></li>
+    <li>certbot.main</li>
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/api/plugins/util.rst" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/_modules/certbot/main" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -198,50 +181,22 @@ Like looking at code? Help us! https://github.com/certbot/certbot
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-certbot.plugins.util">
-<span id="certbot-plugins-util"></span><h1><a class="reference internal" href="#module-certbot.plugins.util" title="certbot.plugins.util"><code class="xref py py-mod docutils literal notranslate"><span class="pre">certbot.plugins.util</span></code></a><a class="headerlink" href="#module-certbot.plugins.util" title="Permalink to this headline">¶</a></h1>
-<p>Plugin utilities.</p>
-<dl class="function">
-<dt id="certbot.plugins.util.get_prefixes">
-<code class="descclassname">certbot.plugins.util.</code><code class="descname">get_prefixes</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/util.html#get_prefixes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.util.get_prefixes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieves all possible path prefixes of a path, in descending order
-of length. For instance,</p>
-<blockquote>
-<div>(linux) /a/b/c returns [‘/a/b/c’, ‘/a/b’, ‘/a’, ‘/’]
-(windows) C:abc returns [‘C:abc’, ‘C:ab’, ‘C:a’, ‘C:’]</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the path to break into prefixes</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">all possible path prefixes of given path in descending order</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+  <h1>Source code for certbot.main</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Certbot main public entry point.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">main</span> <span class="k">as</span> <span class="n">internal_main</span>
 
-<dl class="function">
-<dt id="certbot.plugins.util.path_surgery">
-<code class="descclassname">certbot.plugins.util.</code><code class="descname">path_surgery</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/certbot/plugins/util.html#path_surgery"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.util.path_surgery" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attempt to perform PATH surgery to find cmd</p>
-<p>Mitigates <a class="reference external" href="https://github.com/certbot/certbot/issues/1833">https://github.com/certbot/certbot/issues/1833</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the command that is being searched for in the PATH</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the operation succeeded, False otherwise</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
 
-</div>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../api/main.html#certbot.main.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">cli_args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Command line argument parsing and main script execution.</span>
 
+<span class="sd">    :returns: result of requested command</span>
+
+<span class="sd">    :raises errors.Error: OS errors triggered by wrong permissions</span>
+<span class="sd">    :raises errors.Error: error if plugin command is not supported</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">internal_main</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">cli_args</span><span class="p">)</span></div>
+</pre></div>
 
            </div>
           </div>
@@ -324,7 +279,7 @@ of length. For instance,</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.util%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.main%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

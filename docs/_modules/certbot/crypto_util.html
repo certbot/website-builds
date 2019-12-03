@@ -171,7 +171,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/crypto_util" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/_modules/certbot/crypto_util" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -397,26 +397,28 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        2. That fullchain matches cert and chain when concatenated.</span>
 <span class="sd">        3. Check that the private key matches the certificate.</span>
 
-<span class="sd">    :param `.storage.RenewableCert` renewable_cert: cert to verify</span>
+<span class="sd">    :param renewable_cert: cert to verify</span>
+<span class="sd">    :type renewable_cert: certbot.interfaces.RenewableCert</span>
 
 <span class="sd">    :raises errors.Error: If verification fails.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">verify_renewable_cert_sig</span><span class="p">(</span><span class="n">renewable_cert</span><span class="p">)</span>
     <span class="n">verify_fullchain</span><span class="p">(</span><span class="n">renewable_cert</span><span class="p">)</span>
-    <span class="n">verify_cert_matches_priv_key</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert</span><span class="p">,</span> <span class="n">renewable_cert</span><span class="o">.</span><span class="n">privkey</span><span class="p">)</span></div>
+    <span class="n">verify_cert_matches_priv_key</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">renewable_cert</span><span class="o">.</span><span class="n">key_path</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="verify_renewable_cert_sig"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.verify_renewable_cert_sig">[docs]</a><span class="k">def</span> <span class="nf">verify_renewable_cert_sig</span><span class="p">(</span><span class="n">renewable_cert</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Verifies the signature of a `.storage.RenewableCert` object.</span>
+    <span class="sd">&quot;&quot;&quot;Verifies the signature of a RenewableCert object.</span>
 
-<span class="sd">    :param `.storage.RenewableCert` renewable_cert: cert to verify</span>
+<span class="sd">    :param renewable_cert: cert to verify</span>
+<span class="sd">    :type renewable_cert: certbot.interfaces.RenewableCert</span>
 
 <span class="sd">    :raises errors.Error: If signature verification fails.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">chain</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">chain_file</span><span class="p">:</span>  <span class="c1"># type: IO[bytes]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">chain_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">chain_file</span><span class="p">:</span>  <span class="c1"># type: IO[bytes]</span>
             <span class="n">chain</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">load_pem_x509_certificate</span><span class="p">(</span><span class="n">chain_file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">default_backend</span><span class="p">())</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cert_file</span><span class="p">:</span>  <span class="c1"># type: IO[bytes]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cert_file</span><span class="p">:</span>  <span class="c1"># type: IO[bytes]</span>
             <span class="n">cert</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">load_pem_x509_certificate</span><span class="p">(</span><span class="n">cert_file</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">default_backend</span><span class="p">())</span>
         <span class="n">pk</span> <span class="o">=</span> <span class="n">chain</span><span class="o">.</span><span class="n">public_key</span><span class="p">()</span>
         <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
@@ -424,7 +426,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                                   <span class="n">cert</span><span class="o">.</span><span class="n">signature_hash_algorithm</span><span class="p">)</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="n">InvalidSignature</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">error_str</span> <span class="o">=</span> <span class="s2">&quot;verifying the signature of the cert located at </span><span class="si">{0}</span><span class="s2"> has failed. </span><span class="se">\</span>
-<span class="s2">                Details: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+<span class="s2">                Details: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span></div>
 
@@ -485,16 +487,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="viewcode-block" id="verify_fullchain"><a class="viewcode-back" href="../../api/crypto_util.html#certbot.crypto_util.verify_fullchain">[docs]</a><span class="k">def</span> <span class="nf">verify_fullchain</span><span class="p">(</span><span class="n">renewable_cert</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Verifies that fullchain is indeed cert concatenated with chain.</span>
 
-<span class="sd">    :param `.storage.RenewableCert` renewable_cert: cert to verify</span>
+<span class="sd">    :param renewable_cert: cert to verify</span>
+<span class="sd">    :type renewable_cert: certbot.interfaces.RenewableCert</span>
 
 <span class="sd">    :raises errors.Error: If cert and chain do not combine to fullchain.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">chain</span><span class="p">)</span> <span class="k">as</span> <span class="n">chain_file</span><span class="p">:</span>  <span class="c1"># type: IO[str]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">chain_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">chain_file</span><span class="p">:</span>  <span class="c1"># type: IO[str]</span>
             <span class="n">chain</span> <span class="o">=</span> <span class="n">chain_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert</span><span class="p">)</span> <span class="k">as</span> <span class="n">cert_file</span><span class="p">:</span>  <span class="c1"># type: IO[str]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">cert_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">cert_file</span><span class="p">:</span>  <span class="c1"># type: IO[str]</span>
             <span class="n">cert</span> <span class="o">=</span> <span class="n">cert_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">fullchain</span><span class="p">)</span> <span class="k">as</span> <span class="n">fullchain_file</span><span class="p">:</span>  <span class="c1"># type: IO[str]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">renewable_cert</span><span class="o">.</span><span class="n">fullchain_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">fullchain_file</span><span class="p">:</span>  <span class="c1"># type: IO[str]</span>
             <span class="n">fullchain</span> <span class="o">=</span> <span class="n">fullchain_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">cert</span> <span class="o">+</span> <span class="n">chain</span><span class="p">)</span> <span class="o">!=</span> <span class="n">fullchain</span><span class="p">:</span>
             <span class="n">error_str</span> <span class="o">=</span> <span class="s2">&quot;fullchain does not match cert + chain for </span><span class="si">{0}</span><span class="s2">!&quot;</span>

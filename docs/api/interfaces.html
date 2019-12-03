@@ -55,7 +55,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Documentation" href="../api.html"/>
-        <link rel="next" title="certbot.plugins.common" href="plugins/common.html"/>
+        <link rel="next" title="certbot.main" href="main.html"/>
         <link rel="prev" title="certbot" href="index.html"/> 
 
   
@@ -137,6 +137,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l2"><a class="reference internal" href="errors.html"><code class="docutils literal notranslate"><span class="pre">certbot.errors</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html"><code class="docutils literal notranslate"><span class="pre">certbot</span></code></a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">certbot.interfaces</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html"><code class="docutils literal notranslate"><span class="pre">certbot.main</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/common.html"><code class="docutils literal notranslate"><span class="pre">certbot.plugins.common</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/dns_common.html"><code class="docutils literal notranslate"><span class="pre">certbot.plugins.dns_common</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/dns_common_lexicon.html"><code class="docutils literal notranslate"><span class="pre">certbot.plugins.dns_common_lexicon</span></code></a></li>
@@ -187,7 +188,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/api/interfaces.rst" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/api/interfaces.rst" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -1026,6 +1027,102 @@ the program exits abnormally.</li>
 </dd></dl>
 
 <dl class="class">
+<dt id="certbot.interfaces.RenewableCert">
+<em class="property">class </em><code class="descclassname">certbot.interfaces.</code><code class="descname">RenewableCert</code><a class="reference internal" href="../_modules/certbot/interfaces.html#RenewableCert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.interfaces.RenewableCert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Interface to a certificate lineage.</p>
+<dl class="attribute">
+<dt id="certbot.interfaces.RenewableCert.cert_path">
+<code class="descname">cert_path</code><a class="headerlink" href="#certbot.interfaces.RenewableCert.cert_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the certificate file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.interfaces.RenewableCert.key_path">
+<code class="descname">key_path</code><a class="headerlink" href="#certbot.interfaces.RenewableCert.key_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the private key file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.interfaces.RenewableCert.chain_path">
+<code class="descname">chain_path</code><a class="headerlink" href="#certbot.interfaces.RenewableCert.chain_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the certificate chain file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.interfaces.RenewableCert.fullchain_path">
+<code class="descname">fullchain_path</code><a class="headerlink" href="#certbot.interfaces.RenewableCert.fullchain_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the full chain file.</p>
+<p>The full chain is the certificate file plus the chain file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.interfaces.RenewableCert.lineagename">
+<code class="descname">lineagename</code><a class="headerlink" href="#certbot.interfaces.RenewableCert.lineagename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name given to the certificate lineage.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.interfaces.RenewableCert.names">
+<code class="descname">names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#RenewableCert.names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.interfaces.RenewableCert.names" title="Permalink to this definition">¶</a></dt>
+<dd><p>What are the subject names of this certificate?</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the subject names</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="errors.html#certbot.errors.CertStorageError" title="certbot.errors.CertStorageError"><strong>CertStorageError</strong></a> – if could not find cert file.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="certbot.interfaces.GenericUpdater">
 <em class="property">class </em><code class="descclassname">certbot.interfaces.</code><code class="descname">GenericUpdater</code><a class="reference internal" href="../_modules/certbot/interfaces.html#GenericUpdater"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.interfaces.GenericUpdater" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
@@ -1051,7 +1148,7 @@ installer needs to handle checking the conditions itself.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lineage</strong> (<em>storage.RenewableCert</em>) – Certificate lineage object</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lineage</strong> (<a class="reference internal" href="#certbot.interfaces.RenewableCert" title="certbot.interfaces.RenewableCert"><em>RenewableCert</em></a>) – Certificate lineage object</td>
 </tr>
 </tbody>
 </table>
@@ -1082,7 +1179,7 @@ certificate over, or change configuration based on the new certificate.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lineage</strong> (<em>storage.RenewableCert</em>) – Certificate lineage object</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lineage</strong> (<a class="reference internal" href="#certbot.interfaces.RenewableCert" title="certbot.interfaces.RenewableCert"><em>RenewableCert</em></a>) – Certificate lineage object</td>
 </tr>
 </tbody>
 </table>

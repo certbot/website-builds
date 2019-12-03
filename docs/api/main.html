@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.achallenges &mdash; Certbot 1.0.0.dev0 documentation</title>
+  <title>certbot.main &mdash; Certbot 1.0.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.achallenges &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.main &mdash; Certbot 1.0.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -55,8 +55,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="API Documentation" href="../api.html"/>
-        <link rel="next" title="certbot.crypto_util" href="crypto_util.html"/>
-        <link rel="prev" title="API Documentation" href="../api.html"/> 
+        <link rel="next" title="certbot.plugins.common" href="plugins/common.html"/>
+        <link rel="prev" title="certbot.interfaces" href="interfaces.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -131,13 +131,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">certbot.achallenges</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="achallenges.html"><code class="docutils literal notranslate"><span class="pre">certbot.achallenges</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="crypto_util.html"><code class="docutils literal notranslate"><span class="pre">certbot.crypto_util</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="display.html"><code class="docutils literal notranslate"><span class="pre">certbot.display</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="errors.html"><code class="docutils literal notranslate"><span class="pre">certbot.errors</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html"><code class="docutils literal notranslate"><span class="pre">certbot</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="interfaces.html"><code class="docutils literal notranslate"><span class="pre">certbot.interfaces</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="main.html"><code class="docutils literal notranslate"><span class="pre">certbot.main</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">certbot.main</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/common.html"><code class="docutils literal notranslate"><span class="pre">certbot.plugins.common</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/dns_common.html"><code class="docutils literal notranslate"><span class="pre">certbot.plugins.dns_common</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="plugins/dns_common_lexicon.html"><code class="docutils literal notranslate"><span class="pre">certbot.plugins.dns_common_lexicon</span></code></a></li>
@@ -184,11 +184,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
       
         <li><a href="../api.html">API Documentation</a> &raquo;</li>
       
-    <li><code class="docutils literal notranslate"><span class="pre">certbot.achallenges</span></code></li>
+    <li><code class="docutils literal notranslate"><span class="pre">certbot.main</span></code></li>
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/api/achallenges.rst" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/api/main.rst" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -198,66 +198,28 @@ Like looking at code? Help us! https://github.com/certbot/certbot
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-certbot.achallenges">
-<span id="certbot-achallenges"></span><h1><a class="reference internal" href="#module-certbot.achallenges" title="certbot.achallenges"><code class="xref py py-mod docutils literal notranslate"><span class="pre">certbot.achallenges</span></code></a><a class="headerlink" href="#module-certbot.achallenges" title="Permalink to this headline">¶</a></h1>
-<p>Client annotated ACME challenges.</p>
-<p>Please use names such as <code class="docutils literal notranslate"><span class="pre">achall</span></code> to distinguish from variables “of type”
-<a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.Challenge" title="(in acme-python v0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">acme.challenges.Challenge</span></code></a> (denoted by <code class="docutils literal notranslate"><span class="pre">chall</span></code>)
-and <code class="xref py py-class docutils literal notranslate"><span class="pre">ChallengeBody</span></code> (denoted by <code class="docutils literal notranslate"><span class="pre">challb</span></code>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">challenges</span>
-<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">messages</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">achallenges</span>
-
-<span class="n">chall</span> <span class="o">=</span> <span class="n">challenges</span><span class="o">.</span><span class="n">DNS</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
-<span class="n">challb</span> <span class="o">=</span> <span class="n">messages</span><span class="o">.</span><span class="n">ChallengeBody</span><span class="p">(</span><span class="n">chall</span><span class="o">=</span><span class="n">chall</span><span class="p">)</span>
-<span class="n">achall</span> <span class="o">=</span> <span class="n">achallenges</span><span class="o">.</span><span class="n">DNS</span><span class="p">(</span><span class="n">chall</span><span class="o">=</span><span class="n">challb</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s1">&#39;example.com&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Note, that all annotated challenges act as a proxy objects:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">achall</span><span class="o">.</span><span class="n">token</span> <span class="o">==</span> <span class="n">challb</span><span class="o">.</span><span class="n">token</span>
-</pre></div>
-</div>
-<dl class="class">
-<dt id="certbot.achallenges.AnnotatedChallenge">
-<em class="property">class </em><code class="descclassname">certbot.achallenges.</code><code class="descname">AnnotatedChallenge</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/achallenges.html#AnnotatedChallenge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.achallenges.AnnotatedChallenge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">josepy.util.ImmutableMap</span></code></p>
-<p>Client annotated challenge.</p>
-<p>Wraps around server provided challenge and annotates with data
-useful for the client.</p>
+  <div class="section" id="module-certbot.main">
+<span id="certbot-main"></span><h1><a class="reference internal" href="#module-certbot.main" title="certbot.main"><code class="xref py py-mod docutils literal notranslate"><span class="pre">certbot.main</span></code></a><a class="headerlink" href="#module-certbot.main" title="Permalink to this headline">¶</a></h1>
+<p>Certbot main public entry point.</p>
+<dl class="function">
+<dt id="certbot.main.main">
+<code class="descclassname">certbot.main.</code><code class="descname">main</code><span class="sig-paren">(</span><em>cli_args=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/main.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.main.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Command line argument parsing and main script execution.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><strong>challb</strong> – Wrapped <code class="xref py py-obj docutils literal notranslate"><span class="pre">ChallengeBody</span></code>.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">result of requested command</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – OS errors triggered by wrong permissions</li>
+<li><a class="reference internal" href="errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – error if plugin command is not supported</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="class">
-<dt id="certbot.achallenges.KeyAuthorizationAnnotatedChallenge">
-<em class="property">class </em><code class="descclassname">certbot.achallenges.</code><code class="descname">KeyAuthorizationAnnotatedChallenge</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/achallenges.html#KeyAuthorizationAnnotatedChallenge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.achallenges.KeyAuthorizationAnnotatedChallenge" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.achallenges.AnnotatedChallenge</span></code></a></p>
-<p>Client annotated <code class="xref py py-obj docutils literal notranslate"><span class="pre">KeyAuthorizationChallenge</span></code> challenge.</p>
-<dl class="method">
-<dt id="certbot.achallenges.KeyAuthorizationAnnotatedChallenge.response_and_validation">
-<code class="descname">response_and_validation</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/achallenges.html#KeyAuthorizationAnnotatedChallenge.response_and_validation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.achallenges.KeyAuthorizationAnnotatedChallenge.response_and_validation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate response and validation.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="certbot.achallenges.DNS">
-<em class="property">class </em><code class="descclassname">certbot.achallenges.</code><code class="descname">DNS</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/achallenges.html#DNS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.achallenges.DNS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.achallenges.AnnotatedChallenge</span></code></a></p>
-<p>Client annotated “dns” ACME challenge.</p>
-<dl class="attribute">
-<dt id="certbot.achallenges.DNS.acme_type">
-<code class="descname">acme_type</code><a class="headerlink" href="#certbot.achallenges.DNS.acme_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.DNS" title="(in acme-python v0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">acme.challenges.DNS</span></code></a></p>
-</dd></dl>
-
 </dd></dl>
 
 </div>
@@ -344,7 +306,7 @@ useful for the client.</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.achallenges%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.main%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
