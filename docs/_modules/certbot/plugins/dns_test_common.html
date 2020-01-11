@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.dns_test_common &mdash; Certbot 1.0.0.dev0 documentation</title>
+  <title>certbot.plugins.dns_test_common &mdash; Certbot 1.1.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.dns_test_common &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.dns_test_common &mdash; Certbot 1.1.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.1.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.0
+                1.1
               </div>
             
           
@@ -190,7 +190,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">six</span>
 
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">challenges</span>
-
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">achallenges</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">filesystem</span>
 <span class="kn">from</span> <span class="nn">certbot.tests</span> <span class="k">import</span> <span class="n">acme_util</span>
@@ -213,18 +212,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">challb</span><span class="o">=</span><span class="n">acme_util</span><span class="o">.</span><span class="n">DNS01</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">DOMAIN</span><span class="p">,</span> <span class="n">account_key</span><span class="o">=</span><span class="n">KEY</span><span class="p">)</span>
 
 <div class="viewcode-block" id="BaseAuthenticatorTest.test_more_info"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_test_common.html#certbot.plugins.dns_test_common.BaseAuthenticatorTest.test_more_info">[docs]</a>    <span class="k">def</span> <span class="nf">test_more_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># pylint: disable=no-member</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">more_info</span><span class="p">(),</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">more_info</span><span class="p">(),</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">))</span>  <span class="c1"># pylint: disable=no-member</span></div>
 
 <div class="viewcode-block" id="BaseAuthenticatorTest.test_get_chall_pref"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_test_common.html#certbot.plugins.dns_test_common.BaseAuthenticatorTest.test_get_chall_pref">[docs]</a>    <span class="k">def</span> <span class="nf">test_get_chall_pref</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># pylint: disable=no-member</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">get_chall_pref</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="p">[</span><span class="n">challenges</span><span class="o">.</span><span class="n">DNS01</span><span class="p">])</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">get_chall_pref</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="p">[</span><span class="n">challenges</span><span class="o">.</span><span class="n">DNS01</span><span class="p">])</span>  <span class="c1"># pylint: disable=no-member</span></div>
 
 <div class="viewcode-block" id="BaseAuthenticatorTest.test_parser_arguments"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_test_common.html#certbot.plugins.dns_test_common.BaseAuthenticatorTest.test_parser_arguments">[docs]</a>    <span class="k">def</span> <span class="nf">test_parser_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">mock</span><span class="o">.</span><span class="n">MagicMock</span><span class="p">()</span>
-
-        <span class="c1"># pylint: disable=no-member</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">add_parser_arguments</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">add_parser_arguments</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>  <span class="c1"># pylint: disable=no-member</span>
 
         <span class="n">m</span><span class="o">.</span><span class="n">assert_any_call</span><span class="p">(</span><span class="s1">&#39;propagation-seconds&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">mock</span><span class="o">.</span><span class="n">ANY</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">mock</span><span class="o">.</span><span class="n">ANY</span><span class="p">)</span></div></div>
 
@@ -301,7 +296,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0.0.dev0',
+            VERSION:'1.1.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -328,7 +323,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.dns_test_common%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.dns_test_common%E2%80%94%20Certbot%201.1.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
