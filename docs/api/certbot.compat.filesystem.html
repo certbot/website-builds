@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.compat.filesystem module &mdash; Certbot 1.0.0.dev0 documentation</title>
+  <title>certbot.compat.filesystem module &mdash; Certbot 1.3.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.compat.filesystem module &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.compat.filesystem module &mdash; Certbot 1.3.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 1.3.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="certbot.compat package" href="certbot.compat.html"/>
         <link rel="next" title="certbot.compat.misc module" href="certbot.compat.misc.html"/>
         <link rel="prev" title="certbot.compat package" href="certbot.compat.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.0
+                1.3
               </div>
             
           
@@ -127,6 +127,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
 </ul>
 <ul class="current">
@@ -394,57 +395,6 @@ On Windows, group permissions are ignored since files do not have a group owner.
 :rtype: bool</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="certbot.compat.filesystem._win_is_executable">
-<code class="descclassname">certbot.compat.filesystem.</code><code class="descname">_win_is_executable</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#_win_is_executable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem._win_is_executable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="certbot.compat.filesystem._apply_win_mode">
-<code class="descclassname">certbot.compat.filesystem.</code><code class="descname">_apply_win_mode</code><span class="sig-paren">(</span><em>file_path</em>, <em>mode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#_apply_win_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem._apply_win_mode" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function converts the given POSIX mode into a Windows ACL list, and applies it to the
-file given its path. If the given path is a symbolic link, it will resolved to apply the
-mode on the targeted file.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="certbot.compat.filesystem._generate_dacl">
-<code class="descclassname">certbot.compat.filesystem.</code><code class="descname">_generate_dacl</code><span class="sig-paren">(</span><em>user_sid</em>, <em>mode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#_generate_dacl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem._generate_dacl" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="certbot.compat.filesystem._analyze_mode">
-<code class="descclassname">certbot.compat.filesystem.</code><code class="descname">_analyze_mode</code><span class="sig-paren">(</span><em>mode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#_analyze_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem._analyze_mode" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="certbot.compat.filesystem._copy_win_ownership">
-<code class="descclassname">certbot.compat.filesystem.</code><code class="descname">_copy_win_ownership</code><span class="sig-paren">(</span><em>src</em>, <em>dst</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#_copy_win_ownership"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem._copy_win_ownership" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="certbot.compat.filesystem._generate_windows_flags">
-<code class="descclassname">certbot.compat.filesystem.</code><code class="descname">_generate_windows_flags</code><span class="sig-paren">(</span><em>rights_desc</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#_generate_windows_flags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem._generate_windows_flags" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="certbot.compat.filesystem._check_win_mode">
-<code class="descclassname">certbot.compat.filesystem.</code><code class="descname">_check_win_mode</code><span class="sig-paren">(</span><em>file_path</em>, <em>mode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#_check_win_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem._check_win_mode" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="certbot.compat.filesystem._compare_dacls">
-<code class="descclassname">certbot.compat.filesystem.</code><code class="descname">_compare_dacls</code><span class="sig-paren">(</span><em>dacl1</em>, <em>dacl2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#_compare_dacls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem._compare_dacls" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method compare the two given DACLs to check if they are identical.
-Identical means here that they contains the same set of ACEs in the same order.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="certbot.compat.filesystem._get_current_user">
-<code class="descclassname">certbot.compat.filesystem.</code><code class="descname">_get_current_user</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#_get_current_user"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem._get_current_user" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the pySID corresponding to the current user.</p>
-</dd></dl>
-
 </div>
 
 
@@ -502,7 +452,7 @@ Identical means here that they contains the same set of ACEs in the same order.<
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0.0.dev0',
+            VERSION:'1.3.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -529,7 +479,7 @@ Identical means here that they contains the same set of ACEs in the same order.<
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.filesystem%20module%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.filesystem%20module%E2%80%94%20Certbot%201.3.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
