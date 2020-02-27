@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>acme.challenges &mdash; Certbot 1.0.0.dev0 documentation</title>
+  <title>acme.challenges &mdash; Certbot 1.3.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="acme.challenges &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:title" content="acme.challenges &mdash; Certbot 1.3.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 1.3.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.0
+                1.3
               </div>
             
           
@@ -125,6 +125,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="../../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
 </ul>
 <ul>
@@ -238,8 +239,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;jobj&quot;</span><span class="p">,</span> <span class="n">jobj</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">to_partial_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># pylint: disable=no-member</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jobj</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jobj</span>  <span class="c1"># pylint: disable=no-member</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">jobj</span><span class="p">):</span>
@@ -297,7 +297,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        :rtype: bool</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>  <span class="c1"># pylint: disable=no-member</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Key authorization (</span><span class="si">%r</span><span class="s2">) is not well formed&quot;</span><span class="p">,</span>
                          <span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span><span class="p">)</span>
@@ -488,7 +488,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">uri</span> <span class="o">=</span> <span class="n">chall</span><span class="o">.</span><span class="n">uri</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Verifying </span><span class="si">%s</span><span class="s2"> at </span><span class="si">%s</span><span class="s2">...&quot;</span><span class="p">,</span> <span class="n">chall</span><span class="o">.</span><span class="n">typ</span><span class="p">,</span> <span class="n">uri</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">http_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+            <span class="n">http_response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unable to reach </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">False</span>
@@ -709,7 +709,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.0.0.dev0',
+            VERSION:'1.3.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -736,7 +736,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=acme.challenges%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=acme.challenges%E2%80%94%20Certbot%201.3.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

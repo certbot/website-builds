@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.compat.filesystem &mdash; Certbot 1.0.0.dev0 documentation</title>
+  <title>certbot.compat.filesystem &mdash; Certbot 1.3.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.compat.filesystem &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.compat.filesystem &mdash; Certbot 1.3.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.3.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.0
+                1.3
               </div>
             
           
@@ -125,6 +125,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="../../../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../resources.html">Resources</a></li>
 </ul>
 <ul>
@@ -189,6 +190,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">os</span>  <span class="c1"># pylint: disable=os-module-forbidden</span>
 <span class="kn">import</span> <span class="nn">stat</span>
 
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Tuple</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Union</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+
 <span class="k">try</span><span class="p">:</span>
     <span class="c1"># pylint: disable=import-error</span>
     <span class="kn">import</span> <span class="nn">ntsecuritycon</span>
@@ -203,8 +208,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">POSIX_MODE</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="n">POSIX_MODE</span> <span class="o">=</span> <span class="kc">False</span>
-
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
 
 
 <div class="viewcode-block" id="chmod"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.chmod">[docs]</a><span class="k">def</span> <span class="nf">chmod</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
@@ -253,6 +256,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">stats</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
         <span class="n">user_id</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">st_uid</span> <span class="k">if</span> <span class="n">copy_user</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
         <span class="n">group_id</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">st_gid</span> <span class="k">if</span> <span class="n">copy_group</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="c1"># On Windows, os.chown does not exist. This is checked through POSIX_MODE value,</span>
+        <span class="c1"># but MyPy/PyLint does not know it and raises an error here on Windows.</span>
+        <span class="c1"># We disable specifically the check to fix the issue.</span>
         <span class="n">os</span><span class="o">.</span><span class="n">chown</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">group_id</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">copy_user</span><span class="p">:</span>
         <span class="c1"># There is no group handling in Windows</span>
@@ -287,7 +293,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :return: True if given file is owned by current user, False otherwise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">POSIX_MODE</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">st_uid</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">getuid</span><span class="p">()</span>
+        <span class="c1"># On Windows, os.getuid does not exist. This is checked through POSIX_MODE value,</span>
+        <span class="c1"># but MyPy/PyLint does not know it and raises an error here on Windows.</span>
+        <span class="c1"># We disable specifically the check to fix the issue.</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">st_uid</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">getuid</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
 
     <span class="c1"># Get owner sid of the file</span>
     <span class="n">security</span> <span class="o">=</span> <span class="n">win32security</span><span class="o">.</span><span class="n">GetFileSecurity</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">win32security</span><span class="o">.</span><span class="n">OWNER_SECURITY_INFORMATION</span><span class="p">)</span>
@@ -439,7 +448,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :param str dst: The new file path.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s1">&#39;replace&#39;</span><span class="p">):</span>
-        <span class="c1"># Use replace if possible. On Windows, only Python &gt;= 3.4 is supported</span>
+        <span class="c1"># Use replace if possible. On Windows, only Python &gt;= 3.5 is supported</span>
         <span class="c1"># so we can assume that os.replace() is always available for this platform.</span>
         <span class="nb">getattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s1">&#39;replace&#39;</span><span class="p">)(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -610,7 +619,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="kc">True</span></div>
 
 
-<div class="viewcode-block" id="_win_is_executable"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem._win_is_executable">[docs]</a><span class="k">def</span> <span class="nf">_win_is_executable</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_win_is_executable</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">False</span>
 
@@ -623,10 +632,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="s1">&#39;Identifier&#39;</span><span class="p">:</span> <span class="n">_get_current_user</span><span class="p">(),</span>
     <span class="p">})</span>
 
-    <span class="k">return</span> <span class="n">mode</span> <span class="o">&amp;</span> <span class="n">ntsecuritycon</span><span class="o">.</span><span class="n">FILE_GENERIC_EXECUTE</span> <span class="o">==</span> <span class="n">ntsecuritycon</span><span class="o">.</span><span class="n">FILE_GENERIC_EXECUTE</span></div>
+    <span class="k">return</span> <span class="n">mode</span> <span class="o">&amp;</span> <span class="n">ntsecuritycon</span><span class="o">.</span><span class="n">FILE_GENERIC_EXECUTE</span> <span class="o">==</span> <span class="n">ntsecuritycon</span><span class="o">.</span><span class="n">FILE_GENERIC_EXECUTE</span>
 
 
-<div class="viewcode-block" id="_apply_win_mode"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem._apply_win_mode">[docs]</a><span class="k">def</span> <span class="nf">_apply_win_mode</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_apply_win_mode</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function converts the given POSIX mode into a Windows ACL list, and applies it to the</span>
 <span class="sd">    file given its path. If the given path is a symbolic link, it will resolved to apply the</span>
@@ -642,10 +651,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="c1"># Apply the new DACL</span>
     <span class="n">security</span><span class="o">.</span><span class="n">SetSecurityDescriptorDacl</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dacl</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">win32security</span><span class="o">.</span><span class="n">SetFileSecurity</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">win32security</span><span class="o">.</span><span class="n">DACL_SECURITY_INFORMATION</span><span class="p">,</span> <span class="n">security</span><span class="p">)</span></div>
+    <span class="n">win32security</span><span class="o">.</span><span class="n">SetFileSecurity</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">win32security</span><span class="o">.</span><span class="n">DACL_SECURITY_INFORMATION</span><span class="p">,</span> <span class="n">security</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="_generate_dacl"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem._generate_dacl">[docs]</a><span class="k">def</span> <span class="nf">_generate_dacl</span><span class="p">(</span><span class="n">user_sid</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_generate_dacl</span><span class="p">(</span><span class="n">user_sid</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
     <span class="n">analysis</span> <span class="o">=</span> <span class="n">_analyze_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
 
     <span class="c1"># Get standard accounts from &quot;well-known&quot; sid</span>
@@ -676,10 +685,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">dacl</span><span class="o">.</span><span class="n">AddAccessAllowedAce</span><span class="p">(</span><span class="n">win32security</span><span class="o">.</span><span class="n">ACL_REVISION</span><span class="p">,</span> <span class="n">full_permissions</span><span class="p">,</span> <span class="n">system</span><span class="p">)</span>
     <span class="n">dacl</span><span class="o">.</span><span class="n">AddAccessAllowedAce</span><span class="p">(</span><span class="n">win32security</span><span class="o">.</span><span class="n">ACL_REVISION</span><span class="p">,</span> <span class="n">full_permissions</span><span class="p">,</span> <span class="n">admins</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">dacl</span></div>
+    <span class="k">return</span> <span class="n">dacl</span>
 
 
-<div class="viewcode-block" id="_analyze_mode"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem._analyze_mode">[docs]</a><span class="k">def</span> <span class="nf">_analyze_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_analyze_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">{</span>
         <span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="p">{</span>
             <span class="s1">&#39;read&#39;</span><span class="p">:</span> <span class="n">mode</span> <span class="o">&amp;</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IRUSR</span><span class="p">,</span>
@@ -691,10 +700,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="s1">&#39;write&#39;</span><span class="p">:</span> <span class="n">mode</span> <span class="o">&amp;</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IWOTH</span><span class="p">,</span>
             <span class="s1">&#39;execute&#39;</span><span class="p">:</span> <span class="n">mode</span> <span class="o">&amp;</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IXOTH</span><span class="p">,</span>
         <span class="p">},</span>
-    <span class="p">}</span></div>
+    <span class="p">}</span>
 
 
-<div class="viewcode-block" id="_copy_win_ownership"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem._copy_win_ownership">[docs]</a><span class="k">def</span> <span class="nf">_copy_win_ownership</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_copy_win_ownership</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">):</span>
     <span class="n">security_src</span> <span class="o">=</span> <span class="n">win32security</span><span class="o">.</span><span class="n">GetFileSecurity</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">win32security</span><span class="o">.</span><span class="n">OWNER_SECURITY_INFORMATION</span><span class="p">)</span>
     <span class="n">user_src</span> <span class="o">=</span> <span class="n">security_src</span><span class="o">.</span><span class="n">GetSecurityDescriptorOwner</span><span class="p">()</span>
 
@@ -703,10 +712,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="c1"># default mechanism, but is explicitly set instead. This is obviously what we are doing here.</span>
     <span class="n">security_dst</span><span class="o">.</span><span class="n">SetSecurityDescriptorOwner</span><span class="p">(</span><span class="n">user_src</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">win32security</span><span class="o">.</span><span class="n">SetFileSecurity</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">win32security</span><span class="o">.</span><span class="n">OWNER_SECURITY_INFORMATION</span><span class="p">,</span> <span class="n">security_dst</span><span class="p">)</span></div>
+    <span class="n">win32security</span><span class="o">.</span><span class="n">SetFileSecurity</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">win32security</span><span class="o">.</span><span class="n">OWNER_SECURITY_INFORMATION</span><span class="p">,</span> <span class="n">security_dst</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="_generate_windows_flags"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem._generate_windows_flags">[docs]</a><span class="k">def</span> <span class="nf">_generate_windows_flags</span><span class="p">(</span><span class="n">rights_desc</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_generate_windows_flags</span><span class="p">(</span><span class="n">rights_desc</span><span class="p">):</span>
     <span class="c1"># Some notes about how each POSIX right is interpreted.</span>
     <span class="c1">#</span>
     <span class="c1"># For the rights read and execute, we have a pretty bijective relation between</span>
@@ -717,7 +726,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="c1"># write access on Linux: for Windows, FILE_GENERIC_WRITE does not include delete, move or</span>
     <span class="c1"># rename. This is something that requires ntsecuritycon.FILE_ALL_ACCESS.</span>
     <span class="c1"># So to reproduce the write right as POSIX, we will apply ntsecuritycon.FILE_ALL_ACCESS</span>
-    <span class="c1"># substracted of the rights corresponding to POSIX read and POSIX execute.</span>
+    <span class="c1"># subtracted of the rights corresponding to POSIX read and POSIX execute.</span>
     <span class="c1">#</span>
     <span class="c1"># Finally, having read + write + execute gives a ntsecuritycon.FILE_ALL_ACCESS,</span>
     <span class="c1"># so a &quot;Full Control&quot; on the file.</span>
@@ -734,10 +743,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">if</span> <span class="n">rights_desc</span><span class="p">[</span><span class="s1">&#39;execute&#39;</span><span class="p">]:</span>
         <span class="n">flag</span> <span class="o">=</span> <span class="n">flag</span> <span class="o">|</span> <span class="n">ntsecuritycon</span><span class="o">.</span><span class="n">FILE_GENERIC_EXECUTE</span>
 
-    <span class="k">return</span> <span class="n">flag</span></div>
+    <span class="k">return</span> <span class="n">flag</span>
 
 
-<div class="viewcode-block" id="_check_win_mode"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem._check_win_mode">[docs]</a><span class="k">def</span> <span class="nf">_check_win_mode</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_check_win_mode</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
     <span class="c1"># Resolve symbolic links</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">realpath</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
     <span class="c1"># Get current dacl file</span>
@@ -756,19 +765,19 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="c1"># Calculate the target dacl</span>
     <span class="n">ref_dacl</span> <span class="o">=</span> <span class="n">_generate_dacl</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">_compare_dacls</span><span class="p">(</span><span class="n">dacl</span><span class="p">,</span> <span class="n">ref_dacl</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_compare_dacls</span><span class="p">(</span><span class="n">dacl</span><span class="p">,</span> <span class="n">ref_dacl</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="_compare_dacls"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem._compare_dacls">[docs]</a><span class="k">def</span> <span class="nf">_compare_dacls</span><span class="p">(</span><span class="n">dacl1</span><span class="p">,</span> <span class="n">dacl2</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_compare_dacls</span><span class="p">(</span><span class="n">dacl1</span><span class="p">,</span> <span class="n">dacl2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This method compare the two given DACLs to check if they are identical.</span>
 <span class="sd">    Identical means here that they contains the same set of ACEs in the same order.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">([</span><span class="n">dacl1</span><span class="o">.</span><span class="n">GetAce</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dacl1</span><span class="o">.</span><span class="n">GetAceCount</span><span class="p">())]</span> <span class="o">==</span>
-            <span class="p">[</span><span class="n">dacl2</span><span class="o">.</span><span class="n">GetAce</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dacl2</span><span class="o">.</span><span class="n">GetAceCount</span><span class="p">())])</span></div>
+            <span class="p">[</span><span class="n">dacl2</span><span class="o">.</span><span class="n">GetAce</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dacl2</span><span class="o">.</span><span class="n">GetAceCount</span><span class="p">())])</span>
 
 
-<div class="viewcode-block" id="_get_current_user"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem._get_current_user">[docs]</a><span class="k">def</span> <span class="nf">_get_current_user</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">_get_current_user</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the pySID corresponding to the current user.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -783,7 +792,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="c1"># into the trusted domains accounts. This is the preferred lookup mechanism to use in Windows</span>
     <span class="c1"># if there is no reason to use a specific lookup mechanism.</span>
     <span class="c1"># See https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-lookupaccountnamea</span>
-    <span class="k">return</span> <span class="n">win32security</span><span class="o">.</span><span class="n">LookupAccountName</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="n">win32security</span><span class="o">.</span><span class="n">LookupAccountName</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">account_name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
            </div>
@@ -840,7 +849,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0.0.dev0',
+            VERSION:'1.3.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -867,7 +876,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.filesystem%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.filesystem%E2%80%94%20Certbot%201.3.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
