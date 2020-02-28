@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.reverter module &mdash; Certbot 1.0.0.dev0 documentation</title>
+  <title>certbot.reverter module &mdash; Certbot 1.3.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.reverter module &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.reverter module &mdash; Certbot 1.3.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 1.3.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="certbot package" href="certbot.html"/>
         <link rel="next" title="certbot.util module" href="certbot.util.html"/>
         <link rel="prev" title="certbot.main module" href="certbot.main.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.0
+                1.3
               </div>
             
           
@@ -127,6 +127,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
 </ul>
 <ul class="current">
@@ -320,78 +321,6 @@ unable to correctly revert the configuration checkpoints</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="certbot.reverter.Reverter._add_to_checkpoint_dir">
-<code class="descname">_add_to_checkpoint_dir</code><span class="sig-paren">(</span><em>cp_dir</em>, <em>save_files</em>, <em>save_notes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter._add_to_checkpoint_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.reverter.Reverter._add_to_checkpoint_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add save files to checkpoint directory.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>cp_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Checkpoint directory filepath</li>
-<li><strong>save_files</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.8)"><em>set</em></a>) – set of files to save</li>
-<li><strong>save_notes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – notes about changes made during the save</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.8)"><strong>IOError</strong></a> – if unable to open cp_dir + FILEPATHS file</li>
-<li><a class="reference internal" href="certbot.errors.html#certbot.errors.ReverterError" title="certbot.errors.ReverterError"><strong>ReverterError</strong></a> – if unable to add checkpoint</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.reverter.Reverter._read_and_append">
-<code class="descname">_read_and_append</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter._read_and_append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.reverter.Reverter._read_and_append" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads the file lines and returns a file obj.</p>
-<p>Read the file returning the lines, and a pointer to the end of the file.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.reverter.Reverter._recover_checkpoint">
-<code class="descname">_recover_checkpoint</code><span class="sig-paren">(</span><em>cp_dir</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter._recover_checkpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.reverter.Reverter._recover_checkpoint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Recover a specific checkpoint.</p>
-<p>Recover a specific checkpoint provided by cp_dir
-Note: this function does not reload augeas.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cp_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – checkpoint directory file path</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="certbot.errors.html#certbot.errors.ReverterError" title="certbot.errors.ReverterError"><strong>errors.ReverterError</strong></a> – If unable to recover checkpoint</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.reverter.Reverter._run_undo_commands">
-<code class="descname">_run_undo_commands</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter._run_undo_commands"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.reverter.Reverter._run_undo_commands" title="Permalink to this definition">¶</a></dt>
-<dd><p>Run all commands in a file.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.reverter.Reverter._check_tempfile_saves">
-<code class="descname">_check_tempfile_saves</code><span class="sig-paren">(</span><em>save_files</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter._check_tempfile_saves"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.reverter.Reverter._check_tempfile_saves" title="Permalink to this definition">¶</a></dt>
-<dd><p>Verify save isn’t overwriting any temporary files.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>save_files</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.8)"><em>set</em></a>) – Set of files about to be saved.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="certbot.errors.html#certbot.errors.ReverterError" title="certbot.errors.ReverterError"><strong>certbot.errors.ReverterError</strong></a> – when save is attempting to overwrite a temporary file.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="certbot.reverter.Reverter.register_file_creation">
 <code class="descname">register_file_creation</code><span class="sig-paren">(</span><em>temporary</em>, <em>*files</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.register_file_creation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.reverter.Reverter.register_file_creation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register the creation of all files during certbot execution.</p>
@@ -447,12 +376,6 @@ IN_PROGRESS or TEMPORARY checkpoints.</li>
 </dd></dl>
 
 <dl class="method">
-<dt id="certbot.reverter.Reverter._get_cp_dir">
-<code class="descname">_get_cp_dir</code><span class="sig-paren">(</span><em>temporary</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter._get_cp_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.reverter.Reverter._get_cp_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the proper reverter directory.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="certbot.reverter.Reverter.recovery_routine">
 <code class="descname">recovery_routine</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.recovery_routine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.reverter.Reverter.recovery_routine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Revert configuration to most recent finalized checkpoint.</p>
@@ -464,27 +387,6 @@ execution interruptions.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="certbot.errors.html#certbot.errors.ReverterError" title="certbot.errors.ReverterError"><strong>errors.ReverterError</strong></a> – If unable to recover the configuration</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.reverter.Reverter._remove_contained_files">
-<code class="descname">_remove_contained_files</code><span class="sig-paren">(</span><em>file_list</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter._remove_contained_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.reverter.Reverter._remove_contained_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>Erase all files contained within file_list.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – file containing list of file paths to be deleted</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Success</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="certbot.errors.html#certbot.errors.ReverterError" title="certbot.errors.ReverterError"><strong>certbot.errors.ReverterError</strong></a> – If
-all files within file_list cannot be removed</td>
 </tr>
 </tbody>
 </table>
@@ -507,18 +409,6 @@ checkpoint is not able to be finalized.</td>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.reverter.Reverter._checkpoint_timestamp">
-<code class="descname">_checkpoint_timestamp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter._checkpoint_timestamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.reverter.Reverter._checkpoint_timestamp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determine the timestamp of the checkpoint, enforcing monotonicity.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.reverter.Reverter._timestamp_progress_dir">
-<code class="descname">_timestamp_progress_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter._timestamp_progress_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.reverter.Reverter._timestamp_progress_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Timestamp the checkpoint.</p>
 </dd></dl>
 
 </dd></dl>
@@ -580,7 +470,7 @@ checkpoint is not able to be finalized.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0.0.dev0',
+            VERSION:'1.3.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -607,7 +497,7 @@ checkpoint is not able to be finalized.</td>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%20module%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%20module%E2%80%94%20Certbot%201.3.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
