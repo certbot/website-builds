@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins package &mdash; Certbot 1.4.0.dev0 documentation</title>
+  <title>certbot.ocsp package &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins package &mdash; Certbot 1.4.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.ocsp package &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -55,8 +55,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="certbot package" href="certbot.html"/>
-        <link rel="next" title="certbot.plugins.common module" href="certbot.plugins.common.html"/>
-        <link rel="prev" title="certbot.display.util module" href="certbot.display.util.html"/> 
+        <link rel="next" title="certbot.reverter module" href="certbot.reverter.html"/>
+        <link rel="prev" title="certbot.main module" href="certbot.main.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -133,14 +133,18 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="certbot.html">certbot package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="certbot.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="certbot.compat.html">certbot.compat package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="certbot.display.html">certbot.display package</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">certbot.plugins package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="certbot.tests.html">certbot.tests package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="certbot.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="certbot.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="certbot.achallenges.html">certbot.achallenges module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="certbot.crypto_util.html">certbot.crypto_util module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="certbot.errors.html">certbot.errors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="certbot.interfaces.html">certbot.interfaces module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="certbot.main.html">certbot.main module</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">certbot.ocsp package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="certbot.reverter.html">certbot.reverter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="certbot.util.html">certbot.util module</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="certbot.html#submodules">Submodules</a></li>
 </ul>
 </li>
 </ul>
@@ -185,11 +189,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
       
         <li><a href="certbot.html">certbot package</a> &raquo;</li>
       
-    <li>certbot.plugins package</li>
+    <li>certbot.ocsp package</li>
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/api/certbot.plugins.rst" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/api/certbot.ocsp.rst" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -199,24 +203,58 @@ Like looking at code? Help us! https://github.com/certbot/certbot
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-certbot.plugins">
-<span id="certbot-plugins-package"></span><h1>certbot.plugins package<a class="headerlink" href="#module-certbot.plugins" title="Permalink to this headline">¶</a></h1>
-<p>Certbot plugins.</p>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="certbot.plugins.common.html">certbot.plugins.common module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="certbot.plugins.dns_common.html">certbot.plugins.dns_common module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="certbot.plugins.dns_common_lexicon.html">certbot.plugins.dns_common_lexicon module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="certbot.plugins.dns_test_common.html">certbot.plugins.dns_test_common module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="certbot.plugins.dns_test_common_lexicon.html">certbot.plugins.dns_test_common_lexicon module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="certbot.plugins.enhancements.html">certbot.plugins.enhancements module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="certbot.plugins.storage.html">certbot.plugins.storage module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="certbot.plugins.util.html">certbot.plugins.util module</a></li>
+  <div class="section" id="module-certbot.ocsp">
+<span id="certbot-ocsp-package"></span><h1>certbot.ocsp package<a class="headerlink" href="#module-certbot.ocsp" title="Permalink to this headline">¶</a></h1>
+<p>Tools for checking certificate revocation.</p>
+<dl class="class">
+<dt id="certbot.ocsp.RevocationChecker">
+<em class="property">class </em><code class="descclassname">certbot.ocsp.</code><code class="descname">RevocationChecker</code><span class="sig-paren">(</span><em>enforce_openssl_binary_usage=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/ocsp.html#RevocationChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.ocsp.RevocationChecker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class figures out OCSP checking on this system, and performs it.</p>
+<dl class="method">
+<dt id="certbot.ocsp.RevocationChecker.ocsp_revoked">
+<code class="descname">ocsp_revoked</code><span class="sig-paren">(</span><em>cert</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/ocsp.html#RevocationChecker.ocsp_revoked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.ocsp.RevocationChecker.ocsp_revoked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get revoked status for a particular cert version.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cert</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.RenewableCert" title="certbot.interfaces.RenewableCert"><em>interfaces.RenewableCert</em></a>) – Certificate object</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if revoked; False if valid or the check failed or cert is expired.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.ocsp.RevocationChecker.ocsp_revoked_by_paths">
+<code class="descname">ocsp_revoked_by_paths</code><span class="sig-paren">(</span><em>cert_path</em>, <em>chain_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/ocsp.html#RevocationChecker.ocsp_revoked_by_paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.ocsp.RevocationChecker.ocsp_revoked_by_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the OCSP revocation check</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Certificate filepath</li>
+<li><strong>chain_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Certificate chain filepath</li>
 </ul>
-</div>
-</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if revoked; False if valid or the check failed or cert is expired.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -301,7 +339,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins%20package%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.ocsp%20package%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
