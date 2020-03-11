@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.reverter &mdash; Certbot 1.3.0.dev0 documentation</title>
+  <title>certbot.reverter &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.reverter &mdash; Certbot 1.3.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.reverter &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 1.3.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.3
+                1.4
               </div>
             
           
@@ -380,7 +380,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">,</span> <span class="s2">&quot;CHANGES_SINCE&quot;</span><span class="p">),</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">notes_fd</span><span class="p">:</span>
             <span class="n">notes_fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">save_notes</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_read_and_append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+    <span class="k">def</span> <span class="nf">_read_and_append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reads the file lines and returns a file obj.</span>
 
 <span class="sd">        Read the file returning the lines, and a pointer to the end of the file.</span>
@@ -435,7 +435,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
                 <span class="s2">&quot;Unable to remove directory: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cp_dir</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_run_undo_commands</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+    <span class="k">def</span> <span class="nf">_run_undo_commands</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Run all commands in a file.&quot;&quot;&quot;</span>
         <span class="c1"># NOTE: csv module uses native strings. That is, bytes on Python 2 and</span>
         <span class="c1"># unicode on Python 3</span>
@@ -598,7 +598,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                     <span class="s2">&quot;Incomplete or failed recovery for IN_PROGRESS checkpoint &quot;</span>
                     <span class="s2">&quot;- </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_remove_contained_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_list</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+    <span class="k">def</span> <span class="nf">_remove_contained_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_list</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Erase all files contained within file_list.</span>
 
 <span class="sd">        :param str file_list: file containing list of file paths to be deleted</span>
@@ -774,7 +774,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.3.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -801,7 +801,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%E2%80%94%20Certbot%201.3.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
