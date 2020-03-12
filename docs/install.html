@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Get Certbot &mdash; Certbot 1.0.0.dev0 documentation</title>
+  <title>Get Certbot &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Get Certbot &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:title" content="Get Certbot &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="User Guide" href="using.html"/>
         <link rel="prev" title="What is a Certificate?" href="what.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.0
+                1.4
               </div>
             
           
@@ -138,6 +138,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="resources.html">Resources</a></li>
 </ul>
 <ul>
@@ -224,7 +225,7 @@ your system.</p>
 </div>
 <div class="section" id="system-requirements">
 <span id="id1"></span><h2><a class="toc-backref" href="#id4">System Requirements</a><a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
-<p>Certbot currently requires Python 2.7 or 3.4+ running on a UNIX-like operating
+<p>Certbot currently requires Python 2.7 or 3.5+ running on a UNIX-like operating
 system. By default, it requires root access in order to write to
 <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt</span></code>, <code class="docutils literal notranslate"><span class="pre">/var/log/letsencrypt</span></code>, <code class="docutils literal notranslate"><span class="pre">/var/lib/letsencrypt</span></code>; to
 bind to port 80 (if you use the <code class="docutils literal notranslate"><span class="pre">standalone</span></code> plugin) and to read and
@@ -251,13 +252,14 @@ an alternate method for installing <code class="docutils literal notranslate"><s
 <p>The <code class="docutils literal notranslate"><span class="pre">certbot-auto</span></code> wrapper script installs Certbot, obtaining some dependencies
 from your web server OS and putting others in a python virtual environment. You can
 download and run it as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@webserver:~$ wget https://dl.eff.org/certbot-auto
-user@webserver:~$ sudo mv certbot-auto /usr/local/bin/certbot-auto
-user@webserver:~$ sudo chown root /usr/local/bin/certbot-auto
-user@webserver:~$ chmod 0755 /usr/local/bin/certbot-auto
-user@webserver:~$ /usr/local/bin/certbot-auto --help
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">dl</span><span class="o">.</span><span class="n">eff</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span>
+<span class="n">sudo</span> <span class="n">mv</span> <span class="n">certbot</span><span class="o">-</span><span class="n">auto</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span>
+<span class="n">sudo</span> <span class="n">chown</span> <span class="n">root</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span>
+<span class="n">sudo</span> <span class="n">chmod</span> <span class="mi">0755</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span>
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span> <span class="o">--</span><span class="n">help</span>
 </pre></div>
 </div>
+<p>To remove certbot-auto, just delete it and the files it places under /opt/eff.org, along with any cronjob or systemd timer you may have created.</p>
 <p>To check the integrity of the <code class="docutils literal notranslate"><span class="pre">certbot-auto</span></code> script,
 you can use these steps:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@webserver:~$ wget -N https://dl.eff.org/certbot-auto.asc
@@ -531,7 +533,7 @@ system and are <strong>not supported</strong> by the Certbot team!</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -558,7 +560,7 @@ system and are <strong>not supported</strong> by the Certbot team!</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Get%20Certbot%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Get%20Certbot%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

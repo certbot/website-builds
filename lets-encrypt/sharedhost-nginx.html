@@ -30,8 +30,17 @@
 
 
   <body class="instructions page">
+    
+    <div class="logo-banner">
+  <div class="logo">
+    <a href="https://eff.org"><img src="/images/EFF-logo-plain.svg" alt="EFF"></a>
+  </div>
+  <div class="eff-tagline">
+    <span>a project of the Electronic Frontier Foundation</span>
+  </div>
+</div>
 
-    <nav class="main-nav fixed">
+    <nav class="main-nav">
   <div class="logo">
     <a href="/"><img src="/images/certbot-logo-1A.svg" alt="Certbot logo, a robot holding a key"/></a>
   </div>
@@ -80,6 +89,8 @@
         <option value="haproxy">Haproxy</option>
       
         <option value="plesk">Plesk</option>
+      
+        <option value="webproduct">Web Hosting Product</option>
       
         <option value="other">None of the above</option>
       
@@ -145,7 +156,7 @@
       
         <option value="pip" data-distro="python" data-version="0">Other UNIX</option>
       
-        <option value="nonunix" data-distro="nonunix" data-version="0">Non-UNIX</option>
+        <option value="windows" data-distro="windows" data-version="0">Windows</option>
       
     </optgroup>
   </select>
@@ -163,18 +174,20 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="use-certbot">
+        <div class="instructions content">
+          <h2 id="instructions-header"><a href="/lets-encrypt/sharedhost-nginx.html">Nginx on Web Hosting Service</a></h2>
+<div class="use-certbot">
   <h1>To use Certbot, you'll need...</h1>
   <div class="three-col reqs">
     <div class="col">
-      <img alt="A laptop" src="/images/Computer.svg">
+      <img alt="A laptop" src="/images/Computer.svg" />
       <div class="text-wrapper hanging-indent">
         <span>comfort with the 
 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">command line</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#command-line">Command Line</a>
     </div>
@@ -211,7 +224,7 @@ Certbot is run from a command-line interface, usually on a Unix-like server. In 
       </div>
     </div>
     <div class="col">
-      <img alt="Web browser showing an HTTP site" src="/images/HTTPsite.svg">
+      <img alt="Web browser showing an HTTP site" src="/images/HTTPsite.svg" />
       <div class="text-wrapper hanging-indent">
         <span>
           ...and an
@@ -220,7 +233,7 @@ Certbot is run from a command-line interface, usually on a Unix-like server. In 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">HTTP website</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#http">HTTP</a>
     </div>
@@ -254,13 +267,13 @@ Almost all websites in the world support HTTP, but websites that have been confi
 </div>
 
 
-          <br/>
+          <br />
           that is 
 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">already online</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#website-thats-already-online">Website That’s Already Online</a>
     </div>
@@ -290,13 +303,13 @@ Almost all websites in the world support HTTP, but websites that have been confi
 </div>
 
 
-          <br/>
+          <br />
           with an open 
 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">port 80</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#port-80">Port 80</a>
     </div>
@@ -332,7 +345,7 @@ To use certbot –webroot, certbot –apache, or certbot –nginx, you should ha
       </div>
     </div>
     <div class="col">
-      <img alt="A sever" src="/images/Server.svg">
+      <img alt="A sever" src="/images/Server.svg" />
       <div class="text-wrapper hanging-indent">
         <span>
           ...which is hosted on a 
@@ -340,7 +353,7 @@ To use certbot –webroot, certbot –apache, or certbot –nginx, you should ha
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">server</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#server">Server</a>
     </div>
@@ -371,13 +384,13 @@ To use certbot –webroot, certbot –apache, or certbot –nginx, you should ha
 </div>
 
 
-          <br/>
+          <br />
           which you can access via 
 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">SSH</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#ssh">SSH</a>
     </div>
@@ -409,13 +422,13 @@ Most Certbot users run Certbot from a command prompt on a remote server over SSH
 </div>
 
 
-          <br/>
+          <br />
           with the ability to 
 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">sudo</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#sudo">sudo</a>
     </div>
@@ -449,7 +462,7 @@ If you’re logged in to your server as a user other than root, you’ll likely 
 </div>
 
 
-          <br/>
+          <br />
         </span>
         <span class="italic">
           optional if you want a 
@@ -457,7 +470,7 @@ If you’re logged in to your server as a user other than root, you’ll likely 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">wildcard cert</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#wildcard-certificate">Wildcard Certificate</a>
     </div>
@@ -493,7 +506,7 @@ If you’re logged in to your server as a user other than root, you’ll likely 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">DNS credentials</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#dns-credentials">DNS Credentials</a>
     </div>
@@ -539,44 +552,135 @@ You should never share these credentials publicly or with an unauthorized person
   </div>
 </div>
 
-        <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/sharedhost-nginx.html">Nginx on Web Hosting Service</a></h2>
 <div class="tab automated active">default</div>
-<div class="tab advanced">wildcard</div>
+<div class="tab advanced">wildcard
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">*</a>
+  <div class="tooltip js">
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
+    <div class="tooltip-title">
+      <a href="/glossary#wildcard-certificate">Wildcard Certificate</a>
+    </div>
+    <div class="mobile-hidden">
+    <p>A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.</p>
+
+    </div>
+    <div class="mobile-only">
+      <p>
+      A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.
+
+      </p>
+    </div>
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">*</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title" href="/glossary#wildcard-certificate">Wildcard Certificate</a>
+    <p>A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.</p>
+
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+</div>
 
 <div class="instruction-pane-wrapper">
   <div class="instruction-pane automated">
     <ol>
-            <p>
-          Do you have the requirements listed above?
-      </p>
+            <aside class="note">
+        <div class="note-header">
+          <h3>Important Note</h3>
+        </div>
+        <p>These instructions do not apply to people using a <strong>Virtual Private Server (VPS)</strong>; you’ll have to manually manage your Certbot installation, and select your Operating System from the dropdown above.</p>
+      </aside>
 
-      <h3>Yes, I have these requirements.</h3>
-      <p>
-          If you have the requirements, select the operating system that the machine run by the web hosting service is using from the dropdown menu, and follow those instructions.
-      </p>
+      <h4>Look for your web hosting provider on this list.</h4>
+      <p>Are you looking for your web hosting provider, such as Squarespace, Github, or WordPress?</p>
+      <p>You might already have HTTPS available and not need Certbot. <a href="../hosting_providers/">Find your web hosting provider in our chart of hosting providers.</a></p>
 
-      <h3>No, I don't have all of these requirements.</h3>
-      <p>
-          If not, you'll want to check out our <a href="/hosting_providers">hosting providers with HTTPS</a> page to learn more about getting a certificate when using shared hosting.
+      <p class="centered"><a class="link-button" href="../hosting_providers/">find your hosting provider</a><br /><br /></p>
+
+      <p>If your hosting provider has full support for HTTPS: good news! You won’t have to do anything further</p>
+
+      <p>If your hosting provider has partial support for HTTPS: good news! You can follow along the linked tutorials for that individual web hosting provider, and get your website on HTTPS without needing Certbot.</p>
+
+      <p>If your hosting provider does not support HTTPS: continue to the steps below.</p>
+
+      <h4> If your hosting provider does not support HTTPS, the following options are available:</h4>
+
+      <p><span class="subhead">You can contact your web hosting provider: tell them you want a free HTTPS certificate through Let’s Encrypt.</span><br />
+      You’re probably not the only one using your web hosting provider service who wants HTTPS. You can request that your web hosting provider offer Let’s Encrypt HTTPS certificates as a free part of their hosting package. An effective way to make this ask is through email, their help desk system, or by contacting the web hosting provider through social media.</p>
+
+      <p><span class="subhead">You can switch to a different web hosting provider.</span><br />
+      Find a web hosting provider who offers full HTTPS support as part of their web hosting package by <a href="../hosting_providers">checking our list.</a></p>
+
+      <p><span class="subhead">You might be able to use Certbot.</span><br />
+      If you have <a href="/glossary/#ssh">SSH access</a> to the server your website is hosted on, you might be able to use Certbot. You will need to know the <a href="/glossary/#software">software</a> and <a href="/glossary/#operating-system">system</a> your server is running on. After you confirm the software and system information, you can use the dropdown menus above to generate specific instructions for running Certbot on your server through the command line.</p>
+
+      <div class="centered">
+        <img src="/images/Key.svg" height="100px" />
+      </div>
+      <div class="centered small">
+      Was this information helpful?<br />
+      Certbot is a free project provided by the
+      Electronic Frontier Foundation, a 501(c)3 nonprofit.<br />
+      We’d be grateful for your support.</div>
+
+      <p class="centered"><br />
+      <a class="link-button" href="">Donate to Certbot and EFF</a>
       </p>
     </ol>
   </div>
 
   <div class="instruction-pane advanced">
     <ol>
-            <p>
-          Do you have the requirements listed above?
-      </p>
+            <aside class="note">
+        <div class="note-header">
+          <h3>Important Note</h3>
+        </div>
+        <p>These instructions do not apply to people using a <strong>Virtual Private Server (VPS)</strong>; you’ll have to manually manage your Certbot installation, and select your Operating System from the dropdown above.</p>
+      </aside>
 
-      <h3>Yes, I have these requirements.</h3>
-      <p>
-          If you have the requirements, select the operating system that the machine run by the web hosting service is using from the dropdown menu, and follow those instructions.
-      </p>
+      <h4>Look for your web hosting provider on this list.</h4>
+      <p>Are you looking for your web hosting provider, such as Squarespace, Github, or WordPress?</p>
+      <p>You might already have HTTPS available and not need Certbot. <a href="../hosting_providers/">Find your web hosting provider in our chart of hosting providers.</a></p>
 
-      <h3>No, I don't have all of these requirements.</h3>
-      <p>
-          If not, you'll want to check out our <a href="/hosting_providers">hosting providers with HTTPS</a> page to learn more about getting a certificate when using shared hosting.
+      <p class="centered"><a class="link-button" href="../hosting_providers/">find your hosting provider</a><br /><br /></p>
+
+      <p>If your hosting provider has full support for HTTPS: good news! You won’t have to do anything further</p>
+
+      <p>If your hosting provider has partial support for HTTPS: good news! You can follow along the linked tutorials for that individual web hosting provider, and get your website on HTTPS without needing Certbot.</p>
+
+      <p>If your hosting provider does not support HTTPS: continue to the steps below.</p>
+
+      <h4> If your hosting provider does not support HTTPS, the following options are available:</h4>
+
+      <p><span class="subhead">You can contact your web hosting provider: tell them you want a free HTTPS certificate through Let’s Encrypt.</span><br />
+      You’re probably not the only one using your web hosting provider service who wants HTTPS. You can request that your web hosting provider offer Let’s Encrypt HTTPS certificates as a free part of their hosting package. An effective way to make this ask is through email, their help desk system, or by contacting the web hosting provider through social media.</p>
+
+      <p><span class="subhead">You can switch to a different web hosting provider.</span><br />
+      Find a web hosting provider who offers full HTTPS support as part of their web hosting package by <a href="../hosting_providers">checking our list.</a></p>
+
+      <p><span class="subhead">You might be able to use Certbot.</span><br />
+      If you have <a href="/glossary/#ssh">SSH access</a> to the server your website is hosted on, you might be able to use Certbot. You will need to know the <a href="/glossary/#software">software</a> and <a href="/glossary/#operating-system">system</a> your server is running on. After you confirm the software and system information, you can use the dropdown menus above to generate specific instructions for running Certbot on your server through the command line.</p>
+
+      <div class="centered">
+        <img src="/images/Key.svg" height="100px" />
+      </div>
+      <div class="centered small">
+      Was this information helpful?<br />
+      Certbot is a free project provided by the
+      Electronic Frontier Foundation, a 501(c)3 nonprofit.<br />
+      We’d be grateful for your support.</div>
+
+      <p class="centered"><br />
+      <a class="link-button" href="">Donate to Certbot and EFF</a>
       </p>
     </ol>
   </div>
@@ -605,7 +709,7 @@ You should never share these credentials publicly or with an unauthorized person
       <img alt="Bag decorated with a heart" src="/images/BlackCircle-Donate.svg" />
       <div class="text-wrapper">
         <span class="mobile-hidden">
-          Like Certbot? This free, open source project is part of EFF's 
+          Like Certbot? This free, open source project is part of EFF's
           commitment to make encryption accessible for all.
         </span>
         <span class="mobile-only">
@@ -620,7 +724,7 @@ You should never share these credentials publicly or with an unauthorized person
         </div>
       </div>
     </div>
-    
+
     <footer class="social">
   <ul>
     <li>
@@ -684,8 +788,8 @@ document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.
 
 </footer>
 
-    
-    
+
+
   </body>
 
 </html>

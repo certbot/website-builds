@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.util module &mdash; Certbot 1.0.0.dev0 documentation</title>
+  <title>certbot.util module &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.util module &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.util module &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="certbot package" href="certbot.html"/>
         <link rel="prev" title="certbot.reverter module" href="certbot.reverter.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.0
+                1.4
               </div>
             
           
@@ -126,6 +126,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
 </ul>
 <ul class="current">
@@ -138,6 +139,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l4"><a class="reference internal" href="certbot.errors.html">certbot.errors module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="certbot.interfaces.html">certbot.interfaces module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="certbot.main.html">certbot.main module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="certbot.ocsp.html">certbot.ocsp package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="certbot.reverter.html">certbot.reverter module</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">certbot.util module</a></li>
 </ul>
@@ -207,29 +209,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <dt id="certbot.util.Key">
 <em class="property">class </em><code class="descclassname">certbot.util.</code><code class="descname">Key</code><span class="sig-paren">(</span><em>file</em>, <em>pem</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.util.Key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
-<dl class="method">
-<dt id="certbot.util.Key._asdict">
-<code class="descname">_asdict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.util.Key._asdict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new OrderedDict which maps field names to their values</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="certbot.util.Key._fields">
-<code class="descname">_fields</code><em class="property"> = ('file', 'pem')</em><a class="headerlink" href="#certbot.util.Key._fields" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="classmethod">
-<dt id="certbot.util.Key._make">
-<em class="property">classmethod </em><code class="descname">_make</code><span class="sig-paren">(</span><em>iterable</em>, <em>new=&lt;built-in method __new__ of type object at 0x8f9920&gt;</em>, <em>len=&lt;built-in function len&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.util.Key._make" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a new Key object from a sequence or iterable</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.util.Key._replace">
-<code class="descname">_replace</code><span class="sig-paren">(</span><em>**kwds</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.util.Key._replace" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new Key object replacing specified fields with new values</p>
-</dd></dl>
-
 <dl class="attribute">
 <dt id="certbot.util.Key.file">
 <code class="descname">file</code><a class="headerlink" href="#certbot.util.Key.file" title="Permalink to this definition">¶</a></dt>
@@ -248,29 +227,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <dt id="certbot.util.CSR">
 <em class="property">class </em><code class="descclassname">certbot.util.</code><code class="descname">CSR</code><span class="sig-paren">(</span><em>file</em>, <em>data</em>, <em>form</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.util.CSR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a></p>
-<dl class="method">
-<dt id="certbot.util.CSR._asdict">
-<code class="descname">_asdict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.util.CSR._asdict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new OrderedDict which maps field names to their values</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="certbot.util.CSR._fields">
-<code class="descname">_fields</code><em class="property"> = ('file', 'data', 'form')</em><a class="headerlink" href="#certbot.util.CSR._fields" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="classmethod">
-<dt id="certbot.util.CSR._make">
-<em class="property">classmethod </em><code class="descname">_make</code><span class="sig-paren">(</span><em>iterable</em>, <em>new=&lt;built-in method __new__ of type object at 0x8f9920&gt;</em>, <em>len=&lt;built-in function len&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.util.CSR._make" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a new CSR object from a sequence or iterable</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="certbot.util.CSR._replace">
-<code class="descname">_replace</code><span class="sig-paren">(</span><em>**kwds</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.util.CSR._replace" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new CSR object replacing specified fields with new values</p>
-</dd></dl>
-
 <dl class="attribute">
 <dt id="certbot.util.CSR.data">
 <code class="descname">data</code><a class="headerlink" href="#certbot.util.CSR.data" title="Permalink to this definition">¶</a></dt>
@@ -344,11 +300,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </dd></dl>
 
 <dl class="function">
-<dt id="certbot.util._release_locks">
-<code class="descclassname">certbot.util.</code><code class="descname">_release_locks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/util.html#_release_locks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.util._release_locks" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="certbot.util.set_up_core_dir">
 <code class="descclassname">certbot.util.</code><code class="descname">set_up_core_dir</code><span class="sig-paren">(</span><em>directory</em>, <em>mode</em>, <em>strict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/util.html#set_up_core_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.util.set_up_core_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ensure directory exists with proper permissions and is locked.</p>
@@ -420,11 +371,6 @@ if <code class="docutils literal notranslate"><span class="pre">None</span></cod
 </tbody>
 </table>
 </dd></dl>
-
-<dl class="function">
-<dt id="certbot.util._unique_file">
-<code class="descclassname">certbot.util.</code><code class="descname">_unique_file</code><span class="sig-paren">(</span><em>path</em>, <em>filename_pat</em>, <em>count</em>, <em>chmod</em>, <em>mode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/util.html#_unique_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.util._unique_file" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="function">
 <dt id="certbot.util.unique_file">
@@ -575,13 +521,6 @@ other distributions.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="certbot.util._normalize_string">
-<code class="descclassname">certbot.util.</code><code class="descname">_normalize_string</code><span class="sig-paren">(</span><em>orig</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/util.html#_normalize_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.util._normalize_string" title="Permalink to this definition">¶</a></dt>
-<dd><p>Helper function for get_var_from_file() to remove quotes
-and whitespaces</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="certbot.util.get_python_os_info">
 <code class="descclassname">certbot.util.</code><code class="descname">get_python_os_info</code><span class="sig-paren">(</span><em>pretty=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/util.html#get_python_os_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.util.get_python_os_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get Operating System type/distribution and major version
@@ -604,13 +543,6 @@ using python platform module</p>
 <dt id="certbot.util.safe_email">
 <code class="descclassname">certbot.util.</code><code class="descname">safe_email</code><span class="sig-paren">(</span><em>email</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/util.html#safe_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.util.safe_email" title="Permalink to this definition">¶</a></dt>
 <dd><p>Scrub email address before using it.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="certbot.util._ShowWarning">
-<em class="property">class </em><code class="descclassname">certbot.util.</code><code class="descname">_ShowWarning</code><span class="sig-paren">(</span><em>option_strings</em>, <em>dest</em>, <em>nargs=None</em>, <em>const=None</em>, <em>default=None</em>, <em>type=None</em>, <em>choices=None</em>, <em>required=False</em>, <em>help=None</em>, <em>metavar=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/util.html#_ShowWarning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.util._ShowWarning" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/argparse.html#argparse.Action" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">argparse.Action</span></code></a></p>
-<p>Action to log a warning when an argument is used.</p>
 </dd></dl>
 
 <dl class="function">
@@ -749,11 +681,6 @@ that first imports this module exits rather than any child processes.</p>
 </table>
 </dd></dl>
 
-<dl class="function">
-<dt id="certbot.util._atexit_call">
-<code class="descclassname">certbot.util.</code><code class="descname">_atexit_call</code><span class="sig-paren">(</span><em>func</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/util.html#_atexit_call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.util._atexit_call" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </div>
 
 
@@ -811,7 +738,7 @@ that first imports this module exits rather than any child processes.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.0.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -838,7 +765,7 @@ that first imports this module exits rather than any child processes.</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.util%20module%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.util%20module%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

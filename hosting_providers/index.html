@@ -24,8 +24,16 @@
 </head>
 
   <body class="page">
+    <div class="logo-banner">
+  <div class="logo">
+    <a href="https://eff.org"><img src="/images/EFF-logo-plain.svg" alt="EFF"></a>
+  </div>
+  <div class="eff-tagline">
+    <span>a project of the Electronic Frontier Foundation</span>
+  </div>
+</div>
 
-    <nav class="main-nav fixed">
+    <nav class="main-nav">
   <div class="logo">
     <a href="/"><img src="/images/certbot-logo-1A.svg" alt="Certbot logo, a robot holding a key"/></a>
   </div>
@@ -107,45 +115,7 @@
 .</h3>
   <br />
 
-  If you're not using the shared hosting product, or if your provider doesn't appear here, check out our <a href="/instructions">instructions</a> for using Certbot or <a href="/help">get help</a>. Note that your 
-
-<div class="glossary-term js-only disabled">
-  <a class="glossary-link js">shared hosting provider</a>
-  <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
-    <div class="tooltip-title">
-      <a href="/glossary#shared-hosting">Shared Hosting</a>
-    </div>
-    <div class="mobile-hidden">
-    <p>Shared hosting is a kind of web hosting in which several customers’ web sites are hosted by the same server, which is mainly administered by the web hosting provider. Usually customers administer their own sites on a shared server using a web-based control panel interface. This is less expensive than VPS hosting and often calls for less technical knowledge on the customer’s part; overall, it’s the most popular type of web hosting environment.</p>
-
-<p>Certbot is less suitable for use in most shared hosting environments because it’s usually easier and more reliable to ask the hosting provider to set up HTTPS. (Some shared hosting users use Certbot, most often because their hosting providers are uncooperative or don’t have another way to enable HTTPS support for customer sites.)</p>
-
-    </div>
-    <div class="mobile-only">
-      <p>
-      Shared hosting is a kind of web hosting in which several customers’ web sites are hosted by the same server, which is mainly administered by the web hosting provider. Usually customers administer their own sites on a shared server using a web-based control panel interface. This is less expensive than VPS hosting and often calls for less technical knowledge on the customer’s part; overall, it’s the most popular type of web hosting environment. Certbot is less suitable for use in most shared hosting environments because it’s usually easier and more reliable to ask the hosting provider to set up HTTPS....
-      </p>
-    </div>
-    <div class="bottom-text">
-      From our <a href="/glossary">Certbot Glossary</a>
-    </div>
-  </div>
-</div><div class="glossary-term no-js">
-  <a class="glossary-link no-js">shared hosting provider</a>
-  <div class="tooltip no-js">
-    <a class="tooltip-title" href="/glossary#shared-hosting">Shared Hosting</a>
-    <p>Shared hosting is a kind of web hosting in which several customers’ web sites are hosted by the same server, which is mainly administered by the web hosting provider. Usually customers administer their own sites on a shared server using a web-based control panel interface. This is less expensive than VPS hosting and often calls for less technical knowledge on the customer’s part; overall, it’s the most popular type of web hosting environment.</p>
-
-<p>Certbot is less suitable for use in most shared hosting environments because it’s usually easier and more reliable to ask the hosting provider to set up HTTPS. (Some shared hosting users use Certbot, most often because their hosting providers are uncooperative or don’t have another way to enable HTTPS support for customer sites.)</p>
-
-    <div class="bottom-text">
-      From our <a href="/glossary">Certbot Glossary</a>
-    </div>
-  </div>
-</div>
-
- is not the same as your 
+  If you're not using the shared hosting product, or if your provider doesn't appear here, check out our <a href="/instructions">instructions</a> for using Certbot or <a href="/help">get help</a>. Note that your shared hosting is not the same as your 
 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">domain registrar</a>
@@ -186,11 +156,15 @@
 
 <p><strong><em>The list is categorized into:</em></strong></p>
 
-<p><a id="full-bounce" href="#table-anchor">Full HTTPS Support</a>: Hosting providers that offer free Let’s Encrypt HTTPS certificates automatically for their shared hosting product. No need to do anything on your end if you use their service.</p>
+<div class="provider-categories">
+  <p><a id="all-bounce" href="#table-anchor">All Hosting providers</a>: Find your provider here.</p>
 
-<p><a id="partial-bounce" href="#table-anchor">Partial HTTPS Support</a>: Hosting providers that offer free Let’s Encrypt HTTPS certificates for their shared hosting product, but require configuration. You’ll need to follow a tutorial.</p>
+  <p><a id="full-bounce" href="#table-anchor"><img alt="Full HTTPS support" src="/images/GreenCheck.svg" />Full HTTPS Support</a>: Hosting providers that offer free Let’s Encrypt HTTPS certificates automatically for their shared hosting product. No need to do anything on your end if you use their service.</p>
 
-<p><a id="no-bounce" href="#table-anchor">No HTTPS Support</a>: Hosting providers that do not offer free HTTPS certificates for their shared hosting product. It may or may not be possible to use Certbot with other products that the provider offers, such as their VPS product.</p>
+  <p><a id="partial-bounce" href="#table-anchor"><img alt="Partial HTTPS support" src="/images/PartialHTTPSSupport.svg" />Partial HTTPS Support</a>: Hosting providers that offer free Let’s Encrypt HTTPS certificates for their shared hosting product, but require configuration. You’ll need to follow a tutorial.</p>
+
+  <p><a id="no-bounce" href="#table-anchor"><img alt="No HTTPS support" src="/images/NoHTTPSSupport.svg" />No HTTPS Support</a>: Hosting providers that do not offer free HTTPS certificates for their shared hosting product. It may or may not be possible to use Certbot with other products that the provider offers, such as their VPS product.</p>
+</div>
 
         </article>
       </div>
@@ -198,20 +172,32 @@
 
     <div id="table-anchor" class="hosting-table-wrapper">
   <div class="hosting-table-tabs">
+    <div id="all-https" class="hosting-tab">
+      <br class="mobile-only">
+      all HTTPS support
+    </div>
     <div id="full-https" class="hosting-tab">
-      <img alt="Green checkmark icon" src="/images/GreenCheck.svg">
+      <img alt="Full HTTPS support" src="/images/GreenCheck.svg">
       <br class="mobile-only">
       full HTTPS support
     </div>
     <div id="partial-https" class="hosting-tab">
-      <img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg">
+      <img alt="Partial HTTPS support" src="/images/PartialHTTPSSupport.svg">
       <br class="mobile-only">
       partial HTTPS support
     </div>
     <div id="no-https" class="hosting-tab">
-      <img alt="Red X icon" src="/images/NoHTTPSSupport.svg">
+      <img alt="No HTTPS support" src="/images/NoHTTPSSupport.svg">
       <br class="mobile-only">
       no HTTPS support
+    </div>
+  </div>
+  <div id="all-header" class="tab-header-wrapper">
+    <div class="tab-header">
+      <div class="header-text">
+        <h2>All HTTPS Support</h2>
+        <p>All levels of providers</p>
+      </div>
     </div>
   </div>
   <div id="full-header" class="tab-header-wrapper">
@@ -240,7 +226,7 @@
         <p>HTTPS isn't included in the shared hosting packages of these providers</p>
       </div>
     </div>
-    <span>Consider switching hosting providers or to a more manual hosting product like 
+    <span>Consider switching hosting providers or to a more manual hosting product like
       
 
 <div class="glossary-term js-only disabled">
@@ -333,7 +319,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.antagonist.nl/">Antagonist</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -346,7 +332,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://aquatis.host/">Aquatis</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -359,7 +345,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.bplaced.net/">bplaced</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -372,7 +358,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.domainnameshop.com/">Domainnameshop</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -383,9 +369,22 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       </tr>
       
       <tr>
+        <td><a href="https://www.dreamhost.com/">DreamHost</a></td>
+        
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
+        
+        <td>full</td>
+        
+        <td><a href="https://www.dreamhost.com/hosting/ssl-tls-certificates/">announcement</a></td>
+        
+        <td>2020.1.22</td>
+        <td>SSL automatically installed on DreamPress. All other products have SSL available via one click and renews automatically.</td>
+      </tr>
+      
+      <tr>
         <td><a href="https://www.easystore.co/">EasyStore</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -398,7 +397,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://evergreentech.io/">EvergreenTech.io</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -411,7 +410,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.futureweb.at/">Futureweb OG</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -424,7 +423,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.inspedium.com/">Inspedium Corp.</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -437,7 +436,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.jimdo.com/">Jimdo</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -450,7 +449,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.manitu.de/">manitu</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -463,7 +462,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.mythic-beasts.com/">Mythic Beasts</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -476,7 +475,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://neocities.org/">Neocities</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -489,7 +488,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.netlify.com/">Netlify</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -502,7 +501,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://pantheon.io/">Pantheon</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -513,9 +512,22 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       </tr>
       
       <tr>
+        <td><a href="https://platform.sh">Platform.sh</a></td>
+        
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
+        
+        <td>full</td>
+        
+        <td><a href="https://docs.platform.sh/configuration/routes/https.html">SSL plan details</a></td>
+        
+        <td>2020.02.03</td>
+        <td>All production and development environments include Let's Encrypt certificates automatically.</td>
+      </tr>
+      
+      <tr>
         <td><a href="https://pridetechdesign.com/">Pride Tech Design</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -528,7 +540,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://render.com/">Render</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -541,7 +553,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://hosting.qth.com/">QTH.com Hosting</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -554,7 +566,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.spryservers.net/">Spry Servers</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -567,7 +579,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.squarespace.com/">Squarespace</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -580,7 +592,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://uberspace.de/">Uberspace</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -593,7 +605,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://webdock.io/">Webdock</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -606,7 +618,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://wordpress.com/">WordPress.com</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -617,9 +629,22 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       </tr>
       
       <tr>
+        <td><a href="https://wrx.hu/">WRX Online</a></td>
+        
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
+        
+        <td>full</td>
+        
+        <td><a href="https://wrx.hu/szolgaltatasok/webtarhely">announcement</a></td>
+        
+        <td>2020.02.13</td>
+        <td>The website is in Hungarian.</td>
+      </tr>
+      
+      <tr>
         <td><a href="">34SP.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -632,7 +657,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">a2hosting.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -645,7 +670,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Active24.co.uk</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -658,7 +683,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Active24.cz</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -671,7 +696,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">all-inkl.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -684,7 +709,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Alephion</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -697,7 +722,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">AllDomains</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -710,7 +735,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">bhosted</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -723,7 +748,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Blogger</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -736,7 +761,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Blueboard</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -749,7 +774,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Brontobytes</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -762,7 +787,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Brownrice Internet</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -775,7 +800,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Buyshared.net</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -788,7 +813,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">bytecamp</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -801,7 +826,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Canadian Domain Name Services Inc</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -814,7 +839,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Campusspeicher</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -827,7 +852,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Certified Hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -840,7 +865,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Cheap Web Hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -853,7 +878,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">checkdomain</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -866,7 +891,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Cityhost</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -879,7 +904,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Cloudcity</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -892,7 +917,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Cloudhulk</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -905,7 +930,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Cloudways</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -918,7 +943,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Combell</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -931,7 +956,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Configbox</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -944,7 +969,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Cyon.ch</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -957,7 +982,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Deep.ch</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -970,7 +995,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">DM Solutions</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -983,7 +1008,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Do.de</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -996,7 +1021,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Domain & Webspace Tremmel</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1009,7 +1034,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Domainhizmetleri</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1022,7 +1047,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Domaintechnik</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1035,7 +1060,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Domena.pl</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1048,7 +1073,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">DreamHost</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1061,7 +1086,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Dwe Gruppe</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1074,7 +1099,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">EDIS.AT, Austria</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1087,7 +1112,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">ElbiaHosting.sk</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1100,7 +1125,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Espace2001.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1113,7 +1138,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">EvenNode.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1126,7 +1151,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">FastComet</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1139,7 +1164,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Fastnom</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1152,7 +1177,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">FlockHosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1165,7 +1190,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">FlokiNET</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1178,7 +1203,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Flywheel</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1191,7 +1216,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Freethought</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1204,7 +1229,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Fortrabbit</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1217,7 +1242,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Funio.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1230,7 +1255,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Gandi</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1243,7 +1268,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">GeekGhost</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1256,7 +1281,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">GearHost</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1269,7 +1294,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">GitHub Pages</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1282,7 +1307,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://about.gitlab.com/">GitLab</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1295,7 +1320,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Google App Engine</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1308,7 +1333,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Greengeeks</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1321,7 +1346,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">HawkHost</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1334,7 +1359,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Heroku</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1347,7 +1372,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">hetzner</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1360,7 +1385,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Hoop.la</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1373,7 +1398,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Host4Geeks</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1386,7 +1411,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">HostGator</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1399,7 +1424,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Hostin.mu</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1412,7 +1437,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Hostineer</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1425,7 +1450,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Hostinger</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1438,7 +1463,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Hosting24</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1451,7 +1476,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Hosting90 Systems</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1464,7 +1489,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">HostM.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1477,7 +1502,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">HostMantis</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1490,7 +1515,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">HostmyWebsite</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1503,7 +1528,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">hostNET.de</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1516,7 +1541,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Hostnet (NL)</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1529,7 +1554,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">HostOne.com.br</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1542,7 +1567,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Hostpapa.ca</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1555,7 +1580,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">hostenko.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1568,7 +1593,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">ICDSoft</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1581,7 +1606,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">ifastnet</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1594,7 +1619,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">ifc hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1607,7 +1632,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">ihead.ru</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1620,7 +1645,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.ikoula.com/en/web-hosting">ikoula</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1633,7 +1658,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Inertia Networks</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1646,7 +1671,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.infomaniak.com/gotoroutewithautolang/hosting.ssl">Infomaniak</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -1659,7 +1684,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Infrenion Networks</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1672,7 +1697,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">IPage</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1685,7 +1710,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Jump.bg</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1698,7 +1723,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">KingHost</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1711,7 +1736,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Kinsta</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1724,7 +1749,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">KLE-Hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1737,7 +1762,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Kontent.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1750,7 +1775,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Krystal Hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1763,7 +1788,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Level27</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1776,7 +1801,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Lima-city.de</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1789,7 +1814,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Limenex Web Hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1802,7 +1827,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">MadRooster.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1813,9 +1838,22 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       </tr>
       
       <tr>
+        <td><a href="https://maxcluster.de/">maxcluster</a></td>
+        
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
+        
+        <td>partial</td>
+        
+        <td><a href="https://maxcluster.de/blog/2018/01/lets-encrypt-ssl-zertifikate-kostenlos-sicher-und-schnell-einrichten">tutorial</a></td>
+        
+        <td>2020.3.3</td>
+        <td>Site and link are in German</td>
+      </tr>
+      
+      <tr>
         <td><a href="https://mijn.host/">mijn.host</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1828,7 +1866,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">MilesWeb</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1841,7 +1879,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Mittwald</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1854,7 +1892,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">MivoCloud</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1867,7 +1905,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">MonsterMedia</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1880,7 +1918,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">MonsterMegs</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1891,22 +1929,22 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       </tr>
       
       <tr>
-        <td><a href="">Mydevil.net</a></td>
+        <td><a href="https://www.mydevil.net">MyDevil.net</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
-        <td></td>
+        <td><a href="https://wiki.mydevil.net/SSL">tutorial</a></td>
         
-        <td></td>
+        <td>2020.2.7</td>
         <td></td>
       </tr>
       
       <tr>
         <td><a href="https://www.nearlyfreespeech.net/">NearlyFreeSpeech.NET</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1919,7 +1957,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Netsite</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1932,7 +1970,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Neify Hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1945,7 +1983,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Neostrada.nl</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1958,7 +1996,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Netcup.de</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1971,7 +2009,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Netlify</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1984,7 +2022,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">NewHostServers.net</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -1997,7 +2035,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Nexcess.net</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2010,7 +2048,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Ngage Hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2023,7 +2061,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Nitrado</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2036,7 +2074,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Novatrend</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2049,7 +2087,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Nucleus.be</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2062,7 +2100,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">one.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2075,7 +2113,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Online.net</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2086,22 +2124,22 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       </tr>
       
       <tr>
-        <td><a href="">OVH.com</a></td>
+        <td><a href="https://www.ovh.ie/web-hosting/">OVHcloud</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
-        <td>partial</td>
+        <td>full</td>
         
-        <td></td>
+        <td><a href="https://docs.ovh.com/gb/en/hosting/activate-https-website-ssl/">tutorial</a></td>
         
-        <td></td>
+        <td>2020.01.30</td>
         <td></td>
       </tr>
       
       <tr>
         <td><a href="">pair Networks</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2114,7 +2152,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Pantheon</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2127,7 +2165,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Pagely</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2140,7 +2178,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">PeoplesHost</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2153,7 +2191,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Platform.sh</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2166,7 +2204,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.planethoster.com/en/">PlanetHoster Inc</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2179,7 +2217,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Professional Hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2192,7 +2230,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Pressidium</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2205,7 +2243,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Pressjitsu.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2218,7 +2256,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Presslabs.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2231,7 +2269,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Profihost AG</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2244,7 +2282,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Progreso.pl</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2257,7 +2295,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">PulseHeberg.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2270,7 +2308,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Quality Location</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2283,7 +2321,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">RAIDBOXES.de</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2296,7 +2334,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">ReadySpace</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2309,7 +2347,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">ReformHosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2322,7 +2360,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Register.it</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2335,7 +2373,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">ResellersPanel</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2348,7 +2386,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">RSHosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2361,7 +2399,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Schokokeks.org</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2374,7 +2412,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Sensson</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2387,7 +2425,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://serverpilot.io/">ServerPilot</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2400,7 +2438,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Serversaurus</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2413,7 +2451,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Shopify</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2426,7 +2464,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.siteground.com/">SiteGround.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2439,7 +2477,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Slotex.pl</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2452,7 +2490,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">snowflake Ops</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2465,7 +2503,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">SpaceHost.de</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2478,7 +2516,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Squidix</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2491,7 +2529,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Stablehost</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2504,7 +2542,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">stinpriza</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2517,7 +2555,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Strony-Domeny.pl</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2530,7 +2568,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Swisscom</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2543,7 +2581,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">TerraNetwork Hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2556,7 +2594,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Thisistap</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2569,7 +2607,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Tiger Technologies</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2582,7 +2620,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Top Host</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2595,7 +2633,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Torpix Hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2608,7 +2646,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">TransIP</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2621,7 +2659,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Tsohost</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2634,7 +2672,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Tumblr</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2647,7 +2685,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">UnoEuro</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2660,7 +2698,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">UpTime Web Hosting</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -2673,7 +2711,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">VapourHost</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2686,7 +2724,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">VeeroTech</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2699,7 +2737,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Vildmarksdata Sweden</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2712,7 +2750,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">VIPserv.org</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2725,7 +2763,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">webgo</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2738,7 +2776,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">WebHosting 1st</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2751,7 +2789,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">WebhostOne</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2764,7 +2802,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">WebHostUK Limited</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2777,7 +2815,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Websavers</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2790,7 +2828,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Webspace-Verkauf.de</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2803,7 +2841,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Weebly</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2816,7 +2854,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Wetopi</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2829,7 +2867,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Wix</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2842,7 +2880,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">World4You Internet Services GmbH</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2855,7 +2893,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">WPX Hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2868,7 +2906,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Wurpe</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2881,7 +2919,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">WP Engine</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2894,7 +2932,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">wp-webhosting.de</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2907,7 +2945,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Zuver</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -2920,7 +2958,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Antilope Hosting</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2933,7 +2971,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Eidolonhost.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2946,7 +2984,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">KnownHost</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2959,7 +2997,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">PlotHost</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2972,7 +3010,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">VentraIP Australia</a></td>
         
-        <td><img alt="Green checkmark icon" src="/images/GreenCheck.svg"></td>
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
         
         <td>full</td>
         
@@ -2985,7 +3023,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Websupport.sk</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -2998,7 +3036,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">XS4ALL</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -3011,7 +3049,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">XSByte</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -3024,7 +3062,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.ionos.com">1and1.com</a></td>
         
-        <td><img alt="Red X icon" src="/images/NoHTTPSSupport.svg"></td>
+        <td><img alt="no HTTPS support" src="/images/NoHTTPSSupport.svg"></td>
         
         <td>no</td>
         
@@ -3037,7 +3075,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">247-host.com</a></td>
         
-        <td><img alt="Red X icon" src="/images/NoHTTPSSupport.svg"></td>
+        <td><img alt="no HTTPS support" src="/images/NoHTTPSSupport.svg"></td>
         
         <td>no</td>
         
@@ -3050,7 +3088,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Amazili-communication</a></td>
         
-        <td><img alt="Red X icon" src="/images/NoHTTPSSupport.svg"></td>
+        <td><img alt="no HTTPS support" src="/images/NoHTTPSSupport.svg"></td>
         
         <td>no</td>
         
@@ -3063,7 +3101,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">CrazyDomains</a></td>
         
-        <td><img alt="Red X icon" src="/images/NoHTTPSSupport.svg"></td>
+        <td><img alt="no HTTPS support" src="/images/NoHTTPSSupport.svg"></td>
         
         <td>no</td>
         
@@ -3076,7 +3114,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">df.eu</a></td>
         
-        <td><img alt="Red X icon" src="/images/NoHTTPSSupport.svg"></td>
+        <td><img alt="no HTTPS support" src="/images/NoHTTPSSupport.svg"></td>
         
         <td>no</td>
         
@@ -3089,7 +3127,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">GoDaddy</a></td>
         
-        <td><img alt="Red X icon" src="/images/NoHTTPSSupport.svg"></td>
+        <td><img alt="no HTTPS support" src="/images/NoHTTPSSupport.svg"></td>
         
         <td>no</td>
         
@@ -3102,7 +3140,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">HostEurope.de</a></td>
         
-        <td><img alt="Red X icon" src="/images/NoHTTPSSupport.svg"></td>
+        <td><img alt="no HTTPS support" src="/images/NoHTTPSSupport.svg"></td>
         
         <td>no</td>
         
@@ -3115,7 +3153,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">HostMonster.com</a></td>
         
-        <td><img alt="Red X icon" src="/images/NoHTTPSSupport.svg"></td>
+        <td><img alt="no HTTPS support" src="/images/NoHTTPSSupport.svg"></td>
         
         <td>no</td>
         
@@ -3128,7 +3166,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Hostripples.com</a></td>
         
-        <td><img alt="Red X icon" src="/images/NoHTTPSSupport.svg"></td>
+        <td><img alt="no HTTPS support" src="/images/NoHTTPSSupport.svg"></td>
         
         <td>no</td>
         
@@ -3141,7 +3179,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Inmotionhosting.com</a></td>
         
-        <td><img alt="Red X icon" src="/images/NoHTTPSSupport.svg"></td>
+        <td><img alt="no HTTPS support" src="/images/NoHTTPSSupport.svg"></td>
         
         <td>no</td>
         
@@ -3154,7 +3192,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.namecheap.com/security/ssl-certificates/">Namecheap.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -3167,7 +3205,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Netsons.com</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -3180,7 +3218,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Site5.com</a></td>
         
-        <td><img alt="Red X icon" src="/images/NoHTTPSSupport.svg"></td>
+        <td><img alt="no HTTPS support" src="/images/NoHTTPSSupport.svg"></td>
         
         <td>no</td>
         
@@ -3193,7 +3231,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="">Strato.de</a></td>
         
-        <td><img alt="Red X icon" src="/images/NoHTTPSSupport.svg"></td>
+        <td><img alt="no HTTPS support" src="/images/NoHTTPSSupport.svg"></td>
         
         <td>no</td>
         
@@ -3206,7 +3244,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.easyname.com">easyname</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -3219,7 +3257,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.thexyz.com">Thexyz</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -3232,7 +3270,7 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
       <tr>
         <td><a href="https://www.umbler.com">Umbler</a></td>
         
-        <td><img alt="Yellow dash icon" src="/images/PartialHTTPSSupport.svg"></td>
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
         
         <td>partial</td>
         
@@ -3240,6 +3278,97 @@ Most successful Certbot users are running Certbot in a VPS environment.</p>
         
         <td>2019.11.18</td>
         <td></td>
+      </tr>
+      
+      <tr>
+        <td><a href="https://www.veroservers.com">Vero Servers</a></td>
+        
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
+        
+        <td>partial</td>
+        
+        <td><a href="https://twitter.com/veroservers/status/1008697109749649408">announcement</a></td>
+        
+        <td>2020.01.15</td>
+        <td>Certificates provided by default for managed servers. Cloud hosting accounts offer partial support.</td>
+      </tr>
+      
+      <tr>
+        <td><a href="https://www.1984hosting.com">1984 Hosting</a></td>
+        
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
+        
+        <td>full</td>
+        
+        <td><a href="https://twitter.com/1984ehf/status/1206597490558017537">announcement</a></td>
+        
+        <td>2019.12.17</td>
+        <td></td>
+      </tr>
+      
+      <tr>
+        <td><a href="https://www.alwaysdata.com">alwaysdata</a></td>
+        
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
+        
+        <td>full</td>
+        
+        <td><a href="https://blog.alwaysdata.com/2016/11/28/https-native-support-for-lets-encrypt/">announcement</a></td>
+        
+        <td>2020.01.07</td>
+        <td>Available for all plans from free account to dedicated servers</td>
+      </tr>
+      
+      <tr>
+        <td><a href="https://wiktel.com">Wikstrom Telephone Company (Wiktel)</a></td>
+        
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
+        
+        <td>full</td>
+        
+        <td></td>
+        
+        <td>2020.01.16</td>
+        <td>cPanel servers use cPanel's certificate system; all other sites use Let's Encrypt.</td>
+      </tr>
+      
+      <tr>
+        <td><a href="https://www.xmission.com">XMission</a></td>
+        
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
+        
+        <td>partial</td>
+        
+        <td><a href="https://wiki.xmission.com/Lets_Encrypt">tutorial</a></td>
+        
+        <td>2020.01.29</td>
+        <td>Shared Web Hosting utilizes Plesk Panel interface to enable Let's Encrypt; Managed Cloud Hosting enabled via Certbot on request.</td>
+      </tr>
+      
+      <tr>
+        <td><a href="https://www.marketingone.com.au">Marketing One</a></td>
+        
+        <td><img alt="full HTTPS support" src="/images/GreenCheck.svg"></td>
+        
+        <td>full</td>
+        
+        <td><a href="https://secure.carterdouglas.co/index.php/knowledgebase/12/How-to-Install-Lets-Encrypt-SSL-Using-cPanel.html">tutorial</a></td>
+        
+        <td>2020.02.27</td>
+        <td>All Shared & Managed Web Hosting offerings include SSL certificates free of charge.</td>
+      </tr>
+      
+      <tr>
+        <td><a href="https://signaltransmitter.de">signaltransmitter.de</a></td>
+        
+        <td><img alt="partial HTTPS support" src="/images/PartialHTTPSSupport.svg"></td>
+        
+        <td>partial</td>
+        
+        <td><a href="https://signaltransmitter.de/faq/webhosting/lets-encrypt">tutorial</a></td>
+        
+        <td>2020.02.07</td>
+        <td>Shared Web Hosting utilizes Plesk Panel interface to enable Let's Encrypt</td>
       </tr>
       
     </tbody>

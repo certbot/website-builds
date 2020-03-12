@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.common &mdash; Certbot 1.0.0.dev0 documentation</title>
+  <title>certbot.plugins.common &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.common &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.common &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.0
+                1.4
               </div>
             
           
@@ -125,6 +125,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="../../../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../resources.html">Resources</a></li>
 </ul>
 <ul>
@@ -190,21 +191,19 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
+<span class="kn">from</span> <span class="nn">josepy</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">jose_util</span>
 <span class="kn">import</span> <span class="nn">pkg_resources</span>
 <span class="kn">import</span> <span class="nn">zope.interface</span>
 
-<span class="kn">from</span> <span class="nn">josepy</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">jose_util</span>
-
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
-
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">achallenges</span>  <span class="c1"># pylint: disable=unused-import</span>
-<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">reverter</span>
-<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">filesystem</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins.storage</span> <span class="k">import</span> <span class="n">PluginStorage</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -218,6 +217,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="viewcode-block" id="dest_namespace"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.dest_namespace">[docs]</a><span class="k">def</span> <span class="nf">dest_namespace</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;ArgumentParser dest namespace (prefix of all destinations).&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span></div>
+
 
 <span class="n">private_ips_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
     <span class="sa">r</span><span class="s2">&quot;(^127\.0\.0\.1)|(^10\.)|(^172\.1[6-9]\.)|&quot;</span>
@@ -259,7 +259,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># dummy function, doesn&#39;t check if dest.startswith(self.dest_namespace)</span>
         <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">arg_name_no_prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-            <span class="c1"># pylint: disable=missing-docstring</span>
             <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
                 <span class="s2">&quot;--</span><span class="si">{0}{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">option_namespace</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">arg_name_no_prefix</span><span class="p">),</span>
                 <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -454,11 +453,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="sd">&quot;&quot;&quot;Return new address object with same addr and new port.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">port</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipv6</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Addr._normalize_ipv6"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Addr._normalize_ipv6">[docs]</a>    <span class="k">def</span> <span class="nf">_normalize_ipv6</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_normalize_ipv6</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return IPv6 address in normalized form, helper function&quot;&quot;&quot;</span>
         <span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">)</span>
         <span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_explode_ipv6</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_explode_ipv6</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Addr.get_ipv6_exploded"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Addr.get_ipv6_exploded">[docs]</a>    <span class="k">def</span> <span class="nf">get_ipv6_exploded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return IPv6 in normalized form&quot;&quot;&quot;</span>
@@ -466,7 +465,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">return</span> <span class="s2">&quot;:&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_normalize_ipv6</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="Addr._explode_ipv6"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Addr._explode_ipv6">[docs]</a>    <span class="k">def</span> <span class="nf">_explode_ipv6</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_explode_ipv6</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Explode IPv6 address for comparison&quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">]</span>
         <span class="n">addr_list</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
@@ -480,7 +479,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="c1"># appended to the end</span>
                 <span class="n">append_to_end</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">continue</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="c1"># remove leading zeros</span>
                 <span class="n">block</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">append_to_end</span><span class="p">:</span>
@@ -488,7 +487,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># count the location from the end using negative indices</span>
                 <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">addr_list</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">result</span></div></div>
+        <span class="k">return</span> <span class="n">result</span></div>
 
 
 <div class="viewcode-block" id="ChallengePerformer"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.ChallengePerformer">[docs]</a><span class="k">class</span> <span class="nc">ChallengePerformer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -559,9 +558,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">active_file_digest</span> <span class="o">=</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">sha256sum</span><span class="p">(</span><span class="n">dest_path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">active_file_digest</span> <span class="o">==</span> <span class="n">current_hash</span><span class="p">:</span> <span class="c1"># already up to date</span>
         <span class="k">return</span>
-    <span class="k">elif</span> <span class="n">active_file_digest</span> <span class="ow">in</span> <span class="n">all_hashes</span><span class="p">:</span> <span class="c1"># safe to update</span>
+    <span class="k">if</span> <span class="n">active_file_digest</span> <span class="ow">in</span> <span class="n">all_hashes</span><span class="p">:</span> <span class="c1"># safe to update</span>
         <span class="n">_install_current_file</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span> <span class="c1"># has been manually modified, not safe to update</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># has been manually modified, not safe to update</span>
         <span class="c1"># did they modify the current version or an old version?</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">digest_path</span><span class="p">):</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">digest_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -614,7 +613,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># This class takes a similar approach to the cryptography project to deprecate attributes</span>
 <span class="c1"># in public modules. See the _ModuleWithDeprecation class here:</span>
 <span class="c1"># https://github.com/pyca/cryptography/blob/91105952739442a74582d3e62b3d2111365b0dc7/src/cryptography/utils.py#L129</span>
-<div class="viewcode-block" id="_TLSSNI01DeprecationModule"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common._TLSSNI01DeprecationModule">[docs]</a><span class="k">class</span> <span class="nc">_TLSSNI01DeprecationModule</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">_TLSSNI01DeprecationModule</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Internal class delegating to a module, and displaying warnings when</span>
 <span class="sd">    attributes related to TLS-SNI-01 are accessed.</span>
@@ -635,7 +634,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__dir__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;_module&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;_module&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">)</span>
 
 
 <span class="c1"># Patching ourselves to warn about TLS-SNI challenge deprecation and removal.</span>
@@ -696,7 +695,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -723,7 +722,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

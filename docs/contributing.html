@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Developer Guide &mdash; Certbot 1.0.0.dev0 documentation</title>
+  <title>Developer Guide &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Developer Guide &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:title" content="Developer Guide &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Packaging Guide" href="packaging.html"/>
         <link rel="prev" title="User Guide" href="using.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.0
+                1.4
               </div>
             
           
@@ -132,6 +132,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l4"><a class="reference internal" href="#running-automated-unit-tests">Running automated unit tests</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#running-automated-integration-tests">Running automated integration tests</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#running-manual-integration-tests">Running manual integration tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-tests-in-ci">Running tests in CI</a></li>
 </ul>
 </li>
 </ul>
@@ -166,6 +167,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="resources.html">Resources</a></li>
 </ul>
 <ul>
@@ -225,55 +227,56 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="contents local topic" id="table-of-contents">
 <p class="topic-title first">Table of Contents</p>
 <ul class="simple">
-<li><a class="reference internal" href="#getting-started" id="id4">Getting Started</a><ul>
-<li><a class="reference internal" href="#running-a-local-copy-of-the-client" id="id5">Running a local copy of the client</a></li>
-<li><a class="reference internal" href="#find-issues-to-work-on" id="id6">Find issues to work on</a></li>
-<li><a class="reference internal" href="#testing" id="id7">Testing</a><ul>
-<li><a class="reference internal" href="#running-automated-unit-tests" id="id8">Running automated unit tests</a></li>
-<li><a class="reference internal" href="#running-automated-integration-tests" id="id9">Running automated integration tests</a></li>
-<li><a class="reference internal" href="#running-manual-integration-tests" id="id10">Running manual integration tests</a></li>
+<li><a class="reference internal" href="#getting-started" id="id7">Getting Started</a><ul>
+<li><a class="reference internal" href="#running-a-local-copy-of-the-client" id="id8">Running a local copy of the client</a></li>
+<li><a class="reference internal" href="#find-issues-to-work-on" id="id9">Find issues to work on</a></li>
+<li><a class="reference internal" href="#testing" id="id10">Testing</a><ul>
+<li><a class="reference internal" href="#running-automated-unit-tests" id="id11">Running automated unit tests</a></li>
+<li><a class="reference internal" href="#running-automated-integration-tests" id="id12">Running automated integration tests</a></li>
+<li><a class="reference internal" href="#running-manual-integration-tests" id="id13">Running manual integration tests</a></li>
+<li><a class="reference internal" href="#running-tests-in-ci" id="id14">Running tests in CI</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#code-components-and-layout" id="id11">Code components and layout</a><ul>
-<li><a class="reference internal" href="#plugin-architecture" id="id12">Plugin-architecture</a></li>
-<li><a class="reference internal" href="#authenticators" id="id13">Authenticators</a></li>
-<li><a class="reference internal" href="#installer" id="id14">Installer</a></li>
-<li><a class="reference internal" href="#installer-development" id="id15">Installer Development</a><ul>
-<li><a class="reference internal" href="#writing-your-own-plugin" id="id16">Writing your own plugin</a></li>
+<li><a class="reference internal" href="#code-components-and-layout" id="id15">Code components and layout</a><ul>
+<li><a class="reference internal" href="#plugin-architecture" id="id16">Plugin-architecture</a></li>
+<li><a class="reference internal" href="#authenticators" id="id17">Authenticators</a></li>
+<li><a class="reference internal" href="#installer" id="id18">Installer</a></li>
+<li><a class="reference internal" href="#installer-development" id="id19">Installer Development</a><ul>
+<li><a class="reference internal" href="#writing-your-own-plugin" id="id20">Writing your own plugin</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#coding-style" id="id17">Coding style</a></li>
-<li><a class="reference internal" href="#use-certbot-compat-os-instead-of-os" id="id18">Use <code class="docutils literal notranslate"><span class="pre">certbot.compat.os</span></code> instead of <code class="docutils literal notranslate"><span class="pre">os</span></code></a></li>
-<li><a class="reference internal" href="#mypy-type-annotations" id="id19">Mypy type annotations</a></li>
-<li><a class="reference internal" href="#submitting-a-pull-request" id="id20">Submitting a pull request</a></li>
-<li><a class="reference internal" href="#asking-for-help" id="id21">Asking for help</a></li>
-<li><a class="reference internal" href="#updating-certbot-auto-and-letsencrypt-auto" id="id22">Updating certbot-auto and letsencrypt-auto</a><ul>
-<li><a class="reference internal" href="#updating-the-scripts" id="id23">Updating the scripts</a></li>
-<li><a class="reference internal" href="#building-letsencrypt-auto-source-letsencrypt-auto" id="id24">Building letsencrypt-auto-source/letsencrypt-auto</a></li>
-<li><a class="reference internal" href="#opening-a-pr" id="id25">Opening a PR</a></li>
+<li><a class="reference internal" href="#coding-style" id="id21">Coding style</a></li>
+<li><a class="reference internal" href="#use-certbot-compat-os-instead-of-os" id="id22">Use <code class="docutils literal notranslate"><span class="pre">certbot.compat.os</span></code> instead of <code class="docutils literal notranslate"><span class="pre">os</span></code></a></li>
+<li><a class="reference internal" href="#mypy-type-annotations" id="id23">Mypy type annotations</a></li>
+<li><a class="reference internal" href="#submitting-a-pull-request" id="id24">Submitting a pull request</a></li>
+<li><a class="reference internal" href="#asking-for-help" id="id25">Asking for help</a></li>
+<li><a class="reference internal" href="#updating-certbot-auto-and-letsencrypt-auto" id="id26">Updating certbot-auto and letsencrypt-auto</a><ul>
+<li><a class="reference internal" href="#updating-the-scripts" id="id27">Updating the scripts</a></li>
+<li><a class="reference internal" href="#building-letsencrypt-auto-source-letsencrypt-auto" id="id28">Building letsencrypt-auto-source/letsencrypt-auto</a></li>
+<li><a class="reference internal" href="#opening-a-pr" id="id29">Opening a PR</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#updating-the-documentation" id="id26">Updating the documentation</a></li>
-<li><a class="reference internal" href="#running-the-client-with-docker" id="id27">Running the client with Docker</a></li>
-<li><a class="reference internal" href="#notes-on-os-dependencies" id="id28">Notes on OS dependencies</a><ul>
-<li><a class="reference internal" href="#freebsd" id="id29">FreeBSD</a></li>
+<li><a class="reference internal" href="#updating-the-documentation" id="id30">Updating the documentation</a></li>
+<li><a class="reference internal" href="#running-the-client-with-docker" id="id31">Running the client with Docker</a></li>
+<li><a class="reference internal" href="#notes-on-os-dependencies" id="id32">Notes on OS dependencies</a><ul>
+<li><a class="reference internal" href="#freebsd" id="id33">FreeBSD</a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="section" id="getting-started">
-<span id="id1"></span><h2><a class="toc-backref" href="#id4">Getting Started</a><a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2><a class="toc-backref" href="#id7">Getting Started</a><a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
 <p>Certbot has the same <a class="reference internal" href="install.html#system-requirements"><span class="std std-ref">system requirements</span></a> when set
 up for development.  While the section below will help you install Certbot and
 its dependencies, Certbot needs to be run on a UNIX-like OS so if you’re using
 Windows, you’ll need to set up a (virtual) machine running an OS such as Linux
 and continue with these instructions on that UNIX-like OS.</p>
 <div class="section" id="running-a-local-copy-of-the-client">
-<span id="local-copy"></span><h3><a class="toc-backref" href="#id5">Running a local copy of the client</a><a class="headerlink" href="#running-a-local-copy-of-the-client" title="Permalink to this headline">¶</a></h3>
+<span id="local-copy"></span><h3><a class="toc-backref" href="#id8">Running a local copy of the client</a><a class="headerlink" href="#running-a-local-copy-of-the-client" title="Permalink to this headline">¶</a></h3>
 <p>Running the client in developer mode from your local tree is a little different
 than running Certbot as a user. To get set up, clone our git repository by
 running:</p>
@@ -321,7 +324,7 @@ the versions of various packages needed by Certbot.  More information can be
 found in the <a class="reference external" href="https://virtualenv.pypa.io">virtualenv docs</a>.</p>
 </div>
 <div class="section" id="find-issues-to-work-on">
-<h3><a class="toc-backref" href="#id6">Find issues to work on</a><a class="headerlink" href="#find-issues-to-work-on" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id9">Find issues to work on</a><a class="headerlink" href="#find-issues-to-work-on" title="Permalink to this headline">¶</a></h3>
 <p>You can find the open issues in the <a class="reference external" href="https://github.com/certbot/certbot/issues">github issue tracker</a>.  Comparatively
 easy ones are marked <a class="reference external" href="https://github.com/certbot/certbot/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22">good first issue</a>.  If you’re starting work on
 something, post a comment to let others know and seek feedback on your plan
@@ -331,7 +334,7 @@ your pull request must have thorough unit test coverage, pass our
 tests, and be compliant with the <a class="reference internal" href="#coding-style"><span class="std std-ref">coding style</span></a>.</p>
 </div>
 <div class="section" id="testing">
-<span id="id2"></span><h3><a class="toc-backref" href="#id7">Testing</a><a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3><a class="toc-backref" href="#id10">Testing</a><a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h3>
 <p>You can test your code in several ways:</p>
 <ul class="simple">
 <li>running the <a class="reference internal" href="#automated-unit">automated unit</a> tests,</li>
@@ -339,7 +342,7 @@ tests, and be compliant with the <a class="reference internal" href="#coding-sty
 <li>running an <em>ad hoc</em> <a class="reference internal" href="#manual-integration">manual integration</a> test</li>
 </ul>
 <div class="section" id="running-automated-unit-tests">
-<span id="automated-unit"></span><h4><a class="toc-backref" href="#id8">Running automated unit tests</a><a class="headerlink" href="#running-automated-unit-tests" title="Permalink to this headline">¶</a></h4>
+<span id="automated-unit"></span><h4><a class="toc-backref" href="#id11">Running automated unit tests</a><a class="headerlink" href="#running-automated-unit-tests" title="Permalink to this headline">¶</a></h4>
 <p>When you are working in a file <code class="docutils literal notranslate"><span class="pre">foo.py</span></code>, there should also be a file <code class="docutils literal notranslate"><span class="pre">foo_test.py</span></code>
 either in the same directory as <code class="docutils literal notranslate"><span class="pre">foo.py</span></code> or in the <code class="docutils literal notranslate"><span class="pre">tests</span></code> subdirectory
 (if there isn’t, make one). While you are working on your code and tests, run
@@ -364,7 +367,7 @@ production Apache server.</p>
 </div>
 </div>
 <div class="section" id="running-automated-integration-tests">
-<span id="automated-integration"></span><h4><a class="toc-backref" href="#id9">Running automated integration tests</a><a class="headerlink" href="#running-automated-integration-tests" title="Permalink to this headline">¶</a></h4>
+<span id="automated-integration"></span><h4><a class="toc-backref" href="#id12">Running automated integration tests</a><a class="headerlink" href="#running-automated-integration-tests" title="Permalink to this headline">¶</a></h4>
 <p>Generally it is sufficient to open a pull request and let Github and Travis run
 integration tests for you. However, you may want to run them locally before submitting
 your pull request. You need Docker and docker-compose installed and working.</p>
@@ -378,7 +381,7 @@ for integration testing, then launch the Certbot integration tests.</p>
 displayed at the end of the integration tests execution.</p>
 </div>
 <div class="section" id="running-manual-integration-tests">
-<span id="manual-integration"></span><h4><a class="toc-backref" href="#id10">Running manual integration tests</a><a class="headerlink" href="#running-manual-integration-tests" title="Permalink to this headline">¶</a></h4>
+<span id="manual-integration"></span><h4><a class="toc-backref" href="#id13">Running manual integration tests</a><a class="headerlink" href="#running-manual-integration-tests" title="Permalink to this headline">¶</a></h4>
 <p>You can also manually execute Certbot against a local instance of the <a class="reference external" href="https://github.com/letsencrypt/pebble">Pebble</a> ACME server.
 This is useful to verify that the modifications done to the code makes Certbot behave as expected.</p>
 <p>To do so you need:</p>
@@ -415,10 +418,19 @@ certbot_test certonly --standalone -d test.example.com
 </pre></div>
 </div>
 </div>
+<div class="section" id="running-tests-in-ci">
+<h4><a class="toc-backref" href="#id14">Running tests in CI</a><a class="headerlink" href="#running-tests-in-ci" title="Permalink to this headline">¶</a></h4>
+<p>Certbot uses both Azure Pipelines and Travis to run continuous integration
+tests. If you are using our Azure and Travis setup, a branch whose name starts
+with <code class="xref py py-obj docutils literal notranslate"><span class="pre">test-</span></code> will run all Azure and Travis tests on that branch. If the branch
+name starts with <code class="xref py py-obj docutils literal notranslate"><span class="pre">azure-test-</span></code>, it will run all of our Azure tests and none of
+our Travis tests. If the branch stats with <code class="xref py py-obj docutils literal notranslate"><span class="pre">travis-test-</span></code>, only our Travis
+tests will be run.</p>
+</div>
 </div>
 </div>
 <div class="section" id="code-components-and-layout">
-<h2><a class="toc-backref" href="#id11">Code components and layout</a><a class="headerlink" href="#code-components-and-layout" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id15">Code components and layout</a><a class="headerlink" href="#code-components-and-layout" title="Permalink to this headline">¶</a></h2>
 <p>The following components of the Certbot repository are distributed to users:</p>
 <dl class="docutils">
 <dt>acme</dt>
@@ -435,7 +447,7 @@ certbot_test certonly --standalone -d test.example.com
 <dd>Installs Certbot on Windows and is built using the files in windows-installer/</dd>
 </dl>
 <div class="section" id="plugin-architecture">
-<h3><a class="toc-backref" href="#id12">Plugin-architecture</a><a class="headerlink" href="#plugin-architecture" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id16">Plugin-architecture</a><a class="headerlink" href="#plugin-architecture" title="Permalink to this headline">¶</a></h3>
 <p>Certbot has a plugin architecture to facilitate support for
 different webservers, other TLS servers, and operating systems.
 The interfaces available for plugins to implement are defined in
@@ -450,7 +462,7 @@ built-in Standalone authenticator, implement just one interface.</p>
 which can change how prompts are displayed to a user.</p>
 </div>
 <div class="section" id="authenticators">
-<h3><a class="toc-backref" href="#id13">Authenticators</a><a class="headerlink" href="#authenticators" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">Authenticators</a><a class="headerlink" href="#authenticators" title="Permalink to this headline">¶</a></h3>
 <p>Authenticators are plugins that prove control of a domain name by solving a
 challenge provided by the ACME server. ACME currently defines several types of
 challenges: HTTP, TLS-ALPN, and DNS, represented by classes in <a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#module-acme.challenges" title="(in acme-python v0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">acme.challenges</span></code></a>.
@@ -465,7 +477,7 @@ Certbot will call the plugin’s <code class="xref py py-obj docutils literal no
 DNS records that were needed only during authentication.</p>
 </div>
 <div class="section" id="installer">
-<h3><a class="toc-backref" href="#id14">Installer</a><a class="headerlink" href="#installer" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">Installer</a><a class="headerlink" href="#installer" title="Permalink to this headline">¶</a></h3>
 <p>Installers plugins exist to actually setup the certificate in a server,
 possibly tweak the security configuration to make it more correct and secure
 (Fix some mixed content problems, turn on HSTS, redirect to HTTPS, etc).
@@ -485,7 +497,7 @@ up its own Python server to perform challenges) with a program that
 cannot solve challenges itself (Such as MTA installers).</p>
 </div>
 <div class="section" id="installer-development">
-<h3><a class="toc-backref" href="#id15">Installer Development</a><a class="headerlink" href="#installer-development" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id19">Installer Development</a><a class="headerlink" href="#installer-development" title="Permalink to this headline">¶</a></h3>
 <p>There are a few existing classes that may be beneficial while
 developing a new <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IInstaller</span></code></a>.
 Installers aimed to reconfigure UNIX servers may use Augeas for
@@ -494,7 +506,17 @@ to handle much of the interface. Installers that are unable to use
 Augeas may still find the <a class="reference internal" href="api/certbot.reverter.html#certbot.reverter.Reverter" title="certbot.reverter.Reverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reverter</span></code></a> class helpful in handling
 configuration checkpoints and rollback.</p>
 <div class="section" id="writing-your-own-plugin">
-<span id="dev-plugin"></span><h4><a class="toc-backref" href="#id16">Writing your own plugin</a><a class="headerlink" href="#writing-your-own-plugin" title="Permalink to this headline">¶</a></h4>
+<span id="dev-plugin"></span><h4><a class="toc-backref" href="#id20">Writing your own plugin</a><a class="headerlink" href="#writing-your-own-plugin" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The Certbot team is not currently accepting any new DNS plugins
+because we want to rethink our approach to the challenge and resolve some
+issues like <a class="reference external" href="https://github.com/certbot/certbot/issues/6464">#6464</a>,
+<a class="reference external" href="https://github.com/certbot/certbot/issues/6503">#6503</a>, and <a class="reference external" href="https://github.com/certbot/certbot/issues/6504">#6504</a> first.</p>
+<p class="last">In the meantime, you’re welcome to release it as a third-party plugin. See
+<a class="reference external" href="https://github.com/m42e/certbot-dns-ispconfig">certbot-dns-ispconfig</a>
+for one example of that.</p>
+</div>
 <p>Certbot client supports dynamic discovery of plugins through the
 <a class="reference external" href="http://setuptools.readthedocs.io/en/latest/pkg_resources.html#entry-points">setuptools entry points</a> using the <a class="reference internal" href="api/certbot.plugins.html#module-certbot.plugins" title="certbot.plugins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">certbot.plugins</span></code></a> group. This
 way you can, for example, create a custom implementation of
@@ -518,19 +540,11 @@ pip. Users who run <code class="xref py py-obj docutils literal notranslate"><sp
 plugins. It’s technically possible to install third-party plugins into
 the virtualenv used by <code class="xref py py-obj docutils literal notranslate"><span class="pre">certbot-auto</span></code>, but they will be wiped away when
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">certbot-auto</span></code> upgrades.</p>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Please be aware though that as this client is still in a
-developer-preview stage, the API may undergo a few changes. If you
-believe the plugin will be beneficial to the community, please
-consider submitting a pull request to the repo and we will update
-it with any necessary API changes.</p>
-</div>
 </div>
 </div>
 </div>
 <div class="section" id="coding-style">
-<span id="id3"></span><h2><a class="toc-backref" href="#id17">Coding style</a><a class="headerlink" href="#coding-style" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2><a class="toc-backref" href="#id21">Coding style</a><a class="headerlink" href="#coding-style" title="Permalink to this headline">¶</a></h2>
 <p>Please:</p>
 <ol class="arabic">
 <li><p class="first"><strong>Be consistent with the rest of the code</strong>.</p>
@@ -557,7 +571,7 @@ use <a class="reference external" href="http://sphinx-doc.org/">Sphinx-style</a>
 </ol>
 </div>
 <div class="section" id="use-certbot-compat-os-instead-of-os">
-<h2><a class="toc-backref" href="#id18">Use <code class="docutils literal notranslate"><span class="pre">certbot.compat.os</span></code> instead of <code class="docutils literal notranslate"><span class="pre">os</span></code></a><a class="headerlink" href="#use-certbot-compat-os-instead-of-os" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id22">Use <code class="docutils literal notranslate"><span class="pre">certbot.compat.os</span></code> instead of <code class="docutils literal notranslate"><span class="pre">os</span></code></a><a class="headerlink" href="#use-certbot-compat-os-instead-of-os" title="Permalink to this headline">¶</a></h2>
 <p>Python’s standard library <code class="docutils literal notranslate"><span class="pre">os</span></code> module lacks full support for several Windows
 security features about file permissions (eg. DACLs). However several files
 handled by Certbot (eg. private keys) need strongly restricted access
@@ -570,7 +584,7 @@ in every place you would need <code class="docutils literal notranslate"><span c
 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">os</span></code>). Otherwise the tests will fail when your PR is submitted.</p>
 </div>
 <div class="section" id="mypy-type-annotations">
-<span id="type-annotations"></span><h2><a class="toc-backref" href="#id19">Mypy type annotations</a><a class="headerlink" href="#mypy-type-annotations" title="Permalink to this headline">¶</a></h2>
+<span id="type-annotations"></span><h2><a class="toc-backref" href="#id23">Mypy type annotations</a><a class="headerlink" href="#mypy-type-annotations" title="Permalink to this headline">¶</a></h2>
 <p>Certbot uses the <a class="reference external" href="https://mypy.readthedocs.io">mypy</a> static type checker. Python 3 natively supports official type annotations,
 which can then be tested for consistency using mypy. Python 2 doesn’t, but type annotations can
 be <a class="reference external" href="https://mypy.readthedocs.io/en/latest/cheat_sheet.html">added in comments</a>. Mypy does some type checks even without type annotations; we can find
@@ -581,7 +595,7 @@ to start contributing to Certbot.</p>
 <p>To run mypy on Certbot, use <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">mypy</span></code> on a machine that has Python 3 installed.</p>
 <p>Note that instead of just importing <code class="docutils literal notranslate"><span class="pre">typing</span></code>, due to packaging issues, in Certbot we import from
 <code class="docutils literal notranslate"><span class="pre">acme.magic_typing</span></code> and have to add some comments for pylint like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="kn">import</span> <span class="n">Dict</span> <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 </pre></div>
 </div>
 <p>Also note that OpenSSL, which we rely on, has type definitions for crypto but not SSL. We use both.
@@ -592,7 +606,7 @@ Those imports should look like this:</p>
 </div>
 </div>
 <div class="section" id="submitting-a-pull-request">
-<h2><a class="toc-backref" href="#id20">Submitting a pull request</a><a class="headerlink" href="#submitting-a-pull-request" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id24">Submitting a pull request</a><a class="headerlink" href="#submitting-a-pull-request" title="Permalink to this headline">¶</a></h2>
 <p>Steps:</p>
 <ol class="arabic simple">
 <li>Write your code! When doing this, you should add <a class="reference internal" href="#type-annotations"><span class="std std-ref">mypy type annotations</span></a> for any functions you add or modify. You can check that
@@ -613,7 +627,7 @@ rewriting commits makes changes harder to track between reviews.</li>
 </ol>
 </div>
 <div class="section" id="asking-for-help">
-<span id="ask-for-help"></span><h2><a class="toc-backref" href="#id21">Asking for help</a><a class="headerlink" href="#asking-for-help" title="Permalink to this headline">¶</a></h2>
+<span id="ask-for-help"></span><h2><a class="toc-backref" href="#id25">Asking for help</a><a class="headerlink" href="#asking-for-help" title="Permalink to this headline">¶</a></h2>
 <p>If you have any questions while working on a Certbot issue, don’t hesitate to
 ask for help! You can do this in the Certbot channel in EFF’s Mattermost
 instance for its open source projects as described below.</p>
@@ -631,7 +645,7 @@ on this platform.</p>
 Conduct violation, EFF may review discussion channels or direct messages.</p>
 </div>
 <div class="section" id="updating-certbot-auto-and-letsencrypt-auto">
-<h2><a class="toc-backref" href="#id22">Updating certbot-auto and letsencrypt-auto</a><a class="headerlink" href="#updating-certbot-auto-and-letsencrypt-auto" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id26">Updating certbot-auto and letsencrypt-auto</a><a class="headerlink" href="#updating-certbot-auto-and-letsencrypt-auto" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">We are currently only accepting changes to certbot-auto that fix
@@ -640,7 +654,7 @@ method at <a class="reference external" href="https://certbot.eff.org/instructio
 you want to make qualifies, don’t hesitate to <a class="reference internal" href="#ask-for-help">ask for help</a>!</p>
 </div>
 <div class="section" id="updating-the-scripts">
-<h3><a class="toc-backref" href="#id23">Updating the scripts</a><a class="headerlink" href="#updating-the-scripts" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id27">Updating the scripts</a><a class="headerlink" href="#updating-the-scripts" title="Permalink to this headline">¶</a></h3>
 <p>Developers should <em>not</em> modify the <code class="docutils literal notranslate"><span class="pre">certbot-auto</span></code> and <code class="docutils literal notranslate"><span class="pre">letsencrypt-auto</span></code> files
 in the root directory of the repository.  Rather, modify the
 <code class="docutils literal notranslate"><span class="pre">letsencrypt-auto.template</span></code> and associated platform-specific shell scripts in
@@ -648,7 +662,7 @@ the <code class="docutils literal notranslate"><span class="pre">letsencrypt-aut
 <code class="docutils literal notranslate"><span class="pre">letsencrypt-auto-source/pieces/bootstrappers</span></code> directory, respectively.</p>
 </div>
 <div class="section" id="building-letsencrypt-auto-source-letsencrypt-auto">
-<h3><a class="toc-backref" href="#id24">Building letsencrypt-auto-source/letsencrypt-auto</a><a class="headerlink" href="#building-letsencrypt-auto-source-letsencrypt-auto" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id28">Building letsencrypt-auto-source/letsencrypt-auto</a><a class="headerlink" href="#building-letsencrypt-auto-source-letsencrypt-auto" title="Permalink to this headline">¶</a></h3>
 <p>Once changes to any of the aforementioned files have been made, the
 <code class="docutils literal notranslate"><span class="pre">letsencrypt-auto-source/letsencrypt-auto</span></code> script should be updated.  In lieu of
 manually updating this script, run the build script, which lives at
@@ -663,7 +677,7 @@ Your changes will be propagated to these files during the next release of
 Certbot.</p>
 </div>
 <div class="section" id="opening-a-pr">
-<h3><a class="toc-backref" href="#id25">Opening a PR</a><a class="headerlink" href="#opening-a-pr" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id29">Opening a PR</a><a class="headerlink" href="#opening-a-pr" title="Permalink to this headline">¶</a></h3>
 <p>When opening a PR, ensure that the following files are committed:</p>
 <ol class="arabic simple">
 <li><code class="docutils literal notranslate"><span class="pre">letsencrypt-auto-source/letsencrypt-auto.template</span></code> and
@@ -677,22 +691,23 @@ during the next release.</p>
 </div>
 </div>
 <div class="section" id="updating-the-documentation">
-<h2><a class="toc-backref" href="#id26">Updating the documentation</a><a class="headerlink" href="#updating-the-documentation" title="Permalink to this headline">¶</a></h2>
-<p>In order to generate the Sphinx documentation, run the following
-commands:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>make -C docs clean html man
+<h2><a class="toc-backref" href="#id30">Updating the documentation</a><a class="headerlink" href="#updating-the-documentation" title="Permalink to this headline">¶</a></h2>
+<p>Many of the packages in the Certbot repository have documentation in a
+<code class="docutils literal notranslate"><span class="pre">docs/</span></code> directory. This directory is located under the top level directory
+for the package. For instance, Certbot’s documentation is under
+<code class="docutils literal notranslate"><span class="pre">certbot/docs</span></code>.</p>
+<p>To build the documentation of a package, make sure you have followed the
+instructions to set up a <a class="reference internal" href="#local-copy">local copy</a> of Certbot including activating the
+virtual environment. After that, <code class="docutils literal notranslate"><span class="pre">cd</span></code> to the docs directory you want to build
+and run the command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>make clean html
 </pre></div>
 </div>
-<p>This should generate documentation in the <code class="docutils literal notranslate"><span class="pre">docs/_build/html</span></code>
-directory.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">If you skipped the “Getting Started” instructions above,
-run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">&quot;certbot[docs]&quot;</span></code> to install Certbot’s docs extras modules.</p>
-</div>
+<p>This would generate the HTML documentation in <code class="docutils literal notranslate"><span class="pre">_build/html</span></code> in your current
+<code class="docutils literal notranslate"><span class="pre">docs/</span></code> directory.</p>
 </div>
 <div class="section" id="running-the-client-with-docker">
-<span id="docker-dev"></span><h2><a class="toc-backref" href="#id27">Running the client with Docker</a><a class="headerlink" href="#running-the-client-with-docker" title="Permalink to this headline">¶</a></h2>
+<span id="docker-dev"></span><h2><a class="toc-backref" href="#id31">Running the client with Docker</a><a class="headerlink" href="#running-the-client-with-docker" title="Permalink to this headline">¶</a></h2>
 <p>You can use Docker Compose to quickly set up an environment for running and
 testing Certbot. To install Docker Compose, follow the instructions at
 <a class="reference external" href="https://docs.docker.com/compose/install/">https://docs.docker.com/compose/install/</a>.</p>
@@ -722,7 +737,7 @@ effect. To do this, run:</p>
 </div>
 </div>
 <div class="section" id="notes-on-os-dependencies">
-<span id="prerequisites"></span><h2><a class="toc-backref" href="#id28">Notes on OS dependencies</a><a class="headerlink" href="#notes-on-os-dependencies" title="Permalink to this headline">¶</a></h2>
+<span id="prerequisites"></span><h2><a class="toc-backref" href="#id32">Notes on OS dependencies</a><a class="headerlink" href="#notes-on-os-dependencies" title="Permalink to this headline">¶</a></h2>
 <p>OS-level dependencies can be installed like so:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>./certbot-auto --debug --os-packages-only
 </pre></div>
@@ -730,12 +745,12 @@ effect. To do this, run:</p>
 <p>In general…</p>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">sudo</span></code> is required as a suggested way of running privileged process</li>
-<li><a class="reference external" href="https://wiki.python.org/moin/BeginnersGuide/Download">Python</a> 2.7 or 3.4+ is required</li>
+<li><a class="reference external" href="https://wiki.python.org/moin/BeginnersGuide/Download">Python</a> 2.7 or 3.5+ is required</li>
 <li><a class="reference external" href="http://augeas.net/">Augeas</a> is required for the Python bindings</li>
 <li><code class="docutils literal notranslate"><span class="pre">virtualenv</span></code> is used for managing other Python library dependencies</li>
 </ul>
 <div class="section" id="freebsd">
-<h3><a class="toc-backref" href="#id29">FreeBSD</a><a class="headerlink" href="#freebsd" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id33">FreeBSD</a><a class="headerlink" href="#freebsd" title="Permalink to this headline">¶</a></h3>
 <p>FreeBSD by default uses <code class="docutils literal notranslate"><span class="pre">tcsh</span></code>. In order to activate virtualenv (see
 above), you will need a compatible shell, e.g. <code class="docutils literal notranslate"><span class="pre">pkg</span> <span class="pre">install</span> <span class="pre">bash</span> <span class="pre">&amp;&amp;</span>
 <span class="pre">bash</span></code>.</p>
@@ -798,7 +813,7 @@ above), you will need a compatible shell, e.g. <code class="docutils literal not
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.0.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -825,7 +840,7 @@ above), you will need a compatible shell, e.g. <code class="docutils literal not
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Developer%20Guide%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Developer%20Guide%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.display.util &mdash; Certbot 1.0.0.dev0 documentation</title>
+  <title>certbot.display.util &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.display.util &mdash; Certbot 1.0.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.display.util &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.0.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.0
+                1.4
               </div>
             
           
@@ -125,6 +125,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="../../../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../resources.html">Resources</a></li>
 </ul>
 <ul>
@@ -189,12 +190,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="kn">import</span> <span class="nn">zope.interface</span>
 
-<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
+<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">constants</span>
+<span class="kn">from</span> <span class="nn">certbot._internal.display</span> <span class="k">import</span> <span class="n">completer</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">misc</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
-<span class="kn">from</span> <span class="nn">certbot._internal.display</span> <span class="k">import</span> <span class="n">completer</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -218,7 +219,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">&quot;&quot;&quot;Display boundary (alternates spaces, so when copy-pasted, markdown doesn&#39;t interpret</span>
 <span class="sd">it as a heading)&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="_wrap_lines"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util._wrap_lines">[docs]</a><span class="k">def</span> <span class="nf">_wrap_lines</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_wrap_lines</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Format lines nicely to 80 chars.</span>
 
 <span class="sd">    :param str msg: Original message</span>
@@ -237,7 +238,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">break_long_words</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">break_on_hyphens</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fixed_l</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fixed_l</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="input_with_timeout"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.input_with_timeout">[docs]</a><span class="k">def</span> <span class="nf">input_with_timeout</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">36000.0</span><span class="p">):</span>
@@ -361,7 +362,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">message</span> <span class="o">=</span> <span class="n">_wrap_lines</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> (Enter &#39;c&#39; to cancel):&quot;</span> <span class="o">%</span> <span class="n">message</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
         <span class="n">ans</span> <span class="o">=</span> <span class="n">input_with_timeout</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">ans</span> <span class="o">==</span> <span class="s2">&quot;c&quot;</span> <span class="ow">or</span> <span class="n">ans</span> <span class="o">==</span> <span class="s2">&quot;C&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ans</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">CANCEL</span><span class="p">,</span> <span class="s2">&quot;-1&quot;</span>
         <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">ans</span></div>
 
@@ -442,14 +443,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="n">selected_tags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scrub_checklist_input</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">tags</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">selected_tags</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="n">selected_tags</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-                        <span class="s2">&quot;** Error - Invalid selection **</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+                    <span class="s2">&quot;** Error - Invalid selection **</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="p">[]</span></div>
 
-<div class="viewcode-block" id="FileDisplay._return_default"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.FileDisplay._return_default">[docs]</a>    <span class="k">def</span> <span class="nf">_return_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_return_default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Should we return the default instead of prompting the user?</span>
 
 <span class="sd">        :param str prompt: prompt for the user</span>
@@ -466,20 +466,19 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="c1"># assert_valid_call(prompt, default, cli_flag, force_interactive)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_can_interact</span><span class="p">(</span><span class="n">force_interactive</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">elif</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Unable to get an answer for the question:</span><span class="se">\n</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">cli_flag</span><span class="p">:</span>
                 <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span>
                     <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">You can provide an answer on the &quot;</span>
                     <span class="s2">&quot;command line with the </span><span class="si">{0}</span><span class="s2"> flag.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cli_flag</span><span class="p">))</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                <span class="s2">&quot;Falling back to default </span><span class="si">%s</span><span class="s2"> for the prompt:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">default</span><span class="p">,</span> <span class="n">prompt</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">True</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;Falling back to default </span><span class="si">%s</span><span class="s2"> for the prompt:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="p">,</span> <span class="n">prompt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="FileDisplay._can_interact"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.FileDisplay._can_interact">[docs]</a>    <span class="k">def</span> <span class="nf">_can_interact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_can_interact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Can we safely interact with the user?</span>
 
 <span class="sd">        :param bool force_interactive: if interactivity is forced by the</span>
@@ -492,14 +491,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">force_interactive</span> <span class="ow">or</span> <span class="n">force_interactive</span> <span class="ow">or</span>
                 <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">isatty</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">isatty</span><span class="p">()):</span>
             <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">skipped_interaction</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">skipped_interaction</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                 <span class="s2">&quot;Skipped user interaction because Certbot doesn&#39;t appear to &quot;</span>
                 <span class="s2">&quot;be running in a terminal. You should probably include &quot;</span>
                 <span class="s2">&quot;--non-interactive or </span><span class="si">%s</span><span class="s2"> on the command line.&quot;</span><span class="p">,</span>
                 <span class="n">constants</span><span class="o">.</span><span class="n">FORCE_INTERACTIVE_FLAG</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">skipped_interaction</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
+        <span class="k">return</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="FileDisplay.directory_select"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.FileDisplay.directory_select">[docs]</a>    <span class="k">def</span> <span class="nf">directory_select</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
@@ -519,8 +518,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">with</span> <span class="n">completer</span><span class="o">.</span><span class="n">Completer</span><span class="p">():</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="FileDisplay._scrub_checklist_input"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.FileDisplay._scrub_checklist_input">[docs]</a>    <span class="k">def</span> <span class="nf">_scrub_checklist_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
-        <span class="c1"># pylint: disable=no-self-use</span>
+    <span class="k">def</span> <span class="nf">_scrub_checklist_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="n">tags</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Validate input and transform indices to appropriate tags.</span>
 
 <span class="sd">        :param list indices: input</span>
@@ -544,9 +542,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">):</span>
                 <span class="k">return</span> <span class="p">[]</span>
         <span class="c1"># Transform indices to appropriate tags</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">tags</span><span class="p">[</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="n">tags</span><span class="p">[</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
 
-<div class="viewcode-block" id="FileDisplay._print_menu"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.FileDisplay._print_menu">[docs]</a>    <span class="k">def</span> <span class="nf">_print_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">choices</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_print_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">choices</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Print a menu on the screen.</span>
 
 <span class="sd">        :param str message: title of menu</span>
@@ -573,9 +571,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">SIDE_FRAME</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 
-<div class="viewcode-block" id="FileDisplay._get_valid_int_ans"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.FileDisplay._get_valid_int_ans">[docs]</a>    <span class="k">def</span> <span class="nf">_get_valid_int_ans</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_valid_int_ans</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get a numerical selection.</span>
 
 <span class="sd">        :param int max: The maximum entry (len of choices), must be positive</span>
@@ -609,7 +607,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                     <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">** Invalid input **</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">selection</span></div></div>
+        <span class="k">return</span> <span class="n">OK</span><span class="p">,</span> <span class="n">selection</span></div>
 
 
 <div class="viewcode-block" id="assert_valid_call"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.assert_valid_call">[docs]</a><span class="k">def</span> <span class="nf">assert_valid_call</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
@@ -638,7 +636,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="nb">super</span><span class="p">(</span><span class="n">NoninteractiveDisplay</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span> <span class="o">=</span> <span class="n">outfile</span>
 
-<div class="viewcode-block" id="NoninteractiveDisplay._interaction_fail"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.NoninteractiveDisplay._interaction_fail">[docs]</a>    <span class="k">def</span> <span class="nf">_interaction_fail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_interaction_fail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="s2">&quot;Error out in case of an attempt to interact in noninteractive mode&quot;</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Missing command line flag or config entry for this setting:</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="n">msg</span> <span class="o">+=</span> <span class="n">message</span>
@@ -646,7 +644,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">extra</span>
         <span class="k">if</span> <span class="n">cli_flag</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">(You can set this with the </span><span class="si">{0}</span><span class="s2"> flag)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cli_flag</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">MissingCommandlineFlag</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">MissingCommandlineFlag</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NoninteractiveDisplay.notification"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.NoninteractiveDisplay.notification">[docs]</a>    <span class="k">def</span> <span class="nf">notification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
         <span class="sd">&quot;&quot;&quot;Displays a notification without waiting for user acceptance.</span>
@@ -773,13 +771,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="n">no_commas</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span></div>
 
 
-<div class="viewcode-block" id="_parens_around_char"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util._parens_around_char">[docs]</a><span class="k">def</span> <span class="nf">_parens_around_char</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_parens_around_char</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Place parens around first character of label.</span>
 
 <span class="sd">    :param str label: Must contain at least one character</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s2">&quot;(</span><span class="si">{first}</span><span class="s2">)</span><span class="si">{rest}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">first</span><span class="o">=</span><span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rest</span><span class="o">=</span><span class="n">label</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span></div>
+    <span class="k">return</span> <span class="s2">&quot;(</span><span class="si">{first}</span><span class="s2">)</span><span class="si">{rest}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">first</span><span class="o">=</span><span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rest</span><span class="o">=</span><span class="n">label</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 </pre></div>
 
            </div>
@@ -836,7 +834,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.0.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -863,7 +861,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.util%E2%80%94%20Certbot%201.0.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.util%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
