@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Certbot - Nonunix Haproxy</title>
+    <title>Certbot - Windows Apache</title>
     <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <link rel="stylesheet" href="/css/main.css">
@@ -14,7 +14,7 @@
     <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@EFF">
-    <meta name="twitter:title" content="Certbot - Nonunix Haproxy">
+    <meta name="twitter:title" content="Certbot - Windows Apache">
     <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
@@ -30,8 +30,17 @@
 
 
   <body class="instructions page">
+    
+    <div class="logo-banner">
+  <div class="logo">
+    <a href="https://eff.org"><img src="/images/EFF-logo-plain.svg" alt="EFF"></a>
+  </div>
+  <div class="eff-tagline">
+    <span>a project of the Electronic Frontier Foundation</span>
+  </div>
+</div>
 
-    <nav class="main-nav fixed">
+    <nav class="main-nav">
   <div class="logo">
     <a href="/"><img src="/images/certbot-logo-1A.svg" alt="Certbot logo, a robot holding a key"/></a>
   </div>
@@ -147,7 +156,7 @@
       
         <option value="pip" data-distro="python" data-version="0">Other UNIX</option>
       
-        <option value="nonunix" data-distro="nonunix" data-version="0">Non-UNIX</option>
+        <option value="windows" data-distro="windows" data-version="0">Windows</option>
       
     </optgroup>
   </select>
@@ -166,7 +175,7 @@
     <div class="page-content">
       <div class="wrapper">
         <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/nonunix-haproxy.html">Haproxy on Non-UNIX</a></h2>
+          <h2 id="instructions-header"><a href="/lets-encrypt/windows-apache.html">Apache on Windows</a></h2>
 <div class="use-certbot">
   <h1>To use Certbot, you'll need...</h1>
   <div class="three-col reqs">
@@ -584,23 +593,141 @@ You should never share these credentials publicly or with an unauthorized person
 <div class="instruction-pane-wrapper">
   <div class="instruction-pane automated">
     <ol>
+      
+      <li>
+          SSH into the server
+          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
+      </li>
+
+      <li>
+          Install Certbot
+          <p>
+          Run these commands on the command line on the machine to install Certbot.
+          <pre class="no-before"><ol><li>wget https://dl.eff.org/certbot-auto</li>
+              <li>sudo mv certbot-auto /usr/local/bin/certbot-auto</li>
+              <li>sudo chown root /usr/local/bin/certbot-auto</li>
+              <li>sudo chmod 0755 /usr/local/bin/certbot-auto</li></ol></pre>
+          </p>
+      </li>
+      <li>
+        Choose how you'd like to run Certbot
+        <ul>
+          <li>
+            Either get and install your certificates...
             <p>
-      Certbot is currently only available for UNIX-like operating systems. Although
-      EFF's Certbot might not work for your use case, there are many <a href="https://community.letsencrypt.org/t/list-of-client-implementations/2103">
-      other clients</a> written by other organizations and developers that you may be
-      able to use to obtain a certificate from Let's Encrypt.
-      </p>
+            Run this command to get a certificate and have Certbot edit your Apache configuration
+            automatically to serve it, turning on HTTPS access in a single step.
+            <pre>sudo /usr/local/bin/certbot-auto --apache</pre>
+            </p>
+          </li>
+
+          <li>
+            Or, just get a certificate
+            <p>
+            If you're feeling more conservative and would like to make the changes to your Apache
+            configuration by hand, run this command.
+            <pre>sudo /usr/local/bin/certbot-auto certonly --apache</pre>
+            </p>
+          </li>
+        </ul>
+      </li>
+
+
+      <li>
+        Set up automatic renewal
+        <p>
+        We recommend running the following line, which will add a cron job to the default crontab.
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        </p>
+
+      </li>
+
+      <li>
+        Confirm that Certbot worked
+        <p>
+        To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
+        look for the lock icon in the URL bar.
+        If you want to check that you have the top-of-the-line installation, you can head to
+        <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
+        </p>
+        <p class="centered">
+        <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's <img src="/images/Lock.svg" /> https:// at SSL Labs</a>.
+        </p>
+      </li>
     </ol>
   </div>
 
   <div class="instruction-pane advanced">
     <ol>
+      <aside class="note docker-note">
+        <div class="note-header">
+          <h3>Follow Docker instructions</h3>
+        </div>
+          <p>
+          To get a wildcard certificate on this system, you'll need to run Certbot in Docker. You
+          can do so by following
+          <a href="/docs/install.html#running-with-docker">these
+            steps from our documentation</a>.
+          </p>
+      </aside>
+
+      <li>
+          SSH into the server
+          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
+      </li>
+
+      <li>
+          Install Certbot
+          <p>
+          Run these commands on the command line on the machine to install Certbot.
+          <pre class="no-before"><ol><li>wget https://dl.eff.org/certbot-auto</li>
+              <li>sudo mv certbot-auto /usr/local/bin/certbot-auto</li>
+              <li>sudo chown root /usr/local/bin/certbot-auto</li>
+              <li>sudo chmod 0755 /usr/local/bin/certbot-auto</li></ol></pre>
+          </p>
+      </li>
+      <li>
+        Choose how you'd like to run Certbot
+        <ul>
+          <li>
+            Either get and install your certificates...
             <p>
-      Certbot is currently only available for UNIX-like operating systems. Although
-      EFF's Certbot might not work for your use case, there are many <a href="https://community.letsencrypt.org/t/list-of-client-implementations/2103">
-      other clients</a> written by other organizations and developers that you may be
-      able to use to obtain a certificate from Let's Encrypt.
-      </p>
+            Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>,
+            along with the flag <tt>-i apache</tt>.
+            </p>
+          </li>
+
+          <li>
+            Or, just get a certificate
+            <p>
+            Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>.
+            </p>
+          </li>
+        </ul>
+      </li>
+
+
+      <li>
+        Set up automatic renewal
+        <p>
+        We recommend running the following line, which will add a cron job to the default crontab.
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        </p>
+
+      </li>
+
+      <li>
+        Confirm that Certbot worked
+        <p>
+        To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
+        look for the lock icon in the URL bar.
+        If you want to check that you have the top-of-the-line installation, you can head to
+        <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
+        </p>
+        <p class="centered">
+        <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's <img src="/images/Lock.svg" /> https:// at SSL Labs</a>.
+        </p>
+      </li>
     </ol>
   </div>
 
