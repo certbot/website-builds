@@ -593,186 +593,23 @@ You should never share these credentials publicly or with an unauthorized person
 <div class="instruction-pane-wrapper">
   <div class="instruction-pane automated">
     <ol>
-      
-      <li>
-          SSH into the server
-          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
-      </li>
-
-      <li>
-          Install Certbot
-          <p>
-          Run these commands on the command line on the machine to install Certbot.
-          <pre class="no-before"><ol><li>wget https://dl.eff.org/certbot-auto</li>
-              <li>sudo mv certbot-auto /usr/local/bin/certbot-auto</li>
-              <li>sudo chown root /usr/local/bin/certbot-auto</li>
-              <li>sudo chmod 0755 /usr/local/bin/certbot-auto</li></ol></pre>
-          </p>
-      </li>
-      <li>
-          Choose how you'd like to run Certbot
-          <p>
-              Are you ok with temporarily stopping your website?
-          </p>
-          <h3>Yes, my web server is not currently running on this machine.</h3>
-          <p>
-              Stop your webserver, then run this command to get a certificate.
-              Certbot will temporarily spin up a webserver on your machine.
-              <pre>
-                  sudo /usr/local/bin/certbot-auto certonly --standalone
-              </pre>
-          </p>
-          <h3>No, I need to keep my web server running.</h3>
-          <p>
-              If you have a webserver that's already using port 80 and don't want to stop it
-              while Certbot runs, run this command and follow the instructions in the terminal.
-              <pre>
-                  sudo /usr/local/bin/certbot-auto certonly --webroot
-              </pre>
-          </p>
-          <aside class="note">
-            <div class="note-header"><h3>Important Note:</h3></div>
-                  <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If <tt>/.well-known</tt> is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside <tt>/.well-known/acme-challenge</tt> are served by the webserver.</p>
-          </aside>
-      </li>
-
-      <li>
-          Install your certificate
-          <p>
-              You'll need to install your new certificate in the configuration file for
-              your webserver.
-          </p>
-      </li>
-
-
-      <li>
-        Set up automatic renewal
-        <p>
-        We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
-        </p>
-
-      </li>
-
-      <li>
-        Confirm that Certbot worked
-        <p>
-        To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
-        look for the lock icon in the URL bar.
-        If you want to check that you have the top-of-the-line installation, you can head to
-        <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
-        </p>
-        <p class="centered">
-        <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's <img src="/images/Lock.svg" /> https:// at SSL Labs</a>.
-        </p>
-      </li>
-
-      <li>
-          Need more HAProxy-specific information?
-          <p>
-              Certificate installation with HAProxy is complicated. You can find more information
-              in of these guides:
-              <ul>
-                  <li>
-                      <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-haproxy-with-let-s-encrypt-on-ubuntu-14-04">Digital Ocean's guide</a>
-                  </li>
-                  <li>
-                      <a href="https://skarlso.github.io/2017/02/15/how-to-https-with-hugo-letsencrypt-haproxy/">Skarlso's guide</a>
-                  </li>
-              </ul>
-          </p>
-          <p>
-          Or you might be interested in using the experimental <a href="https://code.greenhost.net/open/letsencrypt-haproxy">third-party HAProxy plugin</a> from Greenhost.
-          </p>
-      </li>
+            <p>
+      Certbot is currently only available for UNIX-like operating systems. Although
+      EFF's Certbot might not work for your use case, there are many <a href="https://community.letsencrypt.org/t/list-of-client-implementations/2103">
+      other clients</a> written by other organizations and developers that you may be
+      able to use to obtain a certificate from Let's Encrypt.
+      </p>
     </ol>
   </div>
 
   <div class="instruction-pane advanced">
     <ol>
-      <aside class="note docker-note">
-        <div class="note-header">
-          <h3>Follow Docker instructions</h3>
-        </div>
-          <p>
-          To get a wildcard certificate on this system, you'll need to run Certbot in Docker. You
-          can do so by following
-          <a href="/docs/install.html#running-with-docker">these
-            steps from our documentation</a>.
-          </p>
-      </aside>
-
-      <li>
-          SSH into the server
-          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
-      </li>
-
-      <li>
-          Install Certbot
-          <p>
-          Run these commands on the command line on the machine to install Certbot.
-          <pre class="no-before"><ol><li>wget https://dl.eff.org/certbot-auto</li>
-              <li>sudo mv certbot-auto /usr/local/bin/certbot-auto</li>
-              <li>sudo chown root /usr/local/bin/certbot-auto</li>
-              <li>sudo chmod 0755 /usr/local/bin/certbot-auto</li></ol></pre>
-          </p>
-      </li>
-      <li>
-          Get a certificate
-          <p>
-          Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>.
-          </p>
-      </li>
-
-      <li>
-          Install your certificate
-          <p>
-              You'll need to install your new certificate in the configuration file for
-              your webserver.
-          </p>
-      </li>
-
-
-      <li>
-        Set up automatic renewal
-        <p>
-        We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
-        </p>
-
-      </li>
-
-      <li>
-        Confirm that Certbot worked
-        <p>
-        To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
-        look for the lock icon in the URL bar.
-        If you want to check that you have the top-of-the-line installation, you can head to
-        <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
-        </p>
-        <p class="centered">
-        <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's <img src="/images/Lock.svg" /> https:// at SSL Labs</a>.
-        </p>
-      </li>
-
-      <li>
-          Need more HAProxy-specific information?
-          <p>
-              Certificate installation with HAProxy is complicated. You can find more information
-              in of these guides:
-              <ul>
-                  <li>
-                      <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-haproxy-with-let-s-encrypt-on-ubuntu-14-04">Digital Ocean's guide</a>
-                  </li>
-                  <li>
-                      <a href="https://skarlso.github.io/2017/02/15/how-to-https-with-hugo-letsencrypt-haproxy/">Skarlso's guide</a>
-                  </li>
-              </ul>
-          </p>
-          <p>
-          Or you might be interested in using the experimental <a href="https://code.greenhost.net/open/letsencrypt-haproxy">third-party HAProxy plugin</a> from Greenhost.
-          </p>
-      </li>
+            <p>
+      Certbot is currently only available for UNIX-like operating systems. Although
+      EFF's Certbot might not work for your use case, there are many <a href="https://community.letsencrypt.org/t/list-of-client-implementations/2103">
+      other clients</a> written by other organizations and developers that you may be
+      able to use to obtain a certificate from Let's Encrypt.
+      </p>
     </ol>
   </div>
 
