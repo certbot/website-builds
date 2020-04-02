@@ -621,38 +621,26 @@ You should never share these credentials publicly or with an unauthorized person
       </li>
 
       <li>
-          Choose how you'd like to run Certbot
-          <p>
-              Are you ok with temporarily stopping your website?
-          </p>
-          <h3>Yes, my web server is not currently running on this machine.</h3>
-          <p>
-              Stop your webserver, then run this command to get a certificate.
-              Certbot will temporarily spin up a webserver on your machine.
-              <pre>
-                  sudo certbot certonly --standalone
-              </pre>
-          </p>
-          <h3>No, I need to keep my web server running.</h3>
-          <p>
-              If you have a webserver that's already using port 80 and don't want to stop it
-              while Certbot runs, run this command and follow the instructions in the terminal.
-              <pre>
-                  sudo certbot certonly --webroot
-              </pre>
-          </p>
-          <aside class="note">
-            <div class="note-header"><h3>Important Note:</h3></div>
-                  <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If <tt>/.well-known</tt> is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside <tt>/.well-known/acme-challenge</tt> are served by the webserver.</p>
-          </aside>
-      </li>
+        Choose how you'd like to run Certbot
+        <ul>
+          <li>
+            Either get and install your certificates...
+            <p>
+            Run this command to get a certificate and have Certbot edit your Apache configuration
+            automatically to serve it, turning on HTTPS access in a single step.
+            <pre>sudo certbot --apache</pre>
+            </p>
+          </li>
 
-      <li>
-          Install your certificate
-          <p>
-              You'll need to install your new certificate in the configuration file for
-              your webserver.
-          </p>
+          <li>
+            Or, just get a certificate
+            <p>
+            If you're feeling more conservative and would like to make the changes to your Apache
+            configuration by hand, run this command.
+            <pre>sudo certbot certonly --apache</pre>
+            </p>
+          </li>
+        </ul>
       </li>
 
 
@@ -663,20 +651,6 @@ You should never share these credentials publicly or with an unauthorized person
         <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
-        <p>
-        If you needed to stop your webserver to run Certbot, you'll want to
-        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
-        and start your webserver automatically. For example, if your webserver is HAProxy, modify the
-        command as follows:
-
-        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
-        </p>
-
-        <p>
-        More information is available in the
-        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
-        Certbot documentation on renewing certificates</a>.
-        </p>
       </li>
 
       <li>
@@ -767,18 +741,23 @@ You should never share these credentials publicly or with an unauthorized person
           </p>
       </li>
       <li>
-          Get a certificate
-          <p>
-          Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>.
-          </p>
-      </li>
+        Choose how you'd like to run Certbot
+        <ul>
+          <li>
+            Either get and install your certificates...
+            <p>
+            Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>,
+            along with the flag <tt>-i apache</tt>.
+            </p>
+          </li>
 
-      <li>
-          Install your certificate
-          <p>
-              You'll need to install your new certificate in the configuration file for
-              your webserver.
-          </p>
+          <li>
+            Or, just get a certificate
+            <p>
+            Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>.
+            </p>
+          </li>
+        </ul>
       </li>
 
 
@@ -789,20 +768,6 @@ You should never share these credentials publicly or with an unauthorized person
         <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
-        <p>
-        If you needed to stop your webserver to run Certbot, you'll want to
-        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
-        and start your webserver automatically. For example, if your webserver is HAProxy, modify the
-        command as follows:
-
-        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
-        </p>
-
-        <p>
-        More information is available in the
-        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
-        Certbot documentation on renewing certificates</a>.
-        </p>
       </li>
 
       <li>
