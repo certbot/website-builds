@@ -600,18 +600,30 @@ You should never share these credentials publicly or with an unauthorized person
           <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
       </li>
 
-
-
       <li>
-          Install Certbot
+          Enable EPEL repo
           <p>
-          Run these commands on the command line on the machine to install Certbot.
-          <pre class="no-before"><ol><li>wget https://dl.eff.org/certbot-auto</li>
-              <li>sudo mv certbot-auto /usr/local/bin/certbot-auto</li>
-              <li>sudo chown root /usr/local/bin/certbot-auto</li>
-              <li>sudo chmod 0755 /usr/local/bin/certbot-auto</li></ol></pre>
+          You'll need to enable the EPEL (Extra Packages for Enterprise Linux)
+          repository.<br />
+          Follow these instructions at
+          <a href="https://fedoraproject.org/wiki/EPEL#Quickstart">
+            the Fedora wiki to enable EPEL</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="https://fedoraproject.org/wiki/EPEL#Quickstart">
+            enable EPEL</a>
           </p>
       </li>
+
+      <li>
+        Install Certbot
+        <p>
+          Run this command on the command line on the machine to install Certbot.
+          <pre>sudo dnf install certbot</pre>
+        </p>
+      </li>
+
+
 
 
       <li>
@@ -624,7 +636,7 @@ You should never share these credentials publicly or with an unauthorized person
               Stop your webserver, then run this command to get a certificate.
               Certbot will temporarily spin up a webserver on your machine.
               <pre>
-                  sudo /usr/local/bin/certbot-auto certonly --standalone
+                  sudo certbot certonly --standalone
               </pre>
           </p>
           <h3>No, I need to keep my web server running.</h3>
@@ -632,7 +644,7 @@ You should never share these credentials publicly or with an unauthorized person
               If you have a webserver that's already using port 80 and don't want to stop it
               while Certbot runs, run this command and follow the instructions in the terminal.
               <pre>
-                  sudo /usr/local/bin/certbot-auto certonly --webroot
+                  sudo certbot certonly --webroot
               </pre>
           </p>
           <aside class="note">
@@ -654,16 +666,16 @@ You should never share these credentials publicly or with an unauthorized person
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
         <p>
         If you needed to stop your webserver to run Certbot, you'll want to
-        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>/usr/local/bin/certbot-auto renew</tt> to stop
+        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
         and start your webserver automatically. For example, if your webserver is HAProxy, modify the
         command as follows:
 
-        <pre class="one-line">echo "0 0,12 * * * root python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
         <p>
@@ -691,37 +703,81 @@ You should never share these credentials publicly or with an unauthorized person
   <div class="instruction-pane advanced">
     <ol>
       
-      <aside class="note docker-note">
-        <div class="note-header">
-          <h3>Follow Docker instructions</h3>
-        </div>
+      <li>
+          Check if your DNS provider is supported
           <p>
-          To get a wildcard certificate on this system, you'll need to run Certbot in Docker. You
-          can do so by following
-          <a href="/docs/install.html#running-with-docker">these
-            steps from our documentation</a>.
+          See if your DNS provider is supported by Certbot by checking
+          <a href="/docs/using.html#dns-plugins">this list in our
+            documentation</a>.
           </p>
-      </aside>
+          <p class="centered">
+          <a class="link-button" href="/docs/using.html#dns-plugins">check if your DNS provider supports Certbot</a>
+          </p>
+          <h3>Not supported?</h3>
+          <p>
+          If your DNS provider is not supported, pause here: run Certbot with the manual plugin by using
+          <a href="/docs/using.html#manual">these steps from our documentation</a>.
+          </p>
+          <h3>Supported?</h3>
+          <p>
+          If your DNS provider is supported, continue with the remaining instructions below.
+          </p>
+      </li>
 
       <li>
           SSH into the server
           <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
       </li>
 
-
-
       <li>
-          Install Certbot
+          Enable EPEL repo
           <p>
-          Run these commands on the command line on the machine to install Certbot.
-          <pre class="no-before"><ol><li>wget https://dl.eff.org/certbot-auto</li>
-              <li>sudo mv certbot-auto /usr/local/bin/certbot-auto</li>
-              <li>sudo chown root /usr/local/bin/certbot-auto</li>
-              <li>sudo chmod 0755 /usr/local/bin/certbot-auto</li></ol></pre>
+          You'll need to enable the EPEL (Extra Packages for Enterprise Linux)
+          repository.<br />
+          Follow these instructions at
+          <a href="https://fedoraproject.org/wiki/EPEL#Quickstart">
+            the Fedora wiki to enable EPEL</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="https://fedoraproject.org/wiki/EPEL#Quickstart">
+            enable EPEL</a>
           </p>
       </li>
 
+      <li>
+        Install Certbot
+        <p>
+          Run this command on the command line on the machine to install Certbot.
+          <pre>sudo dnf install certbot</pre>
+        </p>
+      </li>
 
+
+
+
+      <li>
+          Install correct DNS plugin
+          <p>
+          Run the following command, replacing &lt;PLUGIN&gt; with the name of your DNS provider.
+          </p>
+          <pre>sudo dnf install python3-certbot-dns-&lt;PLUGIN&gt;</pre>
+          <p>
+          For example, if your DNS provider is Cloudflare, you'd run the following command:
+          </p>
+          <pre>sudo dnf install python3-certbot-dns-cloudflare</pre>
+      </li>
+      <li>
+          Set up credentials
+          <p>
+          You'll need to set up DNS credentials.<br />
+          Follow the steps in the "Credentials" section for your DNS provider to access or create the
+          appropriate credential configuration file. Find credentials instructions for your DNS provider
+          by clicking the <a href="/docs/using.html#dns-plugins">DNS plugin's name on the Documentation list</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="/docs/using.html#dns-plugins">find your DNS plugin's Credential steps</a>
+          </p>
+      </li>
       <li>
           Get a certificate
           <p>
@@ -742,16 +798,16 @@ You should never share these credentials publicly or with an unauthorized person
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
         <p>
         If you needed to stop your webserver to run Certbot, you'll want to
-        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>/usr/local/bin/certbot-auto renew</tt> to stop
+        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
         and start your webserver automatically. For example, if your webserver is HAProxy, modify the
         command as follows:
 
-        <pre class="one-line">echo "0 0,12 * * * root python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
         <p>
