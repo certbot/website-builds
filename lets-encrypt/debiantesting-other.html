@@ -136,11 +136,7 @@
       
         <option value="freebsd" data-distro="freebsd" data-version="0">FreeBSD</option>
       
-        <option value="opbsd5" data-distro="opbsd" data-version="5.9">OpenBSD 5.9</option>
-      
         <option value="opbsd6" data-distro="opbsd" data-version="6">OpenBSD 6.0+</option>
-      
-        <option value="opbsd" data-distro="auto" data-version="0">OpenBSD (other)</option>
       
         <option value="osx" data-distro="macos" data-version="10">macOS</option>
       
@@ -661,15 +657,15 @@ You should never share these credentials publicly or with an unauthorized person
         </p>
 
         <p>
-        If you needed to stop your webserver to run Certbot, you'll want to edit the built-in command
-        to add the <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags to stop and start your
-        webserver automatically. For example, if your webserver is HAProxy, add the following to the
-        <tt>certbot renew</tt> command:
+        If you needed to stop your webserver to run Certbot, you'll want to add hook
+        scripts to stop and start your webserver automatically. For example, if your
+        webserver is HAProxy, run the following commands:
         </p>
 
-        <pre>
-          --pre-hook "service haproxy stop" --post-hook "service haproxy start"
-        </pre>
+        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
+          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
 
         <p>
         More information is available in the
@@ -787,15 +783,15 @@ You should never share these credentials publicly or with an unauthorized person
         </p>
 
         <p>
-        If you needed to stop your webserver to run Certbot, you'll want to edit the built-in command
-        to add the <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags to stop and start your
-        webserver automatically. For example, if your webserver is HAProxy, add the following to the
-        <tt>certbot renew</tt> command:
+        If you needed to stop your webserver to run Certbot, you'll want to add hook
+        scripts to stop and start your webserver automatically. For example, if your
+        webserver is HAProxy, run the following commands:
         </p>
 
-        <pre>
-          --pre-hook "service haproxy stop" --post-hook "service haproxy start"
-        </pre>
+        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
+          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
 
         <p>
         More information is available in the
