@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width initial-scale=1" />
@@ -24,161 +23,94 @@
     
 </head>
 
+  <body class="page">
+    <div class="logo-banner">
+  <div class="logo">
+    <a href="https://eff.org"><img src="/images/EFF-logo-plain.svg" alt="EFF"></a>
+  </div>
+  <div class="eff-tagline">
+    <span>a project of the Electronic Frontier Foundation</span>
+  </div>
+</div>
 
-  <body class="faq">
+    <nav class="main-nav">
+  <div class="logo">
+    <a href="/"><img src="/images/certbot-logo-1A.svg" alt="Certbot logo, a robot holding a key"/></a>
+  </div>
 
-    <nav class="main-nav fixed">
   <ul>
-    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electonic Frontier Foundation"></a></li>
-    <li><a href="/">Home</a></li>
-    <li><a href="/about/">About Certbot</a></li>
-    <li><a href="/faq/">FAQ</a></li>
-    <li><a href="/docs/">Documentation</a></li>
-    <li><a href="/support/">Support</a></li>
-    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
-    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li class="mobile-hidden"><a href="/instructions">certbot instructions</a></li>
+    <li class="mobile-hidden"><a href="/about/">about certbot</a></li>
+    <li class="mobile-hidden"><a href="/contribute/">contribute to certbot</a></li>
+    <li class="mobile-hidden"><a href="/hosting_providers/">hosting providers with HTTPS</a></li>
+    <li class="mobile-hidden"><a href="/help/">get help</a></li>
+    <li class="donate mobile-hidden"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate</a></li>
+    <li class="donate mobile-only"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
     <li id="hamburger">&#x2261;</li>
   </ul>
 </nav>
 
     <div id="shelf">
   <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/about/">About Certbot</a></li>
-    <li><a href="/faq/">FAQ</a></li>
-    <li><a href="/docs/">Documentation</a></li>
-    <li><a href="/support/">Support</a></li>
-    <li><a href="https://github.com/certbot/certbot">Source Code</a></li>
-    <li><a href="https://supporters.eff.org/donate/support-work-on-certbot">Donate</a></li>
+    <li><a href="/">home</a></li>
+    <li><a href="/instructions">certbot instructions</a></li>
+    <li><a href="/about/">about certbot</a></li>
+    <li><a href="/contribute/">contribute to certbot</a></li>
+    <li><a href="/hosting_providers/">hosting providers with HTTPS</a></li>
+    <li><a href="/help/">get help</a></li>
+    <li><a href="https://supporters.eff.org/donate/support-work-on-certbot">donate</a></li>
     <li id="close">&times;</li>
   </ul>
 </div>
 
-    <header class="hero subhero">
 
-  <a href="/"><img src="/images/certbot-logo-1A.svg" alt="Certbot"></a>
-</header>
-
-    
     <div class="page-content">
-      <div class="wrapper">
-        <div class="post">
+      <div class="header-wrapper">
+        <header class="post-header">
+          <h1 class="post-title">Frequently Asked Questions</h1>
+        </header>
+      </div>
 
-  <header class="post-header">
-    <h1 class="post-title">Frequently Asked Questions</h1>
-  </header>
-
-  <article class="post-content">
-    <ul class="faq-toc">
+      <div class="content-wrapper">
+        <article class="post-content">
+          <ul class="faq-toc">
   
   
-    <li>
-      <h2>
-        <a class="post-link" href="#are-certificates-from-let-s-encrypt-trusted-by-my-browser">Are certificates from Let’s Encrypt trusted by my browser?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#are-certificates-from-let-s-encrypt-trusted-by-my-browser">Are certificates from Let’s Encrypt trusted by my browser?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#when-can-i-get-a-certificate-from-let-s-encrypt">When can I get a certificate from Let's Encrypt?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#will-certbot-issue-certificates-for-anything-other-than-ssl-tls-for-websites">Will Certbot issue certificates for anything other than SSL/TLS for websites?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#will-certbot-issue-certificates-for-anything-other-than-ssl-tls-for-websites">Will Certbot issue certificates for anything other than SSL/TLS for websites?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#can-i-use-certificates-from-certbot-for-code-signing-or-email-encryption">Can I use certificates from Certbot for code signing or email encryption?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#can-i-use-certificates-from-certbot-for-code-signing-or-email-encryption">Can I use certificates from Certbot for code signing or email encryption?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#will-certbot-generate-or-store-the-private-keys-for-my-certificates-on-let-s-encrypt-s-servers">Will Certbot generate or store the private keys for my certificates on Let’s Encrypt’s servers?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#will-certbot-generate-or-store-the-private-keys-for-my-certificates-on-let-s-encrypt-s-servers">Will Certbot generate or store the private keys for my certificates on Let’s Encrypt’s servers?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#will-certbot-issue-extended-validation-ev-certificates">Will Certbot issue Extended Validation (EV) certificates?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#will-certbot-issue-extended-validation-ev-certificates">Will Certbot issue Extended Validation (EV) certificates?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#can-i-get-a-certificate-for-multiple-domain-names-san-certificates">Can I get a certificate for multiple domain names (SAN certificates)?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#can-i-get-a-certificate-for-multiple-domain-names-san-certificates">Can I get a certificate for multiple domain names (SAN certificates)?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#does-let-s-encrypt-issue-wildcard-certificates">Does Let's Encrypt issue wildcard certificates?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#does-let-s-encrypt-issue-wildcard-certificates">Does Let's Encrypt issue wildcard certificates?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#does-certbot-support-my-operating-system">Does Certbot support my operating system?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#does-certbot-support-my-operating-system">Does Certbot support my operating system?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#will-certbot-support-automated-configuration-of-my-web-server">Will Certbot support automated configuration of my web server?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#will-certbot-support-automated-configuration-of-my-web-server">Will Certbot support automated configuration of my web server?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#does-certbot-require-root-administrator-privileges">Does Certbot require root/administrator privileges?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#does-certbot-require-root-administrator-privileges">Does Certbot require root/administrator privileges?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#can-i-use-an-existing-private-key-or-certificate-signing-request-csr-with-certbot">Can I use an existing private key or Certificate Signing Request (CSR) with Certbot?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#can-i-use-an-existing-private-key-or-certificate-signing-request-csr-with-certbot">Can I use an existing private key or Certificate Signing Request (CSR) with Certbot?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#what-are-the-current-rate-limits">What are the current rate limits?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#what-are-the-current-rate-limits">What are the current rate limits?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#can-i-issue-a-certificate-without-bringing-down-my-web-server">Can I issue a certificate without bringing down my web server?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#can-i-issue-a-certificate-without-bringing-down-my-web-server">Can I issue a certificate without bringing down my web server?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#what-ip-addresses-will-the-let-s-encrypt-servers-use-to-validate-my-web-server">What IP addresses will the Let's Encrypt servers use to validate my web server?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#what-ip-addresses-will-the-let-s-encrypt-servers-use-to-validate-my-web-server">What IP addresses will the Let's Encrypt servers use to validate my web server?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#can-i-issue-a-certificate-if-my-webserver-doesn-t-listen-on-port-80">Can I issue a certificate if my webserver doesn't listen on port 80?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#can-i-issue-a-certificate-if-my-webserver-doesn-t-listen-on-port-80">Can I issue a certificate if my webserver doesn't listen on port 80?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#what-tools-can-i-use-for-debugging-my-site-s-https-configuration">What tools can I use for debugging my site’s HTTPS configuration?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#what-s-certbot-s-privacy-policy">What's Certbot's privacy policy?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#what-s-certbot-s-privacy-policy">What's Certbot's privacy policy?</a></li>
   
-    <li>
-      <h2>
-        <a class="post-link" href="#what-are-the-licenses-for-certbot-and-this-website">What are the licenses for Certbot and this website?</a>
-      </h2>
-    </li>
+    <li><a class="post-link" href="#what-are-the-licenses-for-certbot-and-this-website">What are the licenses for Certbot and this website?</a></li>
   
 </ul>
 
@@ -187,11 +119,11 @@
 <ul class="faq-content">
   
     <li>
-      <h2>
-        <a class="post-link" href="#are-certificates-from-let-s-encrypt-trusted-by-my-browser" name="are-certificates-from-let-s-encrypt-trusted-by-my-browser">
+      <span>
+        <a class="anchor" id="are-certificates-from-let-s-encrypt-trusted-by-my-browser">
           Are certificates from Let’s Encrypt trusted by my browser?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>For most browsers and operating systems, yes. See the <a href="https://community.letsencrypt.org/t/trust-of-dst-root-ca-x3-and-isrg-root/4394">compatibility list</a> for more detail.</p>
 
@@ -199,23 +131,11 @@
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#when-can-i-get-a-certificate-from-let-s-encrypt" name="when-can-i-get-a-certificate-from-let-s-encrypt">
-          When can I get a certificate from Let's Encrypt?
-        </a>
-      </h2>
-      <div class="answer">
-        <p>Today! <a href="/">Install the Certbot client to get started</a>. The Let’s Encrypt CA service is ready for production and has successfully issued millions of certificates. The Certbot client is now in its beta test phase. Things are working, but you may run into some bumps along the way. Please report any issues and we’ll try to fix them!</p>
-
-      </div>
-    </li>
-  
-    <li>
-      <h2>
-        <a class="post-link" href="#will-certbot-issue-certificates-for-anything-other-than-ssl-tls-for-websites" name="will-certbot-issue-certificates-for-anything-other-than-ssl-tls-for-websites">
+      <span>
+        <a class="anchor" id="will-certbot-issue-certificates-for-anything-other-than-ssl-tls-for-websites">
           Will Certbot issue certificates for anything other than SSL/TLS for websites?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>Certbot will fetch Let’s Encrypt certificates that will be standard Domain Validation certificates, so you can use them for any server that uses a domain name, like web servers. You can also use these certificates for other TLS applications such as IMAPS.</p>
 
@@ -223,11 +143,11 @@
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#can-i-use-certificates-from-certbot-for-code-signing-or-email-encryption" name="can-i-use-certificates-from-certbot-for-code-signing-or-email-encryption">
+      <span>
+        <a class="anchor" id="can-i-use-certificates-from-certbot-for-code-signing-or-email-encryption">
           Can I use certificates from Certbot for code signing or email encryption?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>No. Email encryption and code signing require a different type of certificate than the Let’s Encrypt CA is issuing.</p>
 
@@ -235,11 +155,11 @@
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#will-certbot-generate-or-store-the-private-keys-for-my-certificates-on-let-s-encrypt-s-servers" name="will-certbot-generate-or-store-the-private-keys-for-my-certificates-on-let-s-encrypt-s-servers">
+      <span>
+        <a class="anchor" id="will-certbot-generate-or-store-the-private-keys-for-my-certificates-on-let-s-encrypt-s-servers">
           Will Certbot generate or store the private keys for my certificates on Let’s Encrypt’s servers?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>No. Never.</p>
 
@@ -249,11 +169,11 @@
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#will-certbot-issue-extended-validation-ev-certificates" name="will-certbot-issue-extended-validation-ev-certificates">
+      <span>
+        <a class="anchor" id="will-certbot-issue-extended-validation-ev-certificates">
           Will Certbot issue Extended Validation (EV) certificates?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>Certbot and Let’s Encrypt have no plans to issue EV certificates at this time.</p>
 
@@ -261,11 +181,11 @@
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#can-i-get-a-certificate-for-multiple-domain-names-san-certificates" name="can-i-get-a-certificate-for-multiple-domain-names-san-certificates">
+      <span>
+        <a class="anchor" id="can-i-get-a-certificate-for-multiple-domain-names-san-certificates">
           Can I get a certificate for multiple domain names (SAN certificates)?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>Yes, the same certificate can apply to several different names using the Subject Alternative Name (SAN) mechanism. Certbot automatically requests certificates for multiple names when requested to do so. The resulting certificates will be accepted by browsers for any of the domain names listed in them.</p>
 
@@ -273,11 +193,11 @@
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#does-let-s-encrypt-issue-wildcard-certificates" name="does-let-s-encrypt-issue-wildcard-certificates">
+      <span>
+        <a class="anchor" id="does-let-s-encrypt-issue-wildcard-certificates">
           Does Let's Encrypt issue wildcard certificates?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>Yes! Let’s Encrypt has <a href="https://community.letsencrypt.org/t/acme-v2-and-wildcard-certificate-support-is-live/55579">begun issuing</a> wildcard certificates in March 2018. Certbot has added support for wildcard certificates as of version 0.22.0. Obtaining a wildcard certificate requires using the DNS authentication method, either via <code class="highlighter-rouge">--manual</code> or via a Certbot DNS plugin appropriate to your DNS provider.</p>
 
@@ -293,23 +213,23 @@
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#does-certbot-support-my-operating-system" name="does-certbot-support-my-operating-system">
+      <span>
+        <a class="anchor" id="does-certbot-support-my-operating-system">
           Does Certbot support my operating system?
         </a>
-      </h2>
+      </span>
       <div class="answer">
-        <p>We currently have Certbot support for major Linux and BSD variant operating systems. There are a large number of other <a href="https://github.com/letsencrypt/letsencrypt/wiki/Links">client implementations</a> available too.</p>
+        <p>We currently have Certbot support for major Linux and BSD variant operating systems. There are a large number of other <a href="https://letsencrypt.org/docs/client-options/">client implementations</a> available too.</p>
 
       </div>
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#will-certbot-support-automated-configuration-of-my-web-server" name="will-certbot-support-automated-configuration-of-my-web-server">
+      <span>
+        <a class="anchor" id="will-certbot-support-automated-configuration-of-my-web-server">
           Will Certbot support automated configuration of my web server?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>This website provides information about the level of support for various web servers and operating systems, which varies and is increasing over time. On supported systems, the automated configuration makes it fast and easy to obtain, install, and automatically renew certificates.</p>
 
@@ -321,11 +241,11 @@
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#does-certbot-require-root-administrator-privileges" name="does-certbot-require-root-administrator-privileges">
+      <span>
+        <a class="anchor" id="does-certbot-require-root-administrator-privileges">
           Does Certbot require root/administrator privileges?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>Whether root is required to run Certbot or not depends on how you intend to use it.</p>
 
@@ -343,11 +263,11 @@
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#can-i-use-an-existing-private-key-or-certificate-signing-request-csr-with-certbot" name="can-i-use-an-existing-private-key-or-certificate-signing-request-csr-with-certbot">
+      <span>
+        <a class="anchor" id="can-i-use-an-existing-private-key-or-certificate-signing-request-csr-with-certbot">
           Can I use an existing private key or Certificate Signing Request (CSR) with Certbot?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>Yes. You can obtain a certificate for an existing CSR, which means you may generate your own CSR using your own private key. However, Certbot will not accept a private key as input and generate a CSR for you.</p>
 
@@ -355,35 +275,35 @@
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#what-are-the-current-rate-limits" name="what-are-the-current-rate-limits">
+      <span>
+        <a class="anchor" id="what-are-the-current-rate-limits">
           What are the current rate limits?
         </a>
-      </h2>
+      </span>
       <div class="answer">
-        <p>See <a href="https://community.letsencrypt.org/t/rate-limits-for-lets-encrypt/6769">this post</a> on the Let’s Encrypt community forums.</p>
+        <p><a href="https://letsencrypt.org/docs/rate-limits/">https://letsencrypt.org/docs/rate-limits/</a></p>
 
       </div>
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#can-i-issue-a-certificate-without-bringing-down-my-web-server" name="can-i-issue-a-certificate-without-bringing-down-my-web-server">
+      <span>
+        <a class="anchor" id="can-i-issue-a-certificate-without-bringing-down-my-web-server">
           Can I issue a certificate without bringing down my web server?
         </a>
-      </h2>
+      </span>
       <div class="answer">
-        <p>Yes, the <a href="https://github.com/ietf-wg-acme/acme/blob/master/draft-ietf-acme-acme.md">ACME protocol</a> is designed to perform server validation without any downtime. You can use the <a href="https://letsencrypt.readthedocs.org/en/latest/using.html#webroot">webroot mode</a> in the Certbot client, which places a validation file at a specific location on your web server, or the <a href="https://letsencrypt.readthedocs.org/en/latest/using.html#apache">Apache</a> mode, which configures a temporary self-signed certificate for validation and gracefully reloads Apache.</p>
+        <p>Yes, Certbot has different <a href="https://certbot.eff.org/docs/using.html#getting-certificates-and-choosing-plugins">plugins</a> to perform domain validation and none of them require any downtime except for the “standalone” plugin.</p>
 
       </div>
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#what-ip-addresses-will-the-let-s-encrypt-servers-use-to-validate-my-web-server" name="what-ip-addresses-will-the-let-s-encrypt-servers-use-to-validate-my-web-server">
+      <span>
+        <a class="anchor" id="what-ip-addresses-will-the-let-s-encrypt-servers-use-to-validate-my-web-server">
           What IP addresses will the Let's Encrypt servers use to validate my web server?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>The Let’s Encrypt CA doesn’t publish a list of IP addresses it uses to validate, because they may change at any time. In the future, it may validate from multiple IP addresses at once.</p>
 
@@ -391,23 +311,53 @@
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#can-i-issue-a-certificate-if-my-webserver-doesn-t-listen-on-port-80" name="can-i-issue-a-certificate-if-my-webserver-doesn-t-listen-on-port-80">
+      <span>
+        <a class="anchor" id="can-i-issue-a-certificate-if-my-webserver-doesn-t-listen-on-port-80">
           Can I issue a certificate if my webserver doesn't listen on port 80?
         </a>
-      </h2>
+      </span>
       <div class="answer">
-        <p>Yes, using the TLS-SNI-01 challenge. At the moment, Certbot only implements this challenge for Apache. If you’re using the <a href="https://letsencrypt.readthedocs.org/en/latest/using.html#webroot">webroot mode</a>, your web server must listen on port 80.</p>
+        <p>Yes, using the DNS-01 or TLS-ALPN-01 challenge. However, Certbot does not include support for TLS-ALPN-01 yet. If you’re using any Certbot with any method other than DNS authentication, your web server must listen on port 80, or at least be capable of doing so temporarily during certificate validation.</p>
+
+<p>If you have an ISP or firewall that blocks port 80 and you can’t get it unblocked, you’ll need to use DNS authentication or a different Let’s Encrypt client.</p>
 
       </div>
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#what-s-certbot-s-privacy-policy" name="what-s-certbot-s-privacy-policy">
+      <span>
+        <a class="anchor" id="what-tools-can-i-use-for-debugging-my-site-s-https-configuration">
+          What tools can I use for debugging my site’s HTTPS configuration?
+        </a>
+      </span>
+      <div class="answer">
+        <p>There are four scanning tools that are commonly suggested on the Let’s Encrypt community forum:</p>
+<ul>
+  <li><a href="https://letsdebug.net/">https://letsdebug.net/</a> (by Alex Zorin)</li>
+  <li><a href="https://check-your-website.server-daten.de/">https://check-your-website.server-daten.de/</a> (by Jürgen Auer)</li>
+  <li><a href="https://whynopadlock.com/">https://whynopadlock.com/</a> (by LexiConn)</li>
+  <li><a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a> (by Qualys)</li>
+</ul>
+
+<p>They all have their strengths. Let’s Debug would be used only by people who don’t have HTTPS working yet, while SSL Labs would be used only by people who (at least sort of) do.</p>
+
+<p><strong>Let’s Debug</strong>: Let’s Debug is most helpful if you have a failed challenge and want a straightforward explanation of why the challenge is failing.</p>
+
+<p><strong>Check-Your-Website</strong>: Jürgen’s scanner is most helpful if you have a confusing DNS or HTTP configuration error where some pages or some browsers work properly and others don’t, or if your HTTP site works in a browser and yet you get failed challenges that you don’t understand</p>
+
+<p><strong>Why No Padlock</strong>: Why No Padlock is most helpful if you already have a certificate but all or some users don’t see a valid HTTPS connection (and it gives very specific information about what’s causing mixed content warnings)</p>
+
+<p><strong>SSL Labs</strong>: SSL Labs is most helpful for cryptographic issues on an already set up HTTPS site, such as a case where some browsers work properly and others give a ciphersuite-related error, or if you want to convince nerds and/or regulatory bodies that you’re following security best practices</p>
+
+      </div>
+    </li>
+  
+    <li>
+      <span>
+        <a class="anchor" id="what-s-certbot-s-privacy-policy">
           What's Certbot's privacy policy?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>The Certbot privacy policy can be found <a href="/privacy">here</a>.</p>
 
@@ -415,11 +365,11 @@
     </li>
   
     <li>
-      <h2>
-        <a class="post-link" href="#what-are-the-licenses-for-certbot-and-this-website" name="what-are-the-licenses-for-certbot-and-this-website">
+      <span>
+        <a class="anchor" id="what-are-the-licenses-for-certbot-and-this-website">
           What are the licenses for Certbot and this website?
         </a>
-      </h2>
+      </span>
       <div class="answer">
         <p>The Certbot software and documentation are licensed under the Apache 2.0 license as described <a href="https://raw.githubusercontent.com/certbot/certbot/master/LICENSE.txt">here</a>. Otherwise, this website is generally licensed under EFF’s <a href="https://creativecommons.org/licenses/by-nc/2.0/">CC-BY</a> license, except this FAQ page, which is a derivative of the <a href="https://community.letsencrypt.org/t/frequently-asked-questions-faq/26">Let’s Encrypt FAQ</a> (which was licensed under <a href="https://community.letsencrypt.org/tos#3">Let’s Encrypt’s CC-BY-NC</a>).</p>
 
@@ -427,34 +377,65 @@
     </li>
   
 </ul>
-  </article>
 
-</div>
-
+        </article>
       </div>
     </div>
-    
+
     <footer class="social">
   <ul>
-    <li><a href="https://www.facebook.com/share.php?u=https%3A%2F%2Fcertbot.eff.org&amp;title=Certbot" target="_blank" rel="noreferrer"><i class="icon-facebook"></i></a></li>
-    <li><a href="https://twitter.com/intent/tweet?text=Check%20out%20Certbot%2C%20an%20%40EFF%20tool%20that%20makes%20it%20easy%20to%20get%20and%20configure%20HTTPS%20with%20Let%27s%20Encrypt%20certificates&amp;url=https%3A%2F%2Fcertbot.eff.org&amp;related=eff" target="_blank" rel="noreferrer"><i class="icon-twitter"></i></a></li>
-    <li><a href="https://plus.google.com/share?url=https%3A%2F%2Fcertbot.eff.org" target="_blank" rel="noreferrer"><i class="icon-google"></i></a></li>
+    <li>
+      <a href="https://www.facebook.com/share.php?u=https%3A%2F%2Fcertbot.eff.org&amp;title=Certbot" target="_blank" rel="noreferrer"><div class="social-icon facebook"></div></a>
+    </li>
+    <li><a href="https://twitter.com/intent/tweet?text=Check%20out%20Certbot%2C%20an%20%40EFF%20tool%20that%20makes%20it%20easy%20to%20get%20and%20configure%20HTTPS%20with%20Let%27s%20Encrypt%20certificates&amp;url=https%3A%2F%2Fcertbot.eff.org&amp;related=eff" target="_blank" rel="noreferrer"><div class="social-icon twitter"></div></a></li>
+    <li><a href="https://supporters.eff.org/donate/support-work-on-certbot" target="_blank" rel="noreferrer"><div class="social-icon donate"></div></a></li>
   </ul>
 </footer>
 
     <footer class="footer">
 
-  <a target="_blank" href="https://www.eff.org"><img class="project-of" src="/images/EFF-bw-logo-white.svg" alt="Electronic Frontier Foundation"></a>
+  <div class="logos">
+    <div class="certbot-logo">
+      <img class="certbot-logo" src="/images/Certbot-solid.svg" alt="Certbot logo">
+      <span>
+        certbot
+      </span>
+    </div>
+    <a target="_blank" href="https://www.eff.org"><img class="eff-logo" src="/images/EFF-bw-logo-white.svg" alt="Electronic Frontier Foundation"></a>
+  </div>
 
-  <ul>
-    <li><a href="/privacy">Privacy</a></li>
-    <li><a href="/support">Contact</a></li>
-    <li><a target="_blank" rel="noreferrer" href="https://letsencrypt.org/" class="letsencrypt">Let's Encrypt&trade;</a></li>
-    
+  <div class="links">
+    <ul>
+      <li><a href="/">home</a></li>
+      <li><a href="/about">about certbot</a></li>
+      <li><a href="/instructions">certbot instructions</a></li>
+      <li><a href="/hosting_providers">hosting providers with HTTPS</a></li>
+    </ul>
+
+    <ul>
+      <li><a href="/help">get help</a></li>
+      <li><a href="/faq">frequently asked questions</a></li>
+      <li><a href="/glossary">certbot glossary</a></li>
+      <li><a href="/docs">certbot documentation</a></li>
+      <li><a href="https://community.letsencrypt.org/">community forum</a></li>
+    </ul>
+
+    <ul>
+      <li><a href="/help#not-finding">contact us</a></li>
+      <li><a href="/contribute">contribute to certbot</a></li>
+    </ul>
+
+    <ul>
+      <li><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    </ul>
+
+    <ul>
+      <li><a href="/privacy">privacy</a></li>
+      
       <li><a target="_blank" rel="noreferrer" href="https://creativecommons.org/licenses/by-nc/2.0/"><img src="/images/cc-by-nc-logo.png" alt="Creative Commons Attribution Non-Commercial License"></a></li>
-    
-
-  </ul>
+      
+    </ul>
+  </div>
 
 <noscript><img src="https://anon-stats.eff.org/js/?idsite=24&amp;rec=1&amp;action_name=" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
@@ -464,8 +445,5 @@ document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.
 
 </footer>
 
-    
-    
   </body>
-
 </html>

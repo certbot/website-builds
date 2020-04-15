@@ -17,6 +17,8 @@ its dependencies, Certbot needs to be run on a UNIX-like OS so if you're using
 Windows, you'll need to set up a (virtual) machine running an OS such as Linux
 and continue with these instructions on that UNIX-like OS.
 
+.. _local copy:
+
 Running a local copy of the client
 ----------------------------------
 
@@ -34,29 +36,36 @@ run Certbot in Docker. You can find instructions for how to do this :ref:`here
 install dependencies and set up a virtual environment where you can run
 Certbot.
 
+Install the OS system dependencies required to run Certbot.
+
+.. code-block:: shell
+
+   # For APT-based distributions (e.g. Debian, Ubuntu ...)
+   sudo apt update
+   sudo apt install python3-dev python3-venv gcc libaugeas0 libssl-dev \
+                    libffi-dev ca-certificates openssl
+   # For RPM-based distributions (e.g. Fedora, CentOS ...)
+   # NB1: old distributions will use yum instead of dnf
+   # NB2: RHEL-based distributions use python3X-devel instead of python3-devel (e.g. python36-devel)
+   sudo dnf install python3-devel gcc augeas-libs openssl-devel libffi-devel \
+                    redhat-rpm-config ca-certificates openssl
+
+Set up the Python virtual environment that will host your Certbot local instance.
+
 .. code-block:: shell
 
    cd certbot
-   ./certbot-auto --debug --os-packages-only
-   python tools/venv.py
-
-If you have Python3 available and want to use it, run the ``venv3.py`` script.
-
-.. code-block:: shell
-
    python tools/venv3.py
 
 .. note:: You may need to repeat this when
   Certbot's dependencies change or when a new plugin is introduced.
 
 You can now run the copy of Certbot from git either by executing
-``venv/bin/certbot``, or by activating the virtual environment. You can do the
+``venv3/bin/certbot``, or by activating the virtual environment. You can do the
 latter by running:
 
 .. code-block:: shell
 
-   source venv/bin/activate
-   # or
    source venv3/bin/activate
 
 After running this command, ``certbot`` and development tools like ``ipdb``,
@@ -89,6 +98,17 @@ tests, and be compliant with the :ref:`coding style <coding-style>`.
 Testing
 -------
 
+You can test your code in several ways:
+
+- running the `automated unit`_ tests,
+- running the `automated integration`_ tests
+- running an *ad hoc* `manual integration`_ test
+
+.. _automated unit:
+
+Running automated unit tests
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 When you are working in a file ``foo.py``, there should also be a file ``foo_test.py``
 either in the same directory as ``foo.py`` or in the ``tests`` subdirectory
 (if there isn't, make one). While you are working on your code and tests, run
@@ -101,9 +121,9 @@ Once you are done with your code changes, and the tests in ``foo_test.py`` pass,
 run all of the unittests for Certbot with ``tox -e py27`` (this uses Python
 2.7).
 
-Once all the unittests pass, check for sufficient test coverage using
-``tox -e cover``, and then check for code style with ``tox -e lint`` (all files)
-or ``pylint --rcfile=.pylintrc path/to/file.py`` (single file at a time).
+Once all the unittests pass, check for sufficient test coverage using ``tox -e
+py27-cover``, and then check for code style with ``tox -e lint`` (all files) or
+``pylint --rcfile=.pylintrc path/to/file.py`` (single file at a time).
 
 Once all of the above is successful, you may run the full test suite using
 ``tox --skip-missing-interpreters``. We recommend running the commands above
@@ -114,41 +134,87 @@ of output can make it hard to find specific failures when they happen.
   config if your user has sudo permissions, so it should not be run on a
   production Apache server.
 
-.. _integration:
+.. _automated integration:
 
-Integration testing with the Boulder CA
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Running automated integration tests
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Generally it is sufficient to open a pull request and let Github and Travis run
-integration tests for you, however, if you want to run them locally you need
-Docker and docker-compose installed and working. Fetch and start Boulder, Let's
-Encrypt's ACME CA software, by using:
+integration tests for you. However, you may want to run them locally before submitting
+your pull request. You need Docker and docker-compose installed and working.
+
+The tox environment `integration` will setup `Pebble`_, the Let's Encrypt ACME CA server
+for integration testing, then launch the Certbot integration tests.
+
+With a user allowed to access your local Docker daemon, run:
 
 .. code-block:: shell
 
-  ./tests/boulder-fetch.sh
+  tox -e integration
 
-If you have problems with Docker, you may want to try `removing all containers and
-volumes`_ and making sure you have at least 1GB of memory.
+Tests will be run using pytest. A test report and a code coverage report will be
+displayed at the end of the integration tests execution.
 
-Set up a certbot_test alias that enables easily running against the local
-Boulder:
+.. _Pebble: https://github.com/letsencrypt/pebble
+
+.. _manual integration:
+
+Running manual integration tests
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can also manually execute Certbot against a local instance of the `Pebble`_ ACME server.
+This is useful to verify that the modifications done to the code makes Certbot behave as expected.
+
+To do so you need:
+
+- Docker installed, and a user with access to the Docker client,
+- an available `local copy`_ of Certbot.
+
+The virtual environment set up with `python tools/venv.py` contains two commands
+that can be used once the virtual environment is activated:
 
 .. code-block:: shell
 
-   export SERVER=http://localhost:4000/directory
-   source tests/integration/_common.sh
+    run_acme_server
 
-Run the integration tests using:
+- Starts a local instance of Pebble and runs in the foreground printing its logs.
+- Press CTRL+C to stop this instance.
+- This instance is configured to validate challenges against certbot executed locally.
 
 .. code-block:: shell
 
-  ./tests/boulder-integration.sh
+    certbot_test [ARGS...]
 
-.. _removing all containers and volumes: https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes
+- Execute certbot with the provided arguments and other arguments useful for testing purposes,
+  such as: verbose output, full tracebacks in case Certbot crashes, *etc.*
+- Execution is preconfigured to interact with the Pebble CA started with ``run_acme_server``.
+- Any arguments can be passed as they would be to Certbot (eg. ``certbot_test certonly -d test.example.com``).
+
+Here is a typical workflow to verify that Certbot successfully issued a certificate
+using an HTTP-01 challenge on a machine with Python 3:
+
+.. code-block:: shell
+
+    python tools/venv3.py
+    source venv3/bin/activate
+    run_acme_server &
+    certbot_test certonly --standalone -d test.example.com
+    # To stop Pebble, launch `fg` to get back the background job, then press CTRL+C
+
+Running tests in CI
+~~~~~~~~~~~~~~~~~~~
+
+Certbot uses both Azure Pipelines and Travis to run continuous integration
+tests. If you are using our Azure and Travis setup, a branch whose name starts
+with `test-` will run all Azure and Travis tests on that branch. If the branch
+name starts with `azure-test-`, it will run all of our Azure tests and none of
+our Travis tests. If the branch stats with `travis-test-`, only our Travis
+tests will be run.
 
 Code components and layout
 ==========================
+
+The following components of the Certbot repository are distributed to users:
 
 acme
   contains all protocol specific code
@@ -156,9 +222,12 @@ certbot
   main client code
 certbot-apache and certbot-nginx
   client code to configure specific web servers
-certbot.egg-info
-  configuration for packaging Certbot
-
+certbot-dns-*
+  client code to configure DNS providers
+certbot-auto and letsencrypt-auto
+  shell scripts to install Certbot and its dependencies on UNIX systems
+windows installer
+  Installs Certbot on Windows and is built using the files in windows-installer/
 
 Plugin-architecture
 -------------------
@@ -178,8 +247,8 @@ built-in Standalone authenticator, implement just one interface.
 There are also `~certbot.interfaces.IDisplay` plugins,
 which can change how prompts are displayed to a user.
 
-.. _interfaces.py: https://github.com/certbot/certbot/blob/master/certbot/interfaces.py
-.. _plugins/common.py: https://github.com/certbot/certbot/blob/master/certbot/plugins/common.py#L34
+.. _interfaces.py: https://github.com/certbot/certbot/blob/master/certbot/certbot/interfaces.py
+.. _plugins/common.py: https://github.com/certbot/certbot/blob/master/certbot/certbot/plugins/common.py#L45
 
 
 Authenticators
@@ -187,7 +256,7 @@ Authenticators
 
 Authenticators are plugins that prove control of a domain name by solving a
 challenge provided by the ACME server. ACME currently defines several types of
-challenges: HTTP, TLS-SNI (deprecated), TLS-ALPR, and DNS, represented by classes in `acme.challenges`.
+challenges: HTTP, TLS-ALPN, and DNS, represented by classes in `acme.challenges`.
 An authenticator plugin should implement support for at least one challenge type.
 
 An Authenticator indicates which challenges it supports by implementing
@@ -241,6 +310,16 @@ configuration checkpoints and rollback.
 Writing your own plugin
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+.. note:: The Certbot team is not currently accepting any new DNS plugins
+    because we want to rethink our approach to the challenge and resolve some
+    issues like `#6464 <https://github.com/certbot/certbot/issues/6464>`_,
+    `#6503 <https://github.com/certbot/certbot/issues/6503>`_, and `#6504
+    <https://github.com/certbot/certbot/issues/6504>`_ first.
+
+    In the meantime, you're welcome to release it as a third-party plugin. See
+    `certbot-dns-ispconfig <https://github.com/m42e/certbot-dns-ispconfig>`_
+    for one example of that.
+
 Certbot client supports dynamic discovery of plugins through the
 `setuptools entry points`_ using the `certbot.plugins` group. This
 way you can, for example, create a custom implementation of
@@ -255,7 +334,6 @@ virtualenv like this:
 .. code-block:: shell
 
   . venv/bin/activate
-  . tests/integration/_common.sh
   pip install -e examples/plugins/
   certbot_test plugins
 
@@ -269,12 +347,6 @@ pip. Users who run `certbot-auto` are currently unable to use third-party
 plugins. It's technically possible to install third-party plugins into
 the virtualenv used by `certbot-auto`, but they will be wiped away when
 `certbot-auto` upgrades.
-
-.. warning:: Please be aware though that as this client is still in a
-   developer-preview stage, the API may undergo a few changes. If you
-   believe the plugin will be beneficial to the community, please
-   consider submitting a pull request to the repo and we will update
-   it with any necessary API changes.
 
 .. _`setuptools entry points`:
     http://setuptools.readthedocs.io/en/latest/pkg_resources.html#entry-points
@@ -312,6 +384,25 @@ Please:
 .. _PEP 8 - Style Guide for Python Code:
   https://www.python.org/dev/peps/pep-0008
 
+Use ``certbot.compat.os`` instead of ``os``
+===========================================
+
+
+Python's standard library ``os`` module lacks full support for several Windows
+security features about file permissions (eg. DACLs). However several files
+handled by Certbot (eg. private keys) need strongly restricted access
+on both Linux and Windows.
+
+To help with this, the ``certbot.compat.os`` module wraps the standard
+``os`` module, and forbids usage of methods that lack support for these Windows
+security features.
+
+As a developer, when working on Certbot or its plugins, you must use ``certbot.compat.os``
+in every place you would need ``os`` (eg. ``from certbot.compat import os`` instead of
+``import os``). Otherwise the tests will fail when your PR is submitted.
+
+.. _type annotations:
+
 Mypy type annotations
 =====================
 
@@ -332,7 +423,7 @@ Note that instead of just importing ``typing``, due to packaging issues, in Cert
 
 .. code-block:: python
 
-  from acme.magic_typing import Dict # pylint: disable=unused-import, no-name-in-module
+  from acme.magic_typing import Dict
 
 Also note that OpenSSL, which we rely on, has type definitions for crypto but not SSL. We use both.
 Those imports should look like this:
@@ -351,10 +442,13 @@ Submitting a pull request
 
 Steps:
 
-1. Write your code!
+1. Write your code! When doing this, you should add :ref:`mypy type annotations
+   <type annotations>` for any functions you add or modify. You can check that
+   you've done this correctly by running ``tox -e mypy`` on a machine that has
+   Python 3 installed.
 2. Make sure your environment is set up properly and that you're in your
-   virtualenv. You can do this by running ``pip tools/venv.py``.
-   (this is a **very important** step)
+   virtualenv. You can do this by following the instructions in the
+   :ref:`Getting Started <getting_started>` section.
 3. Run ``tox -e lint`` to check for pylint errors. Fix any errors.
 4. Run ``tox --skip-missing-interpreters`` to run the entire test suite
    including coverage. The ``--skip-missing-interpreters`` argument ignores
@@ -365,18 +459,38 @@ Steps:
    rewriting commits makes changes harder to track between reviews.
 6. Did your tests pass on Travis? If they didn't, fix any errors.
 
+.. _ask for help:
+
 Asking for help
 ===============
 
 If you have any questions while working on a Certbot issue, don't hesitate to
 ask for help! You can do this in the Certbot channel in EFF's Mattermost
-instance for its open source projects. To join, `create an account
-<https://opensource.eff.org/signup_user_complete/?id=6iqur37ucfrctfswrs14iscobw>`_
-and then visit the `Certbot channel
-<https://opensource.eff.org/eff-open-source/channels/certbot>`_.
+instance for its open source projects as described below.
+
+You can get involved with several of EFF's software projects such as Certbot at
+the `EFF Open Source Contributor Chat Platform
+<https://opensource.eff.org/signup_user_complete/?id=6iqur37ucfrctfswrs14iscobw>`_.
+By signing up for the EFF Open Source Contributor Chat Platform, you consent to
+share your personal information with the Electronic Frontier Foundation, which
+is the operator and data controller for this platform. The channels will be
+available both to EFF, and to other users of EFFOSCCP, who may use or disclose
+information in these channels outside of EFFOSCCP. EFF will use your
+information, according to the `Privacy Policy <https://www.eff.org/policy>`_,
+to further the mission of EFF, including hosting and moderating the discussions
+on this platform.
+
+Use of EFFOSCCP is subject to the `EFF Code of Conduct
+<https://www.eff.org/pages/eppcode>`_. When investigating an alleged Code of
+Conduct violation, EFF may review discussion channels or direct messages.
 
 Updating certbot-auto and letsencrypt-auto
 ==========================================
+
+.. note:: We are currently only accepting changes to certbot-auto that fix
+  regressions on platforms where certbot-auto is the recommended installation
+  method at https://certbot.eff.org/instructions. If you are unsure if a change
+  you want to make qualifies, don't hesitate to `ask for help`_!
 
 Updating the scripts
 --------------------
@@ -420,19 +534,22 @@ during the next release.
 Updating the documentation
 ==========================
 
-In order to generate the Sphinx documentation, run the following
-commands:
+Many of the packages in the Certbot repository have documentation in a
+``docs/`` directory. This directory is located under the top level directory
+for the package. For instance, Certbot's documentation is under
+``certbot/docs``.
+
+To build the documentation of a package, make sure you have followed the
+instructions to set up a `local copy`_ of Certbot including activating the
+virtual environment. After that, ``cd`` to the docs directory you want to build
+and run the command:
 
 .. code-block:: shell
 
-   make -C docs clean html man
+   make clean html
 
-This should generate documentation in the ``docs/_build/html``
-directory.
-
-.. note:: If you skipped the "Getting Started" instructions above,
-  run ``pip install -e ".[docs]"`` to install Certbot's docs extras modules.
-
+This would generate the HTML documentation in ``_build/html`` in your current
+``docs/`` directory.
 
 .. _docker-dev:
 
@@ -479,7 +596,7 @@ OS-level dependencies can be installed like so:
 In general...
 
 * ``sudo`` is required as a suggested way of running privileged process
-* `Python`_ 2.7 or 3.4+ is required
+* `Python`_ 2.7 or 3.5+ is required
 * `Augeas`_ is required for the Python bindings
 * ``virtualenv`` is used for managing other Python library dependencies
 

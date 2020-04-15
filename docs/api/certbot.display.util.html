@@ -1,0 +1,735 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>certbot.display.util module &mdash; Certbot 1.4.0.dev0 documentation</title>
+  
+<!--
+
+ ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
+██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
+██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
+╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
+ ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
+
+Like looking at code? Help us! https://github.com/certbot/certbot
+-->
+
+  
+  
+
+  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@EFF">
+<meta name="twitter:title" content="certbot.display.util module &mdash; Certbot 1.4.0.dev0 documentation">
+<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
+<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../index.html"/>
+        <link rel="up" title="certbot.display package" href="certbot.display.html"/>
+        <link rel="next" title="certbot.plugins package" href="certbot.plugins.html"/>
+        <link rel="prev" title="certbot.display.ops module" href="certbot.display.ops.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <nav class="main-nav fixed">
+  <ul>
+    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About Certbot</a></li>
+    <li><a href="/faq/">FAQ</a></li>
+    <li><a href="/docs/">Documentation</a></li>
+    <li><a href="/support/">Support</a></li>
+    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
+    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../" class="icon icon-home"> Certbot
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../what.html">What is a Certificate?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Get Certbot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using.html">User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Developer Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compatibility.html">Backwards Compatibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="certbot.html">certbot package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="certbot.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="certbot.compat.html">certbot.compat package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="certbot.display.html">certbot.display package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="certbot.plugins.html">certbot.plugins package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="certbot.tests.html">certbot.tests package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="certbot.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../">Certbot</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+        <li><a href="../api.html">API Documentation</a> &raquo;</li>
+      
+        <li><a href="certbot.html">certbot package</a> &raquo;</li>
+      
+        <li><a href="certbot.display.html">certbot.display package</a> &raquo;</li>
+      
+    <li>certbot.display.util module</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/api/certbot.display.util.rst" class="fa fa-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-certbot.display.util">
+<span id="certbot-display-util-module"></span><h1>certbot.display.util module<a class="headerlink" href="#module-certbot.display.util" title="Permalink to this headline">¶</a></h1>
+<p>Certbot display.</p>
+<dl class="data">
+<dt id="certbot.display.util.OK">
+<code class="descclassname">certbot.display.util.</code><code class="descname">OK</code><em class="property"> = 'ok'</em><a class="headerlink" href="#certbot.display.util.OK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display exit code indicating user acceptance.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="certbot.display.util.CANCEL">
+<code class="descclassname">certbot.display.util.</code><code class="descname">CANCEL</code><em class="property"> = 'cancel'</em><a class="headerlink" href="#certbot.display.util.CANCEL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display exit code for a user canceling the display.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="certbot.display.util.HELP">
+<code class="descclassname">certbot.display.util.</code><code class="descname">HELP</code><em class="property"> = 'help'</em><a class="headerlink" href="#certbot.display.util.HELP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display exit code when for when the user requests more help. (UNUSED)</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="certbot.display.util.ESC">
+<code class="descclassname">certbot.display.util.</code><code class="descname">ESC</code><em class="property"> = 'esc'</em><a class="headerlink" href="#certbot.display.util.ESC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display exit code when the user hits Escape (UNUSED)</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="certbot.display.util.SIDE_FRAME">
+<code class="descclassname">certbot.display.util.</code><code class="descname">SIDE_FRAME</code><em class="property"> = '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -'</em><a class="headerlink" href="#certbot.display.util.SIDE_FRAME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display boundary (alternates spaces, so when copy-pasted, markdown doesn’t interpret
+it as a heading)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.display.util.input_with_timeout">
+<code class="descclassname">certbot.display.util.</code><code class="descname">input_with_timeout</code><span class="sig-paren">(</span><em>prompt=None</em>, <em>timeout=36000.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#input_with_timeout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.input_with_timeout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get user input with a timeout.</p>
+<p>Behaves the same as six.moves.input, however, an error is raised if
+a user doesn’t answer after timeout seconds. The default timeout
+value was chosen to place it just under 12 hours for users following
+our advice and running Certbot twice a day.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – prompt to provide for input</li>
+<li><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – maximum number of seconds to wait for input</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">user response</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>:raises errors.Error if no answer is given before the timeout</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="certbot.display.util.FileDisplay">
+<em class="property">class </em><code class="descclassname">certbot.display.util.</code><code class="descname">FileDisplay</code><span class="sig-paren">(</span><em>outfile</em>, <em>force_interactive</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#FileDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.FileDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>File-based display.</p>
+<dl class="method">
+<dt id="certbot.display.util.FileDisplay.notification">
+<code class="descname">notification</code><span class="sig-paren">(</span><em>message</em>, <em>pause=True</em>, <em>wrap=True</em>, <em>force_interactive=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#FileDisplay.notification"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.FileDisplay.notification" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays a notification and waits for user acceptance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Message to display</li>
+<li><strong>pause</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Whether or not the program should pause for the
+user’s confirmation</li>
+<li><strong>wrap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Whether or not the application should wrap text</li>
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – True if it’s safe to prompt the user
+because it won’t cause any workflow regressions</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.display.util.FileDisplay.menu">
+<code class="descname">menu</code><span class="sig-paren">(</span><em>message</em>, <em>choices</em>, <em>ok_label=None</em>, <em>cancel_label=None</em>, <em>help_label=None</em>, <em>default=None</em>, <em>cli_flag=None</em>, <em>force_interactive=False</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#FileDisplay.menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.FileDisplay.menu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a menu.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – title of menu</li>
+<li><strong>choices</strong> (<em>list of tuples</em><em> (</em><em>tag</em><em>, </em><em>item</em><em>) or
+</em><em>list of descriptions</em><em> (</em><em>tags will be enumerated</em><em>)</em>) – Menu lines, len must be &gt; 0</li>
+<li><strong>default</strong> – default value to return (if one exists)</li>
+<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – option used to set this value with the CLI</li>
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – True if it’s safe to prompt the user
+because it won’t cause any workflow regressions</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code>) where
+<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a> - str display exit code
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code> - int index of the user’s selection</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.display.util.FileDisplay.input">
+<code class="descname">input</code><span class="sig-paren">(</span><em>message</em>, <em>default=None</em>, <em>cli_flag=None</em>, <em>force_interactive=False</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#FileDisplay.input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.FileDisplay.input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accept input from the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message to display to the user</li>
+<li><strong>default</strong> – default value to return (if one exists)</li>
+<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – option used to set this value with the CLI</li>
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – True if it’s safe to prompt the user
+because it won’t cause any workflow regressions</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a>, <a class="reference internal" href="#certbot.display.util.FileDisplay.input" title="certbot.display.util.FileDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a>) where
+<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a> - str display exit code
+<a class="reference internal" href="#certbot.display.util.FileDisplay.input" title="certbot.display.util.FileDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a> - str of the user’s input</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.display.util.FileDisplay.yesno">
+<code class="descname">yesno</code><span class="sig-paren">(</span><em>message</em>, <em>yes_label='Yes'</em>, <em>no_label='No'</em>, <em>default=None</em>, <em>cli_flag=None</em>, <em>force_interactive=False</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#FileDisplay.yesno"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.FileDisplay.yesno" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query the user with a yes/no question.</p>
+<p>Yes and No label must begin with different letters, and must contain at
+least one letter each.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – question for the user</li>
+<li><strong>yes_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Label of the “Yes” parameter</li>
+<li><strong>no_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Label of the “No” parameter</li>
+<li><strong>default</strong> – default value to return (if one exists)</li>
+<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – option used to set this value with the CLI</li>
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – True if it’s safe to prompt the user
+because it won’t cause any workflow regressions</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True for “Yes”, False for “No”</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.display.util.FileDisplay.checklist">
+<code class="descname">checklist</code><span class="sig-paren">(</span><em>message</em>, <em>tags</em>, <em>default=None</em>, <em>cli_flag=None</em>, <em>force_interactive=False</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#FileDisplay.checklist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.FileDisplay.checklist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a checklist.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Message to display to user</li>
+<li><strong>tags</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> tags to select, len(tags) &gt; 0</li>
+<li><strong>default</strong> – default value to return (if one exists)</li>
+<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – option used to set this value with the CLI</li>
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – True if it’s safe to prompt the user
+because it won’t cause any workflow regressions</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">tags</span></code>) where
+<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a> - str display exit code
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">tags</span></code> - list of selected tags</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.display.util.FileDisplay.directory_select">
+<code class="descname">directory_select</code><span class="sig-paren">(</span><em>message</em>, <em>default=None</em>, <em>cli_flag=None</em>, <em>force_interactive=False</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#FileDisplay.directory_select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.FileDisplay.directory_select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a directory selection screen.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – prompt to give the user</li>
+<li><strong>default</strong> – default value to return (if one exists)</li>
+<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – option used to set this value with the CLI</li>
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – True if it’s safe to prompt the user
+because it won’t cause any workflow regressions</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple of the form (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a>) where
+<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a> - display exit code
+<a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a> - input entered by the user</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.display.util.assert_valid_call">
+<code class="descclassname">certbot.display.util.</code><code class="descname">assert_valid_call</code><span class="sig-paren">(</span><em>prompt</em>, <em>default</em>, <em>cli_flag</em>, <em>force_interactive</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#assert_valid_call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.assert_valid_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that provided arguments is a valid IDisplay call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – prompt for the user</li>
+<li><strong>default</strong> – default answer to prompt</li>
+<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – command line option for setting an answer
+to this question</li>
+<li><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if interactivity is forced by the
+IDisplay call</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="certbot.display.util.NoninteractiveDisplay">
+<em class="property">class </em><code class="descclassname">certbot.display.util.</code><code class="descname">NoninteractiveDisplay</code><span class="sig-paren">(</span><em>outfile</em>, <em>*unused_args</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#NoninteractiveDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.NoninteractiveDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An iDisplay implementation that never asks for interactive user input</p>
+<dl class="method">
+<dt id="certbot.display.util.NoninteractiveDisplay.notification">
+<code class="descname">notification</code><span class="sig-paren">(</span><em>message</em>, <em>pause=False</em>, <em>wrap=True</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#NoninteractiveDisplay.notification"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.NoninteractiveDisplay.notification" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays a notification without waiting for user acceptance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Message to display to stdout</li>
+<li><strong>pause</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – The NoninteractiveDisplay waits for no keyboard</li>
+<li><strong>wrap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Whether or not the application should wrap text</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.display.util.NoninteractiveDisplay.menu">
+<code class="descname">menu</code><span class="sig-paren">(</span><em>message</em>, <em>choices</em>, <em>ok_label=None</em>, <em>cancel_label=None</em>, <em>help_label=None</em>, <em>default=None</em>, <em>cli_flag=None</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#NoninteractiveDisplay.menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.NoninteractiveDisplay.menu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Avoid displaying a menu.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – title of menu</li>
+<li><strong>choices</strong> (<em>list of tuples</em><em> (</em><em>tag</em><em>, </em><em>item</em><em>) or
+</em><em>list of descriptions</em><em> (</em><em>tags will be enumerated</em><em>)</em>) – Menu lines, len must be &gt; 0</li>
+<li><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the default choice</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – absorbs various irrelevant labelling arguments</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code>) where
+<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a> - str display exit code
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code> - int index of the user’s selection</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="certbot.errors.html#certbot.errors.MissingCommandlineFlag" title="certbot.errors.MissingCommandlineFlag"><strong>errors.MissingCommandlineFlag</strong></a> – if there was no default</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.display.util.NoninteractiveDisplay.input">
+<code class="descname">input</code><span class="sig-paren">(</span><em>message</em>, <em>default=None</em>, <em>cli_flag=None</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#NoninteractiveDisplay.input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.NoninteractiveDisplay.input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accept input from the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message to display to the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tuple of (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a>, <a class="reference internal" href="#certbot.display.util.NoninteractiveDisplay.input" title="certbot.display.util.NoninteractiveDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a>) where
+<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a> - str display exit code
+<a class="reference internal" href="#certbot.display.util.NoninteractiveDisplay.input" title="certbot.display.util.NoninteractiveDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a> - str of the user’s input</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="certbot.errors.html#certbot.errors.MissingCommandlineFlag" title="certbot.errors.MissingCommandlineFlag"><strong>errors.MissingCommandlineFlag</strong></a> – if there was no default</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.display.util.NoninteractiveDisplay.yesno">
+<code class="descname">yesno</code><span class="sig-paren">(</span><em>message</em>, <em>yes_label=None</em>, <em>no_label=None</em>, <em>default=None</em>, <em>cli_flag=None</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#NoninteractiveDisplay.yesno"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.NoninteractiveDisplay.yesno" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decide Yes or No, without asking anybody</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – question for the user</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – absorbs yes_label, no_label</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><a class="reference internal" href="certbot.errors.html#certbot.errors.MissingCommandlineFlag" title="certbot.errors.MissingCommandlineFlag"><strong>errors.MissingCommandlineFlag</strong></a> – if there was no default</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True for “Yes”, False for “No”</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.display.util.NoninteractiveDisplay.checklist">
+<code class="descname">checklist</code><span class="sig-paren">(</span><em>message</em>, <em>tags</em>, <em>default=None</em>, <em>cli_flag=None</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#NoninteractiveDisplay.checklist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.NoninteractiveDisplay.checklist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a checklist.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Message to display to user</li>
+<li><strong>tags</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> tags to select, len(tags) &gt; 0</li>
+<li><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – absorbs default_status arg</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple of (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">tags</span></code>) where
+<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a> - str display exit code
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">tags</span></code> - list of selected tags</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.display.util.NoninteractiveDisplay.directory_select">
+<code class="descname">directory_select</code><span class="sig-paren">(</span><em>message</em>, <em>default=None</em>, <em>cli_flag=None</em>, <em>**unused_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#NoninteractiveDisplay.directory_select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.NoninteractiveDisplay.directory_select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulate prompting the user for a directory.</p>
+<p>This function returns default if it is not <code class="docutils literal notranslate"><span class="pre">None</span></code>, otherwise,
+an exception is raised explaining the problem. If cli_flag is
+not <code class="docutils literal notranslate"><span class="pre">None</span></code>, the error message will include the flag that can
+be used to set this value with the CLI.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – prompt to give the user</li>
+<li><strong>default</strong> – default value to return (if one exists)</li>
+<li><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – option used to set this value with the CLI</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">tuple of the form (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a>) where
+<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a> - int display exit code
+<a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a> - input entered by the user</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.display.util.separate_list_input">
+<code class="descclassname">certbot.display.util.</code><code class="descname">separate_list_input</code><span class="sig-paren">(</span><em>input_</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/util.html#separate_list_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.util.separate_list_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Separate a comma or space separated list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>input</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – input from the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">strings</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    <span class="copyright">
+    &copy; Copyright 2014-2018 - The Certbot software and documentation are licensed under the Apache 2.0 license as described at <a href="https://eff.org/cb-license">https://eff.org/cb-license</a>.
+    </span>
+    <br>
+    <br>
+    <span class="status">
+        <a href="https://letsencrypt.status.io/">Let's Encrypt Status</a>
+    </span>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Other Versions</span>
+      v: 
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Downloads</dt>
+        <dd><a href="../certbot.pdf">PDF</a></dd>
+        <dd><a href="../certbot.zip">HTML</a></dd>
+        <dd><a href="../certbot.epub">Epub</a></dd>
+      </dl>
+      <hr/>
+
+    </div>
+  </div>
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.4.0.dev0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.util%20module%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+</body>
+</html>
