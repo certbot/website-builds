@@ -227,7 +227,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        :raises .errors.PluginStorageError: when unable to open or read the file</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># type: Dict[str, Any]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[str, Any]</span>
         <span class="n">filedata</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storagepath</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
@@ -292,7 +292,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_storage</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_classkey</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_classkey</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_classkey</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_classkey</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
 
 <div class="viewcode-block" id="PluginStorage.fetch"><a class="viewcode-back" href="../../../api/certbot.plugins.storage.html#certbot.plugins.storage.PluginStorage.fetch">[docs]</a>    <span class="k">def</span> <span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>

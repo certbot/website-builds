@@ -193,6 +193,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
+<span class="kn">import</span> <span class="nn">re</span>
 <span class="c1"># See https://github.com/pyca/cryptography/issues/4275</span>
 <span class="kn">from</span> <span class="nn">cryptography</span> <span class="k">import</span> <span class="n">x509</span>  <span class="c1"># type: ignore</span>
 <span class="kn">from</span> <span class="nn">cryptography.exceptions</span> <span class="k">import</span> <span class="n">InvalidSignature</span>
@@ -663,6 +664,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">sha256</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">file_d</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">sha256</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span></div>
 
+<span class="c1"># Finds one CERTIFICATE stricttextualmsg according to rfc7468#section-3.</span>
+<span class="c1"># Does not validate the base64text - use crypto.load_certificate.</span>
+<span class="n">CERT_PEM_REGEX</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="sa">b</span><span class="sd">&quot;&quot;&quot;-----BEGIN CERTIFICATE-----\r?</span>
+<span class="sd">.+?\r?</span>
+<span class="sd">-----END CERTIFICATE-----\r?</span>
+<span class="sd">&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span> <span class="c1"># DOTALL (/s) because the base64text may include newlines</span>
+<span class="p">)</span>
+
+
 <div class="viewcode-block" id="cert_and_chain_from_fullchain"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.cert_and_chain_from_fullchain">[docs]</a><span class="k">def</span> <span class="nf">cert_and_chain_from_fullchain</span><span class="p">(</span><span class="n">fullchain_pem</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Split fullchain_pem into cert_pem and chain_pem</span>
 
@@ -671,11 +683,38 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :returns: tuple of string cert_pem and chain_pem</span>
 <span class="sd">    :rtype: tuple</span>
 
+<span class="sd">    :raises errors.Error: If there are less than 2 certificates in the chain.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cert</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">dump_certificate</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span>
-        <span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">fullchain_pem</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
-    <span class="n">chain</span> <span class="o">=</span> <span class="n">fullchain_pem</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cert</span><span class="p">):]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">chain</span><span class="p">)</span></div>
+    <span class="c1"># First pass: find the boundary of each certificate in the chain.</span>
+    <span class="c1"># TODO: This will silently skip over any &quot;explanatory text&quot; in between boundaries,</span>
+    <span class="c1"># which is prohibited by RFC8555.</span>
+    <span class="n">certs</span> <span class="o">=</span> <span class="n">CERT_PEM_REGEX</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">fullchain_pem</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">certs</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;failed to parse fullchain into cert and chain: &quot;</span> <span class="o">+</span>
+                           <span class="s2">&quot;less than 2 certificates in chain&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Second pass: for each certificate found, parse it using OpenSSL and re-encode it,</span>
+    <span class="c1"># with the effect of normalizing any encoding variations (e.g. CRLF, whitespace).</span>
+    <span class="n">certs_normalized</span> <span class="o">=</span> <span class="p">[</span><span class="n">crypto</span><span class="o">.</span><span class="n">dump_certificate</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span>
+        <span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">cert</span><span class="p">))</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span> <span class="k">for</span> <span class="n">cert</span> <span class="ow">in</span> <span class="n">certs</span><span class="p">]</span>
+
+    <span class="c1"># Since each normalized cert has a newline suffix, no extra newlines are required.</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">certs_normalized</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">certs_normalized</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span></div>
+
+<div class="viewcode-block" id="get_serial_from_cert"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.get_serial_from_cert">[docs]</a><span class="k">def</span> <span class="nf">get_serial_from_cert</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Retrieve the serial number of a certificate from certificate path</span>
+
+<span class="sd">    :param str cert_path: path to a cert in PEM format</span>
+
+<span class="sd">    :returns: serial number of the certificate</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># pylint: disable=redefined-outer-name</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cert_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">x509</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span>
+                                                           <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">x509</span><span class="o">.</span><span class="n">get_serial_number</span><span class="p">()</span></div>
 </pre></div>
 
            </div>
