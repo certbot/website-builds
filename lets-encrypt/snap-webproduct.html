@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Certbot - Debianother Plesk</title>
+    <title>Certbot - Snap Webproduct</title>
     <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <link rel="stylesheet" href="/css/main.css">
@@ -14,7 +14,7 @@
     <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@EFF">
-    <meta name="twitter:title" content="Certbot - Debianother Plesk">
+    <meta name="twitter:title" content="Certbot - Snap Webproduct">
     <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
@@ -173,7 +173,7 @@
     <div class="page-content">
       <div class="wrapper">
         <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/debianother-plesk.html">Plesk on Debian (other)</a></h2>
+          <h2 id="instructions-header"><a href="/lets-encrypt/snap-webproduct.html">Web Hosting Product on snapd</a></h2>
 <div class="use-certbot">
   <h1>To use Certbot, you'll need...</h1>
   <div class="three-col reqs">
@@ -591,17 +591,260 @@ You should never share these credentials publicly or with an unauthorized person
 <div class="instruction-pane-wrapper">
   <div class="instruction-pane automated">
     <ol>
-            <p>
-      For Plesk you won't even need to install Certbot. Instead, use the extension already available in Plesk — it will also give you automatic renewal of your certificates out-of-the-box as well! Read more about the extension <a href="https://ext.plesk.com/packages/f6847e61-33a7-4104-8dc9-d26a0183a8dd-letsencrypt">here</a>.
-      </p>
+      <!-- The advanced instructions don't use snapd, so this warning isn't needed there -->
+      <aside class="note">
+        <div class="note-header">
+          <h3>Snap Support</h3>
+        </div>
+        <p>
+        Certbot snap support is currently in its beta phase and only supports the
+        x86_64 architecture. You can find instructions for installing Certbot without
+        using snap by selecting your OS in the dropdown above.
+        </p>
+      </aside>
+
+      <li>
+          SSH into the server
+          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
+      </li>
+      <li>
+          Install snapd
+          <p>
+          You'll need to install snapd and make sure you follow any instructions to enable classic snap support.<br />
+          Follow these instructions on <a href="https://snapcraft.io/docs/installing-snapd/">snapcraft's site to install snapd</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="https://snapcraft.io/docs/installing-snapd/">install snapd</a>
+          </p>
+      </li>
+      <li>
+          Remove any Certbot OS packages
+          <p>
+          If you have any Certbot packages installed using an OS package manager like
+          <tt>apt</tt>, <tt>dnf</tt>, or <tt>yum</tt>, you should remove them before
+          installing the Certbot snap to ensure that when you run the command
+          <tt>certbot</tt> the snap is used rather than the installation from your OS
+          package manager.
+          </p>
+          <p>
+          The exact command to do this depends on your OS, but common examples are:
+          <ul>
+            <li><tt>sudo apt-get remove certbot</tt></li>
+            <li><tt>sudo yum remove certbot</tt></li>
+          </ul>
+          </p>
+      </li>
+      <li>
+        Install Certbot
+        <p>
+          Run this command on the command line on the machine to install Certbot.
+          <pre>sudo snap install --beta --classic certbot</pre>
+        </p>
+      </li>
+      <li>
+          Choose how you'd like to run Certbot
+          <p>
+              Are you ok with temporarily stopping your website?
+          </p>
+          <h3>Yes, my web server is not currently running on this machine.</h3>
+          <p>
+              Stop your webserver, then run this command to get a certificate.
+              Certbot will temporarily spin up a webserver on your machine.
+              <pre>
+                  sudo certbot certonly --standalone
+              </pre>
+          </p>
+          <h3>No, I need to keep my web server running.</h3>
+          <p>
+              If you have a webserver that's already using port 80 and don't want to stop it
+              while Certbot runs, run this command and follow the instructions in the terminal.
+              <pre>
+                  sudo certbot certonly --webroot
+              </pre>
+          </p>
+          <aside class="note">
+            <div class="note-header"><h3>Important Note:</h3></div>
+                  <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If <tt>/.well-known</tt> is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside <tt>/.well-known/acme-challenge</tt> are served by the webserver.</p>
+          </aside>
+      </li>
+
+      <li>
+          Install your certificate
+          <p>
+              You'll need to install your new certificate in the configuration file for
+              your webserver.
+          </p>
+      </li>
+
+      <li>
+        Test automatic renewal
+        <p>
+        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
+        automatically before they expire. You will not need to run Certbot again, unless you change your
+        configuration. You can test automatic renewal for your certificates by running this command:
+        <pre>sudo certbot renew --dry-run</pre>
+        </p>
+
+        <p>
+        The command to renew certbot is installed in one of the following locations:
+        <ul>
+          <li><tt>/etc/crontab/</tt></li>
+          <li><tt>/etc/cron.*/*</tt></li>
+          <li><tt>systemctl list-timers</tt></li>
+        </ul>
+        </p>
+
+        <p>
+        If you needed to stop your webserver to run Certbot, you'll want to add hook
+        scripts to stop and start your webserver automatically. For example, if your
+        webserver is HAProxy, run the following commands:
+        </p>
+
+        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
+          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
+
+        <p>
+        More information is available in the
+        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
+        Certbot documentation on renewing certificates</a>.
+        </p>
+
+      </li>
+
+      <li>
+        Confirm that Certbot worked
+        <p>
+        To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
+        look for the lock icon in the URL bar.
+        If you want to check that you have the top-of-the-line installation, you can head to
+        <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
+        </p>
+        <p class="centered">
+        <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's <img src="/images/Lock.svg" /> https:// at SSL Labs</a>.
+        </p>
+      </li>
     </ol>
   </div>
 
   <div class="instruction-pane advanced">
     <ol>
-            <p>
-      For Plesk you won't even need to install Certbot. Instead, use the extension already available in Plesk — it will also give you automatic renewal of your certificates out-of-the-box as well! Read more about the extension <a href="https://ext.plesk.com/packages/f6847e61-33a7-4104-8dc9-d26a0183a8dd-letsencrypt">here</a>.
-      </p>
+      <!-- The advanced instructions don't use snapd, so this warning isn't needed there -->
+      <aside class="note docker-note">
+        <div class="note-header">
+          <h3>Follow Docker instructions</h3>
+        </div>
+          <p>
+          To get a wildcard certificate on this system, you'll need to run Certbot in Docker. You
+          can do so by following
+          <a href="/docs/install.html#running-with-docker">these
+            steps from our documentation</a>.
+          </p>
+      </aside>
+
+      <li>
+          SSH into the server
+          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
+      </li>
+      <li>
+          Install snapd
+          <p>
+          You'll need to install snapd and make sure you follow any instructions to enable classic snap support.<br />
+          Follow these instructions on <a href="https://snapcraft.io/docs/installing-snapd/">snapcraft's site to install snapd</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="https://snapcraft.io/docs/installing-snapd/">install snapd</a>
+          </p>
+      </li>
+      <li>
+          Remove any Certbot OS packages
+          <p>
+          If you have any Certbot packages installed using an OS package manager like
+          <tt>apt</tt>, <tt>dnf</tt>, or <tt>yum</tt>, you should remove them before
+          installing the Certbot snap to ensure that when you run the command
+          <tt>certbot</tt> the snap is used rather than the installation from your OS
+          package manager.
+          </p>
+          <p>
+          The exact command to do this depends on your OS, but common examples are:
+          <ul>
+            <li><tt>sudo apt-get remove certbot</tt></li>
+            <li><tt>sudo yum remove certbot</tt></li>
+          </ul>
+          </p>
+      </li>
+      <li>
+        Install Certbot
+        <p>
+          Run this command on the command line on the machine to install Certbot.
+          <pre>sudo snap install --beta --classic certbot</pre>
+        </p>
+      </li>
+      <li>
+          Get a certificate
+          <p>
+          Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>.
+          </p>
+      </li>
+
+      <li>
+          Install your certificate
+          <p>
+              You'll need to install your new certificate in the configuration file for
+              your webserver.
+          </p>
+      </li>
+
+      <li>
+        Test automatic renewal
+        <p>
+        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
+        automatically before they expire. You will not need to run Certbot again, unless you change your
+        configuration. You can test automatic renewal for your certificates by running this command:
+        <pre>sudo certbot renew --dry-run</pre>
+        </p>
+
+        <p>
+        The command to renew certbot is installed in one of the following locations:
+        <ul>
+          <li><tt>/etc/crontab/</tt></li>
+          <li><tt>/etc/cron.*/*</tt></li>
+          <li><tt>systemctl list-timers</tt></li>
+        </ul>
+        </p>
+
+        <p>
+        If you needed to stop your webserver to run Certbot, you'll want to add hook
+        scripts to stop and start your webserver automatically. For example, if your
+        webserver is HAProxy, run the following commands:
+        </p>
+
+        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
+          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
+
+        <p>
+        More information is available in the
+        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
+        Certbot documentation on renewing certificates</a>.
+        </p>
+
+      </li>
+
+      <li>
+        Confirm that Certbot worked
+        <p>
+        To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
+        look for the lock icon in the URL bar.
+        If you want to check that you have the top-of-the-line installation, you can head to
+        <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
+        </p>
+        <p class="centered">
+        <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's <img src="/images/Lock.svg" /> https:// at SSL Labs</a>.
+        </p>
+      </li>
     </ol>
   </div>
 
