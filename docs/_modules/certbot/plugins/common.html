@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.common &mdash; Certbot 0.37.0.dev0 documentation</title>
+  <title>certbot.plugins.common &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.common &mdash; Certbot 0.37.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.common &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 0.37.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.37
+                1.4
               </div>
             
           
@@ -125,6 +125,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="../../../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../resources.html">Resources</a></li>
 </ul>
 <ul>
@@ -171,7 +172,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/plugins/common" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/_modules/certbot/plugins/common" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -186,39 +187,37 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">OpenSSL</span>
+<span class="kn">from</span> <span class="nn">josepy</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">jose_util</span>
 <span class="kn">import</span> <span class="nn">pkg_resources</span>
 <span class="kn">import</span> <span class="nn">zope.interface</span>
 
-<span class="kn">from</span> <span class="nn">josepy</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">jose_util</span>
-
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>  <span class="c1"># pylint: disable=unused-import, no-name-in-module</span>
-
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">achallenges</span>  <span class="c1"># pylint: disable=unused-import</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">reverter</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
-<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">filesystem</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins.storage</span> <span class="k">import</span> <span class="n">PluginStorage</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="option_namespace"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.option_namespace">[docs]</a><span class="k">def</span> <span class="nf">option_namespace</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="option_namespace"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.option_namespace">[docs]</a><span class="k">def</span> <span class="nf">option_namespace</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;ArgumentParser options namespace (prefix of all options).&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span></div>
 
 
-<div class="viewcode-block" id="dest_namespace"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.dest_namespace">[docs]</a><span class="k">def</span> <span class="nf">dest_namespace</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="dest_namespace"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.dest_namespace">[docs]</a><span class="k">def</span> <span class="nf">dest_namespace</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;ArgumentParser dest namespace (prefix of all destinations).&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span></div>
+
 
 <span class="n">private_ips_regex</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
     <span class="sa">r</span><span class="s2">&quot;(^127\.0\.0\.1)|(^10\.)|(^172\.1[6-9]\.)|&quot;</span>
@@ -227,7 +226,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="sa">r</span><span class="s2">&quot;^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*[a-z]+$&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Plugin"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Plugin">[docs]</a><span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IPlugin</span><span class="p">)</span>
+<div class="viewcode-block" id="Plugin"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Plugin">[docs]</a><span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IPlugin</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">Plugin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generic plugin.&quot;&quot;&quot;</span>
     <span class="c1"># provider is not inherited, subclasses must define it on their own</span>
@@ -237,7 +236,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
-<div class="viewcode-block" id="Plugin.add_parser_arguments"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Plugin.add_parser_arguments">[docs]</a>    <span class="nd">@jose_util</span><span class="o">.</span><span class="n">abstractclassmethod</span>
+<div class="viewcode-block" id="Plugin.add_parser_arguments"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Plugin.add_parser_arguments">[docs]</a>    <span class="nd">@jose_util</span><span class="o">.</span><span class="n">abstractclassmethod</span>
     <span class="k">def</span> <span class="nf">add_parser_arguments</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">add</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add plugin arguments to the CLI argument parser.</span>
 
@@ -251,7 +250,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        &quot;&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="Plugin.inject_parser_options"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Plugin.inject_parser_options">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Plugin.inject_parser_options"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Plugin.inject_parser_options">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">inject_parser_options</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">parser</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Inject parser options.</span>
 
@@ -260,7 +259,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># dummy function, doesn&#39;t check if dest.startswith(self.dest_namespace)</span>
         <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">arg_name_no_prefix</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-            <span class="c1"># pylint: disable=missing-docstring</span>
             <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
                 <span class="s2">&quot;--</span><span class="si">{0}{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">option_namespace</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">arg_name_no_prefix</span><span class="p">),</span>
                 <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -271,7 +269,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="sd">&quot;&quot;&quot;ArgumentParser options namespace (prefix of all options).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">option_namespace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Plugin.option_name"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Plugin.option_name">[docs]</a>    <span class="k">def</span> <span class="nf">option_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="Plugin.option_name"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Plugin.option_name">[docs]</a>    <span class="k">def</span> <span class="nf">option_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Option name (include plugin namespace).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">option_namespace</span> <span class="o">+</span> <span class="n">name</span></div>
 
@@ -280,18 +278,18 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="sd">&quot;&quot;&quot;ArgumentParser dest namespace (prefix of all destinations).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">dest_namespace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Plugin.dest"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Plugin.dest">[docs]</a>    <span class="k">def</span> <span class="nf">dest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+<div class="viewcode-block" id="Plugin.dest"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Plugin.dest">[docs]</a>    <span class="k">def</span> <span class="nf">dest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Find a destination for given variable ``var``.&quot;&quot;&quot;</span>
         <span class="c1"># this should do exactly the same what ArgumentParser(arg),</span>
         <span class="c1"># does to &quot;arg&quot; to compute &quot;dest&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest_namespace</span> <span class="o">+</span> <span class="n">var</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Plugin.conf"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Plugin.conf">[docs]</a>    <span class="k">def</span> <span class="nf">conf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+<div class="viewcode-block" id="Plugin.conf"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Plugin.conf">[docs]</a>    <span class="k">def</span> <span class="nf">conf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Find a configuration value for variable ``var``.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">(</span><span class="n">var</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="Installer"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Installer">[docs]</a><span class="k">class</span> <span class="nc">Installer</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="viewcode-block" id="Installer"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Installer">[docs]</a><span class="k">class</span> <span class="nc">Installer</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An installer base class with reverter and ssl_dhparam methods defined.</span>
 
 <span class="sd">    Installer plugins do not have to inherit from this class.</span>
@@ -302,7 +300,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="bp">self</span><span class="o">.</span><span class="n">storage</span> <span class="o">=</span> <span class="n">PluginStorage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reverter</span> <span class="o">=</span> <span class="n">reverter</span><span class="o">.</span><span class="n">Reverter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Installer.add_to_checkpoint"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Installer.add_to_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">,</span> <span class="n">temporary</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Installer.add_to_checkpoint"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Installer.add_to_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">,</span> <span class="n">temporary</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add files to a checkpoint.</span>
 
 <span class="sd">        :param set save_files: set of filepaths to save</span>
@@ -324,7 +322,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Installer.finalize_checkpoint"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Installer.finalize_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">finalize_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+<div class="viewcode-block" id="Installer.finalize_checkpoint"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Installer.finalize_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">finalize_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Timestamp and save changes made through the reverter.</span>
 
 <span class="sd">        :param str title: Title describing checkpoint</span>
@@ -337,7 +335,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Installer.recovery_routine"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Installer.recovery_routine">[docs]</a>    <span class="k">def</span> <span class="nf">recovery_routine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Installer.recovery_routine"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Installer.recovery_routine">[docs]</a>    <span class="k">def</span> <span class="nf">recovery_routine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Revert all previously modified files.</span>
 
 <span class="sd">        Reverts all modified files that have not been saved as a checkpoint</span>
@@ -350,7 +348,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Installer.revert_temporary_config"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Installer.revert_temporary_config">[docs]</a>    <span class="k">def</span> <span class="nf">revert_temporary_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Installer.revert_temporary_config"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Installer.revert_temporary_config">[docs]</a>    <span class="k">def</span> <span class="nf">revert_temporary_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Rollback temporary checkpoint.</span>
 
 <span class="sd">        :raises .errors.PluginError: when unable to revert config</span>
@@ -361,7 +359,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Installer.rollback_checkpoints"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Installer.rollback_checkpoints">[docs]</a>    <span class="k">def</span> <span class="nf">rollback_checkpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rollback</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="Installer.rollback_checkpoints"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Installer.rollback_checkpoints">[docs]</a>    <span class="k">def</span> <span class="nf">rollback_checkpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rollback</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Rollback saved checkpoints.</span>
 
 <span class="sd">        :param int rollback: Number of checkpoints to revert</span>
@@ -375,26 +373,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Installer.view_config_changes"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Installer.view_config_changes">[docs]</a>    <span class="k">def</span> <span class="nf">view_config_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Show all of the configuration changes that have taken place.</span>
-
-<span class="sd">        :raises .errors.PluginError: If there is a problem while processing</span>
-<span class="sd">            the checkpoints directories.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;The view_config_changes method is no longer part of Certbot&#39;s&quot;</span>
-            <span class="s2">&quot; plugin interface, has been deprecated, and will be removed in a&quot;</span>
-            <span class="s2">&quot; future release.&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
-            <span class="c1"># Don&#39;t let the reverter code warn about this function. Calling</span>
-            <span class="c1"># this function in the first place is the real problem.</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="s2">&quot;.*view_config_changes&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">reverter</span><span class="o">.</span><span class="n">view_config_changes</span><span class="p">()</span>
-            <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span></div>
-
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">ssl_dhparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Full absolute path to ssl_dhparams file.&quot;&quot;&quot;</span>
@@ -405,7 +383,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="sd">&quot;&quot;&quot;Full absolute path to digest of updated ssl_dhparams file.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">config_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">UPDATED_SSL_DHPARAMS_DIGEST</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Installer.install_ssl_dhparams"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Installer.install_ssl_dhparams">[docs]</a>    <span class="k">def</span> <span class="nf">install_ssl_dhparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Installer.install_ssl_dhparams"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Installer.install_ssl_dhparams">[docs]</a>    <span class="k">def</span> <span class="nf">install_ssl_dhparams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Copy Certbot&#39;s ssl_dhparams file into the system&#39;s config dir if required.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">install_version_controlled_file</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ssl_dhparams</span><span class="p">,</span>
@@ -414,7 +392,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">constants</span><span class="o">.</span><span class="n">ALL_SSL_DHPARAMS_HASHES</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Addr"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Addr">[docs]</a><span class="k">class</span> <span class="nc">Addr</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Addr"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Addr">[docs]</a><span class="k">class</span> <span class="nc">Addr</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Represents an virtual host address.</span>
 
 <span class="sd">    :param str addr: addr part of vhost address</span>
@@ -425,7 +403,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="bp">self</span><span class="o">.</span><span class="n">tup</span> <span class="o">=</span> <span class="n">tup</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ipv6</span> <span class="o">=</span> <span class="n">ipv6</span>
 
-<div class="viewcode-block" id="Addr.fromstring"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Addr.fromstring">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Addr.fromstring"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Addr.fromstring">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">fromstring</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">str_addr</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize Addr from string.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">str_addr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">):</span>
@@ -445,7 +423,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">tup</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Addr.normalized_tuple"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Addr.normalized_tuple">[docs]</a>    <span class="k">def</span> <span class="nf">normalized_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Addr.normalized_tuple"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Addr.normalized_tuple">[docs]</a>    <span class="k">def</span> <span class="nf">normalized_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Normalized representation of addr/port tuple</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipv6</span><span class="p">:</span>
@@ -463,31 +441,31 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">def</span> <span class="nf">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tup</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Addr.get_addr"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Addr.get_addr">[docs]</a>    <span class="k">def</span> <span class="nf">get_addr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Addr.get_addr"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Addr.get_addr">[docs]</a>    <span class="k">def</span> <span class="nf">get_addr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return addr part of Addr object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Addr.get_port"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Addr.get_port">[docs]</a>    <span class="k">def</span> <span class="nf">get_port</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Addr.get_port"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Addr.get_port">[docs]</a>    <span class="k">def</span> <span class="nf">get_port</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return port.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="Addr.get_addr_obj"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Addr.get_addr_obj">[docs]</a>    <span class="k">def</span> <span class="nf">get_addr_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
+<div class="viewcode-block" id="Addr.get_addr_obj"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Addr.get_addr_obj">[docs]</a>    <span class="k">def</span> <span class="nf">get_addr_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return new address object with same addr and new port.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">port</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipv6</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Addr._normalize_ipv6"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Addr._normalize_ipv6">[docs]</a>    <span class="k">def</span> <span class="nf">_normalize_ipv6</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_normalize_ipv6</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return IPv6 address in normalized form, helper function&quot;&quot;&quot;</span>
         <span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">)</span>
         <span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;]&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_explode_ipv6</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_explode_ipv6</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Addr.get_ipv6_exploded"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Addr.get_ipv6_exploded">[docs]</a>    <span class="k">def</span> <span class="nf">get_ipv6_exploded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Addr.get_ipv6_exploded"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Addr.get_ipv6_exploded">[docs]</a>    <span class="k">def</span> <span class="nf">get_ipv6_exploded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return IPv6 in normalized form&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipv6</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;:&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_normalize_ipv6</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
 
-<div class="viewcode-block" id="Addr._explode_ipv6"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.Addr._explode_ipv6">[docs]</a>    <span class="k">def</span> <span class="nf">_explode_ipv6</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_explode_ipv6</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Explode IPv6 address for comparison&quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">]</span>
         <span class="n">addr_list</span> <span class="o">=</span> <span class="n">addr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
@@ -501,7 +479,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="c1"># appended to the end</span>
                 <span class="n">append_to_end</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">continue</span>
-            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">block</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="c1"># remove leading zeros</span>
                 <span class="n">block</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">append_to_end</span><span class="p">:</span>
@@ -509,10 +487,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># count the location from the end using negative indices</span>
                 <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">addr_list</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">result</span></div></div>
+        <span class="k">return</span> <span class="n">result</span></div>
 
 
-<div class="viewcode-block" id="ChallengePerformer"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.ChallengePerformer">[docs]</a><span class="k">class</span> <span class="nc">ChallengePerformer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="ChallengePerformer"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.ChallengePerformer">[docs]</a><span class="k">class</span> <span class="nc">ChallengePerformer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Abstract base for challenge performers.</span>
 
 <span class="sd">    :ivar configurator: Authenticator and installer plugin</span>
@@ -529,7 +507,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="bp">self</span><span class="o">.</span><span class="n">achalls</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[achallenges.KeyAuthorizationAnnotatedChallenge]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[int]</span>
 
-<div class="viewcode-block" id="ChallengePerformer.add_chall"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.ChallengePerformer.add_chall">[docs]</a>    <span class="k">def</span> <span class="nf">add_chall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ChallengePerformer.add_chall"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.ChallengePerformer.add_chall">[docs]</a>    <span class="k">def</span> <span class="nf">add_chall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">,</span> <span class="n">idx</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Store challenge to be performed when perform() is called.</span>
 
 <span class="sd">        :param .KeyAuthorizationAnnotatedChallenge achall: Annotated</span>
@@ -541,7 +519,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">if</span> <span class="n">idx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ChallengePerformer.perform"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.ChallengePerformer.perform">[docs]</a>    <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ChallengePerformer.perform"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.ChallengePerformer.perform">[docs]</a>    <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Perform all added challenges.</span>
 
 <span class="sd">        :returns: challenge responses</span>
@@ -552,64 +530,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
 
 
-<div class="viewcode-block" id="TLSSNI01"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.TLSSNI01">[docs]</a><span class="k">class</span> <span class="nc">TLSSNI01</span><span class="p">(</span><span class="n">ChallengePerformer</span><span class="p">):</span>
-    <span class="c1"># pylint: disable=abstract-method</span>
-    <span class="sd">&quot;&quot;&quot;Abstract base for TLS-SNI-01 challenge performers&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configurator</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">TLSSNI01</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">configurator</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">challenge_conf</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="n">configurator</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">config_dir</span><span class="p">,</span> <span class="s2">&quot;le_tls_sni_01_cert_challenge.conf&quot;</span><span class="p">)</span>
-        <span class="c1"># self.completed = 0</span>
-
-<div class="viewcode-block" id="TLSSNI01.get_cert_path"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.TLSSNI01.get_cert_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_cert_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns standardized name for challenge certificate.</span>
-
-<span class="sd">        :param .KeyAuthorizationAnnotatedChallenge achall: Annotated</span>
-<span class="sd">            tls-sni-01 challenge.</span>
-
-<span class="sd">        :returns: certificate file name</span>
-<span class="sd">        :rtype: str</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configurator</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">work_dir</span><span class="p">,</span>
-                            <span class="n">achall</span><span class="o">.</span><span class="n">chall</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.crt&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="TLSSNI01.get_key_path"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.TLSSNI01.get_key_path">[docs]</a>    <span class="k">def</span> <span class="nf">get_key_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Get standardized path to challenge key.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">configurator</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">work_dir</span><span class="p">,</span>
-                            <span class="n">achall</span><span class="o">.</span><span class="n">chall</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;token&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.pem&#39;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="TLSSNI01.get_z_domain"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.TLSSNI01.get_z_domain">[docs]</a>    <span class="k">def</span> <span class="nf">get_z_domain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns z_domain (SNI) name for the challenge.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">achall</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">achall</span><span class="o">.</span><span class="n">account_key</span><span class="p">)</span><span class="o">.</span><span class="n">z_domain</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="TLSSNI01._setup_challenge_cert"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.TLSSNI01._setup_challenge_cert">[docs]</a>    <span class="k">def</span> <span class="nf">_setup_challenge_cert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achall</span><span class="p">,</span> <span class="n">cert_key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-
-        <span class="sd">&quot;&quot;&quot;Generate and write out challenge certificate.&quot;&quot;&quot;</span>
-        <span class="n">cert_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cert_path</span><span class="p">(</span><span class="n">achall</span><span class="p">)</span>
-        <span class="n">key_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_key_path</span><span class="p">(</span><span class="n">achall</span><span class="p">)</span>
-        <span class="c1"># Register the path before you write out the file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">configurator</span><span class="o">.</span><span class="n">reverter</span><span class="o">.</span><span class="n">register_file_creation</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">key_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">configurator</span><span class="o">.</span><span class="n">reverter</span><span class="o">.</span><span class="n">register_file_creation</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
-
-        <span class="n">response</span><span class="p">,</span> <span class="p">(</span><span class="n">cert</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">=</span> <span class="n">achall</span><span class="o">.</span><span class="n">response_and_validation</span><span class="p">(</span>
-            <span class="n">cert_key</span><span class="o">=</span><span class="n">cert_key</span><span class="p">)</span>
-        <span class="n">cert_pem</span> <span class="o">=</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">dump_certificate</span><span class="p">(</span>
-            <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">cert</span><span class="p">)</span>
-        <span class="n">key_pem</span> <span class="o">=</span> <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">dump_privatekey</span><span class="p">(</span>
-            <span class="n">OpenSSL</span><span class="o">.</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-
-        <span class="c1"># Write out challenge cert and key</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">cert_chall_fd</span><span class="p">:</span>
-            <span class="n">cert_chall_fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cert_pem</span><span class="p">)</span>
-        <span class="k">with</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_open</span><span class="p">(</span><span class="n">key_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="mo">0o400</span><span class="p">)</span> <span class="k">as</span> <span class="n">key_file</span><span class="p">:</span>
-            <span class="n">key_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">key_pem</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">response</span></div></div>
-
-
-<div class="viewcode-block" id="install_version_controlled_file"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.install_version_controlled_file">[docs]</a><span class="k">def</span> <span class="nf">install_version_controlled_file</span><span class="p">(</span><span class="n">dest_path</span><span class="p">,</span> <span class="n">digest_path</span><span class="p">,</span> <span class="n">src_path</span><span class="p">,</span> <span class="n">all_hashes</span><span class="p">):</span>
+<div class="viewcode-block" id="install_version_controlled_file"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.install_version_controlled_file">[docs]</a><span class="k">def</span> <span class="nf">install_version_controlled_file</span><span class="p">(</span><span class="n">dest_path</span><span class="p">,</span> <span class="n">digest_path</span><span class="p">,</span> <span class="n">src_path</span><span class="p">,</span> <span class="n">all_hashes</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Copy a file into an active location (likely the system&#39;s config dir) if required.</span>
 
 <span class="sd">       :param str dest_path: destination path for version controlled file</span>
@@ -637,9 +558,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">active_file_digest</span> <span class="o">=</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">sha256sum</span><span class="p">(</span><span class="n">dest_path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">active_file_digest</span> <span class="o">==</span> <span class="n">current_hash</span><span class="p">:</span> <span class="c1"># already up to date</span>
         <span class="k">return</span>
-    <span class="k">elif</span> <span class="n">active_file_digest</span> <span class="ow">in</span> <span class="n">all_hashes</span><span class="p">:</span> <span class="c1"># safe to update</span>
+    <span class="k">if</span> <span class="n">active_file_digest</span> <span class="ow">in</span> <span class="n">all_hashes</span><span class="p">:</span> <span class="c1"># safe to update</span>
         <span class="n">_install_current_file</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span> <span class="c1"># has been manually modified, not safe to update</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># has been manually modified, not safe to update</span>
         <span class="c1"># did they modify the current version or an old version?</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">digest_path</span><span class="p">):</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">digest_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -659,7 +580,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># &quot;pragma: no cover&quot;) TODO: this might quickly lead to dead code (also</span>
 <span class="c1"># c.f. #383)</span>
 
-<div class="viewcode-block" id="dir_setup"><a class="viewcode-back" href="../../../api/plugins/common.html#certbot.plugins.common.dir_setup">[docs]</a><span class="k">def</span> <span class="nf">dir_setup</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="n">pkg</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+<div class="viewcode-block" id="dir_setup"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.dir_setup">[docs]</a><span class="k">def</span> <span class="nf">dir_setup</span><span class="p">(</span><span class="n">test_dir</span><span class="p">,</span> <span class="n">pkg</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
     <span class="sd">&quot;&quot;&quot;Setup the directories necessary for the configurator.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">expanded_tempdir</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the real path of a temp directory with the specified prefix</span>
@@ -687,6 +608,37 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">test_configs</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">,</span> <span class="n">test_dir</span><span class="p">),</span> <span class="n">symlinks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">temp_dir</span><span class="p">,</span> <span class="n">config_dir</span><span class="p">,</span> <span class="n">work_dir</span></div>
+
+
+<span class="c1"># This class takes a similar approach to the cryptography project to deprecate attributes</span>
+<span class="c1"># in public modules. See the _ModuleWithDeprecation class here:</span>
+<span class="c1"># https://github.com/pyca/cryptography/blob/91105952739442a74582d3e62b3d2111365b0dc7/src/cryptography/utils.py#L129</span>
+<span class="k">class</span> <span class="nc">_TLSSNI01DeprecationModule</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Internal class delegating to a module, and displaying warnings when</span>
+<span class="sd">    attributes related to TLS-SNI-01 are accessed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_module&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">module</span>
+
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="s1">&#39;TLSSNI01&#39;</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;TLSSNI01 is deprecated and will be removed soon.&#39;</span><span class="p">,</span>
+                          <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__dir__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;_module&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">)</span>
+
+
+<span class="c1"># Patching ourselves to warn about TLS-SNI challenge deprecation and removal.</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">_TLSSNI01DeprecationModule</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">])</span>
 </pre></div>
 
            </div>
@@ -743,7 +695,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.37.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -770,7 +722,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%E2%80%94%20Certbot%200.37.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

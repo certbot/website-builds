@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.dns_common_lexicon &mdash; Certbot 0.37.0.dev0 documentation</title>
+  <title>certbot.plugins.dns_common_lexicon &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.dns_common_lexicon &mdash; Certbot 0.37.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.dns_common_lexicon &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 0.37.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.37
+                1.4
               </div>
             
           
@@ -125,6 +125,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="../../../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../resources.html">Resources</a></li>
 </ul>
 <ul>
@@ -171,7 +172,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/plugins/dns_common_lexicon" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/_modules/certbot/plugins/dns_common_lexicon" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -185,9 +186,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span></span><span class="sd">&quot;&quot;&quot;Common code for DNS Authenticator Plugins built on Lexicon.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
-<span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="k">import</span> <span class="n">HTTPError</span><span class="p">,</span> <span class="n">RequestException</span>
+<span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="k">import</span> <span class="n">HTTPError</span>
+<span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="k">import</span> <span class="n">RequestException</span>
 
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span>  <span class="c1"># pylint: disable=unused-import,no-name-in-module</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">dns_common</span>
 
@@ -204,7 +208,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="LexiconClient"><a class="viewcode-back" href="../../../api/plugins/dns_common_lexicon.html#certbot.plugins.dns_common_lexicon.LexiconClient">[docs]</a><span class="k">class</span> <span class="nc">LexiconClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="LexiconClient"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common_lexicon.html#certbot.plugins.dns_common_lexicon.LexiconClient">[docs]</a><span class="k">class</span> <span class="nc">LexiconClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Encapsulates all communication with a DNS provider via Lexicon.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -212,7 +216,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">provider</span> <span class="o">=</span> <span class="kc">None</span>
 
-<div class="viewcode-block" id="LexiconClient.add_txt_record"><a class="viewcode-back" href="../../../api/plugins/dns_common_lexicon.html#certbot.plugins.dns_common_lexicon.LexiconClient.add_txt_record">[docs]</a>    <span class="k">def</span> <span class="nf">add_txt_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">record_name</span><span class="p">,</span> <span class="n">record_content</span><span class="p">):</span>
+<div class="viewcode-block" id="LexiconClient.add_txt_record"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common_lexicon.html#certbot.plugins.dns_common_lexicon.LexiconClient.add_txt_record">[docs]</a>    <span class="k">def</span> <span class="nf">add_txt_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">record_name</span><span class="p">,</span> <span class="n">record_content</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add a TXT record using the supplied information.</span>
 
@@ -229,7 +233,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Encountered error adding TXT record: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;Error adding TXT record: </span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="LexiconClient.del_txt_record"><a class="viewcode-back" href="../../../api/plugins/dns_common_lexicon.html#certbot.plugins.dns_common_lexicon.LexiconClient.del_txt_record">[docs]</a>    <span class="k">def</span> <span class="nf">del_txt_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">record_name</span><span class="p">,</span> <span class="n">record_content</span><span class="p">):</span>
+<div class="viewcode-block" id="LexiconClient.del_txt_record"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common_lexicon.html#certbot.plugins.dns_common_lexicon.LexiconClient.del_txt_record">[docs]</a>    <span class="k">def</span> <span class="nf">del_txt_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">record_name</span><span class="p">,</span> <span class="n">record_content</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete a TXT record using the supplied information.</span>
 
@@ -250,7 +254,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">except</span> <span class="n">RequestException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Encountered error deleting TXT record: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="LexiconClient._find_domain_id"><a class="viewcode-back" href="../../../api/plugins/dns_common_lexicon.html#certbot.plugins.dns_common_lexicon.LexiconClient._find_domain_id">[docs]</a>    <span class="k">def</span> <span class="nf">_find_domain_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_find_domain_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Find the domain_id for a given domain.</span>
 
@@ -281,10 +285,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handle_general_error</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">domain_name</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">result</span>
+                    <span class="k">raise</span> <span class="n">result</span>  <span class="c1"># pylint: disable=raising-bad-type</span>
 
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;Unable to determine zone identifier for </span><span class="si">{0}</span><span class="s1"> using zone names: </span><span class="si">{1}</span><span class="s1">&#39;</span>
-                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">domain_name_guesses</span><span class="p">))</span></div>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">domain_name_guesses</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_handle_http_error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">domain_name</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;Error determining zone identifier for </span><span class="si">{0}</span><span class="s1">: </span><span class="si">{1}</span><span class="s1">.&#39;</span>
@@ -297,7 +301,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="build_lexicon_config"><a class="viewcode-back" href="../../../api/plugins/dns_common_lexicon.html#certbot.plugins.dns_common_lexicon.build_lexicon_config">[docs]</a><span class="k">def</span> <span class="nf">build_lexicon_config</span><span class="p">(</span><span class="n">lexicon_provider_name</span><span class="p">,</span> <span class="n">lexicon_options</span><span class="p">,</span> <span class="n">provider_options</span><span class="p">):</span>
+<div class="viewcode-block" id="build_lexicon_config"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common_lexicon.html#certbot.plugins.dns_common_lexicon.build_lexicon_config">[docs]</a><span class="k">def</span> <span class="nf">build_lexicon_config</span><span class="p">(</span><span class="n">lexicon_provider_name</span><span class="p">,</span> <span class="n">lexicon_options</span><span class="p">,</span> <span class="n">provider_options</span><span class="p">):</span>
     <span class="c1"># type: (str, Dict, Dict) -&gt; Union[ConfigResolver, Dict]</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convenient function to build a Lexicon 2.x/3.x config object.</span>
@@ -376,7 +380,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.37.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -403,7 +407,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.dns_common_lexicon%E2%80%94%20Certbot%200.37.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.dns_common_lexicon%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

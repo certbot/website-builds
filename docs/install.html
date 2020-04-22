@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Get Certbot &mdash; Certbot 0.37.0.dev0 documentation</title>
+  <title>Get Certbot &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Get Certbot &mdash; Certbot 0.37.0.dev0 documentation">
+<meta name="twitter:title" content="Get Certbot &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.37.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="User Guide" href="using.html"/>
         <link rel="prev" title="What is a Certificate?" href="what.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.37
+                1.4
               </div>
             
           
@@ -126,6 +126,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l2"><a class="reference internal" href="#about-certbot">About Certbot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#system-requirements">System Requirements</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#alternate-installation-methods">Alternate installation methods</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#snap">Snap</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#certbot-auto">Certbot-Auto</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#problems-with-python-virtual-environment">Problems with Python virtual environment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#running-with-docker">Running with Docker</a></li>
@@ -138,6 +139,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="resources.html">Resources</a></li>
 </ul>
 <ul>
@@ -182,7 +184,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/install.rst" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/install.rst" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -200,11 +202,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li><a class="reference internal" href="#about-certbot" id="id3">About Certbot</a></li>
 <li><a class="reference internal" href="#system-requirements" id="id4">System Requirements</a></li>
 <li><a class="reference internal" href="#alternate-installation-methods" id="id5">Alternate installation methods</a><ul>
-<li><a class="reference internal" href="#certbot-auto" id="id6">Certbot-Auto</a></li>
-<li><a class="reference internal" href="#problems-with-python-virtual-environment" id="id7">Problems with Python virtual environment</a></li>
-<li><a class="reference internal" href="#running-with-docker" id="id8">Running with Docker</a></li>
-<li><a class="reference internal" href="#operating-system-packages" id="id9">Operating System Packages</a></li>
-<li><a class="reference internal" href="#installing-from-source" id="id10">Installing from source</a></li>
+<li><a class="reference internal" href="#snap" id="id6">Snap</a></li>
+<li><a class="reference internal" href="#certbot-auto" id="id7">Certbot-Auto</a></li>
+<li><a class="reference internal" href="#problems-with-python-virtual-environment" id="id8">Problems with Python virtual environment</a></li>
+<li><a class="reference internal" href="#running-with-docker" id="id9">Running with Docker</a></li>
+<li><a class="reference internal" href="#operating-system-packages" id="id10">Operating System Packages</a></li>
+<li><a class="reference internal" href="#installing-from-source" id="id11">Installing from source</a></li>
 </ul>
 </li>
 </ul>
@@ -224,7 +227,7 @@ your system.</p>
 </div>
 <div class="section" id="system-requirements">
 <span id="id1"></span><h2><a class="toc-backref" href="#id4">System Requirements</a><a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
-<p>Certbot currently requires Python 2.7 or 3.4+ running on a UNIX-like operating
+<p>Certbot currently requires Python 2.7 or 3.5+ running on a UNIX-like operating
 system. By default, it requires root access in order to write to
 <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt</span></code>, <code class="docutils literal notranslate"><span class="pre">/var/log/letsencrypt</span></code>, <code class="docutils literal notranslate"><span class="pre">/var/lib/letsencrypt</span></code>; to
 bind to port 80 (if you use the <code class="docutils literal notranslate"><span class="pre">standalone</span></code> plugin) and to read and
@@ -232,9 +235,9 @@ modify webserver configurations (if you use the <code class="docutils literal no
 plugins).  If none of these apply to you, it is theoretically possible to run
 without root privileges, but for most users who want to avoid running an ACME
 client as root, either <a class="reference external" href="https://github.com/diafygi/letsencrypt-nosudo">letsencrypt-nosudo</a> or <a class="reference external" href="https://github.com/zenhack/simp_le">simp_le</a> are more appropriate choices.</p>
-<p>The Apache plugin currently requires an OS with augeas version 1.0; currently <a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot-apache/certbot_apache/constants.py">it
+<p>The Apache plugin currently requires an OS with augeas version 1.0; currently <a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot-apache/certbot_apache/_internal/constants.py">it
 supports</a>
-modern OSes based on Debian, Fedora, SUSE, Gentoo and Darwin.</p>
+modern OSes based on Debian, Ubuntu, Fedora, SUSE, Gentoo and Darwin.</p>
 <p>Additional integrity verification of certbot-auto script can be done by verifying its digital signature.
 This requires a local installation of gpg2, which comes packaged in many Linux distributions under name gnupg or gnupg2.</p>
 <p>Installing with <code class="docutils literal notranslate"><span class="pre">certbot-auto</span></code> requires 512MB of RAM in order to build some
@@ -246,18 +249,32 @@ Python virtual environment” below for details.</p>
 <h2><a class="toc-backref" href="#id5">Alternate installation methods</a><a class="headerlink" href="#alternate-installation-methods" title="Permalink to this headline">¶</a></h2>
 <p>If you are offline or your operating system doesn’t provide a package, you can use
 an alternate method for installing <code class="docutils literal notranslate"><span class="pre">certbot</span></code>.</p>
+<div class="section" id="snap">
+<span id="snap-install"></span><h3><a class="toc-backref" href="#id6">Snap</a><a class="headerlink" href="#snap" title="Permalink to this headline">¶</a></h3>
+<p>Most modern Linux distributions (basically any that use systemd) can install
+Certbot packaged as a snap. Support for the Certbot snap is currently in its
+beta phase and limited to the x86_64 architecture, but it provides an easy way
+to ensure you have the latest version of Certbot with features like automated
+certificate renewal preconfigured.</p>
+<p>You can find instructions for installing the Certbot snap at
+<a class="reference external" href="https://certbot.eff.org/instructions">https://certbot.eff.org/instructions</a> by selecting your server software and then
+choosing “snapd” in the “System” dropdown menu. (You should select “snapd”
+regardless of your operating system, as our instructions are the same across
+all systems.)</p>
+</div>
 <div class="section" id="certbot-auto">
-<span id="id2"></span><h3><a class="toc-backref" href="#id6">Certbot-Auto</a><a class="headerlink" href="#certbot-auto" title="Permalink to this headline">¶</a></h3>
+<span id="id2"></span><h3><a class="toc-backref" href="#id7">Certbot-Auto</a><a class="headerlink" href="#certbot-auto" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">certbot-auto</span></code> wrapper script installs Certbot, obtaining some dependencies
 from your web server OS and putting others in a python virtual environment. You can
 download and run it as follows:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@webserver:~$ wget https://dl.eff.org/certbot-auto
-user@webserver:~$ sudo mv certbot-auto /usr/local/bin/certbot-auto
-user@webserver:~$ sudo chown root /usr/local/bin/certbot-auto
-user@webserver:~$ chmod 0755 /usr/local/bin/certbot-auto
-user@webserver:~$ /usr/local/bin/certbot-auto --help
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">dl</span><span class="o">.</span><span class="n">eff</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span>
+<span class="n">sudo</span> <span class="n">mv</span> <span class="n">certbot</span><span class="o">-</span><span class="n">auto</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span>
+<span class="n">sudo</span> <span class="n">chown</span> <span class="n">root</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span>
+<span class="n">sudo</span> <span class="n">chmod</span> <span class="mi">0755</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span>
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">certbot</span><span class="o">-</span><span class="n">auto</span> <span class="o">--</span><span class="n">help</span>
 </pre></div>
 </div>
+<p>To remove certbot-auto, just delete it and the files it places under /opt/eff.org, along with any cronjob or systemd timer you may have created.</p>
 <p>To check the integrity of the <code class="docutils literal notranslate"><span class="pre">certbot-auto</span></code> script,
 you can use these steps:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user@webserver:~$ wget -N https://dl.eff.org/certbot-auto.asc
@@ -287,7 +304,7 @@ the same command line flags and arguments. For more information, see
 </div>
 </div>
 <div class="section" id="problems-with-python-virtual-environment">
-<h3><a class="toc-backref" href="#id7">Problems with Python virtual environment</a><a class="headerlink" href="#problems-with-python-virtual-environment" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">Problems with Python virtual environment</a><a class="headerlink" href="#problems-with-python-virtual-environment" title="Permalink to this headline">¶</a></h3>
 <p>On a low memory system such as VPS with less than 512MB of RAM, the required dependencies of Certbot will fail to build.
 This can be identified if the pip outputs contains something like <code class="docutils literal notranslate"><span class="pre">internal</span> <span class="pre">compiler</span> <span class="pre">error:</span> <span class="pre">Killed</span> <span class="pre">(program</span> <span class="pre">cc1)</span></code>.
 You can workaround this restriction by creating a temporary swapfile:</p>
@@ -304,7 +321,7 @@ user@webserver:~$ sudo rm /tmp/swapfile
 </div>
 </div>
 <div class="section" id="running-with-docker">
-<span id="docker-user"></span><h3><a class="toc-backref" href="#id8">Running with Docker</a><a class="headerlink" href="#running-with-docker" title="Permalink to this headline">¶</a></h3>
+<span id="docker-user"></span><h3><a class="toc-backref" href="#id9">Running with Docker</a><a class="headerlink" href="#running-with-docker" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference external" href="https://docker.com">Docker</a> is an amazingly simple and quick way to obtain a
 certificate. However, this mode of operation is unable to install
 certificates or configure your webserver, because our installer
@@ -352,23 +369,54 @@ well.</p>
 of the <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt</span></code> directory, see <a class="reference internal" href="using.html#where-certs"><span class="std std-ref">Where are my certificates?</span></a>.</p>
 </div>
 <div class="section" id="operating-system-packages">
-<h3><a class="toc-backref" href="#id9">Operating System Packages</a><a class="headerlink" href="#operating-system-packages" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id10">Operating System Packages</a><a class="headerlink" href="#operating-system-packages" title="Permalink to this headline">¶</a></h3>
 <p><strong>Arch Linux</strong></p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo pacman -S certbot
 </pre></div>
 </div>
 <p><strong>Debian</strong></p>
-<p>If you run Debian Stretch or Debian Sid, you can install certbot packages.</p>
+<p>If you run Debian Buster or Debian testing/Sid, you can easily install certbot
+packages through commands like:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get update
-sudo apt-get install certbot python-certbot-apache
+sudo apt-get install certbot
 </pre></div>
 </div>
-<p>If you don’t want to use the Apache plugin, you can omit the
-<code class="docutils literal notranslate"><span class="pre">python-certbot-apache</span></code> package. Or you can install <code class="docutils literal notranslate"><span class="pre">python-certbot-nginx</span></code> instead.</p>
-<p>Packages exist for Debian Jessie via backports. First you’ll have to follow the
-instructions at <a class="reference external" href="http://backports.debian.org/Instructions/">http://backports.debian.org/Instructions/</a> to enable the Jessie backports
-repo, if you have not already done so. Then run:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get install certbot python-certbot-apache -t jessie-backports
+<p>If you run Debian Stretch, we recommend you use the packages in Debian
+backports repository. First you’ll have to follow the instructions at
+<a class="reference external" href="https://backports.debian.org/Instructions/">https://backports.debian.org/Instructions/</a> to enable the Stretch backports repo,
+if you have not already done so. Then run:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get install certbot -t stretch-backports
+</pre></div>
+</div>
+<p>In all of these cases, there also packages available to help Certbot integrate
+with Apache, nginx, or various DNS services. If you are using Apache or nginx,
+we strongly recommend that you install the <code class="docutils literal notranslate"><span class="pre">python-certbot-apache</span></code> or
+<code class="docutils literal notranslate"><span class="pre">python-certbot-nginx</span></code> package so that Certbot can fully automate HTTPS
+configuration for your server. A full list of these packages can be found
+through a command like:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>apt search <span class="s1">&#39;python-certbot*&#39;</span>
+</pre></div>
+</div>
+<p>They can be installed by running the same installation command above but
+replacing <code class="docutils literal notranslate"><span class="pre">certbot</span></code> with the name of the desired package.</p>
+<p>There are no Certbot packages available for Debian Jessie and Jessie users
+should instead use <a class="reference internal" href="#certbot-auto">certbot-auto</a>.</p>
+<p><strong>Ubuntu</strong></p>
+<p>If you run Ubuntu Trusty, Xenial, or Bionic, certbot is available through the official PPA,
+that can be installed as followed:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get install software-properties-common
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+</pre></div>
+</div>
+<p>Then, certbot can be installed using:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get install certbot
+</pre></div>
+</div>
+<p>Optionally to install the Certbot Apache plugin, you can use:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo apt-get install python-certbot-apache
 </pre></div>
 </div>
 <p><strong>Fedora</strong></p>
@@ -429,15 +477,15 @@ Certbot for your distribution of choice please have a
 look at the <a class="reference internal" href="packaging.html"><span class="doc">Packaging Guide</span></a>.</p>
 </div>
 <div class="section" id="installing-from-source">
-<h3><a class="toc-backref" href="#id10">Installing from source</a><a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id11">Installing from source</a><a class="headerlink" href="#installing-from-source" title="Permalink to this headline">¶</a></h3>
 <p>Installation from source is only supported for developers and the
 whole process is described in the <a class="reference internal" href="contributing.html"><span class="doc">Developer Guide</span></a>.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">Please do <strong>not</strong> use <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>, <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">pip</span>
-<span class="pre">install</span> <span class="pre">.</span></code>, or <code class="docutils literal notranslate"><span class="pre">easy_install</span> <span class="pre">.</span></code>. Please do <strong>not</strong> attempt the
+<p class="last">Please do <strong>not</strong> use <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">certbot/setup.py</span> <span class="pre">install</span></code>, <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">pip</span>
+<span class="pre">install</span> <span class="pre">certbot</span></code>, or <code class="docutils literal notranslate"><span class="pre">easy_install</span> <span class="pre">certbot</span></code>. Please do <strong>not</strong> attempt the
 installation commands as superuser/root and/or without virtual environment,
-e.g. <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>, <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">pip</span> <span class="pre">install</span></code>, <code class="docutils literal notranslate"><span class="pre">sudo</span>
+e.g. <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">python</span> <span class="pre">certbot/setup.py</span> <span class="pre">install</span></code>, <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">pip</span> <span class="pre">install</span></code>, <code class="docutils literal notranslate"><span class="pre">sudo</span>
 <span class="pre">./venv/bin/...</span></code>. These modes of operation might corrupt your operating
 system and are <strong>not supported</strong> by the Certbot team!</p>
 </div>
@@ -500,7 +548,7 @@ system and are <strong>not supported</strong> by the Certbot team!</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.37.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -527,7 +575,7 @@ system and are <strong>not supported</strong> by the Certbot team!</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Get%20Certbot%E2%80%94%20Certbot%200.37.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Get%20Certbot%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

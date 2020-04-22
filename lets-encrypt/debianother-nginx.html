@@ -30,8 +30,17 @@
 
 
   <body class="instructions page">
+    
+    <div class="logo-banner">
+  <div class="logo">
+    <a href="https://eff.org"><img src="/images/EFF-logo-plain.svg" alt="EFF"></a>
+  </div>
+  <div class="eff-tagline">
+    <span>a project of the Electronic Frontier Foundation</span>
+  </div>
+</div>
 
-    <nav class="main-nav fixed">
+    <nav class="main-nav">
   <div class="logo">
     <a href="/"><img src="/images/certbot-logo-1A.svg" alt="Certbot logo, a robot holding a key"/></a>
   </div>
@@ -81,6 +90,8 @@
       
         <option value="plesk">Plesk</option>
       
+        <option value="webproduct">Web Hosting Product</option>
+      
         <option value="other">None of the above</option>
       
     </optgroup>
@@ -93,11 +104,15 @@
       
         <option value="sharedhost" data-distro="sharedhost" data-version="0">Web Hosting Service</option>
       
+        <option value="snap" data-distro="snap" data-version="0">snapd</option>
+      
         <option value="debianjessie" data-distro="debian" data-version="8">Debian 8 (jessie)</option>
       
         <option value="debianstretch" data-distro="debian" data-version="9">Debian 9 (stretch)</option>
       
-        <option value="debiantesting" data-distro="debian" data-version="10">Debian testing/unstable</option>
+        <option value="debianbuster" data-distro="debian" data-version="10">Debian 10 (buster)</option>
+      
+        <option value="debiantesting" data-distro="debian" data-version="11">Debian testing/unstable</option>
       
         <option value="debianother" data-distro="debian" data-version="0">Debian (other)</option>
       
@@ -119,13 +134,11 @@
       
         <option value="centosrhel7" data-distro="centos" data-version="7">CentOS/RHEL 7</option>
       
+        <option value="centosrhel8" data-distro="centos" data-version="8">CentOS/RHEL 8</option>
+      
         <option value="freebsd" data-distro="freebsd" data-version="0">FreeBSD</option>
       
-        <option value="opbsd5" data-distro="opbsd" data-version="5.9">OpenBSD 5.9</option>
-      
         <option value="opbsd6" data-distro="opbsd" data-version="6">OpenBSD 6.0+</option>
-      
-        <option value="opbsd" data-distro="auto" data-version="0">OpenBSD (other)</option>
       
         <option value="osx" data-distro="macos" data-version="10">macOS</option>
       
@@ -141,7 +154,7 @@
       
         <option value="pip" data-distro="python" data-version="0">Other UNIX</option>
       
-        <option value="nonunix" data-distro="nonunix" data-version="0">Non-UNIX</option>
+        <option value="windows" data-distro="windows" data-version="0">Windows</option>
       
     </optgroup>
   </select>
@@ -159,18 +172,20 @@
 
     <div class="page-content">
       <div class="wrapper">
-        <div class="use-certbot">
+        <div class="instructions content">
+          <h2 id="instructions-header"><a href="/lets-encrypt/debianother-nginx.html">Nginx on Debian (other)</a></h2>
+<div class="use-certbot">
   <h1>To use Certbot, you'll need...</h1>
   <div class="three-col reqs">
     <div class="col">
-      <img alt="A laptop" src="/images/Computer.svg">
+      <img alt="A laptop" src="/images/Computer.svg" />
       <div class="text-wrapper hanging-indent">
         <span>comfort with the 
 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">command line</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#command-line">Command Line</a>
     </div>
@@ -207,7 +222,7 @@ Certbot is run from a command-line interface, usually on a Unix-like server. In 
       </div>
     </div>
     <div class="col">
-      <img alt="Web browser showing an HTTP site" src="/images/HTTPsite.svg">
+      <img alt="Web browser showing an HTTP site" src="/images/HTTPsite.svg" />
       <div class="text-wrapper hanging-indent">
         <span>
           ...and an
@@ -216,7 +231,7 @@ Certbot is run from a command-line interface, usually on a Unix-like server. In 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">HTTP website</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#http">HTTP</a>
     </div>
@@ -250,13 +265,13 @@ Almost all websites in the world support HTTP, but websites that have been confi
 </div>
 
 
-          <br/>
+          <br />
           that is 
 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">already online</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#website-thats-already-online">Website That’s Already Online</a>
     </div>
@@ -286,13 +301,13 @@ Almost all websites in the world support HTTP, but websites that have been confi
 </div>
 
 
-          <br/>
+          <br />
           with an open 
 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">port 80</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#port-80">Port 80</a>
     </div>
@@ -328,7 +343,7 @@ To use certbot –webroot, certbot –apache, or certbot –nginx, you should ha
       </div>
     </div>
     <div class="col">
-      <img alt="A sever" src="/images/Server.svg">
+      <img alt="A sever" src="/images/Server.svg" />
       <div class="text-wrapper hanging-indent">
         <span>
           ...which is hosted on a 
@@ -336,7 +351,7 @@ To use certbot –webroot, certbot –apache, or certbot –nginx, you should ha
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">server</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#server">Server</a>
     </div>
@@ -367,13 +382,13 @@ To use certbot –webroot, certbot –apache, or certbot –nginx, you should ha
 </div>
 
 
-          <br/>
+          <br />
           which you can access via 
 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">SSH</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#ssh">SSH</a>
     </div>
@@ -405,13 +420,13 @@ Most Certbot users run Certbot from a command prompt on a remote server over SSH
 </div>
 
 
-          <br/>
+          <br />
           with the ability to 
 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">sudo</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#sudo">sudo</a>
     </div>
@@ -445,7 +460,7 @@ If you’re logged in to your server as a user other than root, you’ll likely 
 </div>
 
 
-          <br/>
+          <br />
         </span>
         <span class="italic">
           optional if you want a 
@@ -453,7 +468,7 @@ If you’re logged in to your server as a user other than root, you’ll likely 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">wildcard cert</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#wildcard-certificate">Wildcard Certificate</a>
     </div>
@@ -489,7 +504,7 @@ If you’re logged in to your server as a user other than root, you’ll likely 
 <div class="glossary-term js-only disabled">
   <a class="glossary-link js">DNS credentials</a>
   <div class="tooltip js">
-    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg"></div>
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
     <div class="tooltip-title">
       <a href="/glossary#dns-credentials">DNS Credentials</a>
     </div>
@@ -535,10 +550,43 @@ You should never share these credentials publicly or with an unauthorized person
   </div>
 </div>
 
-        <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/debianother-nginx.html">Nginx on Debian (other)</a></h2>
 <div class="tab automated active">default</div>
-<div class="tab advanced">wildcard</div>
+<div class="tab advanced">wildcard
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">*</a>
+  <div class="tooltip js">
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
+    <div class="tooltip-title">
+      <a href="/glossary#wildcard-certificate">Wildcard Certificate</a>
+    </div>
+    <div class="mobile-hidden">
+    <p>A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.</p>
+
+    </div>
+    <div class="mobile-only">
+      <p>
+      A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.
+
+      </p>
+    </div>
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">*</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title" href="/glossary#wildcard-certificate">Wildcard Certificate</a>
+    <p>A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.</p>
+
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+</div>
 
 <div class="instruction-pane-wrapper">
   <div class="instruction-pane automated">
@@ -585,7 +633,7 @@ You should never share these credentials publicly or with an unauthorized person
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
       </li>
@@ -657,7 +705,7 @@ You should never share these credentials publicly or with an unauthorized person
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
       </li>
@@ -701,7 +749,7 @@ You should never share these credentials publicly or with an unauthorized person
       <img alt="Bag decorated with a heart" src="/images/BlackCircle-Donate.svg" />
       <div class="text-wrapper">
         <span class="mobile-hidden">
-          Like Certbot? This free, open source project is part of EFF's 
+          Like Certbot? This free, open source project is part of EFF's
           commitment to make encryption accessible for all.
         </span>
         <span class="mobile-only">
@@ -716,7 +764,7 @@ You should never share these credentials publicly or with an unauthorized person
         </div>
       </div>
     </div>
-    
+
     <footer class="social">
   <ul>
     <li>
@@ -780,8 +828,8 @@ document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.
 
 </footer>
 
-    
-    
+
+
   </body>
 
 </html>

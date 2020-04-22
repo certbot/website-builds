@@ -28,7 +28,7 @@ your system.
 System Requirements
 ===================
 
-Certbot currently requires Python 2.7 or 3.4+ running on a UNIX-like operating
+Certbot currently requires Python 2.7 or 3.5+ running on a UNIX-like operating
 system. By default, it requires root access in order to write to
 ``/etc/letsencrypt``, ``/var/log/letsencrypt``, ``/var/lib/letsencrypt``; to
 bind to port 80 (if you use the ``standalone`` plugin) and to read and
@@ -41,8 +41,8 @@ client as root, either `letsencrypt-nosudo
 
 The Apache plugin currently requires an OS with augeas version 1.0; currently `it
 supports
-<https://github.com/certbot/certbot/blob/master/certbot-apache/certbot_apache/constants.py>`_
-modern OSes based on Debian, Fedora, SUSE, Gentoo and Darwin.
+<https://github.com/certbot/certbot/blob/master/certbot-apache/certbot_apache/_internal/constants.py>`_
+modern OSes based on Debian, Ubuntu, Fedora, SUSE, Gentoo and Darwin.
 
 
 Additional integrity verification of certbot-auto script can be done by verifying its digital signature.
@@ -61,6 +61,23 @@ Alternate installation methods
 If you are offline or your operating system doesn't provide a package, you can use
 an alternate method for installing ``certbot``.
 
+.. _snap-install:
+
+Snap
+----
+
+Most modern Linux distributions (basically any that use systemd) can install
+Certbot packaged as a snap. Support for the Certbot snap is currently in its
+beta phase and limited to the x86_64 architecture, but it provides an easy way
+to ensure you have the latest version of Certbot with features like automated
+certificate renewal preconfigured.
+
+You can find instructions for installing the Certbot snap at
+https://certbot.eff.org/instructions by selecting your server software and then
+choosing "snapd" in the "System" dropdown menu. (You should select "snapd"
+regardless of your operating system, as our instructions are the same across
+all systems.)
+
 .. _certbot-auto:
 
 Certbot-Auto
@@ -70,11 +87,13 @@ The ``certbot-auto`` wrapper script installs Certbot, obtaining some dependencie
 from your web server OS and putting others in a python virtual environment. You can
 download and run it as follows::
 
-  user@webserver:~$ wget https://dl.eff.org/certbot-auto
-  user@webserver:~$ sudo mv certbot-auto /usr/local/bin/certbot-auto
-  user@webserver:~$ sudo chown root /usr/local/bin/certbot-auto
-  user@webserver:~$ chmod 0755 /usr/local/bin/certbot-auto
-  user@webserver:~$ /usr/local/bin/certbot-auto --help
+  wget https://dl.eff.org/certbot-auto
+  sudo mv certbot-auto /usr/local/bin/certbot-auto
+  sudo chown root /usr/local/bin/certbot-auto
+  sudo chmod 0755 /usr/local/bin/certbot-auto
+  /usr/local/bin/certbot-auto --help
+
+To remove certbot-auto, just delete it and the files it places under /opt/eff.org, along with any cronjob or systemd timer you may have created.
 
 To check the integrity of the ``certbot-auto`` script,
 you can use these steps::
@@ -200,23 +219,64 @@ Operating System Packages
 
 **Debian**
 
-If you run Debian Stretch or Debian Sid, you can install certbot packages.
+If you run Debian Buster or Debian testing/Sid, you can easily install certbot
+packages through commands like:
 
 .. code-block:: shell
 
    sudo apt-get update
-   sudo apt-get install certbot python-certbot-apache
+   sudo apt-get install certbot
 
-If you don't want to use the Apache plugin, you can omit the
-``python-certbot-apache`` package. Or you can install ``python-certbot-nginx`` instead.
-
-Packages exist for Debian Jessie via backports. First you'll have to follow the
-instructions at http://backports.debian.org/Instructions/ to enable the Jessie backports
-repo, if you have not already done so. Then run:
+If you run Debian Stretch, we recommend you use the packages in Debian
+backports repository. First you'll have to follow the instructions at
+https://backports.debian.org/Instructions/ to enable the Stretch backports repo,
+if you have not already done so. Then run:
 
 .. code-block:: shell
 
-   sudo apt-get install certbot python-certbot-apache -t jessie-backports
+   sudo apt-get install certbot -t stretch-backports
+
+In all of these cases, there also packages available to help Certbot integrate
+with Apache, nginx, or various DNS services. If you are using Apache or nginx,
+we strongly recommend that you install the ``python-certbot-apache`` or
+``python-certbot-nginx`` package so that Certbot can fully automate HTTPS
+configuration for your server. A full list of these packages can be found
+through a command like:
+
+.. code-block:: shell
+
+    apt search 'python-certbot*'
+
+They can be installed by running the same installation command above but
+replacing ``certbot`` with the name of the desired package.
+
+There are no Certbot packages available for Debian Jessie and Jessie users
+should instead use certbot-auto_.
+
+**Ubuntu**
+
+If you run Ubuntu Trusty, Xenial, or Bionic, certbot is available through the official PPA,
+that can be installed as followed:
+
+.. code-block:: shell
+
+   sudo apt-get update
+   sudo apt-get install software-properties-common
+   sudo add-apt-repository universe
+   sudo add-apt-repository ppa:certbot/certbot
+   sudo apt-get update
+
+Then, certbot can be installed using:
+
+.. code-block:: shell
+
+   sudo apt-get install certbot
+
+Optionally to install the Certbot Apache plugin, you can use:
+
+.. code-block:: shell
+
+   sudo apt-get install python-certbot-apache
 
 **Fedora**
 
@@ -287,9 +347,9 @@ Installing from source
 Installation from source is only supported for developers and the
 whole process is described in the :doc:`contributing`.
 
-.. warning:: Please do **not** use ``python setup.py install``, ``python pip
-   install .``, or ``easy_install .``. Please do **not** attempt the
+.. warning:: Please do **not** use ``python certbot/setup.py install``, ``python pip
+   install certbot``, or ``easy_install certbot``. Please do **not** attempt the
    installation commands as superuser/root and/or without virtual environment,
-   e.g. ``sudo python setup.py install``, ``sudo pip install``, ``sudo
+   e.g. ``sudo python certbot/setup.py install``, ``sudo pip install``, ``sudo
    ./venv/bin/...``. These modes of operation might corrupt your operating
    system and are **not supported** by the Certbot team!

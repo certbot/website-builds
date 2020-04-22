@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.reverter &mdash; Certbot 0.37.0.dev0 documentation</title>
+  <title>certbot.reverter &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.reverter &mdash; Certbot 0.37.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.reverter &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 0.37.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.37
+                1.4
               </div>
             
           
@@ -125,6 +125,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="../../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
 </ul>
 <ul>
@@ -171,7 +172,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/reverter" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/_modules/certbot/reverter" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -190,23 +191,19 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">traceback</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">six</span>
-<span class="kn">import</span> <span class="nn">zope.component</span>
 
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
-<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">misc</span>
-<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">filesystem</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Reverter"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter">[docs]</a><span class="k">class</span> <span class="nc">Reverter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Reverter"><a class="viewcode-back" href="../../api/certbot.reverter.html#certbot.reverter.Reverter">[docs]</a><span class="k">class</span> <span class="nc">Reverter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Reverter Class - save and revert configuration checkpoints.</span>
 
 <span class="sd">    This class can be used by the plugins, especially Installers, to</span>
@@ -252,10 +249,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
 
         <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
-            <span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">misc</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Reverter.revert_temporary_config"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.revert_temporary_config">[docs]</a>    <span class="k">def</span> <span class="nf">revert_temporary_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Reverter.revert_temporary_config"><a class="viewcode-back" href="../../api/certbot.reverter.html#certbot.reverter.Reverter.revert_temporary_config">[docs]</a>    <span class="k">def</span> <span class="nf">revert_temporary_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reload users original configuration files after a temporary save.</span>
 
 <span class="sd">        This function should reinstall the users original configuration files</span>
@@ -275,7 +271,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="p">)</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span><span class="s2">&quot;Unable to revert temporary config&quot;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Reverter.rollback_checkpoints"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.rollback_checkpoints">[docs]</a>    <span class="k">def</span> <span class="nf">rollback_checkpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rollback</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="Reverter.rollback_checkpoints"><a class="viewcode-back" href="../../api/certbot.reverter.html#certbot.reverter.Reverter.rollback_checkpoints">[docs]</a>    <span class="k">def</span> <span class="nf">rollback_checkpoints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rollback</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Revert &#39;rollback&#39; number of configuration checkpoints.</span>
 
 <span class="sd">        :param int rollback: Number of checkpoints to reverse. A str num will be</span>
@@ -317,65 +313,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                     <span class="s2">&quot;Unable to load checkpoint during rollback&quot;</span><span class="p">)</span>
             <span class="n">rollback</span> <span class="o">-=</span> <span class="mi">1</span></div>
 
-<div class="viewcode-block" id="Reverter.view_config_changes"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.view_config_changes">[docs]</a>    <span class="k">def</span> <span class="nf">view_config_changes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Displays all saved checkpoints.</span>
-
-<span class="sd">        All checkpoints are printed by</span>
-<span class="sd">        :meth:`certbot.interfaces.IDisplay.notification`.</span>
-
-<span class="sd">        .. todo:: Decide on a policy for error handling, OSError IOError...</span>
-
-<span class="sd">        :raises .errors.ReverterError: If invalid directory structure.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;The view_config_changes method has been deprecated and will be&quot;</span>
-            <span class="s2">&quot; removed in a future release. If you were using this method to&quot;</span>
-            <span class="s2">&quot; implement the view_config_changes method of IInstaller, know that&quot;</span>
-            <span class="s2">&quot; that method has been removed from the plugin interface and is no&quot;</span>
-            <span class="s2">&quot; longer used by Certbot.&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">backups</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">)</span>
-        <span class="n">backups</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">backups</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Certbot has not saved backups of your configuration&quot;</span><span class="p">)</span>
-
-            <span class="k">return</span> <span class="kc">None</span>
-        <span class="c1"># Make sure there isn&#39;t anything unexpected in the backup folder</span>
-        <span class="c1"># There should only be timestamped (float) directories</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">bkup</span> <span class="ow">in</span> <span class="n">backups</span><span class="p">:</span>
-                <span class="nb">float</span><span class="p">(</span><span class="n">bkup</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
-                <span class="s2">&quot;Invalid directories in </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">))</span>
-
-        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">bkup</span> <span class="ow">in</span> <span class="n">backups</span><span class="p">:</span>
-            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">bkup</span><span class="p">)))</span>
-            <span class="n">cur_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="n">bkup</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s2">&quot;CHANGES_SINCE&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">changes_fd</span><span class="p">:</span>
-                <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">changes_fd</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-
-            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Affected files:&quot;</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s2">&quot;FILEPATHS&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">paths_fd</span><span class="p">:</span>
-                <span class="n">filepaths</span> <span class="o">=</span> <span class="n">paths_fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">filepaths</span><span class="p">:</span>
-                    <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
-
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s2">&quot;NEW_FILES&quot;</span><span class="p">)):</span>
-                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_dir</span><span class="p">,</span> <span class="s2">&quot;NEW_FILES&quot;</span><span class="p">))</span> <span class="k">as</span> <span class="n">new_fd</span><span class="p">:</span>
-                    <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;New Configuration Files:&quot;</span><span class="p">)</span>
-                    <span class="n">filepaths</span> <span class="o">=</span> <span class="n">new_fd</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
-                    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">filepaths</span><span class="p">:</span>
-                        <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
-
-            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-
-        <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
-            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">),</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span></div>
-
-<div class="viewcode-block" id="Reverter.add_to_temp_checkpoint"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.add_to_temp_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_temp_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">):</span>
+<div class="viewcode-block" id="Reverter.add_to_temp_checkpoint"><a class="viewcode-back" href="../../api/certbot.reverter.html#certbot.reverter.Reverter.add_to_temp_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_temp_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add files to temporary checkpoint.</span>
 
 <span class="sd">        :param set save_files: set of filepaths to save</span>
@@ -385,7 +323,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_to_checkpoint_dir</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Reverter.add_to_checkpoint"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.add_to_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">):</span>
+<div class="viewcode-block" id="Reverter.add_to_checkpoint"><a class="viewcode-back" href="../../api/certbot.reverter.html#certbot.reverter.Reverter.add_to_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">add_to_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add files to a permanent checkpoint.</span>
 
 <span class="sd">        :param set save_files: set of filepaths to save</span>
@@ -397,7 +335,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_to_checkpoint_dir</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Reverter._add_to_checkpoint_dir"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._add_to_checkpoint_dir">[docs]</a>    <span class="k">def</span> <span class="nf">_add_to_checkpoint_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cp_dir</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_add_to_checkpoint_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cp_dir</span><span class="p">,</span> <span class="n">save_files</span><span class="p">,</span> <span class="n">save_notes</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add save files to checkpoint directory.</span>
 
 <span class="sd">        :param str cp_dir: Checkpoint directory filepath</span>
@@ -409,8 +347,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
-            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">misc</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
         <span class="n">op_fd</span><span class="p">,</span> <span class="n">existing_filepaths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_and_append</span><span class="p">(</span>
             <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">,</span> <span class="s2">&quot;FILEPATHS&quot;</span><span class="p">))</span>
@@ -441,9 +378,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">op_fd</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cp_dir</span><span class="p">,</span> <span class="s2">&quot;CHANGES_SINCE&quot;</span><span class="p">),</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">notes_fd</span><span class="p">:</span>
-            <span class="n">notes_fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">save_notes</span><span class="p">)</span></div>
+            <span class="n">notes_fd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">save_notes</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Reverter._read_and_append"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._read_and_append">[docs]</a>    <span class="k">def</span> <span class="nf">_read_and_append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+    <span class="k">def</span> <span class="nf">_read_and_append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reads the file lines and returns a file obj.</span>
 
 <span class="sd">        Read the file returning the lines, and a pointer to the end of the file.</span>
@@ -457,9 +394,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">op_fd</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">op_fd</span><span class="p">,</span> <span class="n">lines</span></div>
+        <span class="k">return</span> <span class="n">op_fd</span><span class="p">,</span> <span class="n">lines</span>
 
-<div class="viewcode-block" id="Reverter._recover_checkpoint"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._recover_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">_recover_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cp_dir</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_recover_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cp_dir</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Recover a specific checkpoint.</span>
 
 <span class="sd">        Recover a specific checkpoint provided by cp_dir</span>
@@ -496,9 +433,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unable to remove directory: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cp_dir</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
-                <span class="s2">&quot;Unable to remove directory: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cp_dir</span><span class="p">)</span></div>
+                <span class="s2">&quot;Unable to remove directory: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cp_dir</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Reverter._run_undo_commands"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._run_undo_commands">[docs]</a>    <span class="k">def</span> <span class="nf">_run_undo_commands</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+    <span class="k">def</span> <span class="nf">_run_undo_commands</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Run all commands in a file.&quot;&quot;&quot;</span>
         <span class="c1"># NOTE: csv module uses native strings. That is, bytes on Python 2 and</span>
         <span class="c1"># unicode on Python 3</span>
@@ -512,9 +449,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                     <span class="n">util</span><span class="o">.</span><span class="n">run_script</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
                 <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">SubprocessError</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                        <span class="s2">&quot;Unable to run undo command: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">command</span><span class="p">))</span></div>
+                        <span class="s2">&quot;Unable to run undo command: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Reverter._check_tempfile_saves"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._check_tempfile_saves">[docs]</a>    <span class="k">def</span> <span class="nf">_check_tempfile_saves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_check_tempfile_saves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_files</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Verify save isn&#39;t overwriting any temporary files.</span>
 
 <span class="sd">        :param set save_files: Set of files about to be saved.</span>
@@ -542,9 +479,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">if</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">save_files</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
                     <span class="s2">&quot;Attempting to overwrite challenge &quot;</span>
-                    <span class="s2">&quot;file - </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span></div>
+                    <span class="s2">&quot;file - </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Reverter.register_file_creation"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.register_file_creation">[docs]</a>    <span class="k">def</span> <span class="nf">register_file_creation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temporary</span><span class="p">,</span> <span class="o">*</span><span class="n">files</span><span class="p">):</span>
+<div class="viewcode-block" id="Reverter.register_file_creation"><a class="viewcode-back" href="../../api/certbot.reverter.html#certbot.reverter.Reverter.register_file_creation">[docs]</a>    <span class="k">def</span> <span class="nf">register_file_creation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temporary</span><span class="p">,</span> <span class="o">*</span><span class="n">files</span><span class="p">):</span>
         <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Register the creation of all files during certbot execution.</span>
 
 <span class="sd">        Call this method before writing to the file to make sure that the</span>
@@ -583,7 +520,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">if</span> <span class="n">new_fd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">new_fd</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Reverter.register_undo_command"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.register_undo_command">[docs]</a>    <span class="k">def</span> <span class="nf">register_undo_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temporary</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+<div class="viewcode-block" id="Reverter.register_undo_command"><a class="viewcode-back" href="../../api/certbot.reverter.html#certbot.reverter.Reverter.register_undo_command">[docs]</a>    <span class="k">def</span> <span class="nf">register_undo_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temporary</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Register a command to be run to undo actions taken.</span>
 
 <span class="sd">        .. warning:: This function does not enforce order of operations in terms</span>
@@ -621,7 +558,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">if</span> <span class="n">command_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">command_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Reverter._get_cp_dir"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._get_cp_dir">[docs]</a>    <span class="k">def</span> <span class="nf">_get_cp_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temporary</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_get_cp_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temporary</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the proper reverter directory.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">temporary</span><span class="p">:</span>
             <span class="n">cp_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">temp_checkpoint_dir</span>
@@ -629,12 +566,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">cp_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span>
 
         <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span>
-            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="n">misc</span><span class="o">.</span><span class="n">os_geteuid</span><span class="p">(),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
+            <span class="n">cp_dir</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CONFIG_DIRS_MODE</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">cp_dir</span></div>
+        <span class="k">return</span> <span class="n">cp_dir</span>
 
-<div class="viewcode-block" id="Reverter.recovery_routine"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.recovery_routine">[docs]</a>    <span class="k">def</span> <span class="nf">recovery_routine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Reverter.recovery_routine"><a class="viewcode-back" href="../../api/certbot.reverter.html#certbot.reverter.Reverter.recovery_routine">[docs]</a>    <span class="k">def</span> <span class="nf">recovery_routine</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Revert configuration to most recent finalized checkpoint.</span>
 
 <span class="sd">        Remove all changes (temporary and permanent) that have not been</span>
@@ -662,7 +598,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                     <span class="s2">&quot;Incomplete or failed recovery for IN_PROGRESS checkpoint &quot;</span>
                     <span class="s2">&quot;- </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Reverter._remove_contained_files"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._remove_contained_files">[docs]</a>    <span class="k">def</span> <span class="nf">_remove_contained_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_list</span><span class="p">):</span>  <span class="c1"># pylint: disable=no-self-use</span>
+    <span class="k">def</span> <span class="nf">_remove_contained_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_list</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Erase all files contained within file_list.</span>
 
 <span class="sd">        :param str file_list: file containing list of file paths to be deleted</span>
@@ -698,9 +634,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="s2">&quot;Unable to remove filepaths contained within &quot;</span>
                 <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_list</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="kc">True</span></div>
+        <span class="k">return</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="Reverter.finalize_checkpoint"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter.finalize_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">finalize_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+<div class="viewcode-block" id="Reverter.finalize_checkpoint"><a class="viewcode-back" href="../../api/certbot.reverter.html#certbot.reverter.Reverter.finalize_checkpoint">[docs]</a>    <span class="k">def</span> <span class="nf">finalize_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Finalize the checkpoint.</span>
 
 <span class="sd">        Timestamps and permanently saves all changes made through the use</span>
@@ -741,7 +677,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="c1"># rename the directory as a timestamp</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_timestamp_progress_dir</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Reverter._checkpoint_timestamp"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._checkpoint_timestamp">[docs]</a>    <span class="k">def</span> <span class="nf">_checkpoint_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_checkpoint_timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="s2">&quot;Determine the timestamp of the checkpoint, enforcing monotonicity.&quot;</span>
         <span class="n">timestamp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
         <span class="n">others</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backup_dir</span><span class="p">,</span> <span class="s2">&quot;[0-9]*&quot;</span><span class="p">))</span>
@@ -760,9 +696,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Race condition with timestamp </span><span class="si">%s</span><span class="s2">, incrementing by 0.01&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
             <span class="n">timetravel</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">others</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
             <span class="n">timestamp</span> <span class="o">=</span> <span class="n">timetravel</span>
-        <span class="k">return</span> <span class="n">timestamp</span></div>
+        <span class="k">return</span> <span class="n">timestamp</span>
 
-<div class="viewcode-block" id="Reverter._timestamp_progress_dir"><a class="viewcode-back" href="../../api/reverter.html#certbot.reverter.Reverter._timestamp_progress_dir">[docs]</a>    <span class="k">def</span> <span class="nf">_timestamp_progress_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_timestamp_progress_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Timestamp the checkpoint.&quot;&quot;&quot;</span>
         <span class="c1"># It is possible save checkpoints faster than 1 per second resulting in</span>
         <span class="c1"># collisions in the naming convention.</span>
@@ -781,7 +717,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="s2">&quot;Unable to finalize checkpoint, </span><span class="si">%s</span><span class="s2"> -&gt; </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">,</span> <span class="n">final_dir</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
-            <span class="s2">&quot;Unable to finalize checkpoint renaming&quot;</span><span class="p">)</span></div></div>
+            <span class="s2">&quot;Unable to finalize checkpoint renaming&quot;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -838,7 +774,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.37.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -865,7 +801,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%E2%80%94%20Certbot%200.37.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

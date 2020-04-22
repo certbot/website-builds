@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.display.ops &mdash; Certbot 0.37.0.dev0 documentation</title>
+  <title>certbot.display.ops &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.display.ops &mdash; Certbot 0.37.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.display.ops &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 0.37.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.37
+                1.4
               </div>
             
           
@@ -125,6 +125,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="../../../using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../resources.html">Resources</a></li>
 </ul>
 <ul>
@@ -171,7 +172,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/_modules/certbot/display/ops" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/_modules/certbot/display/ops" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -200,7 +201,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="n">z_util</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span>
 
 
-<div class="viewcode-block" id="get_email"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.get_email">[docs]</a><span class="k">def</span> <span class="nf">get_email</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="get_email"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.get_email">[docs]</a><span class="k">def</span> <span class="nf">get_email</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Prompt for valid email address.</span>
 
 <span class="sd">    :param bool invalid: True if an invalid address was provided by the user</span>
@@ -244,22 +245,21 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span>
                     <span class="s2">&quot;An e-mail address or &quot;</span>
                     <span class="s2">&quot;--register-unsafely-without-email must be provided.&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;An e-mail address must be provided.&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_email</span><span class="p">(</span><span class="n">email</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;An e-mail address must be provided.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_email</span><span class="p">(</span><span class="n">email</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">email</span>
-        <span class="k">elif</span> <span class="n">suggest_unsafe</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">suggest_unsafe</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">+=</span> <span class="n">unsafe_suggestion</span>
             <span class="n">suggest_unsafe</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># add this message at most once</span>
 
         <span class="n">invalid</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">email</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="choose_account"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.choose_account">[docs]</a><span class="k">def</span> <span class="nf">choose_account</span><span class="p">(</span><span class="n">accounts</span><span class="p">):</span>
+<div class="viewcode-block" id="choose_account"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.choose_account">[docs]</a><span class="k">def</span> <span class="nf">choose_account</span><span class="p">(</span><span class="n">accounts</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Choose an account.</span>
 
 <span class="sd">    :param list accounts: Containing at least one</span>
-<span class="sd">        :class:`~certbot.account.Account`</span>
+<span class="sd">        :class:`~certbot._internal.account.Account`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Note this will get more complicated once we start recording authorizations</span>
@@ -271,7 +271,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="n">accounts</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
     <span class="k">return</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="choose_values"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.choose_values">[docs]</a><span class="k">def</span> <span class="nf">choose_values</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="choose_values"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.choose_values">[docs]</a><span class="k">def</span> <span class="nf">choose_values</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Display screen to let user pick one or multiple values from the provided</span>
 <span class="sd">    list.</span>
 
@@ -286,13 +286,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="n">items</span>
     <span class="k">return</span> <span class="p">[]</span></div>
 
-<div class="viewcode-block" id="choose_names"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.choose_names">[docs]</a><span class="k">def</span> <span class="nf">choose_names</span><span class="p">(</span><span class="n">installer</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="choose_names"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.choose_names">[docs]</a><span class="k">def</span> <span class="nf">choose_names</span><span class="p">(</span><span class="n">installer</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Display screen to select domains to validate.</span>
 
 <span class="sd">    :param installer: An installer object</span>
 <span class="sd">    :type installer: :class:`certbot.interfaces.IInstaller`</span>
 
-<span class="sd">    :param `str` question: Overriding dialog question to ask the user if asked</span>
+<span class="sd">    :param `str` question: Overriding default question to ask the user if asked</span>
 <span class="sd">        to choose from domain names.</span>
 
 <span class="sd">    :returns: List of selected names</span>
@@ -316,7 +316,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="p">[]</span></div>
 
 
-<div class="viewcode-block" id="get_valid_domains"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.get_valid_domains">[docs]</a><span class="k">def</span> <span class="nf">get_valid_domains</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
+<div class="viewcode-block" id="get_valid_domains"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.get_valid_domains">[docs]</a><span class="k">def</span> <span class="nf">get_valid_domains</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Helper method for choose_names that implements basic checks</span>
 <span class="sd">     on domain names</span>
 
@@ -332,7 +332,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">continue</span>
     <span class="k">return</span> <span class="n">valid_domains</span></div>
 
-<div class="viewcode-block" id="_sort_names"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops._sort_names">[docs]</a><span class="k">def</span> <span class="nf">_sort_names</span><span class="p">(</span><span class="n">FQDNs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_sort_names</span><span class="p">(</span><span class="n">FQDNs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Sort FQDNs by SLD (and if many, by their subdomains)</span>
 
 <span class="sd">    :param list FQDNs: list of domain names</span>
@@ -340,10 +340,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :returns: Sorted list of domain names</span>
 <span class="sd">    :rtype: list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">FQDNs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">fqdn</span><span class="p">:</span> <span class="n">fqdn</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span></div>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">FQDNs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">fqdn</span><span class="p">:</span> <span class="n">fqdn</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:])</span>
 
 
-<div class="viewcode-block" id="_filter_names"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops._filter_names">[docs]</a><span class="k">def</span> <span class="nf">_filter_names</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">override_question</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_filter_names</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">override_question</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Determine which names the user would like to select from a list.</span>
 
 <span class="sd">    :param list names: domain names</span>
@@ -362,10 +362,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;Which names would you like to activate HTTPS for?&quot;</span>
     <span class="n">code</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">checklist</span><span class="p">(</span>
         <span class="n">question</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">sorted_names</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="s2">&quot;--domains&quot;</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="_choose_names_manually"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops._choose_names_manually">[docs]</a><span class="k">def</span> <span class="nf">_choose_names_manually</span><span class="p">(</span><span class="n">prompt_prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_choose_names_manually</span><span class="p">(</span><span class="n">prompt_prefix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Manually input names for those without an installer.</span>
 
 <span class="sd">    :param str prompt_prefix: string to prepend to prompt for domains</span>
@@ -380,7 +380,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">cli_flag</span><span class="o">=</span><span class="s2">&quot;--domains&quot;</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
-        <span class="n">invalid_domains</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">invalid_domains</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">retry_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">domain_list</span> <span class="o">=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">separate_list_input</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
@@ -416,10 +416,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="k">return</span> <span class="n">_choose_names_manually</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">domain_list</span>
-    <span class="k">return</span> <span class="p">[]</span></div>
+    <span class="k">return</span> <span class="p">[]</span>
 
 
-<div class="viewcode-block" id="success_installation"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.success_installation">[docs]</a><span class="k">def</span> <span class="nf">success_installation</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
+<div class="viewcode-block" id="success_installation"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.success_installation">[docs]</a><span class="k">def</span> <span class="nf">success_installation</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Display a box confirming the installation of HTTPS.</span>
 
 <span class="sd">    :param list domains: domain names which were enabled</span>
@@ -434,7 +434,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="success_renewal"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.success_renewal">[docs]</a><span class="k">def</span> <span class="nf">success_renewal</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
+<div class="viewcode-block" id="success_renewal"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.success_renewal">[docs]</a><span class="k">def</span> <span class="nf">success_renewal</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Display a box confirming the renewal of an existing certificate.</span>
 
 <span class="sd">    :param list domains: domain names which were renewed</span>
@@ -450,7 +450,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_gen_ssl_lab_urls</span><span class="p">(</span><span class="n">domains</span><span class="p">))),</span>
         <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="success_revocation"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.success_revocation">[docs]</a><span class="k">def</span> <span class="nf">success_revocation</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
+<div class="viewcode-block" id="success_revocation"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.success_revocation">[docs]</a><span class="k">def</span> <span class="nf">success_revocation</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Display a box confirming a certificate has been revoked.</span>
 
 <span class="sd">    :param list cert_path: path to certificate which was revoked.</span>
@@ -464,19 +464,19 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="_gen_ssl_lab_urls"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops._gen_ssl_lab_urls">[docs]</a><span class="k">def</span> <span class="nf">_gen_ssl_lab_urls</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_gen_ssl_lab_urls</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns a list of urls.</span>
 
 <span class="sd">    :param list domains: Each domain is a &#39;str&#39;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;https://www.ssllabs.com/ssltest/analyze.html?d=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">dom</span> <span class="k">for</span> <span class="n">dom</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;https://www.ssllabs.com/ssltest/analyze.html?d=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">dom</span> <span class="k">for</span> <span class="n">dom</span> <span class="ow">in</span> <span class="n">domains</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="_gen_https_names"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops._gen_https_names">[docs]</a><span class="k">def</span> <span class="nf">_gen_https_names</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_gen_https_names</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns a string of the https domains.</span>
 
-<span class="sd">    Domains are formatted nicely with https:// prepended to each.</span>
+<span class="sd">    Domains are formatted nicely with ``https://`` prepended to each.</span>
 
 <span class="sd">    :param list domains: Each domain is a &#39;str&#39;</span>
 
@@ -491,7 +491,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="s2">&quot;, and https://&quot;</span><span class="p">,</span>
             <span class="n">domains</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
-    <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span>
 
 
 <span class="k">def</span> <span class="nf">_get_validated</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">validator</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -521,11 +521,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="n">raw</span>
 
 
-<div class="viewcode-block" id="validated_input"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.validated_input">[docs]</a><span class="k">def</span> <span class="nf">validated_input</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="validated_input"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.validated_input">[docs]</a><span class="k">def</span> <span class="nf">validated_input</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Like `~certbot.interfaces.IDisplay.input`, but with validation.</span>
 
 <span class="sd">    :param callable validator: A method which will be called on the</span>
-<span class="sd">        supplied input. If the method raises a `errors.Error`, its</span>
+<span class="sd">        supplied input. If the method raises an `errors.Error`, its</span>
 <span class="sd">        text will be displayed and the user will be re-prompted.</span>
 <span class="sd">    :param list `*args`: Arguments to be passed to `~certbot.interfaces.IDisplay.input`.</span>
 <span class="sd">    :param dict `**kwargs`: Arguments to be passed to `~certbot.interfaces.IDisplay.input`.</span>
@@ -536,11 +536,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                           <span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="validated_directory"><a class="viewcode-back" href="../../../api/display.html#certbot.display.ops.validated_directory">[docs]</a><span class="k">def</span> <span class="nf">validated_directory</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="validated_directory"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.validated_directory">[docs]</a><span class="k">def</span> <span class="nf">validated_directory</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Like `~certbot.interfaces.IDisplay.directory_select`, but with validation.</span>
 
 <span class="sd">    :param callable validator: A method which will be called on the</span>
-<span class="sd">        supplied input. If the method raises a `errors.Error`, its</span>
+<span class="sd">        supplied input. If the method raises an `errors.Error`, its</span>
 <span class="sd">        text will be displayed and the user will be re-prompted.</span>
 <span class="sd">    :param list `*args`: Arguments to be passed to `~certbot.interfaces.IDisplay.directory_select`.</span>
 <span class="sd">    :param dict `**kwargs`: Arguments to be passed to</span>
@@ -606,7 +606,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.37.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -633,7 +633,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.ops%E2%80%94%20Certbot%200.37.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.ops%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
