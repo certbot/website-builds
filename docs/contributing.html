@@ -349,12 +349,11 @@ either in the same directory as <code class="docutils literal notranslate"><span
 <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">foo_test.py</span></code> to run the relevant tests.</p>
 <p>For debugging, we recommend putting
 <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">ipdb;</span> <span class="pre">ipdb.set_trace()</span></code> statements inside the source code.</p>
-<p>Once you are done with your code changes, and the tests in <code class="docutils literal notranslate"><span class="pre">foo_test.py</span></code> pass,
-run all of the unittests for Certbot with <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">py27</span></code> (this uses Python
-2.7).</p>
-<p>Once all the unittests pass, check for sufficient test coverage using <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-e</span>
-<span class="pre">py27-cover</span></code>, and then check for code style with <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">lint</span></code> (all files) or
-<code class="docutils literal notranslate"><span class="pre">pylint</span> <span class="pre">--rcfile=.pylintrc</span> <span class="pre">path/to/file.py</span></code> (single file at a time).</p>
+<p>Once you are done with your code changes, and the tests in <code class="docutils literal notranslate"><span class="pre">foo_test.py</span></code>
+pass, run all of the unit tests for Certbot and check for coverage with <code class="docutils literal notranslate"><span class="pre">tox</span>
+<span class="pre">-e</span> <span class="pre">py3-cover</span></code>. You should then check for code style with <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">-e</span> <span class="pre">lint</span></code> (all
+files) or <code class="docutils literal notranslate"><span class="pre">pylint</span> <span class="pre">--rcfile=.pylintrc</span> <span class="pre">path/to/file.py</span></code> (single file at a
+time).</p>
 <p>Once all of the above is successful, you may run the full test suite using
 <code class="docutils literal notranslate"><span class="pre">tox</span> <span class="pre">--skip-missing-interpreters</span></code>. We recommend running the commands above
 first, because running all tests like this is very slow, and the large amount
