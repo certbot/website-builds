@@ -615,42 +615,28 @@ You should never share these credentials publicly or with an unauthorized person
         Install Certbot
         <p>
           Run this command on the command line on the machine to install Certbot.
-          <pre>sudo apt-get install certbot</pre>
+          <pre>sudo apt-get install certbot python3-certbot-nginx</pre>
         </p>
       </li>
-      <li>
-          Choose how you'd like to run Certbot
+      <li> Choose how you'd like to run Certbot
+        <ul>
+        <li>
+          Either get and install your certificates...
           <p>
-              Are you ok with temporarily stopping your website?
+          Run this command to get a certificate and have Certbot edit your Nginx configuration
+          automatically to serve it, turning on HTTPS access in a single step.
+          <pre>sudo certbot --nginx</pre>
           </p>
-          <h3>Yes, my web server is not currently running on this machine.</h3>
+        </li>
+        <li>
+          Or, just get a certificate
           <p>
-              Stop your webserver, then run this command to get a certificate.
-              Certbot will temporarily spin up a webserver on your machine.
-              <pre>
-                  sudo certbot certonly --standalone
-              </pre>
+          If you're feeling more conservative and would like to make the changes to your Nginx
+          configuration by hand, run this command.
+          <pre>sudo certbot certonly --nginx</pre>
           </p>
-          <h3>No, I need to keep my web server running.</h3>
-          <p>
-              If you have a webserver that's already using port 80 and don't want to stop it
-              while Certbot runs, run this command and follow the instructions in the terminal.
-              <pre>
-                  sudo certbot certonly --webroot
-              </pre>
-          </p>
-          <aside class="note">
-            <div class="note-header"><h3>Important Note:</h3></div>
-                  <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If <tt>/.well-known</tt> is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside <tt>/.well-known/acme-challenge</tt> are served by the webserver.</p>
-          </aside>
-      </li>
-
-      <li>
-          Install your certificate
-          <p>
-              You'll need to install your new certificate in the configuration file for
-              your webserver.
-          </p>
+        </li>
+        </ul>
       </li>
 
       <li>
@@ -671,22 +657,6 @@ You should never share these credentials publicly or with an unauthorized person
         </ul>
         </p>
 
-        <p>
-        If you needed to stop your webserver to run Certbot, you'll want to add hook
-        scripts to stop and start your webserver automatically. For example, if your
-        webserver is HAProxy, run the following commands:
-        </p>
-
-        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
-          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
-          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
-          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
-
-        <p>
-        More information is available in the
-        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
-        Certbot documentation on renewing certificates</a>.
-        </p>
 
       </li>
 
@@ -749,7 +719,7 @@ You should never share these credentials publicly or with an unauthorized person
         Install Certbot
         <p>
           Run this command on the command line on the machine to install Certbot.
-          <pre>sudo apt-get install certbot</pre>
+          <pre>sudo apt-get install certbot python3-certbot-nginx</pre>
         </p>
       </li>
       <li>
@@ -775,19 +745,22 @@ You should never share these credentials publicly or with an unauthorized person
           <a class="link-button" href="/docs/using.html#dns-plugins">find your DNS plugin's Credential steps</a>
           </p>
       </li>
-      <li>
-          Get a certificate
+      <li> Choose how you'd like to run Certbot
+        <ul>
+        <li>
+          Either get and install your certificates...
+          <p>
+          Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>,
+          along with the flag <tt>-i nginx</tt>.
+          </p>
+        </li>
+        <li>
+          Or, just get a certificate
           <p>
           Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>.
           </p>
-      </li>
-
-      <li>
-          Install your certificate
-          <p>
-              You'll need to install your new certificate in the configuration file for
-              your webserver.
-          </p>
+        </li>
+        </ul>
       </li>
 
       <li>
@@ -808,22 +781,6 @@ You should never share these credentials publicly or with an unauthorized person
         </ul>
         </p>
 
-        <p>
-        If you needed to stop your webserver to run Certbot, you'll want to add hook
-        scripts to stop and start your webserver automatically. For example, if your
-        webserver is HAProxy, run the following commands:
-        </p>
-
-        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
-          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
-          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
-          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
-
-        <p>
-        More information is available in the
-        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
-        Certbot documentation on renewing certificates</a>.
-        </p>
 
       </li>
 
