@@ -657,7 +657,7 @@ certificate exists alongside any previously obtained certificates, whether
 or not the previous certificates have expired. The generation of a new
 certificate counts against several rate limits that are intended to prevent
 abuse of the ACME protocol, as described
-<a class="reference external" href="https://community.letsencrypt.org/t/rate-limits-for-lets-encrypt/6769">here</a>.</p>
+<a class="reference external" href="https://letsencrypt.org/docs/rate-limits/">here</a>.</p>
 </div>
 </div>
 <div class="section" id="changing-a-certificate-s-domains">
@@ -1016,8 +1016,10 @@ the <code class="docutils literal notranslate"><span class="pre">cleanup.sh</spa
 variables to these scripts:</p>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">CERTBOT_DOMAIN</span></code>: The domain being authenticated</li>
-<li><code class="docutils literal notranslate"><span class="pre">CERTBOT_VALIDATION</span></code>: The validation string (HTTP-01 and DNS-01 only)</li>
+<li><code class="docutils literal notranslate"><span class="pre">CERTBOT_VALIDATION</span></code>: The validation string</li>
 <li><code class="docutils literal notranslate"><span class="pre">CERTBOT_TOKEN</span></code>: Resource name part of the HTTP-01 challenge (HTTP-01 only)</li>
+<li><code class="docutils literal notranslate"><span class="pre">CERTBOT_REMAINING_CHALLENGES</span></code>: Number of challenges remaining after the current challenge</li>
+<li><code class="docutils literal notranslate"><span class="pre">CERTBOT_ALL_DOMAINS</span></code>: A comma-separated list of all domains challenged for the current certificate</li>
 </ul>
 <p>Additionally for cleanup:</p>
 <ul class="simple">
@@ -1108,16 +1110,14 @@ fi
 </div>
 <div class="section" id="changing-the-acme-server">
 <span id="lock-files"></span><h2><a class="toc-backref" href="#id27">Changing the ACME Server</a><a class="headerlink" href="#changing-the-acme-server" title="Permalink to this headline">¶</a></h2>
-<p>By default, Certbot uses Let’s Encrypt’s initial production server at
-<a class="reference external" href="https://acme-v01.api.letsencrypt.org/">https://acme-v01.api.letsencrypt.org/</a>. You can tell Certbot to use a
+<p>By default, Certbot uses Let’s Encrypt’s production server at
+<a class="reference external" href="https://acme-v02.api.letsencrypt.org/">https://acme-v02.api.letsencrypt.org/</a>. You can tell Certbot to use a
 different CA by providing <code class="docutils literal notranslate"><span class="pre">--server</span></code> on the command line or in a
 <a class="reference internal" href="#config-file"><span class="std std-ref">configuration file</span></a> with the URL of the server’s
 ACME directory. For example, if you would like to use Let’s Encrypt’s
-new ACMEv2 server, you would add <code class="docutils literal notranslate"><span class="pre">--server</span>
-<span class="pre">https://acme-v02.api.letsencrypt.org/directory</span></code> to the command line.
-Certbot will automatically select which version of the ACME protocol to
-use based on the contents served at the provided URL.</p>
-<p>If you use <code class="docutils literal notranslate"><span class="pre">--server</span></code> to specify an ACME CA that implements a newer
+staging server, you would add <code class="docutils literal notranslate"><span class="pre">--server</span>
+<span class="pre">https://acme-staging-v02.api.letsencrypt.org/directory</span></code> to the command line.</p>
+<p>If you use <code class="docutils literal notranslate"><span class="pre">--server</span></code> to specify an ACME CA that implements the standardized
 version of the spec, you may be able to obtain a certificate for a
 wildcard domain. Some CAs (such as Let’s Encrypt) require that domain
 validation for wildcard domains must be done through modifications to
