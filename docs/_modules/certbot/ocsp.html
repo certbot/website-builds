@@ -206,7 +206,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
-<span class="kn">from</span> <span class="nn">certbot.compat.os</span> <span class="k">import</span> <span class="n">getenv</span>
 <span class="kn">from</span> <span class="nn">certbot.interfaces</span> <span class="k">import</span> <span class="n">RenewableCert</span>  <span class="c1"># pylint: disable=unused-import</span>
 
 <span class="k">try</span><span class="p">:</span>
@@ -256,13 +255,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ocsp_revoked_by_paths</span><span class="p">(</span><span class="n">cert</span><span class="o">.</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">cert</span><span class="o">.</span><span class="n">chain_path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RevocationChecker.ocsp_revoked_by_paths"><a class="viewcode-back" href="../../api/certbot.ocsp.html#certbot.ocsp.RevocationChecker.ocsp_revoked_by_paths">[docs]</a>    <span class="k">def</span> <span class="nf">ocsp_revoked_by_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-        <span class="c1"># type: (str, str, int) -&gt; bool</span>
+<div class="viewcode-block" id="RevocationChecker.ocsp_revoked_by_paths"><a class="viewcode-back" href="../../api/certbot.ocsp.html#certbot.ocsp.RevocationChecker.ocsp_revoked_by_paths">[docs]</a>    <span class="k">def</span> <span class="nf">ocsp_revoked_by_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">):</span>
+        <span class="c1"># type: (str, str) -&gt; bool</span>
         <span class="sd">&quot;&quot;&quot;Performs the OCSP revocation check</span>
 
 <span class="sd">        :param str cert_path: Certificate filepath</span>
-<span class="sd">        :param str chain_path: Certificate chain</span>
-<span class="sd">        :param int timeout: Timeout (in seconds) for the OCSP query</span>
+<span class="sd">        :param str chain_path: Certificate chain filepath</span>
 
 <span class="sd">        :returns: True if revoked; False if valid or the check failed or cert is expired.</span>
 <span class="sd">        :rtype: bool</span>
@@ -283,37 +281,21 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_openssl_binary</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_ocsp_openssl_bin</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">_check_ocsp_cryptography</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_ocsp_openssl_bin</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_check_ocsp_cryptography</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_check_ocsp_openssl_bin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="p">):</span>
-        <span class="c1"># type: (str, str, str, str, int) -&gt; bool</span>
-        <span class="c1"># Minimal implementation of proxy selection logic as seen in, e.g., cURL</span>
-        <span class="c1"># Some things that won&#39;t work, but may well be in use somewhere:</span>
-        <span class="c1"># - username and password for proxy authentication</span>
-        <span class="c1"># - proxies accepting TLS connections</span>
-        <span class="c1"># - proxy exclusion through NO_PROXY</span>
-        <span class="n">env_http_proxy</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;http_proxy&#39;</span><span class="p">)</span>
-        <span class="n">env_HTTP_PROXY</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;HTTP_PROXY&#39;</span><span class="p">)</span>
-        <span class="n">proxy_host</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">env_http_proxy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">env_HTTP_PROXY</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">proxy_host</span> <span class="o">=</span> <span class="n">env_http_proxy</span> <span class="k">if</span> <span class="n">env_http_proxy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">env_HTTP_PROXY</span>
-        <span class="k">if</span> <span class="n">proxy_host</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">url_opts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;-url&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">proxy_host</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;http://&#39;</span><span class="p">):</span>
-                <span class="n">proxy_host</span> <span class="o">=</span> <span class="n">proxy_host</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s1">&#39;http://&#39;</span><span class="p">):]</span>
-            <span class="n">url_opts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;-host&quot;</span><span class="p">,</span> <span class="n">proxy_host</span><span class="p">,</span> <span class="s2">&quot;-path&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">_check_ocsp_openssl_bin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="c1"># type: (str, str, str, str) -&gt; bool</span>
         <span class="c1"># jdkasten thanks &quot;Bulletproof SSL and TLS - Ivan Ristic&quot; for documenting this!</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;openssl&quot;</span><span class="p">,</span> <span class="s2">&quot;ocsp&quot;</span><span class="p">,</span>
                <span class="s2">&quot;-no_nonce&quot;</span><span class="p">,</span>
                <span class="s2">&quot;-issuer&quot;</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span>
                <span class="s2">&quot;-cert&quot;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span>
+               <span class="s2">&quot;-url&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span>
                <span class="s2">&quot;-CAfile&quot;</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span>
                <span class="s2">&quot;-verify_other&quot;</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span>
                <span class="s2">&quot;-trust_other&quot;</span><span class="p">,</span>
-               <span class="s2">&quot;-timeout&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">timeout</span><span class="p">),</span>
-               <span class="s2">&quot;-header&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_args</span><span class="p">(</span><span class="n">host</span><span class="p">)</span> <span class="o">+</span> <span class="n">url_opts</span>
+               <span class="s2">&quot;-header&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">host_args</span><span class="p">(</span><span class="n">host</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Querying OCSP for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">))</span>
         <span class="k">try</span><span class="p">:</span>
@@ -355,8 +337,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
 
-<span class="k">def</span> <span class="nf">_check_ocsp_cryptography</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="p">):</span>
-    <span class="c1"># type: (str, str, str, int) -&gt; bool</span>
+<span class="k">def</span> <span class="nf">_check_ocsp_cryptography</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+    <span class="c1"># type: (str, str, str) -&gt; bool</span>
     <span class="c1"># Retrieve OCSP response</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">chain_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_handler</span><span class="p">:</span>
         <span class="n">issuer</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">load_pem_x509_certificate</span><span class="p">(</span><span class="n">file_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">default_backend</span><span class="p">())</span>
@@ -368,8 +350,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">request_binary</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">public_bytes</span><span class="p">(</span><span class="n">serialization</span><span class="o">.</span><span class="n">Encoding</span><span class="o">.</span><span class="n">DER</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">request_binary</span><span class="p">,</span>
-                                 <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/ocsp-request&#39;</span><span class="p">},</span>
-                                 <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+                                 <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/ocsp-request&#39;</span><span class="p">})</span>
     <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;OCSP check failed for </span><span class="si">%s</span><span class="s2"> (are we offline?)&quot;</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>

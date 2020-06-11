@@ -104,8 +104,6 @@
       
         <option value="sharedhost" data-distro="sharedhost" data-version="0">Web Hosting Service</option>
       
-        <option value="snap" data-distro="snap" data-version="0">snapd</option>
-      
         <option value="debianjessie" data-distro="debian" data-version="8">Debian 8 (jessie)</option>
       
         <option value="debianstretch" data-distro="debian" data-version="9">Debian 9 (stretch)</option>
@@ -114,13 +112,13 @@
       
         <option value="debiantesting" data-distro="debian" data-version="11">Debian testing/unstable</option>
       
-        <option value="ubuntufocal" data-distro="ubuntu" data-version="20.04">Ubuntu 20.04</option>
-      
-        <option value="ubuntuother" data-distro="ubuntu" data-version="19.10">Ubuntu 19.10</option>
+        <option value="debianother" data-distro="debian" data-version="0">Debian (other)</option>
       
         <option value="ubuntubionic" data-distro="ubuntu" data-version="18.04">Ubuntu 18.04 LTS (bionic)</option>
       
         <option value="ubuntuxenial" data-distro="ubuntu" data-version="16.04">Ubuntu 16.04 (xenial)</option>
+      
+        <option value="ubuntuother" data-distro="ububtu" data-version="0">Ubuntu (other)</option>
       
         <option value="gentoo" data-distro="gentoo" data-version="0">Gentoo</option>
       
@@ -138,7 +136,11 @@
       
         <option value="freebsd" data-distro="freebsd" data-version="0">FreeBSD</option>
       
+        <option value="opbsd5" data-distro="opbsd" data-version="5.9">OpenBSD 5.9</option>
+      
         <option value="opbsd6" data-distro="opbsd" data-version="6">OpenBSD 6.0+</option>
+      
+        <option value="opbsd" data-distro="auto" data-version="0">OpenBSD (other)</option>
       
         <option value="osx" data-distro="macos" data-version="10">macOS</option>
       
@@ -173,7 +175,7 @@
     <div class="page-content">
       <div class="wrapper">
         <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/ubuntuother-apache.html">Apache on Ubuntu 19.10</a></h2>
+          <h2 id="instructions-header"><a href="/lets-encrypt/ubuntuother-apache.html">Apache on Ubuntu (other)</a></h2>
 <div class="use-certbot">
   <h1>To use Certbot, you'll need...</h1>
   <div class="three-col reqs">
@@ -598,23 +600,14 @@ You should never share these credentials publicly or with an unauthorized person
       </li>
 
       <li>
-          Enable the universe repository
+          Install Certbot
           <p>
-          You'll need to make sure Ubuntu universe is in your list of repositories.
-          To do so, run the following commands on the command line on the machine:
-          <pre class="no-before"><ol><li>sudo apt-get update</li>
-            <li>sudo apt-get install software-properties-common</li>
-            <li>sudo add-apt-repository universe</li>
-            <li>sudo apt-get update</li></ol></pre>
+          Run these commands on the command line on the machine to install Certbot.
+          <pre class="no-before"><ol><li>wget https://dl.eff.org/certbot-auto</li>
+              <li>sudo mv certbot-auto /usr/local/bin/certbot-auto</li>
+              <li>sudo chown root /usr/local/bin/certbot-auto</li>
+              <li>sudo chmod 0755 /usr/local/bin/certbot-auto</li></ol></pre>
           </p>
-      </li>
-
-      <li>
-        Install Certbot
-        <p>
-          Run this command on the command line on the machine to install Certbot.
-          <pre>sudo apt-get install certbot python3-certbot-apache</pre>
-        </p>
       </li>
       <li>
         Choose how you'd like to run Certbot
@@ -624,7 +617,7 @@ You should never share these credentials publicly or with an unauthorized person
             <p>
             Run this command to get a certificate and have Certbot edit your Apache configuration
             automatically to serve it, turning on HTTPS access in a single step.
-            <pre>sudo certbot --apache</pre>
+            <pre>sudo /usr/local/bin/certbot-auto --apache</pre>
             </p>
           </li>
 
@@ -633,30 +626,19 @@ You should never share these credentials publicly or with an unauthorized person
             <p>
             If you're feeling more conservative and would like to make the changes to your Apache
             configuration by hand, run this command.
-            <pre>sudo certbot certonly --apache</pre>
+            <pre>sudo /usr/local/bin/certbot-auto certonly --apache</pre>
             </p>
           </li>
         </ul>
       </li>
 
+
       <li>
-        Test automatic renewal
+        Set up automatic renewal
         <p>
-        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
-        automatically before they expire. You will not need to run Certbot again, unless you change your
-        configuration. You can test automatic renewal for your certificates by running this command:
-        <pre>sudo certbot renew --dry-run</pre>
+        We recommend running the following line, which will add a cron job to the default crontab.
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
-
-        <p>
-        The command to renew certbot is installed in one of the following locations:
-        <ul>
-          <li><tt>/etc/crontab/</tt></li>
-          <li><tt>/etc/cron.*/*</tt></li>
-          <li><tt>systemctl list-timers</tt></li>
-        </ul>
-        </p>
-
 
       </li>
 
@@ -677,26 +659,17 @@ You should never share these credentials publicly or with an unauthorized person
 
   <div class="instruction-pane advanced">
     <ol>
-      <li>
-          Check if your DNS provider is supported
+      <aside class="note docker-note">
+        <div class="note-header">
+          <h3>Follow Docker instructions</h3>
+        </div>
           <p>
-          See if your DNS provider is supported by Certbot by checking
-          <a href="/docs/using.html#dns-plugins">this list in our
-            documentation</a>.
+          To get a wildcard certificate on this system, you'll need to run Certbot in Docker. You
+          can do so by following
+          <a href="/docs/install.html#running-with-docker">these
+            steps from our documentation</a>.
           </p>
-          <p class="centered">
-          <a class="link-button" href="/docs/using.html#dns-plugins">check if your DNS provider supports Certbot</a>
-          </p>
-          <h3>Not supported?</h3>
-          <p>
-          If your DNS provider is not supported, pause here: run Certbot with the manual plugin by using
-          <a href="/docs/using.html#manual">these steps from our documentation</a>.
-          </p>
-          <h3>Supported?</h3>
-          <p>
-          If your DNS provider is supported, continue with the remaining instructions below.
-          </p>
-      </li>
+      </aside>
 
       <li>
           SSH into the server
@@ -704,45 +677,13 @@ You should never share these credentials publicly or with an unauthorized person
       </li>
 
       <li>
-          Enable the universe repository
+          Install Certbot
           <p>
-          You'll need to make sure Ubuntu universe is in your list of repositories.
-          To do so, run the following commands on the command line on the machine:
-          <pre class="no-before"><ol><li>sudo apt-get update</li>
-            <li>sudo apt-get install software-properties-common</li>
-            <li>sudo add-apt-repository universe</li>
-            <li>sudo apt-get update</li></ol></pre>
-          </p>
-      </li>
-
-      <li>
-        Install Certbot
-        <p>
-          Run this command on the command line on the machine to install Certbot.
-          <pre>sudo apt-get install certbot python3-certbot-apache</pre>
-        </p>
-      </li>
-      <li>
-          Install correct DNS plugin
-          <p>
-          Run the following command, replacing &lt;PLUGIN&gt; with the name of your DNS provider.
-          </p>
-          <pre>sudo apt-get install python3-certbot-dns-&lt;PLUGIN&gt;</pre>
-          <p>
-          For example, if your DNS provider is Cloudflare, you'd run the following command:
-          </p>
-          <pre>sudo apt-get install python3-certbot-dns-cloudflare</pre>
-      </li>
-      <li>
-          Set up credentials
-          <p>
-          You'll need to set up DNS credentials.<br />
-          Follow the steps in the "Credentials" section for your DNS provider to access or create the
-          appropriate credential configuration file. Find credentials instructions for your DNS provider
-          by clicking the <a href="/docs/using.html#dns-plugins">DNS plugin's name on the Documentation list</a>.
-          </p>
-          <p class="centered">
-          <a class="link-button" href="/docs/using.html#dns-plugins">find your DNS plugin's Credential steps</a>
+          Run these commands on the command line on the machine to install Certbot.
+          <pre class="no-before"><ol><li>wget https://dl.eff.org/certbot-auto</li>
+              <li>sudo mv certbot-auto /usr/local/bin/certbot-auto</li>
+              <li>sudo chown root /usr/local/bin/certbot-auto</li>
+              <li>sudo chmod 0755 /usr/local/bin/certbot-auto</li></ol></pre>
           </p>
       </li>
       <li>
@@ -765,24 +706,13 @@ You should never share these credentials publicly or with an unauthorized person
         </ul>
       </li>
 
+
       <li>
-        Test automatic renewal
+        Set up automatic renewal
         <p>
-        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
-        automatically before they expire. You will not need to run Certbot again, unless you change your
-        configuration. You can test automatic renewal for your certificates by running this command:
-        <pre>sudo certbot renew --dry-run</pre>
+        We recommend running the following line, which will add a cron job to the default crontab.
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
-
-        <p>
-        The command to renew certbot is installed in one of the following locations:
-        <ul>
-          <li><tt>/etc/crontab/</tt></li>
-          <li><tt>/etc/cron.*/*</tt></li>
-          <li><tt>systemctl list-timers</tt></li>
-        </ul>
-        </p>
-
 
       </li>
 

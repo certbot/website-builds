@@ -185,23 +185,16 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <h1>Source code for acme.challenges</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;ACME Identifier Validation Challenges.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">abc</span>
-<span class="kn">import</span> <span class="nn">codecs</span>
 <span class="kn">import</span> <span class="nn">functools</span>
 <span class="kn">import</span> <span class="nn">hashlib</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">socket</span>
 
 <span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="k">import</span> <span class="n">hashes</span>  <span class="c1"># type: ignore</span>
 <span class="kn">import</span> <span class="nn">josepy</span> <span class="k">as</span> <span class="nn">jose</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">import</span> <span class="nn">six</span>
-<span class="kn">from</span> <span class="nn">OpenSSL</span> <span class="k">import</span> <span class="n">SSL</span>  <span class="c1"># type: ignore # https://github.com/python/typeshed/issues/2052</span>
-<span class="kn">from</span> <span class="nn">OpenSSL</span> <span class="k">import</span> <span class="n">crypto</span>
 
-<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">crypto_util</span>
-<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">fields</span>
-<span class="kn">from</span> <span class="nn">acme.mixins</span> <span class="k">import</span> <span class="n">ResourceMixin</span><span class="p">,</span> <span class="n">TypeMixin</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -220,7 +213,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">return</span> <span class="n">UnrecognizedChallenge</span><span class="o">.</span><span class="n">from_json</span><span class="p">(</span><span class="n">jobj</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">ChallengeResponse</span><span class="p">(</span><span class="n">ResourceMixin</span><span class="p">,</span> <span class="n">TypeMixin</span><span class="p">,</span> <span class="n">jose</span><span class="o">.</span><span class="n">TypedJSONObjectWithFields</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ChallengeResponse</span><span class="p">(</span><span class="n">jose</span><span class="o">.</span><span class="n">TypedJSONObjectWithFields</span><span class="p">):</span>
     <span class="c1"># _fields_to_partial_json</span>
     <span class="sd">&quot;&quot;&quot;ACME challenge response.&quot;&quot;&quot;</span>
     <span class="n">TYPES</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: dict</span>
@@ -554,163 +547,29 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="nd">@ChallengeResponse</span><span class="o">.</span><span class="n">register</span>
 <span class="k">class</span> <span class="nc">TLSALPN01Response</span><span class="p">(</span><span class="n">KeyAuthorizationChallengeResponse</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;ACME tls-alpn-01 challenge response.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;ACME TLS-ALPN-01 challenge response.</span>
+
+<span class="sd">    This class only allows initiating a TLS-ALPN-01 challenge returned from the</span>
+<span class="sd">    CA. Full support for responding to TLS-ALPN-01 challenges by generating and</span>
+<span class="sd">    serving the expected response certificate is not currently provided.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;tls-alpn-01&quot;</span>
 
-    <span class="n">PORT</span> <span class="o">=</span> <span class="mi">443</span>
-    <span class="sd">&quot;&quot;&quot;Verification port as defined by the protocol.</span>
 
-<span class="sd">    You can override it (e.g. for testing) by passing ``port`` to</span>
-<span class="sd">    `simple_verify`.</span>
+<span class="nd">@Challenge</span><span class="o">.</span><span class="n">register</span>
+<span class="k">class</span> <span class="nc">TLSALPN01</span><span class="p">(</span><span class="n">KeyAuthorizationChallenge</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;ACME tls-alpn-01 challenge.</span>
+
+<span class="sd">    This class simply allows parsing the TLS-ALPN-01 challenge returned from</span>
+<span class="sd">    the CA. Full TLS-ALPN-01 support is not currently provided.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">ID_PE_ACME_IDENTIFIER_V1</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;1.3.6.1.5.5.7.1.30.1&quot;</span>
-    <span class="n">ACME_TLS_1_PROTOCOL</span> <span class="o">=</span> <span class="s2">&quot;acme-tls/1&quot;</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">h</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Hash value stored in challenge certificate&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_authorization</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">gen_cert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bits</span><span class="o">=</span><span class="mi">2048</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Generate tls-alpn-01 certificate.</span>
-
-<span class="sd">        :param unicode domain: Domain verified by the challenge.</span>
-<span class="sd">        :param OpenSSL.crypto.PKey key: Optional private key used in</span>
-<span class="sd">            certificate generation. If not provided (``None``), then</span>
-<span class="sd">            fresh key will be generated.</span>
-<span class="sd">        :param int bits: Number of bits for newly generated key.</span>
-
-<span class="sd">        :rtype: `tuple` of `OpenSSL.crypto.X509` and `OpenSSL.crypto.PKey`</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">PKey</span><span class="p">()</span>
-            <span class="n">key</span><span class="o">.</span><span class="n">generate_key</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">TYPE_RSA</span><span class="p">,</span> <span class="n">bits</span><span class="p">)</span>
-
-
-        <span class="n">der_value</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;DER:&quot;</span> <span class="o">+</span> <span class="n">codecs</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">,</span> <span class="s1">&#39;hex&#39;</span><span class="p">)</span>
-        <span class="n">acme_extension</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">X509Extension</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ID_PE_ACME_IDENTIFIER_V1</span><span class="p">,</span>
-                <span class="n">critical</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">der_value</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">gen_ss_cert</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">[</span><span class="n">domain</span><span class="p">],</span> <span class="n">force_san</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="n">acme_extension</span><span class="p">]),</span> <span class="n">key</span>
-
-    <span class="k">def</span> <span class="nf">probe_cert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Probe tls-alpn-01 challenge certificate.</span>
-
-<span class="sd">        :param unicode domain: domain being validated, required.</span>
-<span class="sd">        :param string host: IP address used to probe the certificate.</span>
-<span class="sd">        :param int port: Port used to probe the certificate.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">host</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">host</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> resolved to </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">host</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">port</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PORT</span>
-
-        <span class="k">return</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">probe_sni</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span>
-                <span class="n">alpn_protocols</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">ACME_TLS_1_PROTOCOL</span><span class="p">])</span>
-
-    <span class="k">def</span> <span class="nf">verify_cert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">cert</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Verify tls-alpn-01 challenge certificate.</span>
-
-<span class="sd">        :param unicode domain: Domain name being validated.</span>
-<span class="sd">        :param OpensSSL.crypto.X509 cert: Challenge certificate.</span>
-
-<span class="sd">        :returns: Whether the certificate was successfully verified.</span>
-<span class="sd">        :rtype: bool</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># pylint: disable=protected-access</span>
-        <span class="n">names</span> <span class="o">=</span> <span class="n">crypto_util</span><span class="o">.</span><span class="n">_pyopenssl_cert_or_req_all_names</span><span class="p">(</span><span class="n">cert</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Certificate </span><span class="si">%s</span><span class="s1">. SANs: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cert</span><span class="o">.</span><span class="n">digest</span><span class="p">(</span><span class="s1">&#39;sha256&#39;</span><span class="p">),</span> <span class="n">names</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="n">domain</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cert</span><span class="o">.</span><span class="n">get_extension_count</span><span class="p">()):</span>
-            <span class="n">ext</span> <span class="o">=</span> <span class="n">cert</span><span class="o">.</span><span class="n">get_extension</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="c1"># FIXME: assume this is the ACME extension. Currently there is no</span>
-            <span class="c1"># way to get full OID of an unknown extension from pyopenssl.</span>
-            <span class="k">if</span> <span class="n">ext</span><span class="o">.</span><span class="n">get_short_name</span><span class="p">()</span> <span class="o">==</span> <span class="sa">b</span><span class="s1">&#39;UNDEF&#39;</span><span class="p">:</span>
-                <span class="n">data</span> <span class="o">=</span> <span class="n">ext</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
-                <span class="k">return</span> <span class="n">data</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span>
-
-        <span class="k">return</span> <span class="kc">False</span>
-
-    <span class="c1"># pylint: disable=too-many-arguments</span>
-    <span class="k">def</span> <span class="nf">simple_verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chall</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">,</span>
-                      <span class="n">cert</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Simple verify.</span>
-
-<span class="sd">        Verify ``validation`` using ``account_public_key``, optionally</span>
-<span class="sd">        probe tls-alpn-01 certificate and check using `verify_cert`.</span>
-
-<span class="sd">        :param .challenges.TLSALPN01 chall: Corresponding challenge.</span>
-<span class="sd">        :param str domain: Domain name being validated.</span>
-<span class="sd">        :param JWK account_public_key:</span>
-<span class="sd">        :param OpenSSL.crypto.X509 cert: Optional certificate. If not</span>
-<span class="sd">            provided (``None``) certificate will be retrieved using</span>
-<span class="sd">            `probe_cert`.</span>
-<span class="sd">        :param string host: IP address used to probe the certificate.</span>
-<span class="sd">        :param int port: Port used to probe the certificate.</span>
-
-
-<span class="sd">        :returns: ``True`` if and only if client&#39;s control of the domain has been verified.</span>
-<span class="sd">        :rtype: bool</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">chall</span><span class="p">,</span> <span class="n">account_public_key</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Verification of key authorization in response failed&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">False</span>
-
-        <span class="k">if</span> <span class="n">cert</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">cert</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">probe_cert</span><span class="p">(</span><span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">port</span><span class="p">)</span>
-            <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="k">return</span> <span class="kc">False</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify_cert</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">cert</span><span class="p">)</span>
-
-
-<span class="nd">@Challenge</span><span class="o">.</span><span class="n">register</span>  <span class="c1"># pylint: disable=too-many-ancestors</span>
-<span class="k">class</span> <span class="nc">TLSALPN01</span><span class="p">(</span><span class="n">KeyAuthorizationChallenge</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;ACME tls-alpn-01 challenge.&quot;&quot;&quot;</span>
+    <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;tls-alpn-01&quot;</span>
     <span class="n">response_cls</span> <span class="o">=</span> <span class="n">TLSALPN01Response</span>
-    <span class="n">typ</span> <span class="o">=</span> <span class="n">response_cls</span><span class="o">.</span><span class="n">typ</span>
 
     <span class="k">def</span> <span class="nf">validation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">account_key</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Generate validation.</span>
-
-<span class="sd">        :param JWK account_key:</span>
-<span class="sd">        :param unicode domain: Domain verified by the challenge.</span>
-<span class="sd">        :param OpenSSL.crypto.PKey cert_key: Optional private key used</span>
-<span class="sd">            in certificate generation. If not provided (``None``), then</span>
-<span class="sd">            fresh key will be generated.</span>
-
-<span class="sd">        :rtype: `tuple` of `OpenSSL.crypto.X509` and `OpenSSL.crypto.PKey`</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="n">account_key</span><span class="p">)</span><span class="o">.</span><span class="n">gen_cert</span><span class="p">(</span>
-            <span class="n">key</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cert_key&#39;</span><span class="p">),</span>
-            <span class="n">domain</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;domain&#39;</span><span class="p">))</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">is_supported</span><span class="p">():</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check if TLS-ALPN-01 challenge is supported on this machine.</span>
-<span class="sd">        This implies that a recent version of OpenSSL is installed (&gt;= 1.0.2),</span>
-<span class="sd">        or a recent cryptography version shipped with the OpenSSL library is installed.</span>
-
-<span class="sd">        :returns: ``True`` if TLS-ALPN-01 is supported on this machine, ``False`` otherwise.</span>
-<span class="sd">        :rtype: bool</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="nb">hasattr</span><span class="p">(</span><span class="n">SSL</span><span class="o">.</span><span class="n">Connection</span><span class="p">,</span> <span class="s2">&quot;set_alpn_protos&quot;</span><span class="p">)</span>
-                <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">SSL</span><span class="o">.</span><span class="n">Context</span><span class="p">,</span> <span class="s2">&quot;set_alpn_select_callback&quot;</span><span class="p">))</span>
+        <span class="sd">&quot;&quot;&quot;Generate validation for the challenge.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 
 
 <span class="nd">@Challenge</span><span class="o">.</span><span class="n">register</span>

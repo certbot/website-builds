@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Certbot - Snap Webproduct</title>
+    <title>Certbot - Opbsd Haproxy</title>
     <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <link rel="stylesheet" href="/css/main.css">
@@ -14,7 +14,7 @@
     <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@EFF">
-    <meta name="twitter:title" content="Certbot - Snap Webproduct">
+    <meta name="twitter:title" content="Certbot - Opbsd Haproxy">
     <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
@@ -104,8 +104,6 @@
       
         <option value="sharedhost" data-distro="sharedhost" data-version="0">Web Hosting Service</option>
       
-        <option value="snap" data-distro="snap" data-version="0">snapd</option>
-      
         <option value="debianjessie" data-distro="debian" data-version="8">Debian 8 (jessie)</option>
       
         <option value="debianstretch" data-distro="debian" data-version="9">Debian 9 (stretch)</option>
@@ -114,13 +112,13 @@
       
         <option value="debiantesting" data-distro="debian" data-version="11">Debian testing/unstable</option>
       
-        <option value="ubuntufocal" data-distro="ubuntu" data-version="20.04">Ubuntu 20.04</option>
-      
-        <option value="ubuntuother" data-distro="ubuntu" data-version="19.10">Ubuntu 19.10</option>
+        <option value="debianother" data-distro="debian" data-version="0">Debian (other)</option>
       
         <option value="ubuntubionic" data-distro="ubuntu" data-version="18.04">Ubuntu 18.04 LTS (bionic)</option>
       
         <option value="ubuntuxenial" data-distro="ubuntu" data-version="16.04">Ubuntu 16.04 (xenial)</option>
+      
+        <option value="ubuntuother" data-distro="ububtu" data-version="0">Ubuntu (other)</option>
       
         <option value="gentoo" data-distro="gentoo" data-version="0">Gentoo</option>
       
@@ -138,7 +136,11 @@
       
         <option value="freebsd" data-distro="freebsd" data-version="0">FreeBSD</option>
       
+        <option value="opbsd5" data-distro="opbsd" data-version="5.9">OpenBSD 5.9</option>
+      
         <option value="opbsd6" data-distro="opbsd" data-version="6">OpenBSD 6.0+</option>
+      
+        <option value="opbsd" data-distro="auto" data-version="0">OpenBSD (other)</option>
       
         <option value="osx" data-distro="macos" data-version="10">macOS</option>
       
@@ -173,7 +175,7 @@
     <div class="page-content">
       <div class="wrapper">
         <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/snap-webproduct.html">Web Hosting Product on snapd</a></h2>
+          <h2 id="instructions-header"><a href="/lets-encrypt/opbsd-haproxy.html">Haproxy on OpenBSD (other)</a></h2>
 <div class="use-certbot">
   <h1>To use Certbot, you'll need...</h1>
   <div class="three-col reqs">
@@ -591,50 +593,21 @@ You should never share these credentials publicly or with an unauthorized person
 <div class="instruction-pane-wrapper">
   <div class="instruction-pane automated">
     <ol>
-      <!-- The advanced instructions don't use snapd, so this warning isn't needed there -->
-      <aside class="note">
-        <div class="note-header">
-          <h3>Snap Support</h3>
-        </div>
-        <p>
-        Certbot snap support is currently in its beta phase and only supports the
-        x86_64 architecture. You can find instructions for installing Certbot without
-        using snap by selecting your OS in the dropdown above.
-        </p>
-      </aside>
-
+      
       <li>
           SSH into the server
           <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
       </li>
+
       <li>
-          Install snapd
+          Install Certbot
           <p>
-          You'll need to install snapd and make sure you follow any instructions to enable classic snap support.<br />
-          Follow these instructions on <a href="https://snapcraft.io/docs/installing-snapd/">snapcraft's site to install snapd</a>.
+          Run these commands on the command line on the machine to install Certbot.
+          <pre class="no-before"><ol><li>wget https://dl.eff.org/certbot-auto</li>
+              <li>sudo mv certbot-auto /usr/local/bin/certbot-auto</li>
+              <li>sudo chown root /usr/local/bin/certbot-auto</li>
+              <li>sudo chmod 0755 /usr/local/bin/certbot-auto</li></ol></pre>
           </p>
-          <p class="centered">
-          <a class="link-button" href="https://snapcraft.io/docs/installing-snapd/">install snapd</a>
-          </p>
-      </li>
-      <li>
-          Remove any Certbot OS packages
-          <p>
-          If you have any Certbot packages installed using an OS package manager like
-          <tt>apt</tt>, <tt>dnf</tt>, or <tt>yum</tt>, you should remove them before
-          installing the Certbot snap to ensure that when you run the command
-          <tt>certbot</tt> the snap is used rather than the installation from your OS
-          package manager. The exact command to do this depends on your OS, but
-          common examples are <tt>sudo apt-get remove certbot</tt>, <tt>sudo dnf
-          remove certbot</tt>, or <tt>sudo yum remove certbot</tt>.
-          </p>
-      </li>
-      <li>
-        Install Certbot
-        <p>
-          Run this command on the command line on the machine to install Certbot.
-          <pre>sudo snap install --beta --classic certbot</pre>
-        </p>
       </li>
       <li>
           Choose how you'd like to run Certbot
@@ -646,7 +619,7 @@ You should never share these credentials publicly or with an unauthorized person
               Stop your webserver, then run this command to get a certificate.
               Certbot will temporarily spin up a webserver on your machine.
               <pre>
-                  sudo certbot certonly --standalone
+                  sudo /usr/local/bin/certbot-auto certonly --standalone
               </pre>
           </p>
           <h3>No, I need to keep my web server running.</h3>
@@ -654,7 +627,7 @@ You should never share these credentials publicly or with an unauthorized person
               If you have a webserver that's already using port 80 and don't want to stop it
               while Certbot runs, run this command and follow the instructions in the terminal.
               <pre>
-                  sudo certbot certonly --webroot
+                  sudo /usr/local/bin/certbot-auto certonly --webroot
               </pre>
           </p>
           <aside class="note">
@@ -671,39 +644,12 @@ You should never share these credentials publicly or with an unauthorized person
           </p>
       </li>
 
+
       <li>
-        Test automatic renewal
+        Set up automatic renewal
         <p>
-        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
-        automatically before they expire. You will not need to run Certbot again, unless you change your
-        configuration. You can test automatic renewal for your certificates by running this command:
-        <pre>sudo certbot renew --dry-run</pre>
-        </p>
-
-        <p>
-        The command to renew certbot is installed in one of the following locations:
-        <ul>
-          <li><tt>/etc/crontab/</tt></li>
-          <li><tt>/etc/cron.*/*</tt></li>
-          <li><tt>systemctl list-timers</tt></li>
-        </ul>
-        </p>
-
-        <p>
-        If you needed to stop your webserver to run Certbot, you'll want to add hook
-        scripts to stop and start your webserver automatically. For example, if your
-        webserver is HAProxy, run the following commands:
-        </p>
-
-        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
-          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
-          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
-          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
-
-        <p>
-        More information is available in the
-        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
-        Certbot documentation on renewing certificates</a>.
+        We recommend running the following line, which will add a cron job to the default crontab.
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
       </li>
@@ -720,12 +666,30 @@ You should never share these credentials publicly or with an unauthorized person
         <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's <img src="/images/Lock.svg" /> https:// at SSL Labs</a>.
         </p>
       </li>
+
+      <li>
+          Need more HAProxy-specific information?
+          <p>
+              Certificate installation with HAProxy is complicated. You can find more information
+              in of these guides:
+              <ul>
+                  <li>
+                      <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-haproxy-with-let-s-encrypt-on-ubuntu-14-04">Digital Ocean's guide</a>
+                  </li>
+                  <li>
+                      <a href="https://skarlso.github.io/2017/02/15/how-to-https-with-hugo-letsencrypt-haproxy/">Skarlso's guide</a>
+                  </li>
+              </ul>
+          </p>
+          <p>
+          Or you might be interested in using the experimental <a href="https://code.greenhost.net/open/letsencrypt-haproxy">third-party HAProxy plugin</a> from Greenhost.
+          </p>
+      </li>
     </ol>
   </div>
 
   <div class="instruction-pane advanced">
     <ol>
-      <!-- The advanced instructions don't use snapd, so this warning isn't needed there -->
       <aside class="note docker-note">
         <div class="note-header">
           <h3>Follow Docker instructions</h3>
@@ -742,34 +706,16 @@ You should never share these credentials publicly or with an unauthorized person
           SSH into the server
           <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
       </li>
+
       <li>
-          Install snapd
+          Install Certbot
           <p>
-          You'll need to install snapd and make sure you follow any instructions to enable classic snap support.<br />
-          Follow these instructions on <a href="https://snapcraft.io/docs/installing-snapd/">snapcraft's site to install snapd</a>.
+          Run these commands on the command line on the machine to install Certbot.
+          <pre class="no-before"><ol><li>wget https://dl.eff.org/certbot-auto</li>
+              <li>sudo mv certbot-auto /usr/local/bin/certbot-auto</li>
+              <li>sudo chown root /usr/local/bin/certbot-auto</li>
+              <li>sudo chmod 0755 /usr/local/bin/certbot-auto</li></ol></pre>
           </p>
-          <p class="centered">
-          <a class="link-button" href="https://snapcraft.io/docs/installing-snapd/">install snapd</a>
-          </p>
-      </li>
-      <li>
-          Remove any Certbot OS packages
-          <p>
-          If you have any Certbot packages installed using an OS package manager like
-          <tt>apt</tt>, <tt>dnf</tt>, or <tt>yum</tt>, you should remove them before
-          installing the Certbot snap to ensure that when you run the command
-          <tt>certbot</tt> the snap is used rather than the installation from your OS
-          package manager. The exact command to do this depends on your OS, but
-          common examples are <tt>sudo apt-get remove certbot</tt>, <tt>sudo dnf
-          remove certbot</tt>, or <tt>sudo yum remove certbot</tt>.
-          </p>
-      </li>
-      <li>
-        Install Certbot
-        <p>
-          Run this command on the command line on the machine to install Certbot.
-          <pre>sudo snap install --beta --classic certbot</pre>
-        </p>
       </li>
       <li>
           Get a certificate
@@ -786,39 +732,12 @@ You should never share these credentials publicly or with an unauthorized person
           </p>
       </li>
 
+
       <li>
-        Test automatic renewal
+        Set up automatic renewal
         <p>
-        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
-        automatically before they expire. You will not need to run Certbot again, unless you change your
-        configuration. You can test automatic renewal for your certificates by running this command:
-        <pre>sudo certbot renew --dry-run</pre>
-        </p>
-
-        <p>
-        The command to renew certbot is installed in one of the following locations:
-        <ul>
-          <li><tt>/etc/crontab/</tt></li>
-          <li><tt>/etc/cron.*/*</tt></li>
-          <li><tt>systemctl list-timers</tt></li>
-        </ul>
-        </p>
-
-        <p>
-        If you needed to stop your webserver to run Certbot, you'll want to add hook
-        scripts to stop and start your webserver automatically. For example, if your
-        webserver is HAProxy, run the following commands:
-        </p>
-
-        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
-          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
-          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
-          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
-
-        <p>
-        More information is available in the
-        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
-        Certbot documentation on renewing certificates</a>.
+        We recommend running the following line, which will add a cron job to the default crontab.
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
       </li>
@@ -834,6 +753,25 @@ You should never share these credentials publicly or with an unauthorized person
         <p class="centered">
         <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's <img src="/images/Lock.svg" /> https:// at SSL Labs</a>.
         </p>
+      </li>
+
+      <li>
+          Need more HAProxy-specific information?
+          <p>
+              Certificate installation with HAProxy is complicated. You can find more information
+              in of these guides:
+              <ul>
+                  <li>
+                      <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-haproxy-with-let-s-encrypt-on-ubuntu-14-04">Digital Ocean's guide</a>
+                  </li>
+                  <li>
+                      <a href="https://skarlso.github.io/2017/02/15/how-to-https-with-hugo-letsencrypt-haproxy/">Skarlso's guide</a>
+                  </li>
+              </ul>
+          </p>
+          <p>
+          Or you might be interested in using the experimental <a href="https://code.greenhost.net/open/letsencrypt-haproxy">third-party HAProxy plugin</a> from Greenhost.
+          </p>
       </li>
     </ol>
   </div>
