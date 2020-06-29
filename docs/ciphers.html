@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Ciphersuites &mdash; Certbot 1.4.0.dev0 documentation</title>
+  <title>Ciphersuites &mdash; Certbot 1.6.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Ciphersuites &mdash; Certbot 1.4.0.dev0 documentation">
+<meta name="twitter:title" content="Ciphersuites &mdash; Certbot 1.6.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="index.html"/> 
+    <link rel="top" title="Certbot 1.6.0.dev0 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -96,7 +96,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.4
+                1.6
               </div>
             
           
@@ -189,35 +189,33 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li><a class="reference internal" href="#cryptographic-choices" id="id4">Cryptographic choices</a></li>
 <li><a class="reference internal" href="#sources-of-defaults" id="id5">Sources of defaults</a></li>
 <li><a class="reference internal" href="#resources-for-recommendations" id="id6">Resources for recommendations</a></li>
-<li><a class="reference internal" href="#changing-your-settings" id="id7">Changing your settings</a></li>
-<li><a class="reference internal" href="#todo" id="id8">TODO</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#feedback" id="id9">Feedback</a><ul>
-<li><a class="reference internal" href="#references" id="id10">References</a><ul>
-<li><a class="reference internal" href="#rfc-7575" id="id11">RFC 7575</a></li>
-<li><a class="reference internal" href="#bettercrypto-org" id="id12">BetterCrypto.org</a></li>
-<li><a class="reference internal" href="#ff-dhe-internet-draft" id="id13">FF-DHE Internet-Draft</a></li>
-<li><a class="reference internal" href="#mozilla" id="id14">Mozilla</a></li>
-<li><a class="reference internal" href="#dutch-national-cyber-security-centre" id="id15">Dutch National Cyber Security Centre</a></li>
-<li><a class="reference internal" href="#keylength-com" id="id16">Keylength.com</a></li>
-<li><a class="reference internal" href="#nist" id="id17">NIST</a></li>
-<li><a class="reference internal" href="#enisa" id="id18">ENISA</a></li>
+<li><a class="reference internal" href="#feedback" id="id7">Feedback</a><ul>
+<li><a class="reference internal" href="#references" id="id8">References</a><ul>
+<li><a class="reference internal" href="#rfc-7575" id="id9">RFC 7575</a></li>
+<li><a class="reference internal" href="#bettercrypto-org" id="id10">BetterCrypto.org</a></li>
+<li><a class="reference internal" href="#ff-dhe-internet-draft" id="id11">FF-DHE Internet-Draft</a></li>
+<li><a class="reference internal" href="#mozilla" id="id12">Mozilla</a></li>
+<li><a class="reference internal" href="#dutch-national-cyber-security-centre" id="id13">Dutch National Cyber Security Centre</a></li>
+<li><a class="reference internal" href="#keylength-com" id="id14">Keylength.com</a></li>
+<li><a class="reference internal" href="#nist" id="id15">NIST</a></li>
+<li><a class="reference internal" href="#enisa" id="id16">ENISA</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#weakdh-logjam" id="id19">WeakDH/Logjam</a></li>
-<li><a class="reference internal" href="#particular-sites-opinions-or-configurations" id="id20">Particular sites’ opinions or configurations</a><ul>
-<li><a class="reference internal" href="#amazon-elb" id="id21">Amazon ELB</a></li>
-<li><a class="reference internal" href="#u-s-government-18f" id="id22">U.S. Government 18F</a></li>
-<li><a class="reference internal" href="#duraconf" id="id23">Duraconf</a></li>
+<li><a class="reference internal" href="#weakdh-logjam" id="id17">WeakDH/Logjam</a></li>
+<li><a class="reference internal" href="#particular-sites-opinions-or-configurations" id="id18">Particular sites’ opinions or configurations</a><ul>
+<li><a class="reference internal" href="#amazon-elb" id="id19">Amazon ELB</a></li>
+<li><a class="reference internal" href="#u-s-government-18f" id="id20">U.S. Government 18F</a></li>
+<li><a class="reference internal" href="#duraconf" id="id21">Duraconf</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#site-scanning-or-rating-tools" id="id24">Site scanning or rating tools</a><ul>
-<li><a class="reference internal" href="#qualys-ssl-labs" id="id25">Qualys SSL Labs</a></li>
-<li><a class="reference internal" href="#dutch-ncsc" id="id26">Dutch NCSC</a></li>
+<li><a class="reference internal" href="#site-scanning-or-rating-tools" id="id22">Site scanning or rating tools</a><ul>
+<li><a class="reference internal" href="#qualys-ssl-labs" id="id23">Qualys SSL Labs</a></li>
+<li><a class="reference internal" href="#dutch-ncsc" id="id24">Dutch NCSC</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#java-compatibility-issue" id="id27">Java compatibility issue</a></li>
+<li><a class="reference internal" href="#java-compatibility-issue" id="id25">Java compatibility issue</a></li>
 </ul>
 </li>
 </ul>
@@ -309,11 +307,8 @@ to most-backwards compatible). The client will follow the Mozilla defaults
 for the <em>Intermediate</em> configuration by default, at least with regards to
 ciphersuites and TLS versions. Mozilla’s web site describes which client
 software will be compatible with each configuration. You can also use
-the Qualys SSL Labs site, which Certbot will suggest
-when installing a certificate, to test your server and see whether it
+the Qualys SSL Labs site to test your server and see whether it
 will be compatible with particular software versions.</p>
-<p>It will be possible to ask Certbot to instead apply (and track) Modern
-or Old configurations.</p>
 <p>The Let’s Encrypt project expects to follow the Mozilla recommendations
 in the future as those recommendations are updated. (For example, some
 users have proposed prioritizing a new ciphersuite known as <code class="docutils literal notranslate"><span class="pre">0xcc13</span></code>
@@ -351,93 +346,60 @@ welcome suggestions of other resources to add to this list. Please keep
 in mind that different recommendations may reflect different priorities
 or evaluations of trade-offs, especially related to compatibility!</p>
 </div>
-<div class="section" id="changing-your-settings">
-<h3><a class="toc-backref" href="#id7">Changing your settings</a><a class="headerlink" href="#changing-your-settings" title="Permalink to this headline">¶</a></h3>
-<p>This will probably look something like</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>certbot --cipher-recommendations mozilla-secure
-certbot --cipher-recommendations mozilla-intermediate
-certbot --cipher-recommendations mozilla-old
-</pre></div>
-</div>
-<p>to track Mozilla’s <em>Secure</em>, <em>Intermediate</em>, or <em>Old</em> recommendations,
-and</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>certbot --update-ciphers on
-</pre></div>
-</div>
-<p>to enable updating ciphers with each new Certbot release, or</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>certbot --update-ciphers off
-</pre></div>
-</div>
-<p>to disable automatic configuration updates. These features have not yet
-been implemented and this syntax may change when they are implemented.</p>
-</div>
-<div class="section" id="todo">
-<h3><a class="toc-backref" href="#id8">TODO</a><a class="headerlink" href="#todo" title="Permalink to this headline">¶</a></h3>
-<p>The status of this feature is tracked as part of issue #1123 in our
-bug tracker.</p>
-<p><a class="reference external" href="https://github.com/certbot/certbot/issues/1123">https://github.com/certbot/certbot/issues/1123</a></p>
-<p>Prior to implementation of #1123, the client does not actually modify
-ciphersuites (this is intended to be implemented as a “configuration
-enhancement”, but the only configuration enhancement implemented
-so far is redirecting HTTP requests to HTTPS in web servers, the
-“redirect” enhancement). The changes here would probably be either a new
-“ciphersuite” enhancement in each plugin that provides an installer,
-or a family of enhancements, one per selectable ciphersuite configuration.</p>
-</div>
 </div>
 <div class="section" id="feedback">
-<h2><a class="toc-backref" href="#id9">Feedback</a><a class="headerlink" href="#feedback" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id7">Feedback</a><a class="headerlink" href="#feedback" title="Permalink to this headline">¶</a></h2>
 <p>We receive lots of feedback on the type of ciphersuites that Let’s Encrypt supports and list some collated feedback below. This section aims to track suggestions and references that people have offered or identified to improve the ciphersuites that Let’s Encrypt enables when configuring TLS on servers.</p>
 <p>Because of the Chatham House Rule applicable to some of the discussions, people are <em>not</em> individually credited for their suggestions, but most suggestions here were made or found by other people, and I thank them for their contributions.</p>
 <p>Some people provided rationale information mostly having to do with compatibility of particular user-agents (especially UAs that don’t support ECC, or that don’t support DH groups &gt; 1024 bits).  Some ciphersuite configurations have been chosen to try to increase compatibility with older UAs while allowing newer UAs to negotiate stronger crypto.  For example, some configurations forego forward secrecy entirely for connections from old UAs, like by offering ECDHE and RSA key exchange, but no DHE at all.  (There are UAs that can fail the negotiation completely if a DHE ciphersuite with prime &gt; 1024 bits is offered.)</p>
 <div class="section" id="references">
-<h3><a class="toc-backref" href="#id10">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id8">References</a><a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="rfc-7575">
-<h4><a class="toc-backref" href="#id11">RFC 7575</a><a class="headerlink" href="#rfc-7575" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id9">RFC 7575</a><a class="headerlink" href="#rfc-7575" title="Permalink to this headline">¶</a></h4>
 <p>IETF has published a BCP document, RFC 7525, “Recommendations for Secure Use of Transport Layer Security (TLS) and Datagram Transport Layer Security (DTLS)”</p>
 <p><a class="reference external" href="https://datatracker.ietf.org/doc/rfc7525/">https://datatracker.ietf.org/doc/rfc7525/</a></p>
 </div>
 <div class="section" id="bettercrypto-org">
-<h4><a class="toc-backref" href="#id12">BetterCrypto.org</a><a class="headerlink" href="#bettercrypto-org" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id10">BetterCrypto.org</a><a class="headerlink" href="#bettercrypto-org" title="Permalink to this headline">¶</a></h4>
 <p>BetterCrypto.org, a collaboration of mostly European IT security experts, has published a draft paper, “Applied Crypto Hardening”</p>
 <p><a class="reference external" href="https://bettercrypto.org/">https://bettercrypto.org/</a></p>
 </div>
 <div class="section" id="ff-dhe-internet-draft">
-<h4><a class="toc-backref" href="#id13">FF-DHE Internet-Draft</a><a class="headerlink" href="#ff-dhe-internet-draft" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id11">FF-DHE Internet-Draft</a><a class="headerlink" href="#ff-dhe-internet-draft" title="Permalink to this headline">¶</a></h4>
 <p>Gillmor’s Internet-Draft “Negotiated Discrete Log Diffie-Hellman Ephemeral Parameters for TLS” is being developed at the IETF TLS WG.  It advocates using <em>standardized</em> DH groups in all cases, not individually-chosen ones (mostly because of the Triple Handshake attack which can involve maliciously choosing invalid DH groups).  The draft provides a list of recommended groups, with primes beginning at 2048 bits and going up from there.  It also has a new protocol mechanism for agreeing to use these groups, with the possibility of backwards compatibility (and use of weaker DH groups) for older clients and servers that don’t know about this mechanism.</p>
 <p><a class="reference external" href="https://tools.ietf.org/html/draft-ietf-tls-negotiated-ff-dhe-10">https://tools.ietf.org/html/draft-ietf-tls-negotiated-ff-dhe-10</a></p>
 </div>
 <div class="section" id="mozilla">
-<h4><a class="toc-backref" href="#id14">Mozilla</a><a class="headerlink" href="#mozilla" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id12">Mozilla</a><a class="headerlink" href="#mozilla" title="Permalink to this headline">¶</a></h4>
 <p>Mozilla’s general server configuration guidance is available at <a class="reference external" href="https://wiki.mozilla.org/Security/Server_Side_TLS">https://wiki.mozilla.org/Security/Server_Side_TLS</a></p>
 <p>Mozilla has also produced a configuration generator: <a class="reference external" href="https://ssl-config.mozilla.org">https://ssl-config.mozilla.org</a></p>
 </div>
 <div class="section" id="dutch-national-cyber-security-centre">
-<h4><a class="toc-backref" href="#id15">Dutch National Cyber Security Centre</a><a class="headerlink" href="#dutch-national-cyber-security-centre" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id13">Dutch National Cyber Security Centre</a><a class="headerlink" href="#dutch-national-cyber-security-centre" title="Permalink to this headline">¶</a></h4>
 <p>The Dutch National Cyber Security Centre has published guidance on “ICT-beveiligingsrichtlijnen voor Transport Layer Security (TLS)” (“IT Security Guidelines for Transport Layer Security (TLS)”).  These are available only in Dutch at</p>
 <p><a class="reference external" href="https://web.archive.org/web/20190516085116/https://www.ncsc.nl/actueel/whitepapers/ict-beveiligingsrichtlijnen-voor-transport-layer-security-tls.html">https://web.archive.org/web/20190516085116/https://www.ncsc.nl/actueel/whitepapers/ict-beveiligingsrichtlijnen-voor-transport-layer-security-tls.html</a></p>
 <p>I have access to an English-language summary of the recommendations.</p>
 </div>
 <div class="section" id="keylength-com">
-<h4><a class="toc-backref" href="#id16">Keylength.com</a><a class="headerlink" href="#keylength-com" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id14">Keylength.com</a><a class="headerlink" href="#keylength-com" title="Permalink to this headline">¶</a></h4>
 <p>Damien Giry collects recommendations by academic researchers and standards organizations about keylengths for particular cryptoperiods, years, or security levels.  The keylength recommendations of the various sources are summarized in a chart.  This site has been updated over time and includes expert guidance from eight sources published between 2000 and 2017.</p>
 <p><a class="reference external" href="http://www.keylength.com/">http://www.keylength.com/</a></p>
 </div>
 <div class="section" id="nist">
-<h4><a class="toc-backref" href="#id17">NIST</a><a class="headerlink" href="#nist" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id15">NIST</a><a class="headerlink" href="#nist" title="Permalink to this headline">¶</a></h4>
 <p>NISA published its “NIST Special Publication 800-52 Revision 1: Guidelines for the Selection, Configuration, and Use of Transport Layer Security (TLS) Implementations”</p>
 <p><a class="reference external" href="http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-52r1.pdf">http://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-52r1.pdf</a></p>
 <p>and its “NIST Special Publication 800-57: Recommendation for Key Management – Part 1: General (Revision 3)”</p>
 <p><a class="reference external" href="http://csrc.nist.gov/publications/nistpubs/800-57/sp800-57_part1_rev3_general.pdf">http://csrc.nist.gov/publications/nistpubs/800-57/sp800-57_part1_rev3_general.pdf</a></p>
 </div>
 <div class="section" id="enisa">
-<h4><a class="toc-backref" href="#id18">ENISA</a><a class="headerlink" href="#enisa" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id16">ENISA</a><a class="headerlink" href="#enisa" title="Permalink to this headline">¶</a></h4>
 <p>ENISA published its “Algorithms, Key Sizes and Parameters Report - 2013”</p>
 <p><a class="reference external" href="https://www.enisa.europa.eu/activities/identity-and-trust/library/deliverables/algorithms-key-sizes-and-parameters-report">https://www.enisa.europa.eu/activities/identity-and-trust/library/deliverables/algorithms-key-sizes-and-parameters-report</a></p>
 </div>
 </div>
 <div class="section" id="weakdh-logjam">
-<h3><a class="toc-backref" href="#id19">WeakDH/Logjam</a><a class="headerlink" href="#weakdh-logjam" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id17">WeakDH/Logjam</a><a class="headerlink" href="#weakdh-logjam" title="Permalink to this headline">¶</a></h3>
 <p>The WeakDH/Logjam research has thrown into question the safety of some existing practice using DH ciphersuites, especially the use of standardized groups with a prime ≤ 1024 bits.  The authors provided detailed guidance, including ciphersuite lists, at</p>
 <p><a class="reference external" href="https://weakdh.org/sysadmin.html">https://weakdh.org/sysadmin.html</a></p>
 <p>These lists may have been derived from Mozilla’s recommendations.
@@ -446,40 +408,40 @@ One of the authors clarified his view of the priorities for various changes as a
 <p>In particular, he supports ECDHE and also supports the use of the standardized groups in the FF-DHE Internet-Draft mentioned above (which isn’t clear from the group’s original recommendations).</p>
 </div>
 <div class="section" id="particular-sites-opinions-or-configurations">
-<h3><a class="toc-backref" href="#id20">Particular sites’ opinions or configurations</a><a class="headerlink" href="#particular-sites-opinions-or-configurations" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">Particular sites’ opinions or configurations</a><a class="headerlink" href="#particular-sites-opinions-or-configurations" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="amazon-elb">
-<h4><a class="toc-backref" href="#id21">Amazon ELB</a><a class="headerlink" href="#amazon-elb" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id19">Amazon ELB</a><a class="headerlink" href="#amazon-elb" title="Permalink to this headline">¶</a></h4>
 <p>Amazon ELB explains its current ciphersuite choices at</p>
 <p><a class="reference external" href="https://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/elb-security-policy-table.html">https://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/elb-security-policy-table.html</a></p>
 </div>
 <div class="section" id="u-s-government-18f">
-<h4><a class="toc-backref" href="#id22">U.S. Government 18F</a><a class="headerlink" href="#u-s-government-18f" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id20">U.S. Government 18F</a><a class="headerlink" href="#u-s-government-18f" title="Permalink to this headline">¶</a></h4>
 <p>The 18F site (<a class="reference external" href="https://18f.gsa.gov/">https://18f.gsa.gov/</a>) is using</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssl_ciphers</span> <span class="s1">&#39;kEECDH+ECDSA+AES128 kEECDH+ECDSA+AES256 kEECDH+AES128 kEECDH+AES256 kEDH+AES128 kEDH+AES256 DES-CBC3-SHA +SHA !aNULL !eNULL !LOW !MD5 !EXP !DSS !PSK !SRP !kECDH !CAMELLIA !RC4 !SEED&#39;</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="duraconf">
-<h4><a class="toc-backref" href="#id23">Duraconf</a><a class="headerlink" href="#duraconf" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id21">Duraconf</a><a class="headerlink" href="#duraconf" title="Permalink to this headline">¶</a></h4>
 <p>The Duraconf project collects particular configuration files, with an apparent focus on avoiding the use of obsolete symmetric ciphers and hash functions, and favoring forward secrecy while not requiring it.</p>
 <p><a class="reference external" href="https://github.com/ioerror/duraconf">https://github.com/ioerror/duraconf</a></p>
 </div>
 </div>
 <div class="section" id="site-scanning-or-rating-tools">
-<h3><a class="toc-backref" href="#id24">Site scanning or rating tools</a><a class="headerlink" href="#site-scanning-or-rating-tools" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id22">Site scanning or rating tools</a><a class="headerlink" href="#site-scanning-or-rating-tools" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="qualys-ssl-labs">
-<h4><a class="toc-backref" href="#id25">Qualys SSL Labs</a><a class="headerlink" href="#qualys-ssl-labs" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id23">Qualys SSL Labs</a><a class="headerlink" href="#qualys-ssl-labs" title="Permalink to this headline">¶</a></h4>
 <p>Qualys offers the best-known TLS security scanner, maintained by Ivan Ristić.</p>
 <p><a class="reference external" href="https://www.ssllabs.com/">https://www.ssllabs.com/</a></p>
 </div>
 <div class="section" id="dutch-ncsc">
-<h4><a class="toc-backref" href="#id26">Dutch NCSC</a><a class="headerlink" href="#dutch-ncsc" title="Permalink to this headline">¶</a></h4>
+<h4><a class="toc-backref" href="#id24">Dutch NCSC</a><a class="headerlink" href="#dutch-ncsc" title="Permalink to this headline">¶</a></h4>
 <p>The Dutch NCSC, mentioned above, has also made available its own site security scanner which indicates how well sites comply with the recommendations.</p>
 <p><a class="reference external" href="https://en.internet.nl/">https://en.internet.nl/</a></p>
 </div>
 </div>
 <div class="section" id="java-compatibility-issue">
-<h3><a class="toc-backref" href="#id27">Java compatibility issue</a><a class="headerlink" href="#java-compatibility-issue" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id25">Java compatibility issue</a><a class="headerlink" href="#java-compatibility-issue" title="Permalink to this headline">¶</a></h3>
 <p>A lot of backward-compatibility concerns have to do with Java hard-coding DHE primes to a 1024-bit limit, accepting DHE ciphersuites in negotiation, and then aborting the connection entirely if a prime &gt; 1024 bits is presented.  The simple summary is that servers offering a Java-compatible DHE ciphersuite in preference to other Java-compatible ciphersuites, and then presenting a DH group with a prime &gt; 1024 bits, will be completely incompatible with clients running some versions of Java.  (This may also be the case with very old MSIE versions…?)  There are various strategies for dealing with this, and maybe we can document the options here.</p>
 </div>
 </div>
@@ -540,7 +502,7 @@ One of the authors clarified his view of the priorities for various changes as a
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.4.0.dev0',
+            VERSION:'1.6.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -567,7 +529,7 @@ One of the authors clarified his view of the priorities for various changes as a
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Ciphersuites%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Ciphersuites%E2%80%94%20Certbot%201.6.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

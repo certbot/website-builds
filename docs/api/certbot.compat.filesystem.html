@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.compat.filesystem module &mdash; Certbot 1.4.0.dev0 documentation</title>
+  <title>certbot.compat.filesystem module &mdash; Certbot 1.6.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.compat.filesystem module &mdash; Certbot 1.4.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.compat.filesystem module &mdash; Certbot 1.6.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 1.6.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="certbot.compat package" href="certbot.compat.html"/>
         <link rel="next" title="certbot.compat.misc module" href="certbot.compat.misc.html"/>
         <link rel="prev" title="certbot.compat package" href="certbot.compat.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.4
+                1.6
               </div>
             
           
@@ -207,18 +207,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <dl class="function">
 <dt id="certbot.compat.filesystem.chmod">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">chmod</code><span class="sig-paren">(</span><em>file_path</em>, <em>mode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#chmod"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.chmod" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Apply a POSIX mode on given file_path:</dt>
-<dd><ul class="first last simple">
+<dd><p>Apply a POSIX mode on given file_path:</p>
+<blockquote>
+<div><ul class="simple">
 <li>for Linux, the POSIX mode will be directly applied using chmod,</li>
 <li>for Windows, the POSIX mode will be translated into a Windows DACL that make sense for
 Certbot context, and applied to the file using kernel calls.</li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 <p>The definition of the Windows DACL that correspond to a POSIX mode, in the context of Certbot,
 is explained at <a class="reference external" href="https://github.com/certbot/certbot/issues/6356">https://github.com/certbot/certbot/issues/6356</a> and is implemented by the
-method _generate_windows_flags().</p>
+method <code class="xref py py-obj docutils literal notranslate"><span class="pre">_generate_windows_flags()</span></code>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -234,16 +233,66 @@ method _generate_windows_flags().</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="certbot.compat.filesystem.umask">
+<code class="descclassname">certbot.compat.filesystem.</code><code class="descname">umask</code><span class="sig-paren">(</span><em>mask</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#umask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.umask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current numeric umask and return the previous umask. On Linux, the built-in umask
+method is used. On Windows, our Certbot-side implementation is used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The user file-creation mode mask to apply.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The previous umask value.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="certbot.compat.filesystem.copy_ownership_and_apply_mode">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">copy_ownership_and_apply_mode</code><span class="sig-paren">(</span><em>src</em>, <em>dst</em>, <em>mode</em>, <em>copy_user</em>, <em>copy_group</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#copy_ownership_and_apply_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.copy_ownership_and_apply_mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy ownership (user and optionally group on Linux) from the source to the
 destination, then apply given mode in compatible way for Linux and Windows.
-This replaces the os.chown command.
-:param str src: Path of the source file
-:param str dst: Path of the destination file
-:param int mode: Permission mode to apply on the destination file
-:param bool copy_user: Copy user if <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>
-:param bool copy_group: Copy group if <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on Linux (has no effect on Windows)</p>
+This replaces the os.chown command.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Path of the source file</li>
+<li><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Path of the destination file</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Permission mode to apply on the destination file</li>
+<li><strong>copy_user</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Copy user if <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a></li>
+<li><strong>copy_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Copy group if <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on Linux (has no effect on Windows)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.filesystem.copy_ownership_and_mode">
+<code class="descclassname">certbot.compat.filesystem.</code><code class="descname">copy_ownership_and_mode</code><span class="sig-paren">(</span><em>src</em>, <em>dst</em>, <em>copy_user=True</em>, <em>copy_group=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#copy_ownership_and_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.copy_ownership_and_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy ownership (user and optionally group on Linux) and mode/DACL
+from the source to the destination.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Path of the source file</li>
+<li><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Path of the destination file</li>
+<li><strong>copy_user</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Copy user if <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a></li>
+<li><strong>copy_group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – Copy group if <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> on Linux (has no effect on Windows)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -251,57 +300,95 @@ This replaces the os.chown command.
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">check_mode</code><span class="sig-paren">(</span><em>file_path</em>, <em>mode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#check_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.check_mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the given mode matches the permissions of the given file.
 On Linux, will make a direct comparison, on Windows, mode will be compared against
-the security model.
-:param str file_path: Path of the file
-:param int mode: POSIX mode to test
-:rtype: bool
-:return: True if the POSIX mode matches the file permissions</p>
+the security model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Path of the file</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – POSIX mode to test</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the POSIX mode matches the file permissions</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.filesystem.check_owner">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">check_owner</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#check_owner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.check_owner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if given file is owned by current user.
-:param str file_path: File path to check
-:rtype: bool
-:return: True if given file is owned by current user, False otherwise.</p>
+<dd><p>Check if given file is owned by current user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – File path to check</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if given file is owned by current user, False otherwise.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.filesystem.check_permissions">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">check_permissions</code><span class="sig-paren">(</span><em>file_path</em>, <em>mode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#check_permissions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.check_permissions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if given file has the given mode and is owned by current user.
-:param str file_path: File path to check
-:param int mode: POSIX mode to check
-:rtype: bool
-:return: True if file has correct mode and owner, False otherwise.</p>
+<dd><p>Check if given file has the given mode and is owned by current user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – File path to check</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – POSIX mode to check</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if file has correct mode and owner, False otherwise.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.filesystem.open">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">open</code><span class="sig-paren">(</span><em>file_path</em>, <em>flags</em>, <em>mode=511</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#open"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.open" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper of original os.open function, that will ensure on Windows that given mode
-is correctly applied.
-:param str file_path: The file path to open
-:param int flags: Flags to apply on file while opened
-:param int mode: POSIX mode to apply on file when opened,</p>
-<blockquote>
-<div>Python defaults will be applied if <code class="docutils literal notranslate"><span class="pre">None</span></code></div></blockquote>
+is correctly applied.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the file descriptor to the opened file</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The file path to open</li>
+<li><strong>flags</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Flags to apply on file while opened</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – POSIX mode to apply on file when opened,
+Python defaults will be applied if <code class="docutils literal notranslate"><span class="pre">None</span></code></li>
+</ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the file descriptor to the opened file</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body"><p class="first">OSError(errno.EEXIST) if the file already exists and os.O_CREAT &amp; os.O_EXCL are set,
-OSError(errno.EACCES) on Windows if the file already exists and is a directory, and</p>
-<blockquote class="last">
-<div><p>os.O_CREAT is set.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body"><p class="first last">OSError(errno.EEXIST) if the file already exists and os.O_CREAT &amp; os.O_EXCL are set,
+OSError(errno.EACCES) on Windows if the file already exists and is a directory, and
+os.O_CREAT is set.</p>
 </td>
 </tr>
 </tbody>
@@ -312,30 +399,58 @@ OSError(errno.EACCES) on Windows if the file already exists and is a directory, 
 <dt id="certbot.compat.filesystem.makedirs">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">makedirs</code><span class="sig-paren">(</span><em>file_path</em>, <em>mode=511</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#makedirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.makedirs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rewrite of original os.makedirs function, that will ensure on Windows that given mode
-is correctly applied.
-:param str file_path: The file path to open
-:param int mode: POSIX mode to apply on leaf directory when created, Python defaults</p>
-<blockquote>
-<div>will be applied if <code class="docutils literal notranslate"><span class="pre">None</span></code></div></blockquote>
+is correctly applied.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The file path to open</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – POSIX mode to apply on leaf directory when created, Python defaults
+will be applied if <code class="docutils literal notranslate"><span class="pre">None</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.filesystem.mkdir">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">mkdir</code><span class="sig-paren">(</span><em>file_path</em>, <em>mode=511</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#mkdir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.mkdir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rewrite of original os.mkdir function, that will ensure on Windows that given mode
-is correctly applied.
-:param str file_path: The file path to open
-:param int mode: POSIX mode to apply on directory when created, Python defaults</p>
-<blockquote>
-<div>will be applied if <code class="docutils literal notranslate"><span class="pre">None</span></code></div></blockquote>
+is correctly applied.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The file path to open</li>
+<li><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – POSIX mode to apply on directory when created, Python defaults
+will be applied if <code class="docutils literal notranslate"><span class="pre">None</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.filesystem.replace">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">replace</code><span class="sig-paren">(</span><em>src</em>, <em>dst</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#replace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.replace" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rename a file to a destination path and handles situations where the destination exists.
-:param str src: The current file path.
-:param str dst: The new file path.</p>
+<dd><p>Rename a file to a destination path and handles situations where the destination exists.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The current file path.</li>
+<li><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The new file path.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -343,56 +458,128 @@ is correctly applied.
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">realpath</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#realpath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.realpath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the real path for the given path. This method resolves symlinks, including
 recursive symlinks, and is protected against symlinks that creates an infinite loop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The path to resolve</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The real path for the given path</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.filesystem.is_executable">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">is_executable</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#is_executable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.is_executable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Is path an executable file?
-:param str path: path to test
-:return: True if path is an executable file
-:rtype: bool</p>
+<dd><p>Is path an executable file?</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – path to test</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if path is an executable file</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.filesystem.has_world_permissions">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">has_world_permissions</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#has_world_permissions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.has_world_permissions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if everybody/world has any right (read/write/execute) on a file given its path
-:param str path: path to test
-:return: True if everybody/world has any right to the file
-:rtype: bool</p>
+<dd><p>Check if everybody/world has any right (read/write/execute) on a file given its path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – path to test</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if everybody/world has any right to the file</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.filesystem.compute_private_key_mode">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">compute_private_key_mode</code><span class="sig-paren">(</span><em>old_key</em>, <em>base_mode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#compute_private_key_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.compute_private_key_mode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the POSIX mode to apply to a private key given the previous private key
-:param str old_key: path to the previous private key
-:param int base_mode: the minimum modes to apply to a private key
-:return: the POSIX mode to apply
-:rtype: int</p>
+<dd><p>Calculate the POSIX mode to apply to a private key given the previous private key.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>old_key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – path to the previous private key</li>
+<li><strong>base_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the minimum modes to apply to a private key</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the POSIX mode to apply</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.filesystem.has_same_ownership">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">has_same_ownership</code><span class="sig-paren">(</span><em>path1</em>, <em>path2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#has_same_ownership"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.has_same_ownership" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return True if the ownership of two files given their respective path is the same.
-On Windows, ownership is checked against owner only, since files do not have a group owner.
-:param str path1: path to the first file
-:param str path2: path to the second file
-:return: True if both files have the same ownership, False otherwise
-:rtype: bool</p>
+On Windows, ownership is checked against owner only, since files do not have a group owner.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – path to the first file</li>
+<li><strong>path2</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – path to the second file</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if both files have the same ownership, False otherwise</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.filesystem.has_min_permissions">
 <code class="descclassname">certbot.compat.filesystem.</code><code class="descname">has_min_permissions</code><span class="sig-paren">(</span><em>path</em>, <em>min_mode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/compat/filesystem.html#has_min_permissions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.filesystem.has_min_permissions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if a file given its path has at least the permissions defined by the given minimal mode.
-On Windows, group permissions are ignored since files do not have a group owner.
-:param str path: path to the file to check
-:param int min_mode: the minimal permissions expected
-:return: True if the file matches the minimal permissions expectations, False otherwise
-:rtype: bool</p>
+On Windows, group permissions are ignored since files do not have a group owner.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – path to the file to check</li>
+<li><strong>min_mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the minimal permissions expected</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if the file matches the minimal permissions expectations, False otherwise</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -452,7 +639,7 @@ On Windows, group permissions are ignored since files do not have a group owner.
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.4.0.dev0',
+            VERSION:'1.6.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -479,7 +666,7 @@ On Windows, group permissions are ignored since files do not have a group owner.
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.filesystem%20module%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.filesystem%20module%E2%80%94%20Certbot%201.6.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
