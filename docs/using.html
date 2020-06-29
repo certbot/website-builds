@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User Guide &mdash; Certbot 1.4.0.dev0 documentation</title>
+  <title>User Guide &mdash; Certbot 1.6.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="User Guide &mdash; Certbot 1.4.0.dev0 documentation">
+<meta name="twitter:title" content="User Guide &mdash; Certbot 1.6.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 1.6.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Developer Guide" href="contributing.html"/>
         <link rel="prev" title="Get Certbot" href="install.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.4
+                1.6
               </div>
             
           
@@ -1327,7 +1327,7 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/1.3.0 (certbot(-auto);
+                        &quot;&quot;. (default: CertbotACMEClient/1.5.0 (certbot(-auto);
                         OS_NAME OS_VERSION) Authenticator/XXX Installer/YYY
                         (SUBCOMMAND; flags: FLAGS) Py/major.minor.patchlevel).
                         The flags encoded in the user agent are: --duplicate,
@@ -1402,10 +1402,12 @@ security:
                         supported setups (Apache version &gt;= 2.3.3 ). (default:
                         False)
   --redirect            Automatically redirect all HTTP traffic to HTTPS for
-                        the newly authenticated vhost. (default: Ask)
+                        the newly authenticated vhost. (default: redirect
+                        enabled for install and run, disabled for enhance)
   --no-redirect         Do not automatically redirect all HTTP traffic to
                         HTTPS for the newly authenticated vhost. (default:
-                        Ask)
+                        redirect enabled for install and run, disabled for
+                        enhance)
   --hsts                Add the Strict-Transport-Security header to every HTTP
                         response. Forcing browser to always use SSL for the
                         domain. Defends against SSL Stripping. (default: None)
@@ -1427,8 +1429,8 @@ testing:
 
   --test-cert, --staging
                         Use the staging server to obtain or revoke test
-                        (invalid) certificates; equivalent to --server https
-                        ://acme-staging-v02.api.letsencrypt.org/directory
+                        (invalid) certificates; equivalent to --server
+                        https://acme-staging-v02.api.letsencrypt.org/directory
                         (default: False)
   --debug               Show tracebacks in case of errors, and allow certbot-
                         auto execution on experimental platforms (default:
@@ -1533,8 +1535,8 @@ renew:
                         of renewed certificate domains (for example,
                         &quot;example.com www.example.com&quot; (default: None)
   --disable-hook-validation
-                        Ordinarily the commands specified for --pre-hook
-                        /--post-hook/--deploy-hook will be checked for
+                        Ordinarily the commands specified for --pre-
+                        hook/--post-hook/--deploy-hook will be checked for
                         validity, to see if the programs being run are in the
                         $PATH, so that mistakes can be caught early, even when
                         the hooks aren&#39;t being run just yet. The validation is
@@ -1883,7 +1885,11 @@ manual:
   requested when performing an HTTP-01 challenge. An additional cleanup
   script can also be provided and can use the additional variable
   $CERTBOT_AUTH_OUTPUT which contains the stdout output from the auth
-  script.
+  script.For both authenticator and cleanup script, on HTTP-01 and DNS-01
+  challenges,$CERTBOT_REMAINING_CHALLENGES will be equal to the number of
+  challenges that remain after the current one, and $CERTBOT_ALL_DOMAINS
+  contains a comma-separated list of all domains that are challenged for the
+  current certificate.
 
   --manual-auth-hook MANUAL_AUTH_HOOK
                         Path or command to execute for the authentication
@@ -2008,7 +2014,7 @@ also might contain personally identifiable information)</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.4.0.dev0',
+            VERSION:'1.6.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -2035,7 +2041,7 @@ also might contain personally identifiable information)</li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%201.6.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
