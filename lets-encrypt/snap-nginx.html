@@ -587,7 +587,6 @@ You should never share these credentials publicly or with an unauthorized person
 <div class="instruction-pane-wrapper">
   <div class="instruction-pane automated">
     <ol>
-      <!-- The advanced instructions don't use snapd, so this warning isn't needed there -->
       <aside class="note">
         <div class="note-header">
           <h3>Snap Support</h3>
@@ -632,6 +631,16 @@ You should never share these credentials publicly or with an unauthorized person
           <pre>sudo snap install --beta --classic certbot</pre>
         </p>
       </li>
+
+      <li>
+        Confirm plugin containment level
+        <p>
+        Run this command on the command line on the machine to acknowledge that the installed
+        plugin will have the same <tt>classic</tt> containment as the Certbot snap.
+        </p>
+        <pre>sudo snap set certbot trust-plugin-with-root=ok</pre>
+      </li>
+
       <li> Choose how you'd like to run Certbot
         <ul>
         <li>
@@ -691,7 +700,16 @@ You should never share these credentials publicly or with an unauthorized person
 
   <div class="instruction-pane advanced">
     <ol>
-      <!-- The advanced instructions don't use snapd, so this warning isn't needed there -->
+      <aside class="note">
+        <div class="note-header">
+          <h3>Snap Support</h3>
+        </div>
+        <p>
+        Certbot snap support is currently in its beta phase and only supports the
+        x86_64 architecture. You can find instructions for installing Certbot without
+        using snap by selecting your OS in the dropdown above.
+        </p>
+      </aside>
       <li>
           Check if your DNS provider is supported
           <p>
@@ -746,6 +764,16 @@ You should never share these credentials publicly or with an unauthorized person
           <pre>sudo snap install --beta --classic certbot</pre>
         </p>
       </li>
+
+      <li>
+        Confirm plugin containment level
+        <p>
+        Run this command on the command line on the machine to acknowledge that the installed
+        plugin will have the same <tt>classic</tt> containment as the Certbot snap.
+        </p>
+        <pre>sudo snap set certbot trust-plugin-with-root=ok</pre>
+      </li>
+
       <li>
           Install correct DNS plugin
           <p>
