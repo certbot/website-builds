@@ -106,27 +106,25 @@
       
         <option value="snap" data-distro="snap" data-version="0">snapd</option>
       
-        <option value="debianjessie" data-distro="debian" data-version="8">Debian 8 (jessie)</option>
-      
         <option value="debianstretch" data-distro="debian" data-version="9">Debian 9 (stretch)</option>
       
         <option value="debianbuster" data-distro="debian" data-version="10">Debian 10 (buster)</option>
       
         <option value="debiantesting" data-distro="debian" data-version="11">Debian testing/unstable</option>
       
-        <option value="debianother" data-distro="debian" data-version="0">Debian (other)</option>
+        <option value="ubuntufocal" data-distro="ubuntu" data-version="20.04">Ubuntu 20.04</option>
+      
+        <option value="ubuntuother" data-distro="ubuntu" data-version="19.10">Ubuntu 19.10</option>
       
         <option value="ubuntubionic" data-distro="ubuntu" data-version="18.04">Ubuntu 18.04 LTS (bionic)</option>
       
         <option value="ubuntuxenial" data-distro="ubuntu" data-version="16.04">Ubuntu 16.04 (xenial)</option>
       
-        <option value="ubuntuother" data-distro="ububtu" data-version="0">Ubuntu (other)</option>
-      
         <option value="gentoo" data-distro="gentoo" data-version="0">Gentoo</option>
       
         <option value="arch" data-distro="arch" data-version="0">Arch Linux</option>
       
-        <option value="fedora" data-distro="fedora" data-version="26">Fedora 26+</option>
+        <option value="fedora" data-distro="fedora" data-version="0">Fedora</option>
       
         <option value="centos6" data-distro="centos" data-version="6">CentOS 6</option>
       
@@ -143,8 +141,6 @@
         <option value="osx" data-distro="macos" data-version="10">macOS</option>
       
         <option value="devuanascii" data-distro="devuan" data-version="2">Devuan ASCII 2.0</option>
-      
-        <option value="devuanjessie" data-distro="devuan" data-version="1">Devuan Jessie 1.0</option>
       
         <option value="devuanother" data-distro="devuan" data-version="3">Devuan testing/unstable</option>
       
@@ -591,6 +587,13 @@ You should never share these credentials publicly or with an unauthorized person
 <div class="instruction-pane-wrapper">
   <div class="instruction-pane automated">
     <ol>
+      <aside class="note">
+        <div class="note-header">
+          <h3>Join our beta test!</h3>
+        </div>
+      <p>If you would like to help test a new way to install Certbot that automatically renews your certificates and stays up-to-date, please choose "snapd" in the system dropdown above.</p>
+      </aside>
+
       <!-- The advanced instructions don't use certbot-auto, so this warning isn't needed there. -->
 
 
@@ -603,24 +606,16 @@ You should never share these credentials publicly or with an unauthorized person
           Enable EPEL repo
           <p>
           You'll need to enable the EPEL (Extra Packages for Enterprise Linux)
-          repository.<br />
+          repository and make sure you follow all instructions for your system,
+          including enabling any other recommended repositories that may be
+          required.<br />
           Follow these instructions at
-          <a href="https://fedoraproject.org/wiki/EPEL#How_can_I_use_these_extra_packages.3F">
+          <a href="https://fedoraproject.org/wiki/EPEL#Quickstart">
             the Fedora wiki to enable EPEL</a>.
           </p>
           <p class="centered">
-          <a class="link-button" href="https://fedoraproject.org/wiki/EPEL#How_can_I_use_these_extra_packages.3F">
+          <a class="link-button" href="https://fedoraproject.org/wiki/EPEL#Quickstart">
             enable EPEL</a>
-          </p>
-      </li>
-      <li>
-          Enable the optional channel
-          <p>
-          If you're using RHEL or Oracle Linux, you'll also need to enable the optional channel.
-          On EC2, RHEL users can enable the optional channel by running the following command,
-          substituting your EC2 region for REGION in the command:
-          <pre class="no-before"><ol><li>yum -y install yum-utils</li>
-            <li>yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional</li></ol></pre>
           </p>
       </li>
 
@@ -683,6 +678,7 @@ You should never share these credentials publicly or with an unauthorized person
 
   <div class="instruction-pane advanced">
     <ol>
+      
       <!-- The advanced instructions don't use certbot-auto, so this warning isn't needed there. -->
 
       <li>
@@ -715,24 +711,16 @@ You should never share these credentials publicly or with an unauthorized person
           Enable EPEL repo
           <p>
           You'll need to enable the EPEL (Extra Packages for Enterprise Linux)
-          repository.<br />
+          repository and make sure you follow all instructions for your system,
+          including enabling any other recommended repositories that may be
+          required.<br />
           Follow these instructions at
-          <a href="https://fedoraproject.org/wiki/EPEL#How_can_I_use_these_extra_packages.3F">
+          <a href="https://fedoraproject.org/wiki/EPEL#Quickstart">
             the Fedora wiki to enable EPEL</a>.
           </p>
           <p class="centered">
-          <a class="link-button" href="https://fedoraproject.org/wiki/EPEL#How_can_I_use_these_extra_packages.3F">
+          <a class="link-button" href="https://fedoraproject.org/wiki/EPEL#Quickstart">
             enable EPEL</a>
-          </p>
-      </li>
-      <li>
-          Enable the optional channel
-          <p>
-          If you're using RHEL or Oracle Linux, you'll also need to enable the optional channel.
-          On EC2, RHEL users can enable the optional channel by running the following command,
-          substituting your EC2 region for REGION in the command:
-          <pre class="no-before"><ol><li>yum -y install yum-utils</li>
-            <li>yum-config-manager --enable rhui-REGION-rhel-server-extras rhui-REGION-rhel-server-optional</li></ol></pre>
           </p>
       </li>
 
