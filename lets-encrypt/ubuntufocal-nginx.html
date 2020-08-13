@@ -587,36 +587,48 @@ You should never share these credentials publicly or with an unauthorized person
 <div class="instruction-pane-wrapper">
   <div class="instruction-pane automated">
     <ol>
+      <!-- The advanced instructions don't use snapd, so this warning isn't needed there -->
       <aside class="note">
         <div class="note-header">
-          <h3>Try the Certbot snap!</h3>
+          <h3>Snap Support</h3>
         </div>
-      <p>If you would like to install Certbot using an approach that automatically configures certificate renewal and stays up-to-date, please choose "snapd" in the system dropdown above.</p>
+        <p>
+        The Certbot snap supports the x86_64, ARMv7, and ARMv8 architectures.
+        You can find instructions for installing Certbot without using snap by selecting your OS in the dropdown above.
+        </p>
       </aside>
-
 
       <li>
           SSH into the server
           <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
       </li>
-
       <li>
-          Enable the universe repository
+          Install snapd
           <p>
-          You'll need to make sure Ubuntu universe is in your list of repositories.
-          To do so, run the following commands on the command line on the machine:
-          <pre class="no-before"><ol><li>sudo apt-get update</li>
-            <li>sudo apt-get install software-properties-common</li>
-            <li>sudo add-apt-repository universe</li>
-            <li>sudo apt-get update</li></ol></pre>
+          You'll need to install snapd and make sure you follow any instructions to enable classic snap support.<br />
+          Follow these instructions on <a href="https://snapcraft.io/docs/installing-snapd/">snapcraft's site to install snapd</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="https://snapcraft.io/docs/installing-snapd/">install snapd</a>
           </p>
       </li>
-
+      <li>
+          Remove any Certbot OS packages
+          <p>
+          If you have any Certbot packages installed using an OS package manager like
+          <tt>apt</tt>, <tt>dnf</tt>, or <tt>yum</tt>, you should remove them before
+          installing the Certbot snap to ensure that when you run the command
+          <tt>certbot</tt> the snap is used rather than the installation from your OS
+          package manager. The exact command to do this depends on your OS, but
+          common examples are <tt>sudo apt-get remove certbot</tt>, <tt>sudo dnf
+          remove certbot</tt>, or <tt>sudo yum remove certbot</tt>.
+          </p>
+      </li>
       <li>
         Install Certbot
         <p>
           Run this command on the command line on the machine to install Certbot.
-          <pre>sudo apt-get install certbot python3-certbot-nginx</pre>
+          <pre>sudo snap install --classic certbot</pre>
         </p>
       </li>
       <li> Choose how you'd like to run Certbot
@@ -678,74 +690,51 @@ You should never share these credentials publicly or with an unauthorized person
 
   <div class="instruction-pane advanced">
     <ol>
-      
-      <li>
-          Check if your DNS provider is supported
+      <!-- The advanced instructions don't use snapd, so this warning isn't needed there -->
+      <aside class="note docker-note">
+        <div class="note-header">
+          <h3>Follow Docker instructions</h3>
+        </div>
           <p>
-          See if your DNS provider is supported by Certbot by checking
-          <a href="/docs/using.html#dns-plugins">this list in our
-            documentation</a>.
+          To get a wildcard certificate on this system, you'll need to run Certbot in Docker. You
+          can do so by following
+          <a href="/docs/install.html#running-with-docker">these
+            steps from our documentation</a>.
           </p>
-          <p class="centered">
-          <a class="link-button" href="/docs/using.html#dns-plugins">check if your DNS provider supports Certbot</a>
-          </p>
-          <h3>Not supported?</h3>
-          <p>
-          If your DNS provider is not supported, pause here: run Certbot with the manual plugin by using
-          <a href="/docs/using.html#manual">these steps from our documentation</a>.
-          </p>
-          <h3>Supported?</h3>
-          <p>
-          If your DNS provider is supported, continue with the remaining instructions below.
-          </p>
-      </li>
+      </aside>
 
       <li>
           SSH into the server
           <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
       </li>
-
       <li>
-          Enable the universe repository
+          Install snapd
           <p>
-          You'll need to make sure Ubuntu universe is in your list of repositories.
-          To do so, run the following commands on the command line on the machine:
-          <pre class="no-before"><ol><li>sudo apt-get update</li>
-            <li>sudo apt-get install software-properties-common</li>
-            <li>sudo add-apt-repository universe</li>
-            <li>sudo apt-get update</li></ol></pre>
+          You'll need to install snapd and make sure you follow any instructions to enable classic snap support.<br />
+          Follow these instructions on <a href="https://snapcraft.io/docs/installing-snapd/">snapcraft's site to install snapd</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="https://snapcraft.io/docs/installing-snapd/">install snapd</a>
           </p>
       </li>
-
+      <li>
+          Remove any Certbot OS packages
+          <p>
+          If you have any Certbot packages installed using an OS package manager like
+          <tt>apt</tt>, <tt>dnf</tt>, or <tt>yum</tt>, you should remove them before
+          installing the Certbot snap to ensure that when you run the command
+          <tt>certbot</tt> the snap is used rather than the installation from your OS
+          package manager. The exact command to do this depends on your OS, but
+          common examples are <tt>sudo apt-get remove certbot</tt>, <tt>sudo dnf
+          remove certbot</tt>, or <tt>sudo yum remove certbot</tt>.
+          </p>
+      </li>
       <li>
         Install Certbot
         <p>
           Run this command on the command line on the machine to install Certbot.
-          <pre>sudo apt-get install certbot python3-certbot-nginx</pre>
+          <pre>sudo snap install --classic certbot</pre>
         </p>
-      </li>
-      <li>
-          Install correct DNS plugin
-          <p>
-          Run the following command, replacing &lt;PLUGIN&gt; with the name of your DNS provider.
-          </p>
-          <pre>sudo apt-get install python3-certbot-dns-&lt;PLUGIN&gt;</pre>
-          <p>
-          For example, if your DNS provider is Cloudflare, you'd run the following command:
-          </p>
-          <pre>sudo apt-get install python3-certbot-dns-cloudflare</pre>
-      </li>
-      <li>
-          Set up credentials
-          <p>
-          You'll need to set up DNS credentials.<br />
-          Follow the steps in the "Credentials" section for your DNS provider to access or create the
-          appropriate credential configuration file. Find credentials instructions for your DNS provider
-          by clicking the <a href="/docs/using.html#dns-plugins">DNS plugin's name on the Documentation list</a>.
-          </p>
-          <p class="centered">
-          <a class="link-button" href="/docs/using.html#dns-plugins">find your DNS plugin's Credential steps</a>
-          </p>
       </li>
       <li> Choose how you'd like to run Certbot
         <ul>
