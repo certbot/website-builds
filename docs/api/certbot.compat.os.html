@@ -276,17 +276,19 @@ This module is intended to replace standard os module throughout certbot project
 <dl class="function">
 <dt id="certbot.compat.os.fsencode">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">fsencode</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.fsencode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Encode filename to the filesystem encoding with ‘surrogateescape’ error
-handler, return bytes unchanged. On Windows, use ‘strict’ error handler if
-the file system encoding is ‘mbcs’ (which is the default encoding).</p>
+<dd><p>Encode filename (an os.PathLike, bytes, or str) to the filesystem
+encoding with ‘surrogateescape’ error handler, return bytes unchanged.
+On Windows, use ‘strict’ error handler if the file system encoding is
+‘mbcs’ (which is the default encoding).</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.os.fsdecode">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">fsdecode</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.fsdecode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decode filename from the filesystem encoding with ‘surrogateescape’ error
-handler, return str unchanged. On Windows, use ‘strict’ error handler if
-the file system encoding is ‘mbcs’ (which is the default encoding).</p>
+<dd><p>Decode filename (an os.PathLike, bytes, or str) from the filesystem
+encoding with ‘surrogateescape’ error handler, return str unchanged. On
+Windows, use ‘strict’ error handler if the file system encoding is
+‘mbcs’ (which is the default encoding).</p>
 </dd></dl>
 
 <dl class="function">
@@ -307,6 +309,54 @@ os.environ will be used.</p>
 <dt id="certbot.compat.os.popen">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">popen</code><span class="sig-paren">(</span><em>cmd</em>, <em>mode='r'</em>, <em>buffering=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#popen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.popen" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="class">
+<dt id="certbot.compat.os.DirEntry">
+<em class="property">class </em><code class="descclassname">certbot.compat.os.</code><code class="descname">DirEntry</code><a class="headerlink" href="#certbot.compat.os.DirEntry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="certbot.compat.os.DirEntry.inode">
+<code class="descname">inode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.DirEntry.inode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return inode of the entry; cached per entry.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.compat.os.DirEntry.is_dir">
+<code class="descname">is_dir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.DirEntry.is_dir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the entry is a directory; cached per entry.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.compat.os.DirEntry.is_file">
+<code class="descname">is_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.DirEntry.is_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the entry is a file; cached per entry.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.compat.os.DirEntry.is_symlink">
+<code class="descname">is_symlink</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.DirEntry.is_symlink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the entry is a symbolic link; cached per entry.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.DirEntry.name">
+<code class="descname">name</code><a class="headerlink" href="#certbot.compat.os.DirEntry.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>the entry’s base filename, relative to scandir() “path” argument</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="certbot.compat.os.DirEntry.path">
+<code class="descname">path</code><a class="headerlink" href="#certbot.compat.os.DirEntry.path" title="Permalink to this definition">¶</a></dt>
+<dd><p>the entry’s full path name; equivalent to os.path.join(scandir_path, entry.name)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="certbot.compat.os.DirEntry.stat">
+<code class="descname">stat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.DirEntry.stat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return stat_result object for the entry; cached per entry.</p>
+</dd></dl>
+
+</dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.os.WCOREDUMP">
@@ -401,9 +451,34 @@ On some platforms, path may also be specified as an open file descriptor.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="certbot.compat.os.copy_file_range">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">copy_file_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.copy_file_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy count bytes from one file descriptor to another.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>src</dt>
+<dd>Source file descriptor.</dd>
+<dt>dst</dt>
+<dd>Destination file descriptor.</dd>
+<dt>count</dt>
+<dd>Number of bytes to copy.</dd>
+<dt>offset_src</dt>
+<dd>Starting offset in src.</dd>
+<dt>offset_dst</dt>
+<dd>Starting offset in dst.</dd>
+</dl>
+</div></blockquote>
+<p>If offset_src is None, then src is read from the current position;
+respectively for offset_dst.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="certbot.compat.os.cpu_count">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">cpu_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.cpu_count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the number of CPUs in the system; return None if indeterminable.</p>
+<p>This number is not equivalent to the number of CPUs the current process can
+use.  The number of usable CPUs can be obtained with
+<code class="docutils literal notranslate"><span class="pre">len(os.sched_getaffinity(0))</span></code></p>
 </dd></dl>
 
 <dl class="function">
@@ -517,6 +592,15 @@ To both, return fd of newly opened pseudo-terminal.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="certbot.compat.os.fspath">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">fspath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.fspath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the file system path representation of the object.</p>
+<p>If the object is str or bytes, then allow it to pass through as-is. If the
+object defines __fspath__(), then return the result of that method. All other
+types raise a TypeError.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="certbot.compat.os.fstatvfs">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">fstatvfs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.fstatvfs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform an fstatvfs system call on the given fd.</p>
@@ -537,9 +621,9 @@ To both, return fd of newly opened pseudo-terminal.</p>
 
 <dl class="function">
 <dt id="certbot.compat.os.get_blocking">
-<code class="descclassname">certbot.compat.os.</code><code class="descname">get_blocking</code><span class="sig-paren">(</span><em>fd</em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#certbot.compat.os.get_blocking" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the blocking mode of the file descriptor:
-False if the O_NONBLOCK flag is set, True if the flag is cleared.</p>
+<code class="descclassname">certbot.compat.os.</code><code class="descname">get_blocking</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.get_blocking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the blocking mode of the file descriptor.</p>
+<p>Return False if the O_NONBLOCK flag is set, True if the flag is cleared.</p>
 </dd></dl>
 
 <dl class="function">
@@ -558,7 +642,7 @@ which file descriptor should be queried.</p>
 is thrown.</p>
 <p>This function will only be defined if an implementation is
 available for this system.</p>
-<p>shutil.get_terminal_size is the high-level function which should 
+<p>shutil.get_terminal_size is the high-level function which should
 normally be used, os.get_terminal_size is the low-level implementation.</p>
 </dd></dl>
 
@@ -655,6 +739,12 @@ return its id; others systems will return the id of the ‘init’ process (1).<
 </dd></dl>
 
 <dl class="function">
+<dt id="certbot.compat.os.getrandom">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">getrandom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.getrandom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain a series of random bytes.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="certbot.compat.os.getresgid">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">getresgid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.getresgid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a tuple of the current process’s real, effective, and saved group ids.</p>
@@ -682,7 +772,7 @@ return its id; others systems will return the id of the ‘init’ process (1).<
 <dt id="certbot.compat.os.getxattr">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">getxattr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.getxattr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the value of extended attribute attribute on path.</p>
-<p>path may be either a string or an open file descriptor.
+<p>path may be either a string, a path-like object, or an open file descriptor.
 If follow_symlinks is False, and the last element of the path is a symbolic</p>
 <blockquote>
 <div>link, getxattr will examine the symbolic link itself instead of the file
@@ -747,7 +837,7 @@ NotImplementedError.</dd>
 <code class="descclassname">certbot.compat.os.</code><code class="descname">listdir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.listdir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list containing the names of the files in the directory.</p>
 <dl class="docutils">
-<dt>path can be specified as either str or bytes.  If path is bytes,</dt>
+<dt>path can be specified as either str, bytes, or a path-like object.  If path is bytes,</dt>
 <dd>the filenames returned will also be bytes; in all other circumstances
 the filenames returned will be str.</dd>
 </dl>
@@ -764,7 +854,7 @@ entries ‘.’ and ‘..’ even if they are present in the directory.</p>
 <dt id="certbot.compat.os.listxattr">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">listxattr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.listxattr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of extended attributes on path.</p>
-<p>path may be either None, a string, or an open file descriptor.
+<p>path may be either None, a string, a path-like object, or an open file descriptor.
 if path is None, listxattr will examine the current directory.
 If follow_symlinks is False, and the last element of the path is a symbolic</p>
 <blockquote>
@@ -813,6 +903,11 @@ Equivalent to stat(path, follow_symlinks=False).</p>
 <code class="descclassname">certbot.compat.os.</code><code class="descname">makedev</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.makedev" title="Permalink to this definition">¶</a></dt>
 <dd><p>Composes a raw device number from the major and minor device numbers.</p>
 </dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.memfd_create">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">memfd_create</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.memfd_create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.os.minor">
@@ -918,11 +1013,85 @@ starting at offset bytes from the beginning and continuing for length bytes.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="certbot.compat.os.posix_spawn">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">posix_spawn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.posix_spawn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the program specified by path in a new process.</p>
+<dl class="docutils">
+<dt>path</dt>
+<dd>Path of executable file.</dd>
+<dt>argv</dt>
+<dd>Tuple or list of strings.</dd>
+<dt>env</dt>
+<dd>Dictionary of strings mapping to strings.</dd>
+<dt>file_actions</dt>
+<dd>A sequence of file action tuples.</dd>
+<dt>setpgroup</dt>
+<dd>The pgroup to use with the POSIX_SPAWN_SETPGROUP flag.</dd>
+<dt>resetids</dt>
+<dd>If the value is <code class="xref py py-obj docutils literal notranslate"><span class="pre">true</span></code> the POSIX_SPAWN_RESETIDS will be activated.</dd>
+<dt>setsid</dt>
+<dd>If the value is <code class="xref py py-obj docutils literal notranslate"><span class="pre">true</span></code> the POSIX_SPAWN_SETSID or POSIX_SPAWN_SETSID_NP will be activated.</dd>
+<dt>setsigmask</dt>
+<dd>The sigmask to use with the POSIX_SPAWN_SETSIGMASK flag.</dd>
+<dt>setsigdef</dt>
+<dd>The sigmask to use with the POSIX_SPAWN_SETSIGDEF flag.</dd>
+<dt>scheduler</dt>
+<dd>A tuple with the scheduler policy (optional) and parameters.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.posix_spawnp">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">posix_spawnp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.posix_spawnp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the program specified by path in a new process.</p>
+<dl class="docutils">
+<dt>path</dt>
+<dd>Path of executable file.</dd>
+<dt>argv</dt>
+<dd>Tuple or list of strings.</dd>
+<dt>env</dt>
+<dd>Dictionary of strings mapping to strings.</dd>
+<dt>file_actions</dt>
+<dd>A sequence of file action tuples.</dd>
+<dt>setpgroup</dt>
+<dd>The pgroup to use with the POSIX_SPAWN_SETPGROUP flag.</dd>
+<dt>resetids</dt>
+<dd>If the value is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> the POSIX_SPAWN_RESETIDS will be activated.</dd>
+<dt>setsid</dt>
+<dd>If the value is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> the POSIX_SPAWN_SETSID or POSIX_SPAWN_SETSID_NP will be activated.</dd>
+<dt>setsigmask</dt>
+<dd>The sigmask to use with the POSIX_SPAWN_SETSIGMASK flag.</dd>
+<dt>setsigdef</dt>
+<dd>The sigmask to use with the POSIX_SPAWN_SETSIGDEF flag.</dd>
+<dt>scheduler</dt>
+<dd>A tuple with the scheduler policy (optional) and parameters.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="certbot.compat.os.pread">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">pread</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.pread" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a number of bytes from a file descriptor starting at a particular offset.</p>
 <p>Read length bytes from file descriptor fd, starting at offset bytes from
 the beginning of the file.  The file offset remains unchanged.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.preadv">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">preadv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.preadv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads from a file descriptor into a number of mutable bytes-like objects.</p>
+<p>Combines the functionality of readv() and pread(). As readv(), it will
+transfer data into each buffer until it is full and then move on to the next
+buffer in the sequence to hold the rest of the data. Its fourth argument,
+specifies the file offset at which the input operation is to be performed. It
+will return the total number of bytes read (which can be less than the total
+capacity of all the objects).</p>
+<p>The flags argument contains a bitwise OR of zero or more of the following flags:</p>
+<ul class="simple">
+<li>RWF_HIPRI</li>
+<li>RWF_NOWAIT</li>
+</ul>
+<p>Using non-zero flags requires Linux 4.6 or newer.</p>
 </dd></dl>
 
 <dl class="function">
@@ -941,6 +1110,24 @@ current file offset.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="certbot.compat.os.pwritev">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">pwritev</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.pwritev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes the contents of bytes-like objects to a file descriptor at a given offset.</p>
+<p>Combines the functionality of writev() and pwrite(). All buffers must be a sequence
+of bytes-like objects. Buffers are processed in array order. Entire contents of first
+buffer is written before proceeding to second, and so on. The operating system may
+set a limit (sysconf() value SC_IOV_MAX) on the number of buffers that can be used.
+This function writes the contents of each object to the file descriptor and returns
+the total number of bytes written.</p>
+<p>The flags argument contains a bitwise OR of zero or more of the following flags:</p>
+<ul class="simple">
+<li>RWF_DSYNC</li>
+<li>RWF_SYNC</li>
+</ul>
+<p>Using non-zero flags requires Linux 4.7 or newer.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="certbot.compat.os.read">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">read</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read from a file descriptor.  Returns a bytes object.</p>
@@ -948,14 +1135,12 @@ current file offset.</p>
 
 <dl class="function">
 <dt id="certbot.compat.os.readlink">
-<code class="descclassname">certbot.compat.os.</code><code class="descname">readlink</code><span class="sig-paren">(</span><em>path</em>, <em>*</em>, <em>dir_fd=None</em><span class="sig-paren">)</span> &#x2192; path<a class="headerlink" href="#certbot.compat.os.readlink" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">certbot.compat.os.</code><code class="descname">readlink</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.readlink" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a string representing the path to which the symbolic link points.</p>
-<dl class="docutils">
-<dt>If dir_fd is not None, it should be a file descriptor open to a directory,</dt>
-<dd>and path should be relative; path will then be relative to that directory.</dd>
-<dt>dir_fd may not be implemented on your platform.</dt>
-<dd>If it is unavailable, using it will raise a NotImplementedError.</dd>
-</dl>
+<p>If dir_fd is not None, it should be a file descriptor open to a directory,
+and path should be relative; path will then be relative to that directory.</p>
+<p>dir_fd may not be implemented on your platform.  If it is unavailable,
+using it will raise a NotImplementedError.</p>
 </dd></dl>
 
 <dl class="function">
@@ -968,6 +1153,24 @@ and then move on to the next buffer in the sequence to hold
 the rest of the data.</p>
 <p>readv returns the total number of bytes read,
 which may be less than the total capacity of all the buffers.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="certbot.compat.os.register_at_fork">
+<code class="descclassname">certbot.compat.os.</code><code class="descname">register_at_fork</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.register_at_fork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register callables to be called when forking a new process.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>before</dt>
+<dd>A callable to be called in the parent before the fork() syscall.</dd>
+<dt>after_in_child</dt>
+<dd>A callable to be called in the child after fork().</dd>
+<dt>after_in_parent</dt>
+<dd>A callable to be called in the parent after fork().</dd>
+</dl>
+</div></blockquote>
+<p>‘before’ callbacks are called in reverse order.
+‘after_in_child’ and ‘after_in_parent’ callbacks are called in order.</p>
 </dd></dl>
 
 <dl class="function">
@@ -986,7 +1189,7 @@ which may be less than the total capacity of all the buffers.</p>
 <dt id="certbot.compat.os.removexattr">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">removexattr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.removexattr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove extended attribute attribute on path.</p>
-<p>path may be either a string or an open file descriptor.
+<p>path may be either a string, a path-like object, or an open file descriptor.
 If follow_symlinks is False, and the last element of the path is a symbolic</p>
 <blockquote>
 <div>link, removexattr will modify the symbolic link itself instead of the file
@@ -1007,8 +1210,13 @@ the link points to.</div></blockquote>
 
 <dl class="function">
 <dt id="certbot.compat.os.scandir">
-<code class="descclassname">certbot.compat.os.</code><code class="descname">scandir</code><span class="sig-paren">(</span><em>path='.'</em><span class="sig-paren">)</span> &#x2192; iterator of DirEntry objects for given path<a class="headerlink" href="#certbot.compat.os.scandir" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descclassname">certbot.compat.os.</code><code class="descname">scandir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.scandir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an iterator of DirEntry objects for given path.</p>
+<p>path can be specified as either str, bytes, or a path-like object.  If path
+is bytes, the names of yielded DirEntry objects will also be bytes; in
+all other circumstances they will be str.</p>
+<p>If path is None, uses the path=’.’.</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="certbot.compat.os.sched_get_priority_max">
@@ -1025,7 +1233,7 @@ the link points to.</div></blockquote>
 <dl class="function">
 <dt id="certbot.compat.os.sched_getaffinity">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">sched_getaffinity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.sched_getaffinity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the affinity of the process identified by pid.</p>
+<dd><p>Return the affinity of the process identified by pid (or the current process if zero).</p>
 <p>The affinity is returned as a set of CPU identifiers.</p>
 </dd></dl>
 
@@ -1124,9 +1332,9 @@ param is an instance of sched_param.</p>
 
 <dl class="function">
 <dt id="certbot.compat.os.set_blocking">
-<code class="descclassname">certbot.compat.os.</code><code class="descname">set_blocking</code><span class="sig-paren">(</span><em>fd</em>, <em>blocking</em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.set_blocking" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the blocking mode of the specified file descriptor.
-Set the O_NONBLOCK flag if blocking is False,
+<code class="descclassname">certbot.compat.os.</code><code class="descname">set_blocking</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.set_blocking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the blocking mode of the specified file descriptor.</p>
+<p>Set the O_NONBLOCK flag if blocking is False,
 clear the O_NONBLOCK flag otherwise.</p>
 </dd></dl>
 
@@ -1218,20 +1426,11 @@ clear the O_NONBLOCK flag otherwise.</p>
 <dt id="certbot.compat.os.setxattr">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">setxattr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.compat.os.setxattr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set extended attribute attribute on path to value.</p>
-<p>path may be either a string or an open file descriptor.
+<p>path may be either a string, a path-like object,  or an open file descriptor.
 If follow_symlinks is False, and the last element of the path is a symbolic</p>
 <blockquote>
 <div>link, setxattr will modify the symbolic link itself instead of the file
 the link points to.</div></blockquote>
-</dd></dl>
-
-<dl class="function">
-<dt id="certbot.compat.os.stat_float_times">
-<code class="descclassname">certbot.compat.os.</code><code class="descname">stat_float_times</code><span class="sig-paren">(</span><span class="optional">[</span><em>newval</em><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; oldval<a class="headerlink" href="#certbot.compat.os.stat_float_times" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determine whether os.[lf]stat represents time stamps as float objects.</p>
-<p>If value is True, future calls to stat() return floats; if it is False,
-future calls return ints.
-If value is omitted, return the current setting.</p>
 </dd></dl>
 
 <dl class="class">
@@ -1427,13 +1626,18 @@ On some platforms, path may also be specified as an open file descriptor.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="certbot.compat.os.statvfs_result.f_fsid">
+<code class="descname">f_fsid</code><a class="headerlink" href="#certbot.compat.os.statvfs_result.f_fsid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="certbot.compat.os.statvfs_result.f_namemax">
 <code class="descname">f_namemax</code><a class="headerlink" href="#certbot.compat.os.statvfs_result.f_namemax" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="certbot.compat.os.statvfs_result.n_fields">
-<code class="descname">n_fields</code><em class="property"> = 10</em><a class="headerlink" href="#certbot.compat.os.statvfs_result.n_fields" title="Permalink to this definition">¶</a></dt>
+<code class="descname">n_fields</code><em class="property"> = 11</em><a class="headerlink" href="#certbot.compat.os.statvfs_result.n_fields" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1921,10 +2125,11 @@ subdirectories (directories are generated bottom up).</p>
 (e.g., via del or slice assignment), and walk will only recurse into the
 subdirectories whose names remain in dirnames; this can be used to prune the
 search, or to impose a specific order of visiting.  Modifying dirnames when
-topdown is false is ineffective, since the directories in dirnames have
-already been generated by the time dirnames itself is generated. No matter
-the value of topdown, the list of subdirectories is retrieved before the
-tuples for the directory and its subdirectories are generated.</p>
+topdown is false has no effect on the behavior of os.walk(), since the
+directories in dirnames have already been generated by the time dirnames
+itself is generated. No matter the value of topdown, the list of
+subdirectories is retrieved before the tuples for the directory and its
+subdirectories are generated.</p>
 <p>By default errors from the os.scandir() call are ignored.  If
 optional arg ‘onerror’ is specified, it should be a function; it
 will be called with one argument, an OSError instance.  It can
@@ -1944,7 +2149,7 @@ from os.path import join, getsize
 for root, dirs, files in os.walk(‘python/Lib/email’):</p>
 <blockquote>
 <div><p>print(root, “consumes”, end=””)
-print(sum([getsize(join(root, name)) for name in files]), end=””)
+print(sum(getsize(join(root, name)) for name in files), end=””)
 print(“bytes in”, len(files), “non-directory files”)
 if ‘CVS’ in dirs:</p>
 <blockquote>
@@ -1977,7 +2182,7 @@ for a longer period.</p>
 for root, dirs, files, rootfd in os.fwalk(‘python/Lib/email’):</p>
 <blockquote>
 <div><p>print(root, “consumes”, end=””)
-print(sum([os.stat(name, dir_fd=rootfd).st_size for name in files]),</p>
+print(sum(os.stat(name, dir_fd=rootfd).st_size for name in files),</p>
 <blockquote>
 <div>end=””)</div></blockquote>
 <p>print(“bytes in”, len(files), “non-directory files”)
@@ -2028,7 +2233,7 @@ args may be a list or tuple of strings.</p>
 <dt id="certbot.compat.os.execvpe">
 <code class="descclassname">certbot.compat.os.</code><code class="descname">execvpe</code><span class="sig-paren">(</span><em>file</em>, <em>args</em>, <em>env</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/os.html#execvpe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.compat.os.execvpe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute the executable file (which is searched for along $PATH)
-with argument list args and environment env , replacing the
+with argument list args and environment env, replacing the
 current process.
 args may be a list or tuple of strings.</p>
 </dd></dl>
