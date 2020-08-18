@@ -634,6 +634,7 @@ You should never share these credentials publicly or with an unauthorized person
         </p>
       </li>
 
+
       <li> Choose how you'd like to run Certbot
         <ul>
         <li>
@@ -795,6 +796,18 @@ You should never share these credentials publicly or with an unauthorized person
           <p class="centered">
           <a class="link-button" href="/docs/using.html#dns-plugins">find your DNS plugin's Credential steps</a>
           </p>
+      </li>
+
+      <li>
+        Connect the DNS plugin snap to the Certbot snap
+        <p>
+          Run the following command, replacing &lt;PLUGIN&gt; with the name of your DNS provider.
+        </p>
+        <pre>sudo snap connect certbot:plugin --edge certbot-dns-&lt;PLUGIN&gt;</pre>
+        <p>
+          For example, if your DNS provider is Cloudflare, you'd run the following command:
+        </p>
+        <pre>sudo snap connect certbot:plugin --edge certbot-dns-cloudflare</pre>
       </li>
       <li> Choose how you'd like to run Certbot
         <ul>
