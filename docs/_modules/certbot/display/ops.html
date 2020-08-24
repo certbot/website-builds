@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.display.ops &mdash; Certbot 1.7.0.dev0 documentation</title>
+  <title>certbot.display.ops &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.display.ops &mdash; Certbot 1.7.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.display.ops &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.7.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.7
+                1.4
               </div>
             
           
@@ -215,7 +215,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">invalid_prefix</span> <span class="o">=</span> <span class="s2">&quot;There seem to be problems with that address. &quot;</span>
-    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Enter email address (used for urgent renewal and security notices)</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Enter email address (used for urgent renewal and security notices)&quot;</span>
     <span class="n">unsafe_suggestion</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">If you really want to skip this, you can run &quot;</span>
                          <span class="s2">&quot;the client with --register-unsafely-without-email &quot;</span>
                          <span class="s2">&quot;but make sure you then backup your account key from &quot;</span>
@@ -249,7 +249,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">if</span> <span class="n">util</span><span class="o">.</span><span class="n">safe_email</span><span class="p">(</span><span class="n">email</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">email</span>
         <span class="k">if</span> <span class="n">suggest_unsafe</span><span class="p">:</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="n">unsafe_suggestion</span> <span class="o">+</span> <span class="n">msg</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="n">unsafe_suggestion</span>
             <span class="n">suggest_unsafe</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># add this message at most once</span>
 
         <span class="n">invalid</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">email</span><span class="p">)</span></div>
@@ -426,8 +426,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
-        <span class="s2">&quot;Congratulations! You have successfully enabled </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">_gen_https_names</span><span class="p">(</span><span class="n">domains</span><span class="p">)),</span>
+        <span class="s2">&quot;Congratulations! You have successfully enabled </span><span class="si">{0}{1}{1}</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;You should test your configuration at:</span><span class="si">{1}{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">_gen_https_names</span><span class="p">(</span><span class="n">domains</span><span class="p">),</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_gen_ssl_lab_urls</span><span class="p">(</span><span class="n">domains</span><span class="p">))),</span>
         <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
@@ -440,11 +443,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
         <span class="s2">&quot;Your existing certificate has been successfully renewed, and the &quot;</span>
         <span class="s2">&quot;new certificate has been installed.</span><span class="si">{1}{1}</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;The new certificate covers the following domains: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="s2">&quot;The new certificate covers the following domains: </span><span class="si">{0}{1}{1}</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;You should test your configuration at:</span><span class="si">{1}{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">_gen_https_names</span><span class="p">(</span><span class="n">domains</span><span class="p">),</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">),</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_gen_ssl_lab_urls</span><span class="p">(</span><span class="n">domains</span><span class="p">))),</span>
         <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="success_revocation"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.success_revocation">[docs]</a><span class="k">def</span> <span class="nf">success_revocation</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Display a box confirming a certificate has been revoked.</span>
@@ -602,7 +606,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.7.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -629,7 +633,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.ops%E2%80%94%20Certbot%201.7.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.ops%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

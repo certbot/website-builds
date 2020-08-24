@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Developer Guide &mdash; Certbot 1.7.0.dev0 documentation</title>
+  <title>Developer Guide &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Developer Guide &mdash; Certbot 1.7.0.dev0 documentation">
+<meta name="twitter:title" content="Developer Guide &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 1.7.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Packaging Guide" href="packaging.html"/>
         <link rel="prev" title="User Guide" href="using.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.7
+                1.4
               </div>
             
           
@@ -367,7 +367,7 @@ production Apache server.</p>
 </div>
 <div class="section" id="running-automated-integration-tests">
 <span id="automated-integration"></span><h4><a class="toc-backref" href="#id12">Running automated integration tests</a><a class="headerlink" href="#running-automated-integration-tests" title="Permalink to this headline">¶</a></h4>
-<p>Generally it is sufficient to open a pull request and let Github and Azure Pipelines run
+<p>Generally it is sufficient to open a pull request and let Github and Travis run
 integration tests for you. However, you may want to run them locally before submitting
 your pull request. You need Docker and docker-compose installed and working.</p>
 <p>The tox environment <code class="xref py py-obj docutils literal notranslate"><span class="pre">integration</span></code> will setup <a class="reference external" href="https://github.com/letsencrypt/pebble">Pebble</a>, the Let’s Encrypt ACME CA server
@@ -388,7 +388,7 @@ This is useful to verify that the modifications done to the code makes Certbot b
 <li>Docker installed, and a user with access to the Docker client,</li>
 <li>an available <a class="reference internal" href="#local-copy">local copy</a> of Certbot.</li>
 </ul>
-<p>The virtual environment set up with <code class="xref py py-obj docutils literal notranslate"><span class="pre">python</span> <span class="pre">tools/venv3.py</span></code> contains two commands
+<p>The virtual environment set up with <code class="xref py py-obj docutils literal notranslate"><span class="pre">python</span> <span class="pre">tools/venv.py</span></code> contains two commands
 that can be used once the virtual environment is activated:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>run_acme_server
 </pre></div>
@@ -419,8 +419,12 @@ certbot_test certonly --standalone -d test.example.com
 </div>
 <div class="section" id="running-tests-in-ci">
 <h4><a class="toc-backref" href="#id14">Running tests in CI</a><a class="headerlink" href="#running-tests-in-ci" title="Permalink to this headline">¶</a></h4>
-<p>Certbot uses Azure Pipelines to run continuous integration tests. If you are using our
-Azure setup, a branch whose name starts with <code class="xref py py-obj docutils literal notranslate"><span class="pre">test-</span></code> will run all tests on that branch.</p>
+<p>Certbot uses both Azure Pipelines and Travis to run continuous integration
+tests. If you are using our Azure and Travis setup, a branch whose name starts
+with <code class="xref py py-obj docutils literal notranslate"><span class="pre">test-</span></code> will run all Azure and Travis tests on that branch. If the branch
+name starts with <code class="xref py py-obj docutils literal notranslate"><span class="pre">azure-test-</span></code>, it will run all of our Azure tests and none of
+our Travis tests. If the branch stats with <code class="xref py py-obj docutils literal notranslate"><span class="pre">travis-test-</span></code>, only our Travis
+tests will be run.</p>
 </div>
 </div>
 </div>
@@ -534,10 +538,7 @@ only work for users who have Certbot installed from OS packages or via
 pip. Users who run <code class="xref py py-obj docutils literal notranslate"><span class="pre">certbot-auto</span></code> are currently unable to use third-party
 plugins. It’s technically possible to install third-party plugins into
 the virtualenv used by <code class="xref py py-obj docutils literal notranslate"><span class="pre">certbot-auto</span></code>, but they will be wiped away when
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">certbot-auto</span></code> upgrades. If you’d like your plugin to be used alongside
-the Certbot snap, you will also have to publish your plugin as a snap.
-Certbot’s DNS plugins and the README file in <code class="docutils literal notranslate"><span class="pre">tools/snap/</span></code> provide a
-starting reference for how to do this.</p>
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">certbot-auto</span></code> upgrades.</p>
 </div>
 </div>
 </div>
@@ -621,7 +622,7 @@ missing versions of Python needed for running the tests. Fix any errors.</li>
 containing your pull request to squash or amend commits. We use <a class="reference external" href="https://github.com/blog/2141-squash-your-commits">squash
 merges</a> on PRs and
 rewriting commits makes changes harder to track between reviews.</li>
-<li>Did your tests pass on Azure Pipelines? If they didn’t, fix any errors.</li>
+<li>Did your tests pass on Travis? If they didn’t, fix any errors.</li>
 </ol>
 </div>
 <div class="section" id="asking-for-help">
@@ -811,7 +812,7 @@ above), you will need a compatible shell, e.g. <code class="docutils literal not
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.7.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -838,7 +839,7 @@ above), you will need a compatible shell, e.g. <code class="docutils literal not
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Developer%20Guide%E2%80%94%20Certbot%201.7.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Developer%20Guide%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

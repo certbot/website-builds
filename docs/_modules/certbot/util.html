@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.util &mdash; Certbot 1.7.0.dev0 documentation</title>
+  <title>certbot.util &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.util &mdash; Certbot 1.7.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.util &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 1.7.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.7
+                1.4
               </div>
             
           
@@ -246,31 +246,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="n">_LOCKS</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span> <span class="c1"># type: OrderedDict[str, lock.LockFile]</span>
 
 
-<div class="viewcode-block" id="env_no_snap_for_external_calls"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.env_no_snap_for_external_calls">[docs]</a><span class="k">def</span> <span class="nf">env_no_snap_for_external_calls</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    When Certbot is run inside a Snap, certain environment variables</span>
-<span class="sd">    are modified. But Certbot sometimes calls out to external programs,</span>
-<span class="sd">    since it uses classic confinement. When we do that, we must modify</span>
-<span class="sd">    the env to remove our modifications so it will use the system&#39;s</span>
-<span class="sd">    libraries, since they may be incompatible with the versions of</span>
-<span class="sd">    libraries included in the Snap. For example, apachectl, Nginx, and</span>
-<span class="sd">    anything run from inside a hook should call this function and pass</span>
-<span class="sd">    the results into the ``env`` argument of ``subprocess.Popen``.</span>
-
-<span class="sd">    :returns: A modified copy of os.environ ready to pass to Popen</span>
-<span class="sd">    :rtype: dict</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="c1"># Avoid accidentally modifying env</span>
-    <span class="k">if</span> <span class="s1">&#39;SNAP&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">env</span> <span class="ow">or</span> <span class="s1">&#39;CERTBOT_SNAPPED&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">env</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">env</span>
-    <span class="k">for</span> <span class="n">path_name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;PATH&#39;</span><span class="p">,</span> <span class="s1">&#39;LD_LIBRARY_PATH&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">path_name</span> <span class="ow">in</span> <span class="n">env</span><span class="p">:</span>
-            <span class="n">env</span><span class="p">[</span><span class="n">path_name</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">env</span><span class="p">[</span><span class="n">path_name</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">env</span><span class="p">[</span><span class="s1">&#39;SNAP&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">x</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">env</span></div>
-
-
 <div class="viewcode-block" id="run_script"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.run_script">[docs]</a><span class="k">def</span> <span class="nf">run_script</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Run the script with the given params.</span>
 
@@ -282,8 +257,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">params</span><span class="p">,</span>
                                 <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
                                 <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-                                <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                <span class="n">env</span><span class="o">=</span><span class="n">env_no_snap_for_external_calls</span><span class="p">())</span>
+                                <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Unable to run the command: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
@@ -588,14 +562,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="p">[</span><span class="s2">&quot;/usr/bin/sw_vers&quot;</span><span class="p">,</span> <span class="s2">&quot;-productVersion&quot;</span><span class="p">],</span>
                 <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
                 <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">env</span><span class="o">=</span><span class="n">env_no_snap_for_external_calls</span><span class="p">(),</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
             <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
                 <span class="p">[</span><span class="s2">&quot;sw_vers&quot;</span><span class="p">,</span> <span class="s2">&quot;-productVersion&quot;</span><span class="p">],</span>
                 <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
                 <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">env</span><span class="o">=</span><span class="n">env_no_snap_for_external_calls</span><span class="p">(),</span>
             <span class="p">)</span>
         <span class="n">os_ver</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">os_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;freebsd&#39;</span><span class="p">):</span>
@@ -865,7 +837,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.7.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -892,7 +864,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.util%E2%80%94%20Certbot%201.7.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.util%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

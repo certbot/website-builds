@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Certbot - Devuanbeowulf Haproxy</title>
+    <title>Certbot - Debianjessie Haproxy</title>
     <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <link rel="stylesheet" href="/css/main.css">
@@ -14,7 +14,7 @@
     <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@EFF">
-    <meta name="twitter:title" content="Certbot - Devuanbeowulf Haproxy">
+    <meta name="twitter:title" content="Certbot - Debianjessie Haproxy">
     <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
@@ -106,6 +106,8 @@
       
         <option value="snap" data-distro="snap" data-version="0">snapd</option>
       
+        <option value="debianjessie" data-distro="debian" data-version="8">Debian 8 (jessie)</option>
+      
         <option value="debianstretch" data-distro="debian" data-version="9">Debian 9 (stretch)</option>
       
         <option value="debianbuster" data-distro="debian" data-version="10">Debian 10 (buster)</option>
@@ -124,7 +126,7 @@
       
         <option value="arch" data-distro="arch" data-version="0">Arch Linux</option>
       
-        <option value="fedora" data-distro="fedora" data-version="0">Fedora</option>
+        <option value="fedora" data-distro="fedora" data-version="26">Fedora 26+</option>
       
         <option value="centos6" data-distro="centos" data-version="6">CentOS 6</option>
       
@@ -142,9 +144,9 @@
       
         <option value="devuanascii" data-distro="devuan" data-version="2">Devuan ASCII 2.0</option>
       
-        <option value="devuanbeowulf" data-distro="devuan" data-version="3">Devuan Beowulf 3.0</option>
+        <option value="devuanjessie" data-distro="devuan" data-version="1">Devuan Jessie 1.0</option>
       
-        <option value="devuanother" data-distro="devuan" data-version="4">Devuan testing/unstable</option>
+        <option value="devuanother" data-distro="devuan" data-version="3">Devuan testing/unstable</option>
       
         <option value="tumbleweed" data-distro="opensuse" data-version="0">openSUSE Tumbleweed</option>
       
@@ -171,7 +173,7 @@
     <div class="page-content">
       <div class="wrapper">
         <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/devuanbeowulf-haproxy.html">Haproxy on Devuan Beowulf 3.0</a></h2>
+          <h2 id="instructions-header"><a href="/lets-encrypt/debianjessie-haproxy.html">Haproxy on Debian 8 (jessie)</a></h2>
 <div class="use-certbot">
   <h1>To use Certbot, you'll need...</h1>
   <div class="three-col reqs">
@@ -590,20 +592,34 @@ You should never share these credentials publicly or with an unauthorized person
   <div class="instruction-pane automated">
     <ol>
       
-
       <li>
           SSH into the server
           <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
       </li>
-
       <li>
-        Install Certbot
-        <p>
-          Run this command on the command line on the machine to install Certbot.
-          <pre>sudo apt-get install certbot</pre>
-        </p>
+          Remove packaged Certbot installation
+          <p>
+          We previously recommended that Debian 8 (jessie) users install Certbot from
+          the packaged version. Because of important updates in the Certbot code,
+          we are now recommending that Debian 8 users switch to the
+          <tt>certbot-auto</tt> method, described below.<br />
+          Run this command on the command line on the machine to remove previous
+          installations of Certbot. If Certbot has never been installed, the command
+          will not do anything.
+          <pre>sudo apt-get remove certbot</pre>
+          </p>
       </li>
 
+      <li>
+          Install Certbot
+          <p>
+          Run these commands on the command line on the machine to install Certbot.
+          <pre class="no-before"><ol><li>wget https://dl.eff.org/certbot-auto</li>
+              <li>sudo mv certbot-auto /usr/local/bin/certbot-auto</li>
+              <li>sudo chown root /usr/local/bin/certbot-auto</li>
+              <li>sudo chmod 0755 /usr/local/bin/certbot-auto</li></ol></pre>
+          </p>
+      </li>
       <li>
           Choose how you'd like to run Certbot
           <p>
@@ -614,7 +630,7 @@ You should never share these credentials publicly or with an unauthorized person
               Stop your webserver, then run this command to get a certificate.
               Certbot will temporarily spin up a webserver on your machine.
               <pre>
-                  sudo certbot certonly --standalone
+                  sudo /usr/local/bin/certbot-auto certonly --standalone
               </pre>
           </p>
           <h3>No, I need to keep my web server running.</h3>
@@ -622,7 +638,7 @@ You should never share these credentials publicly or with an unauthorized person
               If you have a webserver that's already using port 80 and don't want to stop it
               while Certbot runs, run this command and follow the instructions in the terminal.
               <pre>
-                  sudo certbot certonly --webroot
+                  sudo /usr/local/bin/certbot-auto certonly --webroot
               </pre>
           </p>
           <aside class="note">
@@ -639,24 +655,13 @@ You should never share these credentials publicly or with an unauthorized person
           </p>
       </li>
 
+
       <li>
-        Test automatic renewal
+        Set up automatic renewal
         <p>
-        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
-        automatically before they expire. You will not need to run Certbot again, unless you change your
-        configuration. You can test automatic renewal for your certificates by running this command:
-        <pre>sudo certbot renew --dry-run</pre>
+        We recommend running the following line, which will add a cron job to the default crontab.
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
-
-        <p>
-        The command to renew certbot is installed in one of the following locations:
-        <ul>
-          <li><tt>/etc/crontab/</tt></li>
-          <li><tt>/etc/cron.*/*</tt></li>
-          <li><tt>systemctl list-timers</tt></li>
-        </ul>
-        </p>
-
 
       </li>
 
@@ -696,62 +701,44 @@ You should never share these credentials publicly or with an unauthorized person
 
   <div class="instruction-pane advanced">
     <ol>
-      
-      <li>
-          Check if your DNS provider is supported
+      <aside class="note docker-note">
+        <div class="note-header">
+          <h3>Follow Docker instructions</h3>
+        </div>
           <p>
-          See if your DNS provider is supported by Certbot by checking
-          <a href="/docs/using.html#dns-plugins">this list in our
-            documentation</a>.
+          To get a wildcard certificate on this system, you'll need to run Certbot in Docker. You
+          can do so by following
+          <a href="/docs/install.html#running-with-docker">these
+            steps from our documentation</a>.
           </p>
-          <p class="centered">
-          <a class="link-button" href="/docs/using.html#dns-plugins">check if your DNS provider supports Certbot</a>
-          </p>
-          <h3>Not supported?</h3>
-          <p>
-          If your DNS provider is not supported, pause here: run Certbot with the manual plugin by using
-          <a href="/docs/using.html#manual">these steps from our documentation</a>.
-          </p>
-          <h3>Supported?</h3>
-          <p>
-          If your DNS provider is supported, continue with the remaining instructions below.
-          </p>
-      </li>
+      </aside>
 
       <li>
           SSH into the server
           <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
       </li>
-
       <li>
-        Install Certbot
-        <p>
-          Run this command on the command line on the machine to install Certbot.
-          <pre>sudo apt-get install certbot</pre>
-        </p>
+          Remove packaged Certbot installation
+          <p>
+          We previously recommended that Debian 8 (jessie) users install Certbot from
+          the packaged version. Because of important updates in the Certbot code,
+          we are now recommending that Debian 8 users switch to the
+          <tt>certbot-auto</tt> method, described below.<br />
+          Run this command on the command line on the machine to remove previous
+          installations of Certbot. If Certbot has never been installed, the command
+          will not do anything.
+          <pre>sudo apt-get remove certbot</pre>
+          </p>
       </li>
 
       <li>
-          Install correct DNS plugin
+          Install Certbot
           <p>
-          Run the following command, replacing &lt;PLUGIN&gt; with the name of your DNS provider.
-          </p>
-          <pre>sudo apt-get install python3-certbot-dns-&lt;PLUGIN&gt;</pre>
-          <p>
-          For example, if your DNS provider is Cloudflare, you'd run the following command:
-          </p>
-          <pre>sudo apt-get install python3-certbot-dns-cloudflare</pre>
-      </li>
-      <li>
-          Set up credentials
-          <p>
-          You'll need to set up DNS credentials.<br />
-          Follow the steps in the "Credentials" section for your DNS provider to access or create the
-          appropriate credential configuration file. Find credentials instructions for your DNS provider
-          by clicking the <a href="/docs/using.html#dns-plugins">DNS plugin's name on the Documentation list</a>.
-          </p>
-          <p class="centered">
-          <a class="link-button" href="/docs/using.html#dns-plugins">find your DNS plugin's Credential steps</a>
+          Run these commands on the command line on the machine to install Certbot.
+          <pre class="no-before"><ol><li>wget https://dl.eff.org/certbot-auto</li>
+              <li>sudo mv certbot-auto /usr/local/bin/certbot-auto</li>
+              <li>sudo chown root /usr/local/bin/certbot-auto</li>
+              <li>sudo chmod 0755 /usr/local/bin/certbot-auto</li></ol></pre>
           </p>
       </li>
       <li>
@@ -769,24 +756,13 @@ You should never share these credentials publicly or with an unauthorized person
           </p>
       </li>
 
+
       <li>
-        Test automatic renewal
+        Set up automatic renewal
         <p>
-        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
-        automatically before they expire. You will not need to run Certbot again, unless you change your
-        configuration. You can test automatic renewal for your certificates by running this command:
-        <pre>sudo certbot renew --dry-run</pre>
+        We recommend running the following line, which will add a cron job to the default crontab.
+        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
-
-        <p>
-        The command to renew certbot is installed in one of the following locations:
-        <ul>
-          <li><tt>/etc/crontab/</tt></li>
-          <li><tt>/etc/cron.*/*</tt></li>
-          <li><tt>systemctl list-timers</tt></li>
-        </ul>
-        </p>
-
 
       </li>
 

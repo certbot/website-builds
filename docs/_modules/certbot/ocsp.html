@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.ocsp &mdash; Certbot 1.7.0.dev0 documentation</title>
+  <title>certbot.ocsp &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.ocsp &mdash; Certbot 1.7.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.ocsp &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 1.7.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.7
+                1.4
               </div>
             
           
@@ -236,8 +236,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
             <span class="c1"># New versions of openssl want -header var=val, old ones want -header var val</span>
             <span class="n">test_host_format</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">([</span><span class="s2">&quot;openssl&quot;</span><span class="p">,</span> <span class="s2">&quot;ocsp&quot;</span><span class="p">,</span> <span class="s2">&quot;-header&quot;</span><span class="p">,</span> <span class="s2">&quot;var&quot;</span><span class="p">,</span> <span class="s2">&quot;val&quot;</span><span class="p">],</span>
-                                     <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                     <span class="n">env</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">env_no_snap_for_external_calls</span><span class="p">())</span>
+                                     <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">_out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">test_host_format</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
             <span class="k">if</span> <span class="s2">&quot;Missing =&quot;</span> <span class="ow">in</span> <span class="n">err</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">host_args</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">host</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Host=&quot;</span> <span class="o">+</span> <span class="n">host</span><span class="p">]</span>
@@ -442,11 +441,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="k">def</span> <span class="nf">_check_ocsp_response_signature</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">issuer_cert</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Verify an OCSP response signature against certificate issuer or responder&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">_key_hash</span><span class="p">(</span><span class="n">cert</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">x509</span><span class="o">.</span><span class="n">SubjectKeyIdentifier</span><span class="o">.</span><span class="n">from_public_key</span><span class="p">(</span><span class="n">cert</span><span class="o">.</span><span class="n">public_key</span><span class="p">())</span><span class="o">.</span><span class="n">digest</span>
-
-    <span class="k">if</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">responder_name</span> <span class="o">==</span> <span class="n">issuer_cert</span><span class="o">.</span><span class="n">subject</span> <span class="ow">or</span> \
-       <span class="n">response_ocsp</span><span class="o">.</span><span class="n">responder_key_hash</span> <span class="o">==</span> <span class="n">_key_hash</span><span class="p">(</span><span class="n">issuer_cert</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">responder_name</span> <span class="o">==</span> <span class="n">issuer_cert</span><span class="o">.</span><span class="n">subject</span><span class="p">:</span>
         <span class="c1"># Case where the OCSP responder is also the certificate issuer</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;OCSP response for certificate </span><span class="si">%s</span><span class="s1"> is signed by the certificate</span><span class="se">\&#39;</span><span class="s1">s issuer.&#39;</span><span class="p">,</span>
                      <span class="n">cert_path</span><span class="p">)</span>
@@ -457,8 +452,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                      <span class="n">cert_path</span><span class="p">)</span>
 
         <span class="n">responder_certs</span> <span class="o">=</span> <span class="p">[</span><span class="n">cert</span> <span class="k">for</span> <span class="n">cert</span> <span class="ow">in</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">certificates</span>
-                           <span class="k">if</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">responder_name</span> <span class="o">==</span> <span class="n">cert</span><span class="o">.</span><span class="n">subject</span> <span class="ow">or</span> \
-                              <span class="n">response_ocsp</span><span class="o">.</span><span class="n">responder_key_hash</span> <span class="o">==</span> <span class="n">_key_hash</span><span class="p">(</span><span class="n">cert</span><span class="p">)]</span>
+                           <span class="k">if</span> <span class="n">cert</span><span class="o">.</span><span class="n">subject</span> <span class="o">==</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">responder_name</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">responder_certs</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;no matching responder certificate could be found&#39;</span><span class="p">)</span>
 
@@ -574,7 +568,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.7.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -601,7 +595,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.ocsp%E2%80%94%20Certbot%201.7.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.ocsp%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

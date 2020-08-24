@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.compat.os &mdash; Certbot 1.7.0.dev0 documentation</title>
+  <title>certbot.compat.os &mdash; Certbot 1.4.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.compat.os &mdash; Certbot 1.7.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.compat.os &mdash; Certbot 1.4.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.7.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.4.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.7
+                1.4
               </div>
             
           
@@ -241,16 +241,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                        <span class="s1">&#39;Use certbot.compat.filesystem.chmod() instead.&#39;</span><span class="p">)</span></div>
 
 
-<span class="c1"># Since there is no mode on Windows, there is no umask either, and so this method is a noop for</span>
-<span class="c1"># this platform. In order to have a consistent behavior between Linux and Windows on Certbot files</span>
-<span class="c1"># and directories, the filesystem umask method must be used instead, since it implements umask for</span>
-<span class="c1"># Windows.</span>
-<div class="viewcode-block" id="umask"><a class="viewcode-back" href="../../../api/certbot.compat.os.html#certbot.compat.os.umask">[docs]</a><span class="k">def</span> <span class="nf">umask</span><span class="p">(</span><span class="o">*</span><span class="n">unused_args</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Method os.chmod() is forbidden&quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Usage of os.umask() is forbidden. &#39;</span>
-                       <span class="s1">&#39;Use certbot.compat.filesystem.umask() instead.&#39;</span><span class="p">)</span></div>
-
-
 <span class="c1"># Because uid is not a concept on Windows, chown is useless. In fact, it is not even available</span>
 <span class="c1"># on Python for Windows. So to be consistent on both platforms for Certbot, this method is</span>
 <span class="c1"># always forbidden.</span>
@@ -300,10 +290,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="c1"># Behavior of os.replace is consistent between Windows and Linux. However, it is not supported on</span>
 <span class="c1"># Python 2.x. So, as for os.rename, we forbid it in favor of filesystem.replace.</span>
-<div class="viewcode-block" id="replace"><a class="viewcode-back" href="../../../api/certbot.compat.os.html#certbot.compat.os.replace">[docs]</a><span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="o">*</span><span class="n">unused_args</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="o">*</span><span class="n">unused_args</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Method os.replace() is forbidden&quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Usage of os.replace() is forbidden. &#39;</span>
-                       <span class="s1">&#39;Use certbot.compat.filesystem.replace() instead.&#39;</span><span class="p">)</span></div>
+                       <span class="s1">&#39;Use certbot.compat.filesystem.replace() instead.&#39;</span><span class="p">)</span>
 
 
 <span class="c1"># Results given by os.access are inconsistent or partial on Windows, because this platform is not</span>
@@ -387,7 +377,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.7.0.dev0',
+            VERSION:'1.4.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -414,7 +404,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.os%E2%80%94%20Certbot%201.7.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.os%E2%80%94%20Certbot%201.4.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
