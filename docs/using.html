@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User Guide &mdash; Certbot 1.7.0.dev0 documentation</title>
+  <title>User Guide &mdash; Certbot 1.8.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="User Guide &mdash; Certbot 1.7.0.dev0 documentation">
+<meta name="twitter:title" content="User Guide &mdash; Certbot 1.8.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 1.7.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 1.8.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Developer Guide" href="contributing.html"/>
         <link rel="prev" title="Get Certbot" href="install.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -138,9 +138,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#managing-certificates">Managing certificates</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#re-creating-and-updating-existing-certificates">Re-creating and Updating Existing Certificates</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#changing-a-certificate-s-domains">Changing a Certificate’s Domains</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#changing-a-certificate-s-domains">Changing a Certificate’s Domains</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#revoking-certificates">Revoking certificates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#renewing-certificates">Renewing certificates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modifying-the-renewal-configuration-file">Modifying the Renewal Configuration File</a></li>
@@ -233,9 +231,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </li>
 <li><a class="reference internal" href="#managing-certificates" id="id18">Managing certificates</a><ul>
 <li><a class="reference internal" href="#re-creating-and-updating-existing-certificates" id="id19">Re-creating and Updating Existing Certificates</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#changing-a-certificate-s-domains" id="id20">Changing a Certificate’s Domains</a><ul>
+<li><a class="reference internal" href="#changing-a-certificate-s-domains" id="id20">Changing a Certificate’s Domains</a></li>
 <li><a class="reference internal" href="#revoking-certificates" id="id21">Revoking certificates</a></li>
 <li><a class="reference internal" href="#renewing-certificates" id="id22">Renewing certificates</a></li>
 <li><a class="reference internal" href="#modifying-the-renewal-configuration-file" id="id23">Modifying the Renewal Configuration File</a></li>
@@ -664,9 +660,8 @@ certificate counts against several rate limits that are intended to prevent
 abuse of the ACME protocol, as described
 <a class="reference external" href="https://letsencrypt.org/docs/rate-limits/">here</a>.</p>
 </div>
-</div>
 <div class="section" id="changing-a-certificate-s-domains">
-<span id="changing"></span><h2><a class="toc-backref" href="#id20">Changing a Certificate’s Domains</a><a class="headerlink" href="#changing-a-certificate-s-domains" title="Permalink to this headline">¶</a></h2>
+<span id="changing"></span><h3><a class="toc-backref" href="#id20">Changing a Certificate’s Domains</a><a class="headerlink" href="#changing-a-certificate-s-domains" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">--cert-name</span></code> flag can also be used to modify the domains a certificate contains,
 by specifying new domains using the <code class="docutils literal notranslate"><span class="pre">-d</span></code> or <code class="docutils literal notranslate"><span class="pre">--domains</span></code> flag. If certificate <code class="docutils literal notranslate"><span class="pre">example.com</span></code>
 previously contained <code class="docutils literal notranslate"><span class="pre">example.com</span></code> and <code class="docutils literal notranslate"><span class="pre">www.example.com</span></code>, it can be modified to only
@@ -678,6 +673,7 @@ contain <code class="docutils literal notranslate"><span class="pre">example.com
 replace that set entirely:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">certbot</span> <span class="n">certonly</span> <span class="o">--</span><span class="n">cert</span><span class="o">-</span><span class="n">name</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span> <span class="o">-</span><span class="n">d</span> <span class="n">example</span><span class="o">.</span><span class="n">org</span><span class="p">,</span><span class="n">www</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">org</span>
 </pre></div>
+</div>
 </div>
 <div class="section" id="revoking-certificates">
 <h3><a class="toc-backref" href="#id21">Revoking certificates</a><a class="headerlink" href="#revoking-certificates" title="Permalink to this headline">¶</a></h3>
@@ -899,34 +895,30 @@ systemd timers (<code class="xref py py-obj docutils literal notranslate"><span 
 <td>systemd</td>
 </tr>
 <tr class="row-odd"><td>Debian</td>
-<td>jessie</td>
-<td>cron, systemd</td>
-</tr>
-<tr class="row-even"><td>Debian</td>
 <td>stretch</td>
 <td>cron, systemd</td>
 </tr>
-<tr class="row-odd"><td>Debian</td>
+<tr class="row-even"><td>Debian</td>
 <td>testing/sid</td>
 <td>cron, systemd</td>
 </tr>
-<tr class="row-even"><td>Fedora</td>
+<tr class="row-odd"><td>Fedora</td>
 <td>26</td>
 <td>systemd</td>
 </tr>
-<tr class="row-odd"><td>Fedora</td>
+<tr class="row-even"><td>Fedora</td>
 <td>27</td>
 <td>systemd</td>
 </tr>
-<tr class="row-even"><td>RHEL</td>
+<tr class="row-odd"><td>RHEL</td>
 <td>EPEL 7</td>
 <td>systemd</td>
 </tr>
-<tr class="row-odd"><td>Ubuntu</td>
+<tr class="row-even"><td>Ubuntu</td>
 <td>17.10</td>
 <td>cron, systemd</td>
 </tr>
-<tr class="row-even"><td>Ubuntu</td>
+<tr class="row-odd"><td>Ubuntu</td>
 <td>certbot PPA</td>
 <td>cron, systemd</td>
 </tr>
@@ -1337,7 +1329,7 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/1.6.0 (certbot(-auto);
+                        &quot;&quot;. (default: CertbotACMEClient/1.7.0 (certbot(-auto);
                         OS_NAME OS_VERSION) Authenticator/XXX Installer/YYY
                         (SUBCOMMAND; flags: FLAGS) Py/major.minor.patchlevel).
                         The flags encoded in the user agent are: --duplicate,
@@ -1821,7 +1813,7 @@ dns-linode:
   --dns-linode-propagation-seconds DNS_LINODE_PROPAGATION_SECONDS
                         The number of seconds to wait for DNS to propagate
                         before asking the ACME server to verify the DNS
-                        record. (default: 1200)
+                        record. (default: 120)
   --dns-linode-credentials DNS_LINODE_CREDENTIALS
                         Linode credentials INI file. (default: None)
 
@@ -1921,6 +1913,9 @@ nginx:
   --nginx-ctl NGINX_CTL
                         Path to the &#39;nginx&#39; binary, used for &#39;configtest&#39; and
                         retrieving nginx version number. (default: nginx)
+  --nginx-sleep-seconds NGINX_SLEEP_SECONDS
+                        Number of seconds to wait for nginx configuration
+                        changes to apply when reloading. (default: 1)
 
 null:
   Null Installer
@@ -2026,7 +2021,7 @@ also might contain personally identifiable information)</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.7.0.dev0',
+            VERSION:'1.8.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -2053,7 +2048,7 @@ also might contain personally identifiable information)</li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%201.7.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%201.8.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

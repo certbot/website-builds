@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Get Certbot &mdash; Certbot 1.7.0.dev0 documentation</title>
+  <title>Get Certbot &mdash; Certbot 1.8.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Get Certbot &mdash; Certbot 1.7.0.dev0 documentation">
+<meta name="twitter:title" content="Get Certbot &mdash; Certbot 1.8.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 1.7.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 1.8.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="User Guide" href="using.html"/>
         <link rel="prev" title="What is a Certificate?" href="what.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.7
+                1.8
               </div>
             
           
@@ -222,12 +222,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 your system.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Unless you have very specific requirements, we kindly suggest that you use the Certbot packages provided by your package manager (see <a class="reference external" href="https://certbot.eff.org">certbot.eff.org</a>). If such packages are not available, we recommend using <code class="docutils literal notranslate"><span class="pre">certbot-auto</span></code>, which automates the process of installing Certbot on your system.</p>
+<p class="last">Unless you have very specific requirements, we kindly suggest that you use the installation instructions for your system found at <a class="reference external" href="https://certbot.eff.org">certbot.eff.org</a>.</p>
 </div>
 </div>
 <div class="section" id="system-requirements">
 <span id="id1"></span><h2><a class="toc-backref" href="#id4">System Requirements</a><a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
-<p>Certbot currently requires Python 2.7 or 3.5+ running on a UNIX-like operating
+<p>Certbot currently requires Python 2.7 or 3.6+ running on a UNIX-like operating
 system. By default, it requires root access in order to write to
 <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt</span></code>, <code class="docutils literal notranslate"><span class="pre">/var/log/letsencrypt</span></code>, <code class="docutils literal notranslate"><span class="pre">/var/lib/letsencrypt</span></code>; to
 bind to port 80 (if you use the <code class="docutils literal notranslate"><span class="pre">standalone</span></code> plugin) and to read and
@@ -326,17 +326,16 @@ user@webserver:~$ sudo rm /tmp/swapfile
 certificate. However, this mode of operation is unable to install
 certificates or configure your webserver, because our installer
 plugins cannot reach your webserver from inside the Docker container.</p>
-<p>Most users should use the operating system packages (see instructions at
-<a class="reference external" href="https://certbot.eff.org">certbot.eff.org</a>) or, as a fallback, <code class="docutils literal notranslate"><span class="pre">certbot-auto</span></code>. You should only
-use Docker if you are sure you know what you are doing and have a
-good reason to do so.</p>
+<p>Most users should use the instructions at <a class="reference external" href="https://certbot.eff.org">certbot.eff.org</a>. You should only use
+Docker if you are sure you know what you are doing and have a good reason to do
+so.</p>
 <p>You should definitely read the <a class="reference internal" href="using.html#where-certs"><span class="std std-ref">Where are my certificates?</span></a> section, in order to
 know how to manage the certs
 manually. <a class="reference external" href="ciphers.html">Our ciphersuites page</a>
 provides some information about recommended ciphersuites. If none of
-these make much sense to you, you should definitely use the
-<a class="reference internal" href="#certbot-auto">certbot-auto</a> method, which enables you to use installer plugins
-that cover both of those hard topics.</p>
+these make much sense to you, you should definitely use the installation method
+recommended for your system at <a class="reference external" href="https://certbot.eff.org">certbot.eff.org</a>, which enables you to use
+installer plugins that cover both of those hard topics.</p>
 <p>If you’re still not convinced and have decided to use this method, from
 the server that the domain you’re requesting a certficate for resolves
 to, <a class="reference external" href="https://docs.docker.com/engine/installation/">install Docker</a>, then issue a command like the one found below. If
@@ -361,10 +360,7 @@ validation over DNS for popular providers. To use one, just replace
 want to use. For example, to use Certbot’s plugin for Amazon Route 53,
 you’d use <code class="docutils literal notranslate"><span class="pre">certbot/dns-route53</span></code>. You may also need to add flags to
 Certbot and/or mount additional directories to provide access to your
-DNS API credentials as specified in the <a class="reference internal" href="using.html#dns-plugins"><span class="std std-ref">DNS plugin documentation</span></a>. If you would like to obtain a wildcard certificate from
-Let’s Encrypt’s ACMEv2 server, you’ll need to include <code class="docutils literal notranslate"><span class="pre">--server</span>
-<span class="pre">https://acme-v02.api.letsencrypt.org/directory</span></code> on the command line as
-well.</p>
+DNS API credentials as specified in the <a class="reference internal" href="using.html#dns-plugins"><span class="std std-ref">DNS plugin documentation</span></a>.</p>
 <p>For more information about the layout
 of the <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt</span></code> directory, see <a class="reference internal" href="using.html#where-certs"><span class="std std-ref">Where are my certificates?</span></a>.</p>
 </div>
@@ -399,8 +395,6 @@ through a command like:</p>
 </div>
 <p>They can be installed by running the same installation command above but
 replacing <code class="docutils literal notranslate"><span class="pre">certbot</span></code> with the name of the desired package.</p>
-<p>There are no Certbot packages available for Debian Jessie and Jessie users
-should instead use <a class="reference internal" href="#certbot-auto">certbot-auto</a>.</p>
 <p><strong>Ubuntu</strong></p>
 <p>If you run Ubuntu Trusty, Xenial, or Bionic, certbot is available through the official PPA,
 that can be installed as followed:</p>
@@ -431,32 +425,20 @@ sudo apt-get update
 </ul>
 </div></blockquote>
 <p><strong>Gentoo</strong></p>
-<p>The official Certbot client is available in Gentoo Portage. If you
-want to use the Apache plugin, it has to be installed separately:</p>
+<p>The official Certbot client is available in Gentoo Portage. From the
+official Certbot plugins, three of them are also available in Portage.
+They need to be installed separately if you require their functionality.</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>emerge -av app-crypt/certbot
 emerge -av app-crypt/certbot-apache
+emerge -av app-crypt/certbot-nginx
+emerge -av app-crypt/certbot-dns-nsone
 </pre></div>
 </div>
-<p>When using the Apache plugin, you will run into a “cannot find an
-SSLCertificateFile directive” or “cannot find an SSLCertificateKeyFile
-directive for certificate” error if you’re sporting the default Gentoo
-<code class="docutils literal notranslate"><span class="pre">httpd.conf</span></code>. You can fix this by commenting out two lines in
-<code class="docutils literal notranslate"><span class="pre">/etc/apache2/httpd.conf</span></code> as follows:</p>
-<p>Change</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>&lt;IfDefine SSL&gt;
-LoadModule ssl_module modules/mod_ssl.so
-&lt;/IfDefine&gt;
-</pre></div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal notranslate"><span class="pre">app-crypt/certbot-dns-nsone</span></code> package has a different
+maintainer than the other packages and can lag behind in version.</p>
 </div>
-<p>to</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1">#&lt;IfDefine SSL&gt;</span>
-LoadModule ssl_module modules/mod_ssl.so
-<span class="c1">#&lt;/IfDefine&gt;</span>
-</pre></div>
-</div>
-<p>For the time being, this is the only way for the Apache plugin to recognise
-the appropriate directives when installing the certificate.
-Note: this change is not required for the other plugins.</p>
 <p><strong>NetBSD</strong></p>
 <blockquote>
 <div><ul class="simple">
@@ -548,7 +530,7 @@ system and are <strong>not supported</strong> by the Certbot team!</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.7.0.dev0',
+            VERSION:'1.8.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -575,7 +557,7 @@ system and are <strong>not supported</strong> by the Certbot team!</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Get%20Certbot%E2%80%94%20Certbot%201.7.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Get%20Certbot%E2%80%94%20Certbot%201.8.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
