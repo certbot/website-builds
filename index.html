@@ -525,13 +525,16 @@ If you’re logged in to your server as a user other than root, you’ll likely 
       <a href="/glossary#wildcard-certificate">Wildcard Certificate</a>
     </div>
     <div class="mobile-hidden">
-    <p>A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.</p>
+    <p>A wildcard certificate is a certificate that includes one or more names starting with <code class="language-plaintext highlighter-rouge">*.</code>. Browsers will accept any label in place of the asterisk (<code class="language-plaintext highlighter-rouge">*</code>). For example, a certificate for <code class="language-plaintext highlighter-rouge">*.example.com</code> will be valid for <code class="language-plaintext highlighter-rouge">www.example.com</code>, <code class="language-plaintext highlighter-rouge">mail.example.com</code>, <code class="language-plaintext highlighter-rouge">hello.example.com</code>, and <code class="language-plaintext highlighter-rouge">goodbye.example.com</code>.</p>
+
+<p>However, a wildcard certificate including <em>only</em> the name <code class="language-plaintext highlighter-rouge">*.example.com</code> will <strong>not</strong> be valid for <code class="language-plaintext highlighter-rouge">example.com</code>: the substituted label can not be empty. If you want the certificate to be valid for <code class="language-plaintext highlighter-rouge">example.com</code>, you also need to include <code class="language-plaintext highlighter-rouge">example.com</code> (i.e. without the <code class="language-plaintext highlighter-rouge">*.</code> part) on the certificate.</p>
+
+<p>Additionally, the asterisk can only be substituted by a <em>single</em> label and not by <em>multiple</em> labels. For example, the name <code class="language-plaintext highlighter-rouge">hello.goodbye.example.com</code> will not be covered by a certificate including only the name <code class="language-plaintext highlighter-rouge">*.example.com</code>. It <em>will</em> be covered however, by <code class="language-plaintext highlighter-rouge">*.goodbye.example.com</code>. Note that a wildcard name can not contain multiple asterisks. For example, <code class="language-plaintext highlighter-rouge">*.*.example.com</code> is not valid.</p>
 
     </div>
     <div class="mobile-only">
       <p>
-      A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.
-
+      A wildcard certificate is a certificate that includes one or more names starting with *.. Browsers will accept any label in place of the asterisk (*). For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, and goodbye.example.com. However, a wildcard certificate including only the name *.example.com will not be valid for example.com: the substituted label can not be empty. If you want the certificate to be valid for example.com, you also need to include example.com (i.e. without the *. part) on the certificate. Additionally, the asterisk can only be substituted by a single label and not...
       </p>
     </div>
     <div class="bottom-text">
@@ -542,7 +545,11 @@ If you’re logged in to your server as a user other than root, you’ll likely 
   <a class="glossary-link no-js">wildcard cert</a>
   <div class="tooltip no-js">
     <a class="tooltip-title" href="/glossary#wildcard-certificate">Wildcard Certificate</a>
-    <p>A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.</p>
+    <p>A wildcard certificate is a certificate that includes one or more names starting with <code class="language-plaintext highlighter-rouge">*.</code>. Browsers will accept any label in place of the asterisk (<code class="language-plaintext highlighter-rouge">*</code>). For example, a certificate for <code class="language-plaintext highlighter-rouge">*.example.com</code> will be valid for <code class="language-plaintext highlighter-rouge">www.example.com</code>, <code class="language-plaintext highlighter-rouge">mail.example.com</code>, <code class="language-plaintext highlighter-rouge">hello.example.com</code>, and <code class="language-plaintext highlighter-rouge">goodbye.example.com</code>.</p>
+
+<p>However, a wildcard certificate including <em>only</em> the name <code class="language-plaintext highlighter-rouge">*.example.com</code> will <strong>not</strong> be valid for <code class="language-plaintext highlighter-rouge">example.com</code>: the substituted label can not be empty. If you want the certificate to be valid for <code class="language-plaintext highlighter-rouge">example.com</code>, you also need to include <code class="language-plaintext highlighter-rouge">example.com</code> (i.e. without the <code class="language-plaintext highlighter-rouge">*.</code> part) on the certificate.</p>
+
+<p>Additionally, the asterisk can only be substituted by a <em>single</em> label and not by <em>multiple</em> labels. For example, the name <code class="language-plaintext highlighter-rouge">hello.goodbye.example.com</code> will not be covered by a certificate including only the name <code class="language-plaintext highlighter-rouge">*.example.com</code>. It <em>will</em> be covered however, by <code class="language-plaintext highlighter-rouge">*.goodbye.example.com</code>. Note that a wildcard name can not contain multiple asterisks. For example, <code class="language-plaintext highlighter-rouge">*.*.example.com</code> is not valid.</p>
 
     <div class="bottom-text">
       From our <a href="/glossary">Certbot Glossary</a>
