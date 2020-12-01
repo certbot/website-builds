@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.display.ops &mdash; Certbot 1.10.0.dev0 documentation</title>
+  <title>certbot.display.ops &mdash; Certbot 1.11.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.display.ops &mdash; Certbot 1.10.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.display.ops &mdash; Certbot 1.11.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.10.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.10
+                1.11
               </div>
             
           
@@ -447,17 +447,15 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <div class="viewcode-block" id="success_revocation"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.success_revocation">[docs]</a><span class="k">def</span> <span class="nf">success_revocation</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Display a box confirming a certificate has been revoked.</span>
+    <span class="sd">&quot;&quot;&quot;Display a message confirming a certificate has been revoked.</span>
 
 <span class="sd">    :param list cert_path: path to certificate which was revoked.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
+    <span class="n">display_util</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span>
         <span class="s2">&quot;Congratulations! You have successfully revoked the certificate &quot;</span>
-        <span class="s2">&quot;that was located at </span><span class="si">{0}{1}{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">cert_path</span><span class="p">,</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">),</span>
-        <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+        <span class="s2">&quot;that was located at </span><span class="si">{0}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cert_path</span><span class="p">)</span>
+    <span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_gen_https_names</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
@@ -593,7 +591,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.10.0.dev0',
+            VERSION:'1.11.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -620,7 +618,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.ops%E2%80%94%20Certbot%201.10.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.ops%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
