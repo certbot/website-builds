@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User Guide &mdash; Certbot 1.10.0.dev0 documentation</title>
+  <title>User Guide &mdash; Certbot 1.11.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="User Guide &mdash; Certbot 1.10.0.dev0 documentation">
+<meta name="twitter:title" content="User Guide &mdash; Certbot 1.11.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 1.10.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Developer Guide" href="contributing.html"/>
         <link rel="prev" title="Get Certbot" href="install.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.10
+                1.11
               </div>
             
           
@@ -139,6 +139,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l2"><a class="reference internal" href="#managing-certificates">Managing certificates</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#re-creating-and-updating-existing-certificates">Re-creating and Updating Existing Certificates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#changing-a-certificate-s-domains">Changing a Certificate’s Domains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-ecdsa-keys">Using ECDSA keys</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#changing-existing-certificates-from-rsa-to-ecdsa">Changing existing certificates from RSA to ECDSA</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#obtaining-ecdsa-certificates-in-addition-to-rsa-certificates">Obtaining ECDSA certificates in addition to RSA certificates</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#revoking-certificates">Revoking certificates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#renewing-certificates">Renewing certificates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modifying-the-renewal-configuration-file">Modifying the Renewal Configuration File</a></li>
@@ -232,20 +237,25 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li><a class="reference internal" href="#managing-certificates" id="id18">Managing certificates</a><ul>
 <li><a class="reference internal" href="#re-creating-and-updating-existing-certificates" id="id19">Re-creating and Updating Existing Certificates</a></li>
 <li><a class="reference internal" href="#changing-a-certificate-s-domains" id="id20">Changing a Certificate’s Domains</a></li>
-<li><a class="reference internal" href="#revoking-certificates" id="id21">Revoking certificates</a></li>
-<li><a class="reference internal" href="#renewing-certificates" id="id22">Renewing certificates</a></li>
-<li><a class="reference internal" href="#modifying-the-renewal-configuration-file" id="id23">Modifying the Renewal Configuration File</a></li>
-<li><a class="reference internal" href="#automated-renewals" id="id24">Automated Renewals</a></li>
+<li><a class="reference internal" href="#using-ecdsa-keys" id="id21">Using ECDSA keys</a><ul>
+<li><a class="reference internal" href="#changing-existing-certificates-from-rsa-to-ecdsa" id="id22">Changing existing certificates from RSA to ECDSA</a></li>
+<li><a class="reference internal" href="#obtaining-ecdsa-certificates-in-addition-to-rsa-certificates" id="id23">Obtaining ECDSA certificates in addition to RSA certificates</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#where-are-my-certificates" id="id25">Where are my certificates?</a></li>
-<li><a class="reference internal" href="#pre-and-post-validation-hooks" id="id26">Pre and Post Validation Hooks</a></li>
-<li><a class="reference internal" href="#changing-the-acme-server" id="id27">Changing the ACME Server</a></li>
-<li><a class="reference internal" href="#id5" id="id28">Lock Files</a></li>
-<li><a class="reference internal" href="#configuration-file" id="id29">Configuration file</a></li>
-<li><a class="reference internal" href="#log-rotation" id="id30">Log Rotation</a></li>
-<li><a class="reference internal" href="#certbot-command-line-options" id="id31">Certbot command-line options</a></li>
-<li><a class="reference internal" href="#getting-help" id="id32">Getting help</a></li>
+<li><a class="reference internal" href="#revoking-certificates" id="id24">Revoking certificates</a></li>
+<li><a class="reference internal" href="#renewing-certificates" id="id25">Renewing certificates</a></li>
+<li><a class="reference internal" href="#modifying-the-renewal-configuration-file" id="id26">Modifying the Renewal Configuration File</a></li>
+<li><a class="reference internal" href="#automated-renewals" id="id27">Automated Renewals</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#where-are-my-certificates" id="id28">Where are my certificates?</a></li>
+<li><a class="reference internal" href="#pre-and-post-validation-hooks" id="id29">Pre and Post Validation Hooks</a></li>
+<li><a class="reference internal" href="#changing-the-acme-server" id="id30">Changing the ACME Server</a></li>
+<li><a class="reference internal" href="#id5" id="id31">Lock Files</a></li>
+<li><a class="reference internal" href="#configuration-file" id="id32">Configuration file</a></li>
+<li><a class="reference internal" href="#log-rotation" id="id33">Log Rotation</a></li>
+<li><a class="reference internal" href="#certbot-command-line-options" id="id34">Certbot command-line options</a></li>
+<li><a class="reference internal" href="#getting-help" id="id35">Getting help</a></li>
 </ul>
 </div>
 <div class="section" id="certbot-commands">
@@ -457,6 +467,7 @@ the DNS plugins on your system.</p>
 <li><a class="reference external" href="https://certbot-dns-digitalocean.readthedocs.io">certbot-dns-digitalocean</a></li>
 <li><a class="reference external" href="https://certbot-dns-dnsimple.readthedocs.io">certbot-dns-dnsimple</a></li>
 <li><a class="reference external" href="https://certbot-dns-dnsmadeeasy.readthedocs.io">certbot-dns-dnsmadeeasy</a></li>
+<li><a class="reference external" href="https://certbot-dns-gehirn.readthedocs.io">certbot-dns-gehirn</a></li>
 <li><a class="reference external" href="https://certbot-dns-google.readthedocs.io">certbot-dns-google</a></li>
 <li><a class="reference external" href="https://certbot-dns-linode.readthedocs.io">certbot-dns-linode</a></li>
 <li><a class="reference external" href="https://certbot-dns-luadns.readthedocs.io">certbot-dns-luadns</a></li>
@@ -464,6 +475,7 @@ the DNS plugins on your system.</p>
 <li><a class="reference external" href="https://certbot-dns-ovh.readthedocs.io">certbot-dns-ovh</a></li>
 <li><a class="reference external" href="https://certbot-dns-rfc2136.readthedocs.io">certbot-dns-rfc2136</a></li>
 <li><a class="reference external" href="https://certbot-dns-route53.readthedocs.io">certbot-dns-route53</a></li>
+<li><a class="reference external" href="https://certbot-dns-sakuracloud.readthedocs.io">certbot-dns-sakuracloud</a></li>
 </ul>
 </div>
 <div class="section" id="manual">
@@ -581,7 +593,12 @@ widespread use:</p>
 <td>N</td>
 <td>DNS Authentication using CloudDNS API</td>
 </tr>
-<tr class="row-even"><td>dns-inwx</td>
+<tr class="row-even"><td><a class="reference external" href="https://github.com/noi/certbot-dns-lightsail">dns-lightsail</a></td>
+<td>Y</td>
+<td>N</td>
+<td>DNS Authentication using Amazon Lightsail DNS API</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="https://github.com/oGGy990/certbot-dns-inwx/">dns-inwx</a></td>
 <td>Y</td>
 <td>Y</td>
 <td>DNS Authentication for INWX through the XML API</td>
@@ -602,6 +619,7 @@ the <code class="docutils literal notranslate"><span class="pre">certificates</s
     <span class="n">Domains</span><span class="p">:</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">,</span> <span class="n">www</span><span class="o">.</span><span class="n">example</span><span class="o">.</span><span class="n">com</span>
     <span class="n">Expiry</span> <span class="n">Date</span><span class="p">:</span> <span class="mi">2017</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">19</span> <span class="mi">19</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span> <span class="p">(</span><span class="n">VALID</span><span class="p">:</span> <span class="mi">30</span> <span class="n">days</span><span class="p">)</span>
     <span class="n">Certificate</span> <span class="n">Path</span><span class="p">:</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">letsencrypt</span><span class="o">/</span><span class="n">live</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">fullchain</span><span class="o">.</span><span class="n">pem</span>
+    <span class="n">Key</span> <span class="n">Type</span><span class="p">:</span> <span class="n">RSA</span>
     <span class="n">Private</span> <span class="n">Key</span> <span class="n">Path</span><span class="p">:</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">letsencrypt</span><span class="o">/</span><span class="n">live</span><span class="o">/</span><span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">privkey</span><span class="o">.</span><span class="n">pem</span>
 </pre></div>
 </div>
@@ -675,8 +693,62 @@ replace that set entirely:</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="using-ecdsa-keys">
+<h3><a class="toc-backref" href="#id21">Using ECDSA keys</a><a class="headerlink" href="#using-ecdsa-keys" title="Permalink to this headline">¶</a></h3>
+<p>As of version 1.10, Certbot supports two types of private key algorithms:
+<code class="docutils literal notranslate"><span class="pre">rsa</span></code> and <code class="docutils literal notranslate"><span class="pre">ecdsa</span></code>. The type of key used by Certbot can be controlled
+through the <code class="docutils literal notranslate"><span class="pre">--key-type</span></code> option. You can also use the <code class="docutils literal notranslate"><span class="pre">--elliptic-curve</span></code>
+option to control the curve used in ECDSA certificates.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If you obtain certificates using ECDSA keys, you should be careful
+not to downgrade your Certbot installation since ECDSA keys are not
+supported by older versions of Certbot. Downgrades like this are possible if
+you switch from something like the snaps or certbot-auto to packages
+provided by your operating system which often lag behind.</p>
+</div>
+<div class="section" id="changing-existing-certificates-from-rsa-to-ecdsa">
+<h4><a class="toc-backref" href="#id22">Changing existing certificates from RSA to ECDSA</a><a class="headerlink" href="#changing-existing-certificates-from-rsa-to-ecdsa" title="Permalink to this headline">¶</a></h4>
+<p>Unless you are aware that you need to support very old HTTPS clients that are
+not supported by most sites, you can safely just transition your site to use
+ECDSA keys instead of RSA keys. To accomplish this if you have existing
+certificates managed by Certbot, you may freely change the certificate to a new
+private key.</p>
+<p>If you want to use ECDSA keys for all certificates in the future, you can
+simply add the following line to Certbot’s <a class="reference internal" href="#config-file"><span class="std std-ref">configuration file</span></a></p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="na">key-type</span> <span class="o">=</span> <span class="s">ecdsa</span>
+</pre></div>
+</div>
+<p>After this option is set, newly obtained certificates will use ECDSA keys. This
+includes certificates managed by Certbot that previously used RSA keys.</p>
+<p>If you want to change a single certificate to use ECDSA keys, you’ll need to
+issue a new Certbot command setting <code class="docutils literal notranslate"><span class="pre">--key-type</span> <span class="pre">ecdsa</span></code> on the command line
+like</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>certbot renew --key-type ecdsa --cert-name example.com --force-renewal
+</pre></div>
+</div>
+</div>
+<div class="section" id="obtaining-ecdsa-certificates-in-addition-to-rsa-certificates">
+<h4><a class="toc-backref" href="#id23">Obtaining ECDSA certificates in addition to RSA certificates</a><a class="headerlink" href="#obtaining-ecdsa-certificates-in-addition-to-rsa-certificates" title="Permalink to this headline">¶</a></h4>
+<p>When Certbot configures the certificates it obtains with Apache or Nginx, all
+HTTPS clients that we try to support can use certificates with ECDSA keys. If,
+however, you are aware of having a specific need to support very old TLS
+clients, you may want to obtain both ECDSA and RSA certificates for the same
+domains. Certbot can only configure Apache or Nginx to use a single
+certificate, however, you could manually configure your software to use the
+different certificates depending on your needs.</p>
+<p>When obtaining both ECDSA and RSA certificates for the same domains with
+Certbot, we recommend using the <code class="docutils literal notranslate"><span class="pre">--cert-name</span></code> option to give your
+certificates names so that you can easily identify them. For instance, you may
+want to append “ecdsa” to the name of your ECDSA certificate by using a command
+like</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>certbot certonly --key-type ecdsa --cert-name example.com-ecdsa
+</pre></div>
+</div>
+</div>
+</div>
 <div class="section" id="revoking-certificates">
-<h3><a class="toc-backref" href="#id21">Revoking certificates</a><a class="headerlink" href="#revoking-certificates" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id24">Revoking certificates</a><a class="headerlink" href="#revoking-certificates" title="Permalink to this headline">¶</a></h3>
 <p>If your account key has been compromised or you otherwise need to revoke a certificate,
 use the <code class="docutils literal notranslate"><span class="pre">revoke</span></code> command to do so. Note that the <code class="docutils literal notranslate"><span class="pre">revoke</span></code> command takes the certificate path
 (ending in <code class="docutils literal notranslate"><span class="pre">cert.pem</span></code>), not a certificate name or domain. Example:</p>
@@ -707,7 +779,7 @@ relevant files can be removed from the system with the <code class="docutils lit
 </div>
 </div>
 <div class="section" id="renewing-certificates">
-<span id="renewal"></span><h3><a class="toc-backref" href="#id22">Renewing certificates</a><a class="headerlink" href="#renewing-certificates" title="Permalink to this headline">¶</a></h3>
+<span id="renewal"></span><h3><a class="toc-backref" href="#id25">Renewing certificates</a><a class="headerlink" href="#renewing-certificates" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Let’s Encrypt CA issues short-lived certificates (90
@@ -824,7 +896,7 @@ and when renewal is not necessary.</p>
 </div>
 </div>
 <div class="section" id="modifying-the-renewal-configuration-file">
-<span id="renewal-config-file"></span><h3><a class="toc-backref" href="#id23">Modifying the Renewal Configuration File</a><a class="headerlink" href="#modifying-the-renewal-configuration-file" title="Permalink to this headline">¶</a></h3>
+<span id="renewal-config-file"></span><h3><a class="toc-backref" href="#id26">Modifying the Renewal Configuration File</a><a class="headerlink" href="#modifying-the-renewal-configuration-file" title="Permalink to this headline">¶</a></h3>
 <p>When a certificate is issued, by default Certbot creates a renewal configuration file that
 tracks the options that were selected when Certbot was run. This allows Certbot
 to use those same options again when it comes time for renewal. These renewal
@@ -867,7 +939,7 @@ directives:</p>
 </div>
 </div>
 <div class="section" id="automated-renewals">
-<h3><a class="toc-backref" href="#id24">Automated Renewals</a><a class="headerlink" href="#automated-renewals" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id27">Automated Renewals</a><a class="headerlink" href="#automated-renewals" title="Permalink to this headline">¶</a></h3>
 <p>Many Linux distributions provide automated renewal when you use the
 packages installed through their system package manager.  The
 following table is an <em>incomplete</em> list of distributions which do so,
@@ -927,7 +999,7 @@ systemd timers (<code class="xref py py-obj docutils literal notranslate"><span 
 </div>
 </div>
 <div class="section" id="where-are-my-certificates">
-<span id="where-certs"></span><h2><a class="toc-backref" href="#id25">Where are my certificates?</a><a class="headerlink" href="#where-are-my-certificates" title="Permalink to this headline">¶</a></h2>
+<span id="where-certs"></span><h2><a class="toc-backref" href="#id28">Where are my certificates?</a><a class="headerlink" href="#where-are-my-certificates" title="Permalink to this headline">¶</a></h2>
 <p>All generated keys and issued certificates can be found in
 <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt/live/$domain</span></code>. In the case of creating a SAN certificate
 with multiple alternative names, <code class="docutils literal notranslate"><span class="pre">$domain</span></code> is the first domain passed in
@@ -1001,7 +1073,7 @@ could convert using <code class="docutils literal notranslate"><span class="pre"
 </div>
 </div>
 <div class="section" id="pre-and-post-validation-hooks">
-<span id="hooks"></span><h2><a class="toc-backref" href="#id26">Pre and Post Validation Hooks</a><a class="headerlink" href="#pre-and-post-validation-hooks" title="Permalink to this headline">¶</a></h2>
+<span id="hooks"></span><h2><a class="toc-backref" href="#id29">Pre and Post Validation Hooks</a><a class="headerlink" href="#pre-and-post-validation-hooks" title="Permalink to this headline">¶</a></h2>
 <p>Certbot allows for the specification of pre and post validation hooks when run
 in manual mode. The flags to specify these scripts are <code class="docutils literal notranslate"><span class="pre">--manual-auth-hook</span></code>
 and <code class="docutils literal notranslate"><span class="pre">--manual-cleanup-hook</span></code> respectively and can be used as follows:</p>
@@ -1106,7 +1178,7 @@ fi
 </div>
 </div>
 <div class="section" id="changing-the-acme-server">
-<span id="lock-files"></span><h2><a class="toc-backref" href="#id27">Changing the ACME Server</a><a class="headerlink" href="#changing-the-acme-server" title="Permalink to this headline">¶</a></h2>
+<span id="lock-files"></span><h2><a class="toc-backref" href="#id30">Changing the ACME Server</a><a class="headerlink" href="#changing-the-acme-server" title="Permalink to this headline">¶</a></h2>
 <p>By default, Certbot uses Let’s Encrypt’s production server at
 <a class="reference external" href="https://acme-v02.api.letsencrypt.org/">https://acme-v02.api.letsencrypt.org/</a>. You can tell Certbot to use a
 different CA by providing <code class="docutils literal notranslate"><span class="pre">--server</span></code> on the command line or in a
@@ -1123,7 +1195,7 @@ see a list of Certbot plugins that support this challenge type and how
 to use them, see <a class="reference internal" href="#plugins">plugins</a>.</p>
 </div>
 <div class="section" id="id5">
-<h2><a class="toc-backref" href="#id28">Lock Files</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id31">Lock Files</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>When processing a validation Certbot writes a number of lock files on your system
 to prevent multiple instances from overwriting each other’s changes. This means
 that by default two instances of Certbot will not be able to run in parallel.</p>
@@ -1141,7 +1213,7 @@ as the <code class="docutils literal notranslate"><span class="pre">--work-dir</
 of Certbot that you would like to run.</p>
 </div>
 <div class="section" id="configuration-file">
-<span id="config-file"></span><h2><a class="toc-backref" href="#id29">Configuration file</a><a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
+<span id="config-file"></span><h2><a class="toc-backref" href="#id32">Configuration file</a><a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
 <p>Certbot accepts a global configuration file that applies its options to all invocations
 of Certbot. Certificate specific configuration choices should be set in the <code class="docutils literal notranslate"><span class="pre">.conf</span></code>
 files that can be found in <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt/renewal</span></code>.</p>
@@ -1158,6 +1230,10 @@ example configuration file is shown below:</p>
 <span class="c1"># obtaining or renewing certificates, so options specific to a single</span>
 <span class="c1"># certificate on a system with several certificates should not be placed</span>
 <span class="c1"># here.</span>
+
+<span class="c1"># Use ECC for the private key</span>
+<span class="n">key</span><span class="o">-</span><span class="nb">type</span> <span class="o">=</span> <span class="n">ecdsa</span>
+<span class="n">elliptic</span><span class="o">-</span><span class="n">curve</span> <span class="o">=</span> <span class="n">secp384r1</span>
 
 <span class="c1"># Use a 4096 bit RSA key instead of 2048</span>
 <span class="n">rsa</span><span class="o">-</span><span class="n">key</span><span class="o">-</span><span class="n">size</span> <span class="o">=</span> <span class="mi">4096</span>
@@ -1189,7 +1265,7 @@ as being set to true by older versions of Certbot, since they have been listed
 in the config file.</p>
 </div>
 <div class="section" id="log-rotation">
-<span id="id6"></span><h2><a class="toc-backref" href="#id30">Log Rotation</a><a class="headerlink" href="#log-rotation" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2><a class="toc-backref" href="#id33">Log Rotation</a><a class="headerlink" href="#log-rotation" title="Permalink to this headline">¶</a></h2>
 <p>By default certbot stores status logs in <code class="docutils literal notranslate"><span class="pre">/var/log/letsencrypt</span></code>. By default
 certbot will begin rotating logs once there are 1000 logs in the log directory.
 Meaning that once 1000 files are in <code class="docutils literal notranslate"><span class="pre">/var/log/letsencrypt</span></code> Certbot will delete
@@ -1206,7 +1282,7 @@ certbot rotation script.</p>
 </div>
 </div>
 <div class="section" id="certbot-command-line-options">
-<span id="command-line"></span><h2><a class="toc-backref" href="#id31">Certbot command-line options</a><a class="headerlink" href="#certbot-command-line-options" title="Permalink to this headline">¶</a></h2>
+<span id="command-line"></span><h2><a class="toc-backref" href="#id34">Certbot command-line options</a><a class="headerlink" href="#certbot-command-line-options" title="Permalink to this headline">¶</a></h2>
 <p>Certbot supports a lot of command line options. Here’s the full list, from
 <code class="docutils literal notranslate"><span class="pre">certbot</span> <span class="pre">--help</span> <span class="pre">all</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage: 
@@ -1329,12 +1405,12 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/1.9.0 (certbot(-auto);
-                        OS_NAME OS_VERSION) Authenticator/XXX Installer/YYY
-                        (SUBCOMMAND; flags: FLAGS) Py/major.minor.patchlevel).
-                        The flags encoded in the user agent are: --duplicate,
-                        --force-renew, --allow-subset-of-names, -n, and
-                        whether any hooks are set.
+                        &quot;&quot;. (default: CertbotACMEClient/1.10.0
+                        (certbot(-auto); OS_NAME OS_VERSION) Authenticator/XXX
+                        Installer/YYY (SUBCOMMAND; flags: FLAGS)
+                        Py/major.minor.patchlevel). The flags encoded in the
+                        user agent are: --duplicate, --force-renew, --allow-
+                        subset-of-names, -n, and whether any hooks are set.
   --user-agent-comment USER_AGENT_COMMENT
                         Add a comment to the default user agent string. May be
                         used when repackaging Certbot or calling it from
@@ -1399,6 +1475,12 @@ security:
   Security parameters &amp; server settings
 
   --rsa-key-size N      Size of the RSA key. (default: 2048)
+  --key-type {rsa,ecdsa}
+                        Type of generated private key(Only *ONE* per
+                        invocation can be provided at this time) (default:
+                        rsa)
+  --elliptic-curve N    The SECG elliptic curve name to use. Please see RFC
+                        8446 for supported values. (default: secp256r1)
   --must-staple         Adds the OCSP Must Staple extension to the
                         certificate. Autoconfigures OCSP Stapling for
                         supported setups (Apache version &gt;= 2.3.3 ). (default:
@@ -1899,8 +1981,6 @@ manual:
   --manual-cleanup-hook MANUAL_CLEANUP_HOOK
                         Path or command to execute for the cleanup script
                         (default: None)
-  --manual-public-ip-logging-ok
-                        Automatically allows public IP logging (default: Ask)
 
 nginx:
   Nginx Web Server plugin
@@ -1945,7 +2025,7 @@ webroot:
 </div>
 </div>
 <div class="section" id="getting-help">
-<h2><a class="toc-backref" href="#id32">Getting help</a><a class="headerlink" href="#getting-help" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id35">Getting help</a><a class="headerlink" href="#getting-help" title="Permalink to this headline">¶</a></h2>
 <p>If you’re having problems, we recommend posting on the Let’s Encrypt
 <a class="reference external" href="https://community.letsencrypt.org">Community Forum</a>.</p>
 <p>If you find a bug in the software, please do report it in our <a class="reference external" href="https://github.com/certbot/certbot/issues">issue
@@ -2019,7 +2099,7 @@ also might contain personally identifiable information)</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'1.10.0.dev0',
+            VERSION:'1.11.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -2046,7 +2126,7 @@ also might contain personally identifiable information)</li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%201.10.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
