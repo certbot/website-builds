@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.crypto_util module &mdash; Certbot 1.11.0.dev0 documentation</title>
+  <title>certbot.crypto_util module &mdash; Certbot 1.10.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.crypto_util module &mdash; Certbot 1.11.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.crypto_util module &mdash; Certbot 1.10.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 1.10.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="certbot package" href="certbot.html"/>
         <link rel="next" title="certbot.errors module" href="certbot.errors.html"/>
         <link rel="prev" title="certbot.achallenges module" href="certbot.achallenges.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.11
+                1.10
               </div>
             
           
@@ -208,7 +208,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <p>Certbot client crypto utility functions.</p>
 <dl class="function">
 <dt id="certbot.crypto_util.init_save_key">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">init_save_key</code><span class="sig-paren">(</span><em>key_size</em>, <em>key_dir</em>, <em>key_type='rsa'</em>, <em>elliptic_curve='secp256r1'</em>, <em>keyname='key-certbot.pem'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#init_save_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.init_save_key" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">certbot.crypto_util.</code><code class="descname">init_save_key</code><span class="sig-paren">(</span><em>key_size</em>, <em>key_dir</em>, <em>keyname='key-certbot.pem'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#init_save_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.init_save_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes and saves a privkey.</p>
 <p>Inits key and saves it in PEM format on the filesystem.</p>
 <div class="admonition note">
@@ -221,10 +221,8 @@ already exists at the path.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>key_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – key size in bits if key size is rsa.</li>
+<li><strong>key_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – RSA key size in bits</li>
 <li><strong>key_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Key save directory.</li>
-<li><strong>key_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Key Type [rsa, ecdsa]</li>
-<li><strong>elliptic_curve</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Name of the elliptic curve if key type is ecdsa.</li>
 <li><strong>keyname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Filename of key</li>
 </ul>
 </td>
@@ -338,24 +336,17 @@ list of domains requested in the CSR)</p>
 
 <dl class="function">
 <dt id="certbot.crypto_util.make_key">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">make_key</code><span class="sig-paren">(</span><em>bits=1024</em>, <em>key_type='rsa'</em>, <em>elliptic_curve=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#make_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.make_key" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate PEM encoded RSA|EC key.</p>
+<code class="descclassname">certbot.crypto_util.</code><code class="descname">make_key</code><span class="sig-paren">(</span><em>bits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#make_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.make_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate PEM encoded RSA key.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>bits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of bits if key_type=rsa. At least 1024 for RSA.</li>
-<li><strong>ec_curve</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The elliptic curve to use.</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>bits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of bits, at least 1024.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">new RSA or ECDSA key in PEM form with specified number of bits
-or of type ec_curve when key_type ecdsa is used.</p>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">new RSA key in PEM form with specified number of bits</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
-</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></td>
 </tr>
 </tbody>
 </table>
@@ -746,7 +737,7 @@ issuer in the certificate chain.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.11.0.dev0',
+            VERSION:'1.10.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -773,7 +764,7 @@ issuer in the certificate chain.</li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%20module%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%20module%E2%80%94%20Certbot%201.10.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

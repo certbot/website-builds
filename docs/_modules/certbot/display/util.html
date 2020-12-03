@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.display.util &mdash; Certbot 1.11.0.dev0 documentation</title>
+  <title>certbot.display.util &mdash; Certbot 1.10.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.display.util &mdash; Certbot 1.11.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.display.util &mdash; Certbot 1.10.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.10.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.11
+                1.10
               </div>
             
           
@@ -183,25 +183,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
            <div itemprop="articleBody">
             
   <h1>Source code for certbot.display.util</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Certbot display.</span>
-
-<span class="sd">This module (`certbot.display.util`) or its companion `certbot.display.ops`</span>
-<span class="sd">should be used whenever:</span>
-
-<span class="sd">- Displaying status information to the user on the terminal</span>
-<span class="sd">- Collecting information from the user via prompts</span>
-
-<span class="sd">Other messages can use the `logging` module. See `log.py`.</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Certbot display.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">textwrap</span>
 
 <span class="kn">import</span> <span class="nn">zope.interface</span>
-<span class="kn">import</span> <span class="nn">zope.component</span>
 
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">constants</span>
@@ -283,18 +271,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="notify"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.notify">[docs]</a><span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; None</span>
-    <span class="sd">&quot;&quot;&quot;Display a basic status message.</span>
-
-<span class="sd">    :param str msg: message to display</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
-        <span class="n">msg</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">decorate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span></div>
-
-
 <div class="viewcode-block" id="FileDisplay"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.FileDisplay">[docs]</a><span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">FileDisplay</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;File-based display.&quot;&quot;&quot;</span>
@@ -307,8 +283,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="bp">self</span><span class="o">.</span><span class="n">skipped_interaction</span> <span class="o">=</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="FileDisplay.notification"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.FileDisplay.notification">[docs]</a>    <span class="k">def</span> <span class="nf">notification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                     <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                     <span class="n">decorate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                     <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Displays a notification and waits for user acceptance.</span>
 
 <span class="sd">        :param str message: Message to display</span>
@@ -317,23 +292,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        :param bool wrap: Whether or not the application should wrap text</span>
 <span class="sd">        :param bool force_interactive: True if it&#39;s safe to prompt the user</span>
 <span class="sd">            because it won&#39;t cause any workflow regressions</span>
-<span class="sd">        :param bool decorate: Whether to surround the message with a</span>
-<span class="sd">            decorated frame</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">wrap</span><span class="p">:</span>
             <span class="n">message</span> <span class="o">=</span> <span class="n">_wrap_lines</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Notifying user: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-            <span class="p">((</span><span class="s2">&quot;</span><span class="si">{line}{frame}{line}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">decorate</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span>
-             <span class="s2">&quot;</span><span class="si">{msg}{line}</span><span class="s2">&quot;</span> <span class="o">+</span>
-             <span class="p">(</span><span class="s2">&quot;</span><span class="si">{frame}{line}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">decorate</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
-            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">SIDE_FRAME</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
-        <span class="p">)</span>
+            <span class="s2">&quot;</span><span class="si">{line}{frame}{line}{msg}{line}{frame}{line}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">line</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">SIDE_FRAME</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">message</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
-
         <span class="k">if</span> <span class="n">pause</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_can_interact</span><span class="p">(</span><span class="n">force_interactive</span><span class="p">):</span>
                 <span class="n">input_with_timeout</span><span class="p">(</span><span class="s2">&quot;Press Enter to Continue&quot;</span><span class="p">)</span>
@@ -680,26 +646,19 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">(You can set this with the </span><span class="si">{0}</span><span class="s2"> flag)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cli_flag</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">MissingCommandlineFlag</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-<div class="viewcode-block" id="NoninteractiveDisplay.notification"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.NoninteractiveDisplay.notification">[docs]</a>    <span class="k">def</span> <span class="nf">notification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">decorate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
+<div class="viewcode-block" id="NoninteractiveDisplay.notification"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.NoninteractiveDisplay.notification">[docs]</a>    <span class="k">def</span> <span class="nf">notification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>  <span class="c1"># pylint: disable=unused-argument</span>
         <span class="sd">&quot;&quot;&quot;Displays a notification without waiting for user acceptance.</span>
 
 <span class="sd">        :param str message: Message to display to stdout</span>
 <span class="sd">        :param bool pause: The NoninteractiveDisplay waits for no keyboard</span>
 <span class="sd">        :param bool wrap: Whether or not the application should wrap text</span>
-<span class="sd">        :param bool decorate: Whether to apply a decorated frame to the message</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">wrap</span><span class="p">:</span>
             <span class="n">message</span> <span class="o">=</span> <span class="n">_wrap_lines</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Notifying user: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
-            <span class="p">((</span><span class="s2">&quot;</span><span class="si">{line}{frame}{line}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">decorate</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span>
-             <span class="s2">&quot;</span><span class="si">{msg}{line}</span><span class="s2">&quot;</span> <span class="o">+</span>
-             <span class="p">(</span><span class="s2">&quot;</span><span class="si">{frame}{line}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">decorate</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
-            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">SIDE_FRAME</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
-        <span class="p">)</span>
+            <span class="s2">&quot;</span><span class="si">{line}{frame}{line}{msg}{line}{frame}{line}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">line</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">frame</span><span class="o">=</span><span class="n">SIDE_FRAME</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">message</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="NoninteractiveDisplay.menu"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.NoninteractiveDisplay.menu">[docs]</a>    <span class="k">def</span> <span class="nf">menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">ok_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cancel_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -819,31 +778,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;(</span><span class="si">{first}</span><span class="s2">)</span><span class="si">{rest}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">first</span><span class="o">=</span><span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rest</span><span class="o">=</span><span class="n">label</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-
-
-<div class="viewcode-block" id="summarize_domain_list"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.summarize_domain_list">[docs]</a><span class="k">def</span> <span class="nf">summarize_domain_list</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
-    <span class="c1"># type: (List[str]) -&gt; str</span>
-    <span class="sd">&quot;&quot;&quot;Summarizes a list of domains in the format of:</span>
-<span class="sd">        example.com.com and N more domains</span>
-<span class="sd">    or if there is are only two domains:</span>
-<span class="sd">        example.com and www.example.com</span>
-<span class="sd">    or if there is only one domain:</span>
-<span class="sd">        example.com</span>
-
-<span class="sd">    :param list domains: `str` list of domains</span>
-<span class="sd">    :returns: the domain list summary</span>
-<span class="sd">    :rtype: str</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">domains</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
-
-    <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">domains</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">l</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">domains</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="n">l</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">domains</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> and </span><span class="si">{1}</span><span class="s2"> more domains&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">domains</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -900,7 +834,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.11.0.dev0',
+            VERSION:'1.10.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -927,7 +861,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.util%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.util%E2%80%94%20Certbot%201.10.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

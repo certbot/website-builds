@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.crypto_util &mdash; Certbot 1.11.0.dev0 documentation</title>
+  <title>certbot.crypto_util &mdash; Certbot 1.10.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.crypto_util &mdash; Certbot 1.11.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.crypto_util &mdash; Certbot 1.10.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 1.10.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.11
+                1.10
               </div>
             
           
@@ -196,16 +196,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="c1"># See https://github.com/pyca/cryptography/issues/4275</span>
 <span class="kn">from</span> <span class="nn">cryptography</span> <span class="k">import</span> <span class="n">x509</span>  <span class="c1"># type: ignore</span>
-<span class="kn">from</span> <span class="nn">cryptography.exceptions</span> <span class="k">import</span> <span class="n">InvalidSignature</span><span class="p">,</span> <span class="n">UnsupportedAlgorithm</span>
+<span class="kn">from</span> <span class="nn">cryptography.exceptions</span> <span class="k">import</span> <span class="n">InvalidSignature</span>
 <span class="kn">from</span> <span class="nn">cryptography.hazmat.backends</span> <span class="k">import</span> <span class="n">default_backend</span>
-<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.asymmetric</span> <span class="k">import</span> <span class="n">ec</span>
-<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.asymmetric.ec</span> <span class="k">import</span> <span class="n">ECDSA</span><span class="p">,</span> <span class="n">EllipticCurvePublicKey</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.asymmetric.ec</span> <span class="k">import</span> <span class="n">ECDSA</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.asymmetric.ec</span> <span class="k">import</span> <span class="n">EllipticCurvePublicKey</span>
 <span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.asymmetric.padding</span> <span class="k">import</span> <span class="n">PKCS1v15</span>
 <span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.asymmetric.rsa</span> <span class="k">import</span> <span class="n">RSAPublicKey</span>
-<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives.serialization</span> <span class="k">import</span> <span class="n">Encoding</span><span class="p">,</span> <span class="n">NoEncryption</span><span class="p">,</span> <span class="n">PrivateFormat</span>
 <span class="kn">from</span> <span class="nn">OpenSSL</span> <span class="k">import</span> <span class="n">crypto</span>
 <span class="kn">from</span> <span class="nn">OpenSSL</span> <span class="k">import</span> <span class="n">SSL</span>  <span class="c1"># type: ignore</span>
-
 <span class="kn">import</span> <span class="nn">pyrfc3339</span>
 <span class="kn">import</span> <span class="nn">six</span>
 <span class="kn">import</span> <span class="nn">zope.component</span>
@@ -221,9 +219,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <span class="c1"># High level functions</span>
-<div class="viewcode-block" id="init_save_key"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.init_save_key">[docs]</a><span class="k">def</span> <span class="nf">init_save_key</span><span class="p">(</span>
-        <span class="n">key_size</span><span class="p">,</span> <span class="n">key_dir</span><span class="p">,</span> <span class="n">key_type</span><span class="o">=</span><span class="s2">&quot;rsa&quot;</span><span class="p">,</span> <span class="n">elliptic_curve</span><span class="o">=</span><span class="s2">&quot;secp256r1&quot;</span><span class="p">,</span> <span class="n">keyname</span><span class="o">=</span><span class="s2">&quot;key-certbot.pem&quot;</span>
-<span class="p">):</span>
+<div class="viewcode-block" id="init_save_key"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.init_save_key">[docs]</a><span class="k">def</span> <span class="nf">init_save_key</span><span class="p">(</span><span class="n">key_size</span><span class="p">,</span> <span class="n">key_dir</span><span class="p">,</span> <span class="n">keyname</span><span class="o">=</span><span class="s2">&quot;key-certbot.pem&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Initializes and saves a privkey.</span>
 
 <span class="sd">    Inits key and saves it in PEM format on the filesystem.</span>
@@ -231,10 +227,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    .. note:: keyname is the attempted filename, it may be different if a file</span>
 <span class="sd">        already exists at the path.</span>
 
-<span class="sd">    :param int key_size: key size in bits if key size is rsa.</span>
+<span class="sd">    :param int key_size: RSA key size in bits</span>
 <span class="sd">    :param str key_dir: Key save directory.</span>
-<span class="sd">    :param str key_type: Key Type [rsa, ecdsa]</span>
-<span class="sd">    :param str elliptic_curve: Name of the elliptic curve if key type is ecdsa.</span>
 <span class="sd">    :param str keyname: Filename of key</span>
 
 <span class="sd">    :returns: Key</span>
@@ -244,9 +238,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">key_pem</span> <span class="o">=</span> <span class="n">make_key</span><span class="p">(</span>
-            <span class="n">bits</span><span class="o">=</span><span class="n">key_size</span><span class="p">,</span> <span class="n">elliptic_curve</span><span class="o">=</span><span class="n">elliptic_curve</span> <span class="ow">or</span> <span class="s2">&quot;secp256r1&quot;</span><span class="p">,</span> <span class="n">key_type</span><span class="o">=</span><span class="n">key_type</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">key_pem</span> <span class="o">=</span> <span class="n">make_key</span><span class="p">(</span><span class="n">key_size</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">err</span>
@@ -258,10 +250,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">key_dir</span><span class="p">,</span> <span class="n">keyname</span><span class="p">),</span> <span class="mo">0o600</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">key_f</span><span class="p">:</span>
         <span class="n">key_f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">key_pem</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">key_type</span> <span class="o">==</span> <span class="s1">&#39;rsa&#39;</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Generating RSA key (</span><span class="si">%d</span><span class="s2"> bits): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">key_path</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Generating ECDSA key (</span><span class="si">%d</span><span class="s2"> bits): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">key_path</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Generating key (</span><span class="si">%d</span><span class="s2"> bits): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">key_path</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">Key</span><span class="p">(</span><span class="n">key_path</span><span class="p">,</span> <span class="n">key_pem</span><span class="p">)</span></div>
 
@@ -370,45 +359,18 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">PEM</span><span class="p">,</span> <span class="n">util</span><span class="o">.</span><span class="n">CSR</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">csrfile</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data_pem</span><span class="p">,</span> <span class="n">form</span><span class="o">=</span><span class="s2">&quot;pem&quot;</span><span class="p">),</span> <span class="n">domains</span></div>
 
 
-<div class="viewcode-block" id="make_key"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.make_key">[docs]</a><span class="k">def</span> <span class="nf">make_key</span><span class="p">(</span><span class="n">bits</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="n">key_type</span><span class="o">=</span><span class="s2">&quot;rsa&quot;</span><span class="p">,</span> <span class="n">elliptic_curve</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generate PEM encoded RSA|EC key.</span>
+<div class="viewcode-block" id="make_key"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.make_key">[docs]</a><span class="k">def</span> <span class="nf">make_key</span><span class="p">(</span><span class="n">bits</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Generate PEM encoded RSA key.</span>
 
-<span class="sd">    :param int bits: Number of bits if key_type=rsa. At least 1024 for RSA.</span>
+<span class="sd">    :param int bits: Number of bits, at least 1024.</span>
 
-<span class="sd">    :param str ec_curve: The elliptic curve to use.</span>
-
-<span class="sd">    :returns: new RSA or ECDSA key in PEM form with specified number of bits</span>
-<span class="sd">              or of type ec_curve when key_type ecdsa is used.</span>
+<span class="sd">    :returns: new RSA key in PEM form with specified number of bits</span>
 <span class="sd">    :rtype: str</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">key_type</span> <span class="o">==</span> <span class="s1">&#39;rsa&#39;</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">bits</span> <span class="o">&lt;</span> <span class="mi">1024</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;Unsupported RSA key length: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bits</span><span class="p">))</span>
 
-        <span class="n">key</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">PKey</span><span class="p">()</span>
-        <span class="n">key</span><span class="o">.</span><span class="n">generate_key</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">TYPE_RSA</span><span class="p">,</span> <span class="n">bits</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">key_type</span> <span class="o">==</span> <span class="s1">&#39;ecdsa&#39;</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="n">elliptic_curve</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;SECP256R1&#39;</span><span class="p">,</span> <span class="s1">&#39;SECP384R1&#39;</span><span class="p">,</span> <span class="s1">&#39;SECP512R1&#39;</span><span class="p">):</span>
-                <span class="n">_key</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">generate_private_key</span><span class="p">(</span>
-                    <span class="n">curve</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="n">ec</span><span class="p">,</span> <span class="n">elliptic_curve</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)(),</span>
-                    <span class="n">backend</span><span class="o">=</span><span class="n">default_backend</span><span class="p">()</span>
-                <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;Unsupported elliptic curve: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">elliptic_curve</span><span class="p">))</span>
-        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;Unsupported elliptic curve: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">elliptic_curve</span><span class="p">))</span>
-        <span class="k">except</span> <span class="n">UnsupportedAlgorithm</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">six</span><span class="o">.</span><span class="n">raise_from</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
-        <span class="n">_key_pem</span> <span class="o">=</span> <span class="n">_key</span><span class="o">.</span><span class="n">private_bytes</span><span class="p">(</span>
-            <span class="n">encoding</span><span class="o">=</span><span class="n">Encoding</span><span class="o">.</span><span class="n">PEM</span><span class="p">,</span>
-            <span class="nb">format</span><span class="o">=</span><span class="n">PrivateFormat</span><span class="o">.</span><span class="n">TraditionalOpenSSL</span><span class="p">,</span>
-            <span class="n">encryption_algorithm</span><span class="o">=</span><span class="n">NoEncryption</span><span class="p">()</span>
-        <span class="p">)</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">load_privatekey</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">_key_pem</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;Invalid key_type specified: </span><span class="si">{}</span><span class="s2">.  Use [rsa|ecdsa]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key_type</span><span class="p">))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">bits</span> <span class="o">&gt;=</span> <span class="mi">1024</span>  <span class="c1"># XXX</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">PKey</span><span class="p">()</span>
+    <span class="n">key</span><span class="o">.</span><span class="n">generate_key</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">TYPE_RSA</span><span class="p">,</span> <span class="n">bits</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">crypto</span><span class="o">.</span><span class="n">dump_privatekey</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span></div>
 
 
@@ -670,21 +632,19 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># pylint: disable=redefined-outer-name</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>  <span class="c1"># type: IO[bytes]</span>
-        <span class="n">x509</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cert_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">x509</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span>
+                                               <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
     <span class="c1"># pyopenssl always returns bytes</span>
     <span class="n">timestamp</span> <span class="o">=</span> <span class="n">method</span><span class="p">(</span><span class="n">x509</span><span class="p">)</span>
     <span class="n">reformatted_timestamp</span> <span class="o">=</span> <span class="p">[</span><span class="n">timestamp</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span> <span class="sa">b</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="sa">b</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
                              <span class="n">timestamp</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">8</span><span class="p">],</span> <span class="sa">b</span><span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">[</span><span class="mi">8</span><span class="p">:</span><span class="mi">10</span><span class="p">],</span> <span class="sa">b</span><span class="s2">&quot;:&quot;</span><span class="p">,</span>
                              <span class="n">timestamp</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">12</span><span class="p">],</span> <span class="sa">b</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">[</span><span class="mi">12</span><span class="p">:]]</span>
-    <span class="c1"># pyrfc3339 always uses the type `str`. This means that in Python 2, it</span>
-    <span class="c1"># expects str/bytes and in Python 3 it expects its str type or the Python 2</span>
-    <span class="c1"># equivalent of the type unicode.</span>
-    <span class="n">timestamp_bytes</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reformatted_timestamp</span><span class="p">)</span>
+    <span class="n">timestamp_str</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">reformatted_timestamp</span><span class="p">)</span>
+    <span class="c1"># pyrfc3339 uses &quot;native&quot; strings. That is, bytes on Python 2 and unicode</span>
+    <span class="c1"># on Python 3</span>
     <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">PY3</span><span class="p">:</span>
-        <span class="n">timestamp_str</span> <span class="o">=</span> <span class="n">timestamp_bytes</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">timestamp_str</span> <span class="o">=</span> <span class="n">timestamp_bytes</span>
+        <span class="n">timestamp_str</span> <span class="o">=</span> <span class="n">timestamp_str</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">pyrfc3339</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">timestamp_str</span><span class="p">)</span>
 
 
@@ -742,7 +702,6 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="c1"># Since each normalized cert has a newline suffix, no extra newlines are required.</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">certs_normalized</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">certs_normalized</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span></div>
 
-
 <div class="viewcode-block" id="get_serial_from_cert"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.get_serial_from_cert">[docs]</a><span class="k">def</span> <span class="nf">get_serial_from_cert</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Retrieve the serial number of a certificate from certificate path</span>
 
@@ -752,8 +711,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :rtype: int</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># pylint: disable=redefined-outer-name</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>  <span class="c1"># type: IO[bytes]</span>
-        <span class="n">x509</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cert_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">x509</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">(</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">,</span>
+                                                           <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">x509</span><span class="o">.</span><span class="n">get_serial_number</span><span class="p">()</span></div>
 
 
@@ -841,7 +801,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.11.0.dev0',
+            VERSION:'1.10.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -868,7 +828,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%E2%80%94%20Certbot%201.10.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
