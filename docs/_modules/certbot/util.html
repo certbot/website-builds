@@ -624,10 +624,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<span class="k">class</span> <span class="nc">_ShowWarning</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
+<div class="viewcode-block" id="DeprecatedArgumentAction"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.DeprecatedArgumentAction">[docs]</a><span class="k">class</span> <span class="nc">DeprecatedArgumentAction</span><span class="p">(</span><span class="n">argparse</span><span class="o">.</span><span class="n">Action</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Action to log a warning when an argument is used.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unused1</span><span class="p">,</span> <span class="n">unused2</span><span class="p">,</span> <span class="n">unused3</span><span class="p">,</span> <span class="n">option_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Use of </span><span class="si">%s</span><span class="s2"> is deprecated.&quot;</span><span class="p">,</span> <span class="n">option_string</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Use of </span><span class="si">%s</span><span class="s2"> is deprecated.&quot;</span><span class="p">,</span> <span class="n">option_string</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="add_deprecated_argument"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.add_deprecated_argument">[docs]</a><span class="k">def</span> <span class="nf">add_deprecated_argument</span><span class="p">(</span><span class="n">add_argument</span><span class="p">,</span> <span class="n">argument_name</span><span class="p">,</span> <span class="n">nargs</span><span class="p">):</span>
@@ -643,16 +643,16 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :param nargs: Value for nargs when adding the argument to argparse.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">_ShowWarning</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">configargparse</span><span class="o">.</span><span class="n">ACTION_TYPES_THAT_DONT_NEED_A_VALUE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">DeprecatedArgumentAction</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">configargparse</span><span class="o">.</span><span class="n">ACTION_TYPES_THAT_DONT_NEED_A_VALUE</span><span class="p">:</span>
         <span class="c1"># In version 0.12.0 ACTION_TYPES_THAT_DONT_NEED_A_VALUE was</span>
         <span class="c1"># changed from a set to a tuple.</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">configargparse</span><span class="o">.</span><span class="n">ACTION_TYPES_THAT_DONT_NEED_A_VALUE</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
             <span class="n">configargparse</span><span class="o">.</span><span class="n">ACTION_TYPES_THAT_DONT_NEED_A_VALUE</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
-                <span class="n">_ShowWarning</span><span class="p">)</span>
+                <span class="n">DeprecatedArgumentAction</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">configargparse</span><span class="o">.</span><span class="n">ACTION_TYPES_THAT_DONT_NEED_A_VALUE</span> <span class="o">+=</span> <span class="p">(</span>
-                <span class="n">_ShowWarning</span><span class="p">,)</span>
-    <span class="n">add_argument</span><span class="p">(</span><span class="n">argument_name</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">_ShowWarning</span><span class="p">,</span>
+                <span class="n">DeprecatedArgumentAction</span><span class="p">,)</span>
+    <span class="n">add_argument</span><span class="p">(</span><span class="n">argument_name</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">DeprecatedArgumentAction</span><span class="p">,</span>
                  <span class="n">help</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">SUPPRESS</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="n">nargs</span><span class="p">)</span></div>
 
 
