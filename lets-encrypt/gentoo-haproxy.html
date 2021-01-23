@@ -687,17 +687,65 @@ You should never share these credentials publicly or with an unauthorized person
 
   <div class="instruction-pane advanced">
     <ol>
-      <aside class="note docker-note">
-        <div class="note-header">
-          <h3>Follow Docker instructions</h3>
-        </div>
+      <aside class="note">
+          <div class="note-header">
+              <h3>Experimental</h3>
+          </div>
           <p>
-          To get a wildcard certificate on this system, you'll need to run Certbot in Docker. You
-          can do so by following
-          <a href="/docs/install.html#running-with-docker">these
-            steps from our documentation</a>.
+              Currently, the only packaged certbot DNS plugin in the official Gentoo repository is <a href="https://packages.gentoo.org/packages/app-crypt/certbot-dns-nsone">app-crypt/certbot-dns-nsone</a>. The instructions below pertaining the use of an overlay are <strong>experimental</strong> and is not officially supported by Gentoo, Let's Encrypt nor EFF.
           </p>
       </aside>
+      <li>
+          Enable the `certbot-dns-plugins` overlay
+          <p>
+              If you require any other DNS plugin other than the <a href="https://packages.gentoo.org/packages/app-crypt/certbot-dns-nsone">app-crypt/certbot-dns-nsone</a> plugin, you will need the required ebuilds to install them. An <a href="https://wiki.gentoo.org/wiki/Ebuild_repository">overlay</a> called <a href="https://github.com/gentoo-mirror/certbot-dns-plugins">certbot-dns-plugins</a> exists with all other certbot DNS plugins. To be able to use those ebuilds, you will need to add the aformentioned overlay.
+          </p>
+          <h3>Using `eselect`</h3>
+          <p>
+              If not installed already, install <a href="https://packages.gentoo.org/packages/app-eselect/eselect-repository">app-eselect/eselect-repository</a>:
+          </p>
+          <pre>sudo emerge -av app-eselect/eselect-repository</pre>
+          <p>
+              Next, enable the overlay and sync it:
+          </p>
+            <pre class="no-before"><ol><li>sudo eselect repository enable certbot-dns-plugins</li>
+          <li>sudo emerge --sync certbot-dns-plugins</li></ol></pre>
+          <h3>Using `layman`</h3>
+          <p>
+              If you're using <a href="https://wiki.gentoo.org/wiki/Layman">layman</a> for managing your overlays, you can simply run:
+          </p>
+          <pre>sudo layman -a certbot-dns-plugins</pre>
+          <h3>Manual overlay installation</h3>
+          <p>
+              If you don't want to use `eselect-repository` or `layman` to manage your overlays, you can also manually install the overlay. Please see the Gentoo Wiki article about <a href="https://wiki.gentoo.org/wiki//etc/portage/repos.conf">/etc/portage/repos.conf</a> for more information.</p>
+          <aside class="note">
+              <div class="note-header">
+                  <h3>ACCEPT_KEYWORDS</h3>
+              </div>
+              <p>
+      	    All ebuilds have the <a href="https://wiki.gentoo.org/wiki/KEYWORDS">testing KEYWORDS</a> variable set, including potential dependencies from this overlay. Please add the appropriate <a href="https://wiki.gentoo.org/wiki/ACCEPT_KEYWORDS">ACCEPT_KEYWORDS</a> when installing any of the ebuilds.
+      	</p>
+          </aside>
+      <li>
+          Check if your DNS provider is supported
+          <p>
+          See if your DNS provider is supported by Certbot by checking
+          <a href="/docs/using.html#dns-plugins">this list in our
+            documentation</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="/docs/using.html#dns-plugins">check if your DNS provider supports Certbot</a>
+          </p>
+          <h3>Not supported?</h3>
+          <p>
+          If your DNS provider is not supported, pause here: run Certbot with the manual plugin by using
+          <a href="/docs/using.html#manual">these steps from our documentation</a>.
+          </p>
+          <h3>Supported?</h3>
+          <p>
+          If your DNS provider is supported, continue with the remaining instructions below.
+          </p>
+      </li>
 
       <li>
           SSH into the server
@@ -709,6 +757,29 @@ You should never share these credentials publicly or with an unauthorized person
           Run this command on the command line on the machine to install Certbot.
           <pre>sudo emerge -av app-crypt/certbot</pre>
         </p>
+      </li>
+      <li>
+          Install correct DNS plugin
+          <p>
+          Run the following command, replacing &lt;PLUGIN&gt; with the name of your DNS provider.
+          </p>
+          <pre>sudo emerge -av app-crypt/certbot-dns-&lt;PLUGIN&gt;</pre>
+          <p>
+          For example, if your DNS provider is Cloudflare, you'd run the following command:
+          </p>
+          <pre>sudo emerge -av app-crypt/certbot-dns-cloudflare</pre>
+      </li>
+      <li>
+          Set up credentials
+          <p>
+          You'll need to set up DNS credentials.<br />
+          Follow the steps in the "Credentials" section for your DNS provider to access or create the
+          appropriate credential configuration file. Find credentials instructions for your DNS provider
+          by clicking the <a href="/docs/using.html#dns-plugins">DNS plugin's name on the Documentation list</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="/docs/using.html#dns-plugins">find your DNS plugin's Credential steps</a>
+          </p>
       </li>
       <li>
           Get a certificate
@@ -761,8 +832,8 @@ You should never share these credentials publicly or with an unauthorized person
           Or you might be interested in using the experimental <a href="https://code.greenhost.net/open/letsencrypt-haproxy">third-party HAProxy plugin</a> from Greenhost.
           </p>
       </li>
-    </ol>
-  </div>
+    &lt;/ol&gt;
+  &lt;/div&gt;
 
   <div class="instructions-footer">
     <div class="col">
@@ -798,7 +869,8 @@ You should never share these credentials publicly or with an unauthorized person
       <a class="link-button-wide" href="https://supporters.eff.org/donate/support-work-on-certbot">Donate to Certbot and EFF<img alt="Red arrow pointing right" src="/images/chevron-right.png" class="mobile-only link-arrow" /></a>
     </div>
   </div>
-</div>
+&lt;/div&gt;
+</li></ol></div></div>
 
         </div>
       </div>
