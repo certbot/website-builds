@@ -664,6 +664,14 @@ You should never share these credentials publicly or with an unauthorized person
           <pre>sudo /opt/certbot/bin/pip install certbot</pre>
         </p>
       </li>
+      <li>
+        Prepare the Certbot command
+        <p>
+        Execute the following instruction on the command line on the machine to ensure
+        that the <tt>certbot</tt> command can be run.
+        </p>
+        <pre>sudo ln -s /opt/certbot/bin/certbot /usr/bin/certbot</pre>
+      </li>
 
       <li>
           [Optional] Install any custom third-party plugins
@@ -700,7 +708,7 @@ You should never share these credentials publicly or with an unauthorized person
               Stop your webserver, then run this command to get a certificate.
               Certbot will temporarily spin up a webserver on your machine.
               <pre>
-                  sudo /opt/certbot/bin/certbot certonly --standalone
+                  sudo certbot certonly --standalone
               </pre>
           </p>
           <h3>No, I need to keep my web server running.</h3>
@@ -708,7 +716,7 @@ You should never share these credentials publicly or with an unauthorized person
               If you have a webserver that's already using port 80 and don't want to stop it
               while Certbot runs, run this command and follow the instructions in the terminal.
               <pre>
-                  sudo /opt/certbot/bin/certbot certonly --webroot
+                  sudo certbot certonly --webroot
               </pre>
           </p>
           <aside class="note">
@@ -730,16 +738,16 @@ You should never share these credentials publicly or with an unauthorized person
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /opt/certbot/bin/certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
         <p>
         If you needed to stop your webserver to run Certbot, you'll want to
-        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>/opt/certbot/bin/certbot renew</tt> to stop
+        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
         and start your webserver automatically. For example, if your webserver is HAProxy, modify the
         command as follows:
 
-        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /opt/certbot/bin/certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
         <p>
@@ -844,6 +852,14 @@ You should never share these credentials publicly or with an unauthorized person
           <pre>sudo /opt/certbot/bin/pip install certbot</pre>
         </p>
       </li>
+      <li>
+        Prepare the Certbot command
+        <p>
+        Execute the following instruction on the command line on the machine to ensure
+        that the <tt>certbot</tt> command can be run.
+        </p>
+        <pre>sudo ln -s /opt/certbot/bin/certbot /usr/bin/certbot</pre>
+      </li>
 
       <li>
           [Optional] Install any custom third-party plugins
@@ -913,16 +929,16 @@ You should never share these credentials publicly or with an unauthorized person
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /opt/certbot/bin/certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
         <p>
         If you needed to stop your webserver to run Certbot, you'll want to
-        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>/opt/certbot/bin/certbot renew</tt> to stop
+        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
         and start your webserver automatically. For example, if your webserver is HAProxy, modify the
         command as follows:
 
-        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /opt/certbot/bin/certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
         <p>

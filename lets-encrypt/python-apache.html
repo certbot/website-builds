@@ -664,6 +664,14 @@ You should never share these credentials publicly or with an unauthorized person
           <pre>sudo /opt/certbot/bin/pip install certbot certbot-apache</pre>
         </p>
       </li>
+      <li>
+        Prepare the Certbot command
+        <p>
+        Execute the following instruction on the command line on the machine to ensure
+        that the <tt>certbot</tt> command can be run.
+        </p>
+        <pre>sudo ln -s /opt/certbot/bin/certbot /usr/bin/certbot</pre>
+      </li>
 
       <li>
           [Optional] Install any custom third-party plugins
@@ -698,7 +706,7 @@ You should never share these credentials publicly or with an unauthorized person
             <p>
             Run this command to get a certificate and have Certbot edit your Apache configuration
             automatically to serve it, turning on HTTPS access in a single step.
-            <pre>sudo /opt/certbot/bin/certbot --apache</pre>
+            <pre>sudo certbot --apache</pre>
             </p>
           </li>
 
@@ -707,7 +715,7 @@ You should never share these credentials publicly or with an unauthorized person
             <p>
             If you're feeling more conservative and would like to make the changes to your Apache
             configuration by hand, run this command.
-            <pre>sudo /opt/certbot/bin/certbot certonly --apache</pre>
+            <pre>sudo certbot certonly --apache</pre>
             </p>
           </li>
         </ul>
@@ -718,7 +726,7 @@ You should never share these credentials publicly or with an unauthorized person
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /opt/certbot/bin/certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
       </li>
@@ -818,6 +826,14 @@ You should never share these credentials publicly or with an unauthorized person
           <pre>sudo /opt/certbot/bin/pip install certbot certbot-apache</pre>
         </p>
       </li>
+      <li>
+        Prepare the Certbot command
+        <p>
+        Execute the following instruction on the command line on the machine to ensure
+        that the <tt>certbot</tt> command can be run.
+        </p>
+        <pre>sudo ln -s /opt/certbot/bin/certbot /usr/bin/certbot</pre>
+      </li>
 
       <li>
           [Optional] Install any custom third-party plugins
@@ -892,7 +908,7 @@ You should never share these credentials publicly or with an unauthorized person
         Set up automatic renewal
         <p>
         We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /opt/certbot/bin/certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
       </li>
