@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Certbot - Ubuntufocal Nginx</title>
+    <title>Certbot - Python Webproduct</title>
     <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <link rel="stylesheet" href="/css/main.css">
@@ -14,7 +14,7 @@
     <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@EFF">
-    <meta name="twitter:title" content="Certbot - Ubuntufocal Nginx">
+    <meta name="twitter:title" content="Certbot - Python Webproduct">
     <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
@@ -169,7 +169,7 @@
     <div class="page-content">
       <div class="wrapper">
         <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/ubuntufocal-nginx.html">Nginx on Ubuntu 20.04</a></h2>
+          <h2 id="instructions-header"><a href="/lets-encrypt/python-webproduct.html">Web Hosting Product on pip</a></h2>
 <div class="use-certbot">
   <h1>To use Certbot, you'll need...</h1>
   <div class="three-col reqs">
@@ -601,115 +601,159 @@ You should never share these credentials publicly or with an unauthorized person
 <div class="instruction-pane-wrapper">
   <div class="instruction-pane automated">
     <ol>
-      <aside class="note">
-        <div class="note-header">
-          <h3>Snap Support</h3>
-        </div>
-        <p>
-        The Certbot snap supports the x86_64, ARMv7, and ARMv8 architectures.
-        While we strongly recommend that most users install Certbot through the snap,
-        you can find alternate installation instructions
-        <a href="/docs/install.html">here</a>.
-        </p>
-      </aside>
-
+      
       <li>
           SSH into the server
           <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
       </li>
       <li>
-          Install snapd
-          <p>
-          You'll need to install snapd and make sure you follow any instructions to enable classic snap support.<br />
-          Follow these instructions on <a href="https://snapcraft.io/docs/installing-snapd/">snapcraft's site to install snapd</a>.
+          Install system dependencies
+
+          <p>These include:
+            <ul>
+              <li>Python 3.6+, including venv. This might be called <code>python3-dev</code>,
+                <code>python3-devel</code>, or <code>python3-venv</code>.</li>
+              <li>Augeas for the Apache plugin: <code>libaugeas0</code> or <code>augeaslibs</code></li>
+              <li>If you're having trouble installing cryptography, you may need to install additional
+                dependencies. See
+                <a href="https://cryptography.io/en/latest/installation.html#building-cryptography-on-linux">
+                the cryptography project's site</a> for more infoformation.</li>
+            </ul>
           </p>
-          <p class="centered">
-          <a class="link-button" href="https://snapcraft.io/docs/installing-snapd/">install snapd</a>
-          </p>
+
+          <p>Commands to install system dependencies may look like the following, run on the command
+          line on the machine:</p>
+
+          <pre><code>
+          # For APT-based distributions (e.g. Debian, Ubuntu ...)
+          sudo apt update
+          sudo apt install python3-dev python3-venv libaugeas0
+          # For RPM-based distributions (e.g. Fedora, CentOS ...)
+          # NB1: old distributions will use yum instead of dnf
+          # NB2: RHEL-based distributions use python3X-devel instead of python3-devel (e.g. python36-devel)
+          sudo dnf install python3-devel augeas-libs redhat-rpm-config
+          </code></pre>
+
+          <p>These packages may have slightly different names on other distributions; a search such as
+          "augeas on &lt;your_system_name&gt;" will probably yield helpful results.</p>
       </li>
       <li>
-        Ensure that your version of snapd is up to date
+        Set up a venv with certbot installed
         <p>
-        Execute the following instructions on the command line on the machine to ensure
-        that you have the latest version of <tt>snapd</tt>.
+        Execute the following instructions on the command line on the machine to set up a virtual
+        environment.
         </p>
-        <pre>sudo snap install core; sudo snap refresh core</pre>
+        <pre><code>
+          sudo su
+          python3 -m venv /opt/certbot/
+          . /opt/certbot/bin/activate
+          pip install --upgrade pip
+          pip install certbot certbot-apache certbot-nginx
+          deactivate
+          exit
+        </code></pre>
       </li>
       <li>
-          Remove certbot-auto and any Certbot OS packages
+          [Optional] Install any custom third-party plugins
           <p>
-          If you have any Certbot packages installed using an OS package manager like
-          <tt>apt</tt>, <tt>dnf</tt>, or <tt>yum</tt>, you should remove them before
-          installing the Certbot snap to ensure that when you run the command
-          <tt>certbot</tt> the snap is used rather than the installation from your OS
-          package manager. The exact command to do this depends on your OS, but
-          common examples are <tt>sudo apt-get remove certbot</tt>, <tt>sudo dnf
-          remove certbot</tt>, or <tt>sudo yum remove certbot</tt>.
+          If you use third-party plugins not created by the Certbot team, you can install them by
+          executing the following instructions on the command line on the machine.
           </p>
+          <pre><code>
+            sudo su
+            . /opt/certbot/bin/activate
+            pip install &lt;other-plugins&gt;
+            deactivate
+            exit
+          </code></pre>
+      </li>
+
+
+
+
+      <li>
+        Upgrade certbot
+        <p>To upgrade certbot, run the following commands on the command line on the machine.</p>
+        <pre><code>
+          sudo su
+          . /opt/certbot/bin/activate
+          pip install --upgrade certbot certbot-apache certbot-nginx
+          deactivate
+          exit
+        </code></pre>
+        <p>If this step leads to errors, run <code>rm -rf /opt/certbot</code> and repeat the instructions
+        from "Set up a venv with certbot installed",,
+        (and "Install any custom third-party plugins" if needed).</p>
+        <p>For automatic upgrades, lines 2-4 of these instructions can be run by a monthly cron job.</p>
+      </li>
+
+      <aside class="note">
+        <div class="note-header">
+          <h3>Further Support</h3>
+        </div>
+        <p>
+        The Certbot team supports this installation method on a best effort basis. If you are on
+        a more obscure or heavily customized system, these instructions may not work and the
+        Certbot team may be unable to help you resolve the problem.
+        </p>
+      </aside>
+      <li>
+          Choose how you'd like to run Certbot
           <p>
-          If you previously used Certbot through the certbot-auto script, you should
-          also remove its installation by following the instructions <a href="/docs/uninstall.html">here</a>.
+              Are you ok with temporarily stopping your website?
           </p>
+          <h3>Yes, my web server is not currently running on this machine.</h3>
+          <p>
+              Stop your webserver, then run this command to get a certificate.
+              Certbot will temporarily spin up a webserver on your machine.
+              <pre>
+                  sudo /opt/certbot/bin/certbot certonly --standalone
+              </pre>
+          </p>
+          <h3>No, I need to keep my web server running.</h3>
+          <p>
+              If you have a webserver that's already using port 80 and don't want to stop it
+              while Certbot runs, run this command and follow the instructions in the terminal.
+              <pre>
+                  sudo /opt/certbot/bin/certbot certonly --webroot
+              </pre>
+          </p>
+          <aside class="note">
+            <div class="note-header"><h3>Important Note:</h3></div>
+                  <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If <tt>/.well-known</tt> is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside <tt>/.well-known/acme-challenge</tt> are served by the webserver.</p>
+          </aside>
       </li>
 
       <li>
-        Install Certbot
-        <p>
-          Run this command on the command line on the machine to install Certbot.
-          <pre>sudo snap install --classic certbot</pre>
-        </p>
-      </li>
-      <li>
-        Prepare the Certbot command
-        <p>
-        Execute the following instruction on the command line on the machine to ensure
-        that the <tt>certbot</tt> command can be run.
-        </p>
-        <pre>sudo ln -s /snap/bin/certbot /usr/bin/certbot</pre>
-      </li>
-
-
-
-      <li> Choose how you'd like to run Certbot
-        <ul>
-        <li>
-          Either get and install your certificates...
+          Install your certificate
           <p>
-          Run this command to get a certificate and have Certbot edit your Nginx configuration
-          automatically to serve it, turning on HTTPS access in a single step.
-          <pre>sudo certbot --nginx</pre>
+              You'll need to install your new certificate in the configuration file for
+              your webserver.
           </p>
-        </li>
-        <li>
-          Or, just get a certificate
-          <p>
-          If you're feeling more conservative and would like to make the changes to your Nginx
-          configuration by hand, run this command.
-          <pre>sudo certbot certonly --nginx</pre>
-          </p>
-        </li>
-        </ul>
       </li>
+
 
       <li>
-        Test automatic renewal
+        Set up automatic renewal
         <p>
-        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
-        automatically before they expire. You will not need to run Certbot again, unless you change your
-        configuration. You can test automatic renewal for your certificates by running this command:
-        <pre>sudo certbot renew --dry-run</pre>
+        We recommend running the following line, which will add a cron job to the default crontab.
+        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /opt/certbot/bin/certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
         <p>
-        The command to renew certbot is installed in one of the following locations:
-        <ul>
-          <li><tt>/etc/crontab/</tt></li>
-          <li><tt>/etc/cron.*/*</tt></li>
-          <li><tt>systemctl list-timers</tt></li>
-        </ul>
+        If you needed to stop your webserver to run Certbot, you'll want to
+        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>/opt/certbot/bin/certbot renew</tt> to stop
+        and start your webserver automatically. For example, if your webserver is HAProxy, modify the
+        command as follows:
+
+        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /opt/certbot/bin/certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
-
+        <p>
+        More information is available in the
+        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
+        Certbot documentation on renewing certificates</a>.
+        </p>
       </li>
 
       <li>
@@ -724,17 +768,6 @@ You should never share these credentials publicly or with an unauthorized person
 
   <div class="instruction-pane advanced">
     <ol>
-      <aside class="note">
-        <div class="note-header">
-          <h3>Snap Support</h3>
-        </div>
-        <p>
-        The Certbot snap supports the x86_64, ARMv7, and ARMv8 architectures.
-        While we strongly recommend that most users install Certbot through the snap,
-        you can find alternate installation instructions
-        <a href="/docs/install.html">here</a>.
-        </p>
-      </aside>
       <li>
           Check if your DNS provider is supported
           <p>
@@ -761,55 +794,67 @@ You should never share these credentials publicly or with an unauthorized person
           <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
       </li>
       <li>
-          Install snapd
-          <p>
-          You'll need to install snapd and make sure you follow any instructions to enable classic snap support.<br />
-          Follow these instructions on <a href="https://snapcraft.io/docs/installing-snapd/">snapcraft's site to install snapd</a>.
+          Install system dependencies
+
+          <p>These include:
+            <ul>
+              <li>Python 3.6+, including venv. This might be called <code>python3-dev</code>,
+                <code>python3-devel</code>, or <code>python3-venv</code>.</li>
+              <li>Augeas for the Apache plugin: <code>libaugeas0</code> or <code>augeaslibs</code></li>
+              <li>If you're having trouble installing cryptography, you may need to install additional
+                dependencies. See
+                <a href="https://cryptography.io/en/latest/installation.html#building-cryptography-on-linux">
+                the cryptography project's site</a> for more infoformation.</li>
+            </ul>
           </p>
-          <p class="centered">
-          <a class="link-button" href="https://snapcraft.io/docs/installing-snapd/">install snapd</a>
-          </p>
+
+          <p>Commands to install system dependencies may look like the following, run on the command
+          line on the machine:</p>
+
+          <pre><code>
+          # For APT-based distributions (e.g. Debian, Ubuntu ...)
+          sudo apt update
+          sudo apt install python3-dev python3-venv libaugeas0
+          # For RPM-based distributions (e.g. Fedora, CentOS ...)
+          # NB1: old distributions will use yum instead of dnf
+          # NB2: RHEL-based distributions use python3X-devel instead of python3-devel (e.g. python36-devel)
+          sudo dnf install python3-devel augeas-libs redhat-rpm-config
+          </code></pre>
+
+          <p>These packages may have slightly different names on other distributions; a search such as
+          "augeas on &lt;your_system_name&gt;" will probably yield helpful results.</p>
       </li>
       <li>
-        Ensure that your version of snapd is up to date
+        Set up a venv with certbot installed
         <p>
-        Execute the following instructions on the command line on the machine to ensure
-        that you have the latest version of <tt>snapd</tt>.
+        Execute the following instructions on the command line on the machine to set up a virtual
+        environment.
         </p>
-        <pre>sudo snap install core; sudo snap refresh core</pre>
+        <pre><code>
+          sudo su
+          python3 -m venv /opt/certbot/
+          . /opt/certbot/bin/activate
+          pip install --upgrade pip
+          pip install certbot certbot-apache certbot-nginx
+          deactivate
+          exit
+        </code></pre>
       </li>
       <li>
-          Remove certbot-auto and any Certbot OS packages
+          [Optional] Install any custom third-party plugins
           <p>
-          If you have any Certbot packages installed using an OS package manager like
-          <tt>apt</tt>, <tt>dnf</tt>, or <tt>yum</tt>, you should remove them before
-          installing the Certbot snap to ensure that when you run the command
-          <tt>certbot</tt> the snap is used rather than the installation from your OS
-          package manager. The exact command to do this depends on your OS, but
-          common examples are <tt>sudo apt-get remove certbot</tt>, <tt>sudo dnf
-          remove certbot</tt>, or <tt>sudo yum remove certbot</tt>.
+          If you use third-party plugins not created by the Certbot team, you can install them by
+          executing the following instructions on the command line on the machine.
           </p>
-          <p>
-          If you previously used Certbot through the certbot-auto script, you should
-          also remove its installation by following the instructions <a href="/docs/uninstall.html">here</a>.
-          </p>
+          <pre><code>
+            sudo su
+            . /opt/certbot/bin/activate
+            pip install &lt;other-plugins&gt;
+            deactivate
+            exit
+          </code></pre>
       </li>
 
-      <li>
-        Install Certbot
-        <p>
-          Run this command on the command line on the machine to install Certbot.
-          <pre>sudo snap install --classic certbot</pre>
-        </p>
-      </li>
-      <li>
-        Prepare the Certbot command
-        <p>
-        Execute the following instruction on the command line on the machine to ensure
-        that the <tt>certbot</tt> command can be run.
-        </p>
-        <pre>sudo ln -s /snap/bin/certbot /usr/bin/certbot</pre>
-      </li>
 
       <li>
         Confirm plugin containment level
@@ -830,11 +875,11 @@ You should never share these credentials publicly or with an unauthorized person
           <p>
           Run the following command, replacing &lt;PLUGIN&gt; with the name of your DNS provider.
           </p>
-          <pre>sudo snap install certbot-dns-&lt;PLUGIN&gt;</pre>
+          <pre>pip install certbot-dns-&lt;PLUGIN&gt;</pre>
           <p>
           For example, if your DNS provider is Cloudflare, you'd run the following command:
           </p>
-          <pre>sudo snap install certbot-dns-cloudflare</pre>
+          <pre>pip install certbot-dns-cloudflare</pre>
       </li>
       <li>
           Set up credentials
@@ -849,43 +894,69 @@ You should never share these credentials publicly or with an unauthorized person
           </p>
       </li>
 
-      <li> Choose how you'd like to run Certbot
-        <ul>
-        <li>
-          Either get and install your certificates...
-          <p>
-          Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>,
-          along with the flag <tt>-i nginx</tt>.
-          </p>
-        </li>
-        <li>
-          Or, just get a certificate
+      <li>
+        Upgrade certbot
+        <p>To upgrade certbot, run the following commands on the command line on the machine.</p>
+        <pre><code>
+          sudo su
+          . /opt/certbot/bin/activate
+          pip install --upgrade certbot certbot-apache certbot-nginx
+          deactivate
+          exit
+        </code></pre>
+        <p>If this step leads to errors, run <code>rm -rf /opt/certbot</code> and repeat the instructions
+        from "Set up a venv with certbot installed", DNS plugin installation instructions,,
+        (and "Install any custom third-party plugins" if needed).</p>
+        <p>For automatic upgrades, lines 2-4 of these instructions can be run by a monthly cron job.</p>
+      </li>
+
+      <aside class="note">
+        <div class="note-header">
+          <h3>Further Support</h3>
+        </div>
+        <p>
+        The Certbot team supports this installation method on a best effort basis. If you are on
+        a more obscure or heavily customized system, these instructions may not work and the
+        Certbot team may be unable to help you resolve the problem.
+        </p>
+      </aside>
+      <li>
+          Get a certificate
           <p>
           Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>.
           </p>
-        </li>
-        </ul>
       </li>
 
       <li>
-        Test automatic renewal
+          Install your certificate
+          <p>
+              You'll need to install your new certificate in the configuration file for
+              your webserver.
+          </p>
+      </li>
+
+
+      <li>
+        Set up automatic renewal
         <p>
-        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
-        automatically before they expire. You will not need to run Certbot again, unless you change your
-        configuration. You can test automatic renewal for your certificates by running this command:
-        <pre>sudo certbot renew --dry-run</pre>
+        We recommend running the following line, which will add a cron job to the default crontab.
+        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /opt/certbot/bin/certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
         <p>
-        The command to renew certbot is installed in one of the following locations:
-        <ul>
-          <li><tt>/etc/crontab/</tt></li>
-          <li><tt>/etc/cron.*/*</tt></li>
-          <li><tt>systemctl list-timers</tt></li>
-        </ul>
+        If you needed to stop your webserver to run Certbot, you'll want to
+        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>/opt/certbot/bin/certbot renew</tt> to stop
+        and start your webserver automatically. For example, if your webserver is HAProxy, modify the
+        command as follows:
+
+        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python3 -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; /opt/certbot/bin/certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
-
+        <p>
+        More information is available in the
+        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
+        Certbot documentation on renewing certificates</a>.
+        </p>
       </li>
 
       <li>
