@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Certbot - Python Other</title>
+    <title>Certbot - Otherpip Nginx</title>
     <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <link rel="stylesheet" href="/css/main.css">
@@ -14,7 +14,7 @@
     <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@EFF">
-    <meta name="twitter:title" content="Certbot - Python Other">
+    <meta name="twitter:title" content="Certbot - Otherpip Nginx">
     <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
 ">
     <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
@@ -106,7 +106,7 @@
       
         <option value="snap" data-distro="snap" data-version="0">snapd</option>
       
-        <option value="python" data-distro="pip" data-version="0">pip</option>
+        <option value="pip" data-distro="pip" data-version="0">pip</option>
       
         <option value="debianstretch" data-distro="debian" data-version="9">Debian 9 (stretch)</option>
       
@@ -148,7 +148,9 @@
       
         <option value="leap" data-distro="opensuse" data-version="15.0">openSUSE Leap 15.0</option>
       
-        <option value="pip" data-distro="linux" data-version="0">Other Linux</option>
+        <option value="othersnap" data-distro="snap" data-version="0">Other Linux (snapd)</option>
+      
+        <option value="otherpip" data-distro="pip" data-version="0">Other Linux (pip)</option>
       
         <option value="windows" data-distro="windows" data-version="0">Windows</option>
       
@@ -169,7 +171,7 @@
     <div class="page-content">
       <div class="wrapper">
         <div class="instructions content">
-          <h2 id="instructions-header"><a href="/lets-encrypt/python-other.html">None of the above on pip</a></h2>
+          <h2 id="instructions-header"><a href="/lets-encrypt/otherpip-nginx.html">Nginx on Other Linux (pip)</a></h2>
 <div class="use-certbot">
   <h1>To use Certbot, you'll need...</h1>
   <div class="three-col reqs">
@@ -638,11 +640,12 @@ You should never share these credentials publicly or with an unauthorized person
             </ol></pre>
           </p>
           <p>For RPM-based distributions (e.g. Fedora, CentOS ...):
-          <br />NB1: old distributions will use yum instead of dnf
-          <br />NB2: RHEL-based distributions use <code>python3X</code> instead of <code>python3</code>
-            (e.g. <code>python36</code>)
             <pre class="no-before"><ol>
-              <li>sudo dnf install python3 augeas-libs</li></ol></pre>
+              <li>sudo dnf install python3 augeas-libs</li></ol></pre></p>
+          <p>
+            * Note that old distributions use <code>yum</code> instead of <code>dnf</code>, and that
+            RHEL-based distributions use <code>python3X</code> instead of <code>python3</code>
+            (e.g. <code>python36</code>).
           </p>
 
           <p>These packages may have slightly different names on other distributions; a search such as
@@ -680,7 +683,7 @@ You should never share these credentials publicly or with an unauthorized person
         Install Certbot
         <p>
           Run this command on the command line on the machine to install Certbot.
-          <pre>sudo /opt/certbot/bin/pip install certbot</pre>
+          <pre>sudo /opt/certbot/bin/pip install certbot certbot-nginx</pre>
         </p>
       </li>
       <li>
@@ -695,39 +698,25 @@ You should never share these credentials publicly or with an unauthorized person
 
 
 
-      <li>
-          Choose how you'd like to run Certbot
+      <li> Choose how you'd like to run Certbot
+        <ul>
+        <li>
+          Either get and install your certificates...
           <p>
-              Are you ok with temporarily stopping your website?
+          Run this command to get a certificate and have Certbot edit your Nginx configuration
+          automatically to serve it, turning on HTTPS access in a single step.
+          <pre>sudo certbot --nginx</pre>
           </p>
-          <h3>Yes, my web server is not currently running on this machine.</h3>
+        </li>
+        <li>
+          Or, just get a certificate
           <p>
-              Stop your webserver, then run this command to get a certificate.
-              Certbot will temporarily spin up a webserver on your machine.
-              <pre>
-                  sudo certbot certonly --standalone
-              </pre>
+          If you're feeling more conservative and would like to make the changes to your Nginx
+          configuration by hand, run this command.
+          <pre>sudo certbot certonly --nginx</pre>
           </p>
-          <h3>No, I need to keep my web server running.</h3>
-          <p>
-              If you have a webserver that's already using port 80 and don't want to stop it
-              while Certbot runs, run this command and follow the instructions in the terminal.
-              <pre>
-                  sudo certbot certonly --webroot
-              </pre>
-          </p>
-          <aside class="note">
-            <div class="note-header"><h3>Important Note:</h3></div>
-                  <p>To use the webroot plugin, your server must be configured to serve files from hidden directories. If <tt>/.well-known</tt> is treated specially by your webserver configuration, you might need to modify the configuration to ensure that files inside <tt>/.well-known/acme-challenge</tt> are served by the webserver.</p>
-          </aside>
-      </li>
-
-      <li>
-          Install your certificate
-          <p>
-              You'll need to install your new certificate in the configuration file for
-              your webserver.
-          </p>
+        </li>
+        </ul>
       </li>
 
 
@@ -738,20 +727,6 @@ You should never share these credentials publicly or with an unauthorized person
         <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
-        <p>
-        If you needed to stop your webserver to run Certbot, you'll want to
-        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
-        and start your webserver automatically. For example, if your webserver is HAProxy, modify the
-        command as follows:
-
-        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
-        </p>
-
-        <p>
-        More information is available in the
-        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
-        Certbot documentation on renewing certificates</a>.
-        </p>
       </li>
 
       <li>
@@ -767,11 +742,12 @@ You should never share these credentials publicly or with an unauthorized person
         <p>It's important to occasionally update Certbot to keep it up-to-date. To do this, run the
           following command on the command line on the machine.
           <pre class="no-before"><ol>
-              <li>sudo /opt/certbot/bin/pip install --upgrade certbot</li></ol></pre>
+              <li>sudo /opt/certbot/bin/pip install --upgrade certbot certbot-nginx</li></ol></pre>
           </p>
 
-        <p>If this step leads to errors, run <code>rm -rf /opt/certbot</code> and repeat all installation instructions.</p>
-        <p>For automatic upgrades, the command in this step can be run by a monthly cron job.</p>
+        
+
+        <p>If this step leads to errors, run <code>sudo rm -rf /opt/certbot</code> and repeat all installation instructions.</p>
       </li>
     </ol>
   </div>
@@ -835,11 +811,12 @@ You should never share these credentials publicly or with an unauthorized person
             </ol></pre>
           </p>
           <p>For RPM-based distributions (e.g. Fedora, CentOS ...):
-          <br />NB1: old distributions will use yum instead of dnf
-          <br />NB2: RHEL-based distributions use <code>python3X</code> instead of <code>python3</code>
-            (e.g. <code>python36</code>)
             <pre class="no-before"><ol>
-              <li>sudo dnf install python3 augeas-libs</li></ol></pre>
+              <li>sudo dnf install python3 augeas-libs</li></ol></pre></p>
+          <p>
+            * Note that old distributions use <code>yum</code> instead of <code>dnf</code>, and that
+            RHEL-based distributions use <code>python3X</code> instead of <code>python3</code>
+            (e.g. <code>python36</code>).
           </p>
 
           <p>These packages may have slightly different names on other distributions; a search such as
@@ -877,7 +854,7 @@ You should never share these credentials publicly or with an unauthorized person
         Install Certbot
         <p>
           Run this command on the command line on the machine to install Certbot.
-          <pre>sudo /opt/certbot/bin/pip install certbot</pre>
+          <pre>sudo /opt/certbot/bin/pip install certbot certbot-nginx</pre>
         </p>
       </li>
       <li>
@@ -915,19 +892,22 @@ You should never share these credentials publicly or with an unauthorized person
           </p>
       </li>
 
-      <li>
-          Get a certificate
+      <li> Choose how you'd like to run Certbot
+        <ul>
+        <li>
+          Either get and install your certificates...
+          <p>
+          Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>,
+          along with the flag <tt>-i nginx</tt>.
+          </p>
+        </li>
+        <li>
+          Or, just get a certificate
           <p>
           Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>.
           </p>
-      </li>
-
-      <li>
-          Install your certificate
-          <p>
-              You'll need to install your new certificate in the configuration file for
-              your webserver.
-          </p>
+        </li>
+        </ul>
       </li>
 
 
@@ -938,20 +918,6 @@ You should never share these credentials publicly or with an unauthorized person
         <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
-        <p>
-        If you needed to stop your webserver to run Certbot, you'll want to
-        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
-        and start your webserver automatically. For example, if your webserver is HAProxy, modify the
-        command as follows:
-
-        <pre class="one-line">echo "0 0,12 * * * root /opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
-        </p>
-
-        <p>
-        More information is available in the
-        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
-        Certbot documentation on renewing certificates</a>.
-        </p>
       </li>
 
       <li>
@@ -967,11 +933,12 @@ You should never share these credentials publicly or with an unauthorized person
         <p>It's important to occasionally update Certbot to keep it up-to-date. To do this, run the
           following command on the command line on the machine.
           <pre class="no-before"><ol>
-              <li>sudo /opt/certbot/bin/pip install --upgrade certbot</li></ol></pre>
+              <li>sudo /opt/certbot/bin/pip install --upgrade certbot certbot-nginx certbot-dns-&lt;PLUGIN&gt;</li></ol></pre>
           </p>
 
-        <p>If this step leads to errors, run <code>rm -rf /opt/certbot</code> and repeat all installation instructions.</p>
-        <p>For automatic upgrades, the command in this step can be run by a monthly cron job.</p>
+        <p>As above, replace <code>&lt;PLUGIN&gt;</code> with the name of your DNS provider.</p>
+
+        <p>If this step leads to errors, run <code>sudo rm -rf /opt/certbot</code> and repeat all installation instructions.</p>
       </li>
     </ol>
   </div>
