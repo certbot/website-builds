@@ -20,9 +20,7 @@ body {
   color: #111;
   background-color: #fff;
   -webkit-text-size-adjust: 100%;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 0;
+  margin: 0;
   padding: 0; }
 
 /**
@@ -537,17 +535,42 @@ pre {
   .highlight .il {
     color: #099; }
 
-body {
-  margin-top: 60px; }
-  @media (min-width: 48em) {
-    body {
-      margin-top: 150px; } }
+.logo-banner {
+  -ms-flex-align: center;
+      align-items: center;
+  background-color: #2E2E2E;
+  color: #D9D9D9;
+  display: -ms-flexbox;
+  display: flex;
+  height: 40px;
+  -ms-flex-pack: start;
+      justify-content: flex-start;
+  position: relative;
+  top: 0;
+  width: 100%;
+  z-index: 11; }
+  .logo-banner .logo {
+    margin-left: 1%;
+    margin-top: 6px;
+    width: 120px; }
+    .logo-banner .logo img {
+      max-width: 100px;
+      vertical-align: inherit; }
+  .logo-banner .eff-tagline {
+    display: none;
+    font-size: 0.8em;
+    margin-top: 9px;
+    width: 60%; }
+    @media (min-width: 48em) {
+      .logo-banner .eff-tagline {
+        display: inline-block; } }
 
 nav.main-nav {
   z-index: 10;
-  position: relative;
-  top: 0;
+  position: -webkit-sticky;
+  position: sticky;
   left: 0;
+  top: 0;
   width: 100%;
   display: block;
   margin: 0 auto;
@@ -656,9 +679,6 @@ nav.main-nav {
         color: rgba(0, 0, 0, 0.95); }
       nav.main-nav ul li:hover:not(.donate) {
         color: #ec1c23; }
-
-nav.main-nav.fixed {
-  position: fixed; }
 
 body > * {
   transition: transform 0.1s linear; }
@@ -902,6 +922,9 @@ footer.footer ul {
       font-size: 45px;
       margin-left: 80px; } }
 
+.instructions h4 {
+  line-height: 1.2; }
+
 @media (min-width: 48em) {
   .instructions .hero {
     height: 130px;
@@ -1124,20 +1147,37 @@ h1.instruct {
   font-family: 'Roboto Slab';
   font-weight: 400;
   font-size: 20px;
+  line-height: 20px;
   margin: 1em 1.1em; }
   @media (min-width: 48em) {
     .instruction-pane ol {
       margin-left: 30px;
-      font-size: 30px; } }
+      font-size: 30px;
+      line-height: 30px; } }
   .instruction-pane ol .hidden {
     display: none; }
+  @media (min-width: 48em) {
+    .instruction-pane ol h1 {
+      margin-left: 0;
+      padding: 1em 0;
+      font-size: 35px; } }
   .instruction-pane ol p, .instruction-pane ol .page div.p, .page .instruction-pane ol div.p {
     font-size: 16px;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
     margin-left: -1em; }
     @media (min-width: 48em) {
       .instruction-pane ol p, .instruction-pane ol .page div.p, .page .instruction-pane ol div.p {
         margin-left: 0;
+        font-size: 18px; } }
+  .instruction-pane ol ol ol,
+  .instruction-pane ol ol ul {
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    font-size: 16px; }
+    @media (min-width: 48em) {
+      .instruction-pane ol ol ol,
+      .instruction-pane ol ol ul {
+        margin-left: 1rem;
         font-size: 18px; } }
   .instruction-pane ol ul {
     list-style-type: none;
@@ -1145,6 +1185,8 @@ h1.instruct {
     margin-left: 1em; }
     .instruction-pane ol ul p, .instruction-pane ol ul .page div.p, .page .instruction-pane ol ul div.p {
       margin-left: 0; }
+  .instruction-pane ol ol ul {
+    list-style-type: square; }
   .instruction-pane ol h3 {
     font-size: 22px;
     font-weight: bold;
@@ -1165,6 +1207,13 @@ h1.instruct {
         padding: 5px 15px;
         font-weight: 400;
         font-size: 18px; } }
+
+.instruction-pane .small {
+  font-size: 14px; }
+
+.instruction-pane .subhead {
+  font-style: italic;
+  font-weight: 600; }
 
 .instructions.content {
   background-color: #fff;
@@ -1220,16 +1269,21 @@ h1.instruct {
       .instructions.content .tab {
         font-weight: 400;
         width: 250px; } }
+    .instructions.content .tab .glossary-term .tooltip a {
+      color: #40748e; }
     .instructions.content .tab:not(.active) {
       border-left: 1px solid #f3f3f3;
       border-top: 1px solid #f3f3f3;
       border-right: 1px solid #f3f3f3;
       background-color: rgba(0, 0, 0, 0.05);
-      color: #aaa; }
+      color: #666; }
+      .instructions.content .tab:not(.active) a {
+        color: black;
+        opacity: 0.5; }
       .instructions.content .tab:not(.active):hover {
         cursor: pointer;
         background-color: #e6e6e6;
-        color: #666;
+        color: black;
         border-left: 1px solid #e6e6e6;
         border-right: 1px solid #e6e6e6;
         border-top: 1px solid #e6e6e6; }
@@ -1237,6 +1291,8 @@ h1.instruct {
       border-left: 1px solid #7c7c7c;
       border-right: 1px solid #7c7c7c;
       border-top: 1px solid #7c7c7c; }
+      .instructions.content .tab.active a {
+        color: white; }
   .instructions.content .tab.automated.active, .instructions.content .tab.advanced.active {
     color: black; }
     .instructions.content .tab.automated.active:after, .instructions.content .tab.advanced.active:after {
@@ -2036,6 +2092,25 @@ div.indent {
   text-decoration: underline;
   font-weight: bold; }
 
+.shared-hosting {
+  font-weight: bold;
+  margin-bottom: 2em; }
+  .shared-hosting .glossary-term a.glossary-link {
+    color: #40748e; }
+  .shared-hosting h3 {
+    font-weight: bold; }
+    .shared-hosting h3 .glossary-term a.glossary-link {
+      font-size: 26px;
+      font-family: "Roboto Slab";
+      font-weight: bold; }
+
+.provider-categories {
+  margin: 1em 1em 1em 3em; }
+  .provider-categories > div {
+    margin-bottom: 1em; }
+  .provider-categories img {
+    margin-right: 5px; }
+
 .three-col {
   min-height: 350px;
   width: 100%;
@@ -2162,23 +2237,40 @@ div.indent {
           font-size: 22px; } }
 
 .hosting-table-tabs {
-  width: 98%;
-  margin: 0.5em auto;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  height: 80px; }
+  -ms-flex-pack: center;
+      justify-content: center;
+  width: 100%;
+  margin: 0 auto 0.5em; }
   @media (min-width: 48em) {
     .hosting-table-tabs {
-      height: 50px;
+      -ms-flex-align: stretch;
+          align-items: stretch;
       -ms-flex-direction: row;
           flex-direction: row; } }
   .hosting-table-tabs .hosting-tab {
+    background-color: #e9e9e9;
+    border-left: 1px solid #D9D9D9;
+    display: inline-block;
+    -ms-flex-positive: 1;
+        flex-grow: 1;
+    font-size: 11px;
     font-weight: bold;
     font-family: "Roboto Slab";
-    text-align: center;
-    text-decoration: underline; }
+    height: auto;
+    margin: 0;
+    padding: 0 0 0 3px;
+    text-align: left;
+    text-decoration: underline;
+    width: 20%; }
+    .hosting-table-tabs .hosting-tab:nth-child(1) {
+      border-left: none; }
+    @media (min-width: 66em) {
+      .hosting-table-tabs .hosting-tab {
+        font-size: 13px;
+        height: 38px;
+        padding: 0.9rem 1% 0; } }
     .hosting-table-tabs .hosting-tab:hover {
       cursor: pointer; }
     .hosting-table-tabs .hosting-tab img {
@@ -2187,8 +2279,11 @@ div.indent {
       margin-bottom: -1em; }
       @media (min-width: 48em) {
         .hosting-table-tabs .hosting-tab img {
+          margin-top: -3px;
           padding-left: 0.5em;
           float: right; } }
+  .hosting-table-tabs .active {
+    background: white; }
 
 .dataTables_filter {
   text-align: right;

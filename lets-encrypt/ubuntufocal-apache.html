@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Certbot - Ubuntufocal Apache</title>
+    <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
+">
+    <link rel="stylesheet" href="/css/main.css">
+    <link ref="shortcut icon" href="/favicon.ico" />
+    <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@EFF">
+    <meta name="twitter:title" content="Certbot - Ubuntufocal Apache">
+    <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.
+">
+    <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
+    <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+    <script src='/js/main.js' type="text/javascript" defer="defer"></script>
+
+    
+      
+        <script src='/js/instructions.js' type="text/javascript" defer="defer"></script>
+      
+    
+</head>
+
+
+  <body class="instructions page">
+    
+    <div class="logo-banner">
+  <div class="logo">
+    <a href="https://eff.org"><img src="/images/EFF-logo-plain.svg" alt="EFF"></a>
+  </div>
+  <div class="eff-tagline">
+    <span>a project of the Electronic Frontier Foundation</span>
+  </div>
+</div>
+
+    <nav class="main-nav">
+  <div class="logo">
+    <a href="/"><img src="/images/certbot-logo-1A.svg" alt="Certbot logo, a robot holding a key"/></a>
+  </div>
+
+  <ul>
+    <li class="mobile-hidden"><a href="/instructions">certbot instructions</a></li>
+    <li class="mobile-hidden"><a href="/about/">about certbot</a></li>
+    <li class="mobile-hidden"><a href="/contribute/">contribute to certbot</a></li>
+    <li class="mobile-hidden"><a href="/hosting_providers/">hosting providers with HTTPS</a></li>
+    <li class="mobile-hidden"><a href="/help/">get help</a></li>
+    <li class="donate mobile-hidden"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate</a></li>
+    <li class="donate mobile-only"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    <li id="hamburger">&#x2261;</li>
+  </ul>
+</nav>
+
+    <div id="shelf">
+  <ul>
+    <li><a href="/">home</a></li>
+    <li><a href="/instructions">certbot instructions</a></li>
+    <li><a href="/about/">about certbot</a></li>
+    <li><a href="/contribute/">contribute to certbot</a></li>
+    <li><a href="/hosting_providers/">hosting providers with HTTPS</a></li>
+    <li><a href="/help/">get help</a></li>
+    <li><a href="https://supporters.eff.org/donate/support-work-on-certbot">donate</a></li>
+    <li id="close">&times;</li>
+  </ul>
+</div>
+
+
+    <h1>certbot instructions</h1>
+
+    <div class="hero">
+      <div class="instruction-widget">
+        <div class="js-only">
+  <h1 class="mobile-only">What's your HTTP website running on?</h1>
+  <span id="using">My HTTP website is running</span>
+  <select id="server-select" name="server">
+    <optgroup>
+      <option value="" disabled selected>Software</option>
+      
+        <option value="apache">Apache</option>
+      
+        <option value="nginx">Nginx</option>
+      
+        <option value="haproxy">Haproxy</option>
+      
+        <option value="plesk">Plesk</option>
+      
+        <option value="webproduct">Web Hosting Product</option>
+      
+        <option value="other">None of the above</option>
+      
+    </optgroup>
+  </select>
+
+  <span id="on">on</span>
+  <select id="os-select" name="os">
+    <optgroup>
+      <option value="" disabled selected>System</option>
+      
+        <option value="sharedhost" data-distro="sharedhost" data-version="0">Web Hosting Service</option>
+      
+        <option value="bitnami" data-distro="bitnami" data-version="0">Bitnami</option>
+      
+        <option value="snap" data-distro="snap" data-version="0">snapd</option>
+      
+        <option value="pip" data-distro="pip" data-version="0">pip</option>
+      
+        <option value="debianstretch" data-distro="debian" data-version="9">Debian 9 (stretch)</option>
+      
+        <option value="debianbuster" data-distro="debian" data-version="10">Debian 10 (buster)</option>
+      
+        <option value="debiantesting" data-distro="debian" data-version="11">Debian testing/unstable</option>
+      
+        <option value="ubuntufocal" data-distro="ubuntu" data-version="20.04">Ubuntu 20.04</option>
+      
+        <option value="ubuntuother" data-distro="ubuntu" data-version="19.10">Ubuntu 19.10</option>
+      
+        <option value="ubuntubionic" data-distro="ubuntu" data-version="18.04">Ubuntu 18.04 LTS (bionic)</option>
+      
+        <option value="ubuntuxenial" data-distro="ubuntu" data-version="16.04">Ubuntu 16.04 (xenial)</option>
+      
+        <option value="gentoo" data-distro="gentoo" data-version="0">Gentoo</option>
+      
+        <option value="arch" data-distro="arch" data-version="0">Arch Linux</option>
+      
+        <option value="fedora" data-distro="fedora" data-version="0">Fedora</option>
+      
+        <option value="centosrhel7" data-distro="centos" data-version="7">CentOS/RHEL 7</option>
+      
+        <option value="centosrhel8" data-distro="centos" data-version="8">CentOS/RHEL 8</option>
+      
+        <option value="freebsd" data-distro="freebsd" data-version="0">FreeBSD</option>
+      
+        <option value="opbsd6" data-distro="opbsd" data-version="6">OpenBSD 6.0+</option>
+      
+        <option value="osx" data-distro="macos" data-version="10">macOS</option>
+      
+        <option value="devuanascii" data-distro="devuan" data-version="2">Devuan ASCII 2.0</option>
+      
+        <option value="devuanbeowulf" data-distro="devuan" data-version="3">Devuan Beowulf 3.0</option>
+      
+        <option value="devuanother" data-distro="devuan" data-version="4">Devuan testing/unstable</option>
+      
+        <option value="tumbleweed" data-distro="opensuse" data-version="0">openSUSE Tumbleweed</option>
+      
+        <option value="leap" data-distro="opensuse" data-version="15.0">openSUSE Leap 15.0</option>
+      
+        <option value="othersnap" data-distro="snap" data-version="0">Other Linux (snapd)</option>
+      
+        <option value="otherpip" data-distro="pip" data-version="0">Other Linux (pip)</option>
+      
+        <option value="windows" data-distro="windows" data-version="0">Windows</option>
+      
+    </optgroup>
+  </select>
+  <div class="not-sure">
+    <a href="/help">Help, I'm not sure!</a>
+  </div>
+</div>
+
+<div class="no-js-only">
+  No javascript? See all setup instructions <a href="/all-instructions">here</a>. Read the full documentation <a href="/docs/">here</a>.
+</div>
+
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="instructions content">
+          <h2 id="instructions-header"><a href="/lets-encrypt/ubuntufocal-apache.html">Apache on Ubuntu 20.04</a></h2>
+<div class="use-certbot">
+  <h1>To use Certbot, you'll need...</h1>
+  <div class="three-col reqs">
+    <div class="col">
+      <img alt="A laptop" src="/images/Computer.svg" />
+      <div class="text-wrapper hanging-indent">
+        <span>comfort with the 
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">command line</a>
+  <div class="tooltip js">
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
+    <div class="tooltip-title">
+      <a href="/glossary#command-line">Command Line</a>
+    </div>
+    <div class="mobile-hidden">
+    <p>A command line is a way of interacting with a computer by typing text-based commands to it and receiving text-based replies. 
+Certbot is run from a command-line interface, usually on a Unix-like server. In order to use Certbot for most purposes, you’ll need to be able to install and run it on the command line of your web server, which is usually accessed over SSH.</p>
+
+    </div>
+    <div class="mobile-only">
+      <p>
+      A command line is a way of interacting with a computer by typing text-based commands to it and receiving text-based replies. 
+Certbot is run from a command-line interface, usually on a Unix-like server. In order to use Certbot for most purposes, you’ll need to be able to install and run it on the command line of your web server, which is usually accessed over SSH.
+
+      </p>
+    </div>
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">command line</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title" href="/glossary#command-line">Command Line</a>
+    <p>A command line is a way of interacting with a computer by typing text-based commands to it and receiving text-based replies. 
+Certbot is run from a command-line interface, usually on a Unix-like server. In order to use Certbot for most purposes, you’ll need to be able to install and run it on the command line of your web server, which is usually accessed over SSH.</p>
+
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+</span>
+      </div>
+    </div>
+    <div class="col">
+      <img alt="Web browser showing an HTTP site" src="/images/HTTPsite.svg" />
+      <div class="text-wrapper hanging-indent">
+        <span>
+          ...and an
+          
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">HTTP website</a>
+  <div class="tooltip js">
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
+    <div class="tooltip-title">
+      <a href="/glossary#http">HTTP</a>
+    </div>
+    <div class="mobile-hidden">
+    <p>HTTP (Hypertext Transfer Protocol) is the traditional, but insecure, method for web browsers to request the content of web pages and other online resources from web servers. It is an Internet standard and normally used with TCP port 80. 
+Almost all websites in the world support HTTP, but websites that have been configured with Certbot or some other method of setting up HTTPS may automatically redirect users from the HTTP version of the site to the HTTPS version.</p>
+
+    </div>
+    <div class="mobile-only">
+      <p>
+      HTTP (Hypertext Transfer Protocol) is the traditional, but insecure, method for web browsers to request the content of web pages and other online resources from web servers. It is an Internet standard and normally used with TCP port 80. 
+Almost all websites in the world support HTTP, but websites that have been configured with Certbot or some other method of setting up HTTPS may automatically redirect users from the HTTP version of the site to the HTTPS version.
+
+      </p>
+    </div>
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">HTTP website</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title" href="/glossary#http">HTTP</a>
+    <p>HTTP (Hypertext Transfer Protocol) is the traditional, but insecure, method for web browsers to request the content of web pages and other online resources from web servers. It is an Internet standard and normally used with TCP port 80. 
+Almost all websites in the world support HTTP, but websites that have been configured with Certbot or some other method of setting up HTTPS may automatically redirect users from the HTTP version of the site to the HTTPS version.</p>
+
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+
+          <br />
+          that is 
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">already online</a>
+  <div class="tooltip js">
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
+    <div class="tooltip-title">
+      <a href="/glossary#website-thats-already-online">Website That’s Already Online</a>
+    </div>
+    <div class="mobile-hidden">
+    <p>Certbot is usually meant to be used to switch an existing HTTP site to work in HTTPS (and, afterward, to continue renewing the site’s HTTPS certificates whenever necessary). Some Certbot documentation assumes or recommends that you have a working web site that can already be accessed using HTTP on port 80. That means, for example, that if you use a web browser to go to your domain using http://, your web server answers and some kind of content comes up (even if it’s just a default welcome page rather than the final version of your site). Some methods of using Certbot have this as a prerequisite, so you’ll have a smoother experience if you already have a site set up with HTTP. (If your site can’t be accessed this way as a matter of policy, you’ll probably need to use DNS validation in order to get a certificate with Certbot.)</p>
+
+    </div>
+    <div class="mobile-only">
+      <p>
+      Certbot is usually meant to be used to switch an existing HTTP site to work in HTTPS (and, afterward, to continue renewing the site’s HTTPS certificates whenever necessary). Some Certbot documentation assumes or recommends that you have a working web site that can already be accessed using HTTP on port 80. That means, for example, that if you use a web browser to go to your domain using http://, your web server answers and some kind of content comes up (even if it’s just a default welcome page rather than the final version of your site). Some methods of using...
+      </p>
+    </div>
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">already online</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title" href="/glossary#website-thats-already-online">Website That’s Already Online</a>
+    <p>Certbot is usually meant to be used to switch an existing HTTP site to work in HTTPS (and, afterward, to continue renewing the site’s HTTPS certificates whenever necessary). Some Certbot documentation assumes or recommends that you have a working web site that can already be accessed using HTTP on port 80. That means, for example, that if you use a web browser to go to your domain using http://, your web server answers and some kind of content comes up (even if it’s just a default welcome page rather than the final version of your site). Some methods of using Certbot have this as a prerequisite, so you’ll have a smoother experience if you already have a site set up with HTTP. (If your site can’t be accessed this way as a matter of policy, you’ll probably need to use DNS validation in order to get a certificate with Certbot.)</p>
+
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+
+          <br />
+          with an open 
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">port 80</a>
+  <div class="tooltip js">
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
+    <div class="tooltip-title">
+      <a href="/glossary#port-80">Port 80</a>
+    </div>
+    <div class="mobile-hidden">
+    <p>Different Internet services are distinguished by using different TCP port numbers. Unencrypted HTTP normally uses TCP port 80, while encrypted HTTPS normally uses TCP port 443. 
+To use certbot –webroot, certbot –apache, or certbot –nginx, you should have an existing HTTP website that’s already online hosted on the server where you’re going to use Certbot. This site should be available to the rest of the Internet on port 80. To use certbot –standalone, you don’t need an existing site, but you have to make sure connections to port 80 on your server are not blocked by a firewall, including a firewall that may be run by your Internet service provider or web hosting provider. Please check with your ISP or hosting provider if you’re not sure. (Using DNS validation does not require Let’s Encrypt to make any inbound connection to your server, so with this method in particular it’s not necessary to have an existing HTTP website or the ability to receive connections on port 80.)</p>
+
+    </div>
+    <div class="mobile-only">
+      <p>
+      Different Internet services are distinguished by using different TCP port numbers. Unencrypted HTTP normally uses TCP port 80, while encrypted HTTPS normally uses TCP port 443. To use certbot –webroot, certbot –apache, or certbot –nginx, you should have an existing HTTP website that’s already online hosted on the server where you’re going to use Certbot. This site should be available to the rest of the Internet on port 80. To use certbot –standalone, you don’t need an existing site, but you have to make sure connections to port 80 on your server are not blocked by a firewall, including a...
+      </p>
+    </div>
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">port 80</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title" href="/glossary#port-80">Port 80</a>
+    <p>Different Internet services are distinguished by using different TCP port numbers. Unencrypted HTTP normally uses TCP port 80, while encrypted HTTPS normally uses TCP port 443. 
+To use certbot –webroot, certbot –apache, or certbot –nginx, you should have an existing HTTP website that’s already online hosted on the server where you’re going to use Certbot. This site should be available to the rest of the Internet on port 80. To use certbot –standalone, you don’t need an existing site, but you have to make sure connections to port 80 on your server are not blocked by a firewall, including a firewall that may be run by your Internet service provider or web hosting provider. Please check with your ISP or hosting provider if you’re not sure. (Using DNS validation does not require Let’s Encrypt to make any inbound connection to your server, so with this method in particular it’s not necessary to have an existing HTTP website or the ability to receive connections on port 80.)</p>
+
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+
+        </span>
+      </div>
+    </div>
+    <div class="col">
+      <img alt="A sever" src="/images/Server.svg" />
+      <div class="text-wrapper hanging-indent">
+        <span>
+          ...which is hosted on a 
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">server</a>
+  <div class="tooltip js">
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
+    <div class="tooltip-title">
+      <a href="/glossary#server">Server</a>
+    </div>
+    <div class="mobile-hidden">
+    <p>A server is a computer on the Internet that provides a service, like a web site or an email service. Most web site owners pay a hosting provider for the use of a server located in a data center and administered over the Internet. This might be a physical dedicated server, a virtual private server (VPS), or a shared server. Other servers provide other parts of the Internet infrastructure, such as DNS servers.</p>
+
+    </div>
+    <div class="mobile-only">
+      <p>
+      A server is a computer on the Internet that provides a service, like a web site or an email service. Most web site owners pay a hosting provider for the use of a server located in a data center and administered over the Internet. This might be a physical dedicated server, a virtual private server (VPS), or a shared server. Other servers provide other parts of the Internet infrastructure, such as DNS servers.
+
+      </p>
+    </div>
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">server</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title" href="/glossary#server">Server</a>
+    <p>A server is a computer on the Internet that provides a service, like a web site or an email service. Most web site owners pay a hosting provider for the use of a server located in a data center and administered over the Internet. This might be a physical dedicated server, a virtual private server (VPS), or a shared server. Other servers provide other parts of the Internet infrastructure, such as DNS servers.</p>
+
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+
+          <br />
+          which you can access via 
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">SSH</a>
+  <div class="tooltip js">
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
+    <div class="tooltip-title">
+      <a href="/glossary#ssh">SSH</a>
+    </div>
+    <div class="mobile-hidden">
+    <p>SSH (which stands for “secure shell”) is a technology for connecting to a remote server and accessing a command line on that server, often in order to administer it. The administrator of a server can grant SSH access to others, and can also use SSH access directly in order to administer the server remotely. SSH is usually used to access servers running Unix-like operating systems, but your own computer doesn’t have to be running Unix in order to use SSH. You normally use SSH from your computer’s command line in a terminal by typing a command such as ssh username@example.com, especially if your own computer runs Linux or macOS. After logging in, you’ll have access to the server’s command line. If you use Windows on your computer, you might also use a dedicated SSH application such as PuTTY. 
+Most Certbot users run Certbot from a command prompt on a remote server over SSH.</p>
+
+    </div>
+    <div class="mobile-only">
+      <p>
+      SSH (which stands for “secure shell”) is a technology for connecting to a remote server and accessing a command line on that server, often in order to administer it. The administrator of a server can grant SSH access to others, and can also use SSH access directly in order to administer the server remotely. SSH is usually used to access servers running Unix-like operating systems, but your own computer doesn’t have to be running Unix in order to use SSH. You normally use SSH from your computer’s command line in a terminal by typing a command such as ssh username@example.com,...
+      </p>
+    </div>
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">SSH</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title" href="/glossary#ssh">SSH</a>
+    <p>SSH (which stands for “secure shell”) is a technology for connecting to a remote server and accessing a command line on that server, often in order to administer it. The administrator of a server can grant SSH access to others, and can also use SSH access directly in order to administer the server remotely. SSH is usually used to access servers running Unix-like operating systems, but your own computer doesn’t have to be running Unix in order to use SSH. You normally use SSH from your computer’s command line in a terminal by typing a command such as ssh username@example.com, especially if your own computer runs Linux or macOS. After logging in, you’ll have access to the server’s command line. If you use Windows on your computer, you might also use a dedicated SSH application such as PuTTY. 
+Most Certbot users run Certbot from a command prompt on a remote server over SSH.</p>
+
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+
+          <br />
+          with the ability to 
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">sudo</a>
+  <div class="tooltip js">
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
+    <div class="tooltip-title">
+      <a href="/glossary#sudo">sudo</a>
+    </div>
+    <div class="mobile-hidden">
+    <p>Sudo is the most common command on Unix-like operating systems to run a specific command as root (the system administrator). 
+If you’re logged in to your server as a user other than root, you’ll likely need to put sudo before your Certbot commands so that they run as root (for example, sudo certbot instead of just certbot), especially if you’re using Certbot’s integration with a web server like Apache or Nginx. (The certbot-auto script automatically runs sudo if it’s necessary and you didn’t specify it.)</p>
+
+    </div>
+    <div class="mobile-only">
+      <p>
+      Sudo is the most common command on Unix-like operating systems to run a specific command as root (the system administrator). 
+If you’re logged in to your server as a user other than root, you’ll likely need to put sudo before your Certbot commands so that they run as root (for example, sudo certbot instead of just certbot), especially if you’re using Certbot’s integration with a web server like Apache or Nginx. (The certbot-auto script automatically runs sudo if it’s necessary and you didn’t specify it.)
+
+      </p>
+    </div>
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">sudo</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title" href="/glossary#sudo">sudo</a>
+    <p>Sudo is the most common command on Unix-like operating systems to run a specific command as root (the system administrator). 
+If you’re logged in to your server as a user other than root, you’ll likely need to put sudo before your Certbot commands so that they run as root (for example, sudo certbot instead of just certbot), especially if you’re using Certbot’s integration with a web server like Apache or Nginx. (The certbot-auto script automatically runs sudo if it’s necessary and you didn’t specify it.)</p>
+
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+
+          <br />
+        </span>
+        <span class="italic">
+          optional if you want a 
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">wildcard cert</a>
+  <div class="tooltip js">
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
+    <div class="tooltip-title">
+      <a href="/glossary#wildcard-certificate">Wildcard Certificate</a>
+    </div>
+    <div class="mobile-hidden">
+    <p>A wildcard certificate is a certificate that includes one or more names starting with <code class="language-plaintext highlighter-rouge">*.</code>. Browsers will accept any label in place of the asterisk (<code class="language-plaintext highlighter-rouge">*</code>). For example, a certificate for <code class="language-plaintext highlighter-rouge">*.example.com</code> will be valid for <code class="language-plaintext highlighter-rouge">www.example.com</code>, <code class="language-plaintext highlighter-rouge">mail.example.com</code>, <code class="language-plaintext highlighter-rouge">hello.example.com</code>, and <code class="language-plaintext highlighter-rouge">goodbye.example.com</code>.</p>
+
+<p>However, a wildcard certificate including <em>only</em> the name <code class="language-plaintext highlighter-rouge">*.example.com</code> will <strong>not</strong> be valid for <code class="language-plaintext highlighter-rouge">example.com</code>: the substituted label can not be empty. If you want the certificate to be valid for <code class="language-plaintext highlighter-rouge">example.com</code>, you also need to include <code class="language-plaintext highlighter-rouge">example.com</code> (i.e. without the <code class="language-plaintext highlighter-rouge">*.</code> part) on the certificate.</p>
+
+<p>Additionally, the asterisk can only be substituted by a <em>single</em> label and not by <em>multiple</em> labels. For example, the name <code class="language-plaintext highlighter-rouge">hello.goodbye.example.com</code> will not be covered by a certificate including only the name <code class="language-plaintext highlighter-rouge">*.example.com</code>. It <em>will</em> be covered however, by <code class="language-plaintext highlighter-rouge">*.goodbye.example.com</code>. Note that a wildcard name can not contain multiple asterisks. For example, <code class="language-plaintext highlighter-rouge">*.*.example.com</code> is not valid.</p>
+
+    </div>
+    <div class="mobile-only">
+      <p>
+      A wildcard certificate is a certificate that includes one or more names starting with *.. Browsers will accept any label in place of the asterisk (*). For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, and goodbye.example.com. However, a wildcard certificate including only the name *.example.com will not be valid for example.com: the substituted label can not be empty. If you want the certificate to be valid for example.com, you also need to include example.com (i.e. without the *. part) on the certificate. Additionally, the asterisk can only be substituted by a single label and not...
+      </p>
+    </div>
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">wildcard cert</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title" href="/glossary#wildcard-certificate">Wildcard Certificate</a>
+    <p>A wildcard certificate is a certificate that includes one or more names starting with <code class="language-plaintext highlighter-rouge">*.</code>. Browsers will accept any label in place of the asterisk (<code class="language-plaintext highlighter-rouge">*</code>). For example, a certificate for <code class="language-plaintext highlighter-rouge">*.example.com</code> will be valid for <code class="language-plaintext highlighter-rouge">www.example.com</code>, <code class="language-plaintext highlighter-rouge">mail.example.com</code>, <code class="language-plaintext highlighter-rouge">hello.example.com</code>, and <code class="language-plaintext highlighter-rouge">goodbye.example.com</code>.</p>
+
+<p>However, a wildcard certificate including <em>only</em> the name <code class="language-plaintext highlighter-rouge">*.example.com</code> will <strong>not</strong> be valid for <code class="language-plaintext highlighter-rouge">example.com</code>: the substituted label can not be empty. If you want the certificate to be valid for <code class="language-plaintext highlighter-rouge">example.com</code>, you also need to include <code class="language-plaintext highlighter-rouge">example.com</code> (i.e. without the <code class="language-plaintext highlighter-rouge">*.</code> part) on the certificate.</p>
+
+<p>Additionally, the asterisk can only be substituted by a <em>single</em> label and not by <em>multiple</em> labels. For example, the name <code class="language-plaintext highlighter-rouge">hello.goodbye.example.com</code> will not be covered by a certificate including only the name <code class="language-plaintext highlighter-rouge">*.example.com</code>. It <em>will</em> be covered however, by <code class="language-plaintext highlighter-rouge">*.goodbye.example.com</code>. Note that a wildcard name can not contain multiple asterisks. For example, <code class="language-plaintext highlighter-rouge">*.*.example.com</code> is not valid.</p>
+
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+:
+          
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">DNS credentials</a>
+  <div class="tooltip js">
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
+    <div class="tooltip-title">
+      <a href="/glossary#dns-credentials">DNS Credentials</a>
+    </div>
+    <div class="mobile-hidden">
+    <p>DNS credentials are a password or other kind of secret (such as an API key) that your DNS provider lets you use to change the contents of your DNS records. They are usually issued by your domain registrar (or by another DNS provider, if your DNS provider isn’t the same as your registrar). DNS credentials are a sensitive kind of secret because they can be used to take over your site completely.
+You should never share these credentials publicly or with an unauthorized person. It can be OK to provide a copy of them to Certbot to let it perform DNS validation automatically, since it runs locally on your machine.</p>
+
+    </div>
+    <div class="mobile-only">
+      <p>
+      DNS credentials are a password or other kind of secret (such as an API key) that your DNS provider lets you use to change the contents of your DNS records. They are usually issued by your domain registrar (or by another DNS provider, if your DNS provider isn’t the same as your registrar). DNS credentials are a sensitive kind of secret because they can be used to take over your site completely. You should never share these credentials publicly or with an unauthorized person. It can be OK to provide a copy of them to Certbot to let it perform...
+      </p>
+    </div>
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">DNS credentials</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title" href="/glossary#dns-credentials">DNS Credentials</a>
+    <p>DNS credentials are a password or other kind of secret (such as an API key) that your DNS provider lets you use to change the contents of your DNS records. They are usually issued by your domain registrar (or by another DNS provider, if your DNS provider isn’t the same as your registrar). DNS credentials are a sensitive kind of secret because they can be used to take over your site completely.
+You should never share these credentials publicly or with an unauthorized person. It can be OK to provide a copy of them to Certbot to let it perform DNS validation automatically, since it runs locally on your machine.</p>
+
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-hidden">
+    <h1>Don't have these requirements?</h1>
+    <p>
+    Not to worry! Some hosting providers automate the HTTPS process.
+    <a href="/hosting_providers">See the full list of hosting providers</a>, or <a href="/help#webserver">find out more about how to set up your system</a>.
+    </p>
+  </div>
+</div>
+
+<div class="tab automated active">default</div>
+<div class="tab advanced">wildcard
+
+<div class="glossary-term js-only disabled">
+  <a class="glossary-link js">*</a>
+  <div class="tooltip js">
+    <div class="close-button"><img alt="Close button" class="close-tooltip" src="/images/close.svg" /></div>
+    <div class="tooltip-title">
+      <a href="/glossary#wildcard-certificate">Wildcard Certificate</a>
+    </div>
+    <div class="mobile-hidden">
+    <p>A wildcard certificate is a certificate that includes one or more names starting with <code class="language-plaintext highlighter-rouge">*.</code>. Browsers will accept any label in place of the asterisk (<code class="language-plaintext highlighter-rouge">*</code>). For example, a certificate for <code class="language-plaintext highlighter-rouge">*.example.com</code> will be valid for <code class="language-plaintext highlighter-rouge">www.example.com</code>, <code class="language-plaintext highlighter-rouge">mail.example.com</code>, <code class="language-plaintext highlighter-rouge">hello.example.com</code>, and <code class="language-plaintext highlighter-rouge">goodbye.example.com</code>.</p>
+
+<p>However, a wildcard certificate including <em>only</em> the name <code class="language-plaintext highlighter-rouge">*.example.com</code> will <strong>not</strong> be valid for <code class="language-plaintext highlighter-rouge">example.com</code>: the substituted label can not be empty. If you want the certificate to be valid for <code class="language-plaintext highlighter-rouge">example.com</code>, you also need to include <code class="language-plaintext highlighter-rouge">example.com</code> (i.e. without the <code class="language-plaintext highlighter-rouge">*.</code> part) on the certificate.</p>
+
+<p>Additionally, the asterisk can only be substituted by a <em>single</em> label and not by <em>multiple</em> labels. For example, the name <code class="language-plaintext highlighter-rouge">hello.goodbye.example.com</code> will not be covered by a certificate including only the name <code class="language-plaintext highlighter-rouge">*.example.com</code>. It <em>will</em> be covered however, by <code class="language-plaintext highlighter-rouge">*.goodbye.example.com</code>. Note that a wildcard name can not contain multiple asterisks. For example, <code class="language-plaintext highlighter-rouge">*.*.example.com</code> is not valid.</p>
+
+    </div>
+    <div class="mobile-only">
+      <p>
+      A wildcard certificate is a certificate that includes one or more names starting with *.. Browsers will accept any label in place of the asterisk (*). For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, and goodbye.example.com. However, a wildcard certificate including only the name *.example.com will not be valid for example.com: the substituted label can not be empty. If you want the certificate to be valid for example.com, you also need to include example.com (i.e. without the *. part) on the certificate. Additionally, the asterisk can only be substituted by a single label and not...
+      </p>
+    </div>
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div><div class="glossary-term no-js">
+  <a class="glossary-link no-js">*</a>
+  <div class="tooltip no-js">
+    <a class="tooltip-title" href="/glossary#wildcard-certificate">Wildcard Certificate</a>
+    <p>A wildcard certificate is a certificate that includes one or more names starting with <code class="language-plaintext highlighter-rouge">*.</code>. Browsers will accept any label in place of the asterisk (<code class="language-plaintext highlighter-rouge">*</code>). For example, a certificate for <code class="language-plaintext highlighter-rouge">*.example.com</code> will be valid for <code class="language-plaintext highlighter-rouge">www.example.com</code>, <code class="language-plaintext highlighter-rouge">mail.example.com</code>, <code class="language-plaintext highlighter-rouge">hello.example.com</code>, and <code class="language-plaintext highlighter-rouge">goodbye.example.com</code>.</p>
+
+<p>However, a wildcard certificate including <em>only</em> the name <code class="language-plaintext highlighter-rouge">*.example.com</code> will <strong>not</strong> be valid for <code class="language-plaintext highlighter-rouge">example.com</code>: the substituted label can not be empty. If you want the certificate to be valid for <code class="language-plaintext highlighter-rouge">example.com</code>, you also need to include <code class="language-plaintext highlighter-rouge">example.com</code> (i.e. without the <code class="language-plaintext highlighter-rouge">*.</code> part) on the certificate.</p>
+
+<p>Additionally, the asterisk can only be substituted by a <em>single</em> label and not by <em>multiple</em> labels. For example, the name <code class="language-plaintext highlighter-rouge">hello.goodbye.example.com</code> will not be covered by a certificate including only the name <code class="language-plaintext highlighter-rouge">*.example.com</code>. It <em>will</em> be covered however, by <code class="language-plaintext highlighter-rouge">*.goodbye.example.com</code>. Note that a wildcard name can not contain multiple asterisks. For example, <code class="language-plaintext highlighter-rouge">*.*.example.com</code> is not valid.</p>
+
+    <div class="bottom-text">
+      From our <a href="/glossary">Certbot Glossary</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="instruction-pane-wrapper">
+  <div class="instruction-pane automated">
+    <ol>
+      <aside class="note">
+        <div class="note-header">
+          <h3>Snap Support</h3>
+        </div>
+        <p>
+        The Certbot snap supports the x86_64, ARMv7, and ARMv8 architectures.
+        While we strongly recommend that most users install Certbot through the snap,
+        you can find alternate installation instructions
+        <a href="/docs/install.html">here</a>.
+        </p>
+      </aside>
+
+      <li>
+          SSH into the server
+          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
+      </li>
+      <li>
+          Install snapd
+          <p>
+          You'll need to install snapd and make sure you follow any instructions to enable classic snap support.<br />
+          Follow these instructions on <a href="https://snapcraft.io/docs/installing-snapd/">snapcraft's site to install snapd</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="https://snapcraft.io/docs/installing-snapd/">install snapd</a>
+          </p>
+      </li>
+      <li>
+        Ensure that your version of snapd is up to date
+        <p>
+        Execute the following instructions on the command line on the machine to ensure
+        that you have the latest version of <tt>snapd</tt>.
+        </p>
+        <pre>sudo snap install core; sudo snap refresh core</pre>
+      </li>
+      <li>
+          Remove certbot-auto and any Certbot OS packages
+          <p>
+          If you have any Certbot packages installed using an OS package manager like
+          <tt>apt</tt>, <tt>dnf</tt>, or <tt>yum</tt>, you should remove them before
+          installing the Certbot snap to ensure that when you run the command
+          <tt>certbot</tt> the snap is used rather than the installation from your OS
+          package manager. The exact command to do this depends on your OS, but
+          common examples are <tt>sudo apt-get remove certbot</tt>, <tt>sudo dnf
+          remove certbot</tt>, or <tt>sudo yum remove certbot</tt>.
+          </p>
+          <p>
+          If you previously used Certbot through the certbot-auto script, you should
+          also remove its installation by following the instructions <a href="/docs/uninstall.html">here</a>.
+          </p>
+      </li>
+
+      <li>
+        Install Certbot
+        <p>
+          Run this command on the command line on the machine to install Certbot.
+          <pre>sudo snap install --classic certbot</pre>
+        </p>
+      </li>
+      <li>
+        Prepare the Certbot command
+        <p>
+        Execute the following instruction on the command line on the machine to ensure
+        that the <tt>certbot</tt> command can be run.
+        </p>
+        <pre>sudo ln -s /snap/bin/certbot /usr/bin/certbot</pre>
+      </li>
+
+
+
+      <li>
+        Choose how you'd like to run Certbot
+        <ul>
+          <li>
+            Either get and install your certificates...
+            <p>
+            Run this command to get a certificate and have Certbot edit your Apache configuration
+            automatically to serve it, turning on HTTPS access in a single step.
+            <pre>sudo certbot --apache</pre>
+            </p>
+          </li>
+
+          <li>
+            Or, just get a certificate
+            <p>
+            If you're feeling more conservative and would like to make the changes to your Apache
+            configuration by hand, run this command.
+            <pre>sudo certbot certonly --apache</pre>
+            </p>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        Test automatic renewal
+        <p>
+        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
+        automatically before they expire. You will not need to run Certbot again, unless you change your
+        configuration. You can test automatic renewal for your certificates by running this command:
+        <pre>sudo certbot renew --dry-run</pre>
+        </p>
+
+        <p>
+        The command to renew certbot is installed in one of the following locations:
+        <ul>
+          <li><tt>/etc/crontab/</tt></li>
+          <li><tt>/etc/cron.*/*</tt></li>
+          <li><tt>systemctl list-timers</tt></li>
+        </ul>
+        </p>
+
+
+      </li>
+
+      <li>
+        Confirm that Certbot worked
+        <p>
+        To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
+        look for the lock icon in the URL bar.
+        </p>
+      </li>
+
+    </ol>
+  </div>
+
+  <div class="instruction-pane advanced">
+    <ol>
+      <aside class="note">
+        <div class="note-header">
+          <h3>Snap Support</h3>
+        </div>
+        <p>
+        The Certbot snap supports the x86_64, ARMv7, and ARMv8 architectures.
+        While we strongly recommend that most users install Certbot through the snap,
+        you can find alternate installation instructions
+        <a href="/docs/install.html">here</a>.
+        </p>
+      </aside>
+      <li>
+          Check if your DNS provider is supported
+          <p>
+          See if your DNS provider is supported by Certbot by checking
+          <a href="/docs/using.html#dns-plugins">this list in our
+            documentation</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="/docs/using.html#dns-plugins">check if your DNS provider supports Certbot</a>
+          </p>
+          <h3>Not supported?</h3>
+          <p>
+          If your DNS provider is not supported, pause here: run Certbot with the manual plugin by using
+          <a href="/docs/using.html#manual">these steps from our documentation</a>.
+          </p>
+          <h3>Supported?</h3>
+          <p>
+          If your DNS provider is supported, continue with the remaining instructions below.
+          </p>
+      </li>
+
+      <li>
+          SSH into the server
+          <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
+      </li>
+      <li>
+          Install snapd
+          <p>
+          You'll need to install snapd and make sure you follow any instructions to enable classic snap support.<br />
+          Follow these instructions on <a href="https://snapcraft.io/docs/installing-snapd/">snapcraft's site to install snapd</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="https://snapcraft.io/docs/installing-snapd/">install snapd</a>
+          </p>
+      </li>
+      <li>
+        Ensure that your version of snapd is up to date
+        <p>
+        Execute the following instructions on the command line on the machine to ensure
+        that you have the latest version of <tt>snapd</tt>.
+        </p>
+        <pre>sudo snap install core; sudo snap refresh core</pre>
+      </li>
+      <li>
+          Remove certbot-auto and any Certbot OS packages
+          <p>
+          If you have any Certbot packages installed using an OS package manager like
+          <tt>apt</tt>, <tt>dnf</tt>, or <tt>yum</tt>, you should remove them before
+          installing the Certbot snap to ensure that when you run the command
+          <tt>certbot</tt> the snap is used rather than the installation from your OS
+          package manager. The exact command to do this depends on your OS, but
+          common examples are <tt>sudo apt-get remove certbot</tt>, <tt>sudo dnf
+          remove certbot</tt>, or <tt>sudo yum remove certbot</tt>.
+          </p>
+          <p>
+          If you previously used Certbot through the certbot-auto script, you should
+          also remove its installation by following the instructions <a href="/docs/uninstall.html">here</a>.
+          </p>
+      </li>
+
+      <li>
+        Install Certbot
+        <p>
+          Run this command on the command line on the machine to install Certbot.
+          <pre>sudo snap install --classic certbot</pre>
+        </p>
+      </li>
+      <li>
+        Prepare the Certbot command
+        <p>
+        Execute the following instruction on the command line on the machine to ensure
+        that the <tt>certbot</tt> command can be run.
+        </p>
+        <pre>sudo ln -s /snap/bin/certbot /usr/bin/certbot</pre>
+      </li>
+
+      <li>
+        Confirm plugin containment level
+        <p>
+        Run this command on the command line on the machine to acknowledge that the installed
+        plugin will have the same <tt>classic</tt> containment as the Certbot snap.
+        </p>
+        <pre>sudo snap set certbot trust-plugin-with-root=ok</pre>
+
+        <p>
+        If you encounter issues with running Certbot, you may need to follow this step, then
+        the "Install correct DNS plugin" step, again.
+        </p>
+      </li>
+
+      <li>
+          Install correct DNS plugin
+          <p>
+          Run the following command, replacing &lt;PLUGIN&gt; with the name of your DNS provider.
+          </p>
+          <pre>sudo snap install certbot-dns-&lt;PLUGIN&gt;</pre>
+          <p>
+          For example, if your DNS provider is Cloudflare, you'd run the following command:
+          </p>
+          <pre>sudo snap install certbot-dns-cloudflare</pre>
+      </li>
+      <li>
+          Set up credentials
+          <p>
+          You'll need to set up DNS credentials.<br />
+          Follow the steps in the "Credentials" section for your DNS provider to access or create the
+          appropriate credential configuration file. Find credentials instructions for your DNS provider
+          by clicking the <a href="/docs/using.html#dns-plugins">DNS plugin's name on the Documentation list</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="/docs/using.html#dns-plugins">find your DNS plugin's Credential steps</a>
+          </p>
+      </li>
+
+      <li>
+        Choose how you'd like to run Certbot
+        <ul>
+          <li>
+            Either get and install your certificates...
+            <p>
+            Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>,
+            along with the flag <tt>-i apache</tt>.
+            </p>
+          </li>
+
+          <li>
+            Or, just get a certificate
+            <p>
+            Run one of the commands in the "Examples" section of the <a href="/docs/using.html#dns-plugins">instructions for your DNS provider</a>.
+            </p>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        Test automatic renewal
+        <p>
+        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
+        automatically before they expire. You will not need to run Certbot again, unless you change your
+        configuration. You can test automatic renewal for your certificates by running this command:
+        <pre>sudo certbot renew --dry-run</pre>
+        </p>
+
+        <p>
+        The command to renew certbot is installed in one of the following locations:
+        <ul>
+          <li><tt>/etc/crontab/</tt></li>
+          <li><tt>/etc/cron.*/*</tt></li>
+          <li><tt>systemctl list-timers</tt></li>
+        </ul>
+        </p>
+
+
+      </li>
+
+      <li>
+        Confirm that Certbot worked
+        <p>
+        To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
+        look for the lock icon in the URL bar.
+        </p>
+      </li>
+
+    </ol>
+  </div>
+
+  <div class="instructions-footer">
+    <div class="col">
+      <img alt="Lightbulb" src="/images/BlackCircle-Lightbulb.svg" />
+      <div class="text-wrapper">
+        <span>
+          Troubleshooting?<br class="mobile-hidden" />
+          Encountering an error?
+        </span>
+      </div>
+      <a class="link-button-wide" href="/help/">Get help<img alt="Red arrow pointing right" src="/images/chevron-right.png" class="mobile-only link-arrow" /></a>
+    </div>
+    <div class="col">
+      <img alt="Gear" src="/images/BlackCircle-Gear.svg" />
+      <div class="text-wrapper">
+        <span>
+          Need more options to customize your setup?
+        </span>
+      </div>
+      <a class="link-button-wide" href="/docs/">See how to work with Certbot<img alt="Red arrow pointing right" src="/images/chevron-right.png" class="mobile-only link-arrow" /></a>
+    </div>
+    <div class="col">
+      <img alt="Bag decorated with a heart" src="/images/BlackCircle-Donate.svg" />
+      <div class="text-wrapper">
+        <span class="mobile-hidden">
+          Like Certbot? This free, open source project is part of EFF's
+          commitment to make encryption accessible for all.
+        </span>
+        <span class="mobile-only">
+          Like Certbot?
+        </span>
+      </div>
+      <a class="link-button-wide" href="https://supporters.eff.org/donate/support-work-on-certbot">Donate to Certbot and EFF<img alt="Red arrow pointing right" src="/images/chevron-right.png" class="mobile-only link-arrow" /></a>
+    </div>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="social">
+  <ul>
+    <li>
+      <a href="https://www.facebook.com/share.php?u=https%3A%2F%2Fcertbot.eff.org&amp;title=Certbot" target="_blank" rel="noreferrer"><div class="social-icon facebook"></div></a>
+    </li>
+    <li><a href="https://twitter.com/intent/tweet?text=Check%20out%20Certbot%2C%20an%20%40EFF%20tool%20that%20makes%20it%20easy%20to%20get%20and%20configure%20HTTPS%20with%20Let%27s%20Encrypt%20certificates&amp;url=https%3A%2F%2Fcertbot.eff.org&amp;related=eff" target="_blank" rel="noreferrer"><div class="social-icon twitter"></div></a></li>
+    <li><a href="https://supporters.eff.org/donate/support-work-on-certbot" target="_blank" rel="noreferrer"><div class="social-icon donate"></div></a></li>
+  </ul>
+</footer>
+
+    <footer class="footer">
+
+  <div class="logos">
+    <div class="certbot-logo">
+      <img class="certbot-logo" src="/images/Certbot-solid.svg" alt="Certbot logo">
+      <span>
+        certbot
+      </span>
+    </div>
+    <a target="_blank" href="https://www.eff.org"><img class="eff-logo" src="/images/EFF-bw-logo-white.svg" alt="Electronic Frontier Foundation"></a>
+  </div>
+
+  <div class="links">
+    <ul>
+      <li><a href="/">home</a></li>
+      <li><a href="/about">about certbot</a></li>
+      <li><a href="/instructions">certbot instructions</a></li>
+      <li><a href="/hosting_providers">hosting providers with HTTPS</a></li>
+    </ul>
+
+    <ul>
+      <li><a href="/help">get help</a></li>
+      <li><a href="/faq">frequently asked questions</a></li>
+      <li><a href="/glossary">certbot glossary</a></li>
+      <li><a href="/docs">certbot documentation</a></li>
+      <li><a href="https://community.letsencrypt.org/">community forum</a></li>
+    </ul>
+
+    <ul>
+      <li><a href="/help#not-finding">contact us</a></li>
+      <li><a href="/contribute">contribute to certbot</a></li>
+    </ul>
+
+    <ul>
+      <li><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
+    </ul>
+
+    <ul>
+      <li><a href="/privacy">privacy</a></li>
+      
+      <li><a target="_blank" href="https://www.eff.org/copyright"><img src="/images/cc-by-logo.png" alt="Creative Commons Attribution License"></a></li>
+      
+    </ul>
+  </div>
+
+<noscript><img src="https://anon-stats.eff.org/js/?idsite=24&amp;rec=1&amp;action_name=" style="border:0" height="0" width="0" alt="" /></noscript>
+<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
+<script type="text/javascript">
+document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/js/?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
+</script>
+
+</footer>
+
+
+
+  </body>
+
+</html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction &mdash; Certbot 0.38.0.dev0 documentation</title>
+  <title>Introduction &mdash; Certbot 1.15.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="Introduction &mdash; Certbot 0.38.0.dev0 documentation">
+<meta name="twitter:title" content="Introduction &mdash; Certbot 1.15.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 0.38.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="What is a Certificate?" href="what.html"/>
         <link rel="prev" title="Welcome to the Certbot documentation!" href="index.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                0.38
+                1.15
               </div>
             
           
@@ -135,6 +135,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <li class="toctree-l1"><a class="reference internal" href="using.html">User Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Developer Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="packaging.html">Packaging Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compatibility.html">Backwards Compatibility</a></li>
 <li class="toctree-l1"><a class="reference internal" href="resources.html">Resources</a></li>
 </ul>
 <ul>
@@ -179,7 +180,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/certbot/certbot/blob/master/docs/intro.rst" class="fa fa-github"> Edit on GitHub</a>
+          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/intro.rst" class="fa fa-github"> Edit on GitHub</a>
         
       
     </li>
@@ -192,8 +193,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <div class="section" id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">To get started quickly, use the <a class="reference external" href="https://certbot.eff.org">interactive installation guide</a>.</p>
+<p class="admonition-title">Note</p>
+<p>To get started quickly, use the <a class="reference external" href="https://certbot.eff.org">interactive installation guide</a>.</p>
 </div>
 <p>Certbot is part of EFF’s effort to encrypt the entire Internet. Secure communication over the Web relies on HTTPS, which requires the use of a digital certificate that lets browsers verify the identity of web servers (e.g., is that really google.com?). Web servers obtain their certificates from trusted third parties called certificate authorities (CAs). Certbot is an easy-to-use client that fetches a certificate from Let’s Encrypt—an open certificate authority launched by the EFF, Mozilla, and others—and deploys it to a web server.</p>
 <p>Anyone who has gone through the trouble of setting up a secure website knows what a hassle getting and maintaining a certificate is. Certbot and Let’s Encrypt can automate away the pain and let you turn on and manage HTTPS with simple commands. Using Certbot and Let’s Encrypt is free, so there’s no need to arrange payment.</p>
@@ -205,10 +206,7 @@ protocol) that can automate the tasks of obtaining certificates and
 configuring webservers to use them. This client runs on Unix-based operating
 systems.</p>
 <p>To see the changes made to Certbot between versions please refer to our
-<a class="reference external" href="https://github.com/certbot/certbot/blob/master/CHANGELOG.md">changelog</a>.</p>
-<p>Until May 2016, Certbot was named simply <code class="docutils literal notranslate"><span class="pre">letsencrypt</span></code> or <code class="docutils literal notranslate"><span class="pre">letsencrypt-auto</span></code>,
-depending on install method. Instructions on the Internet, and some pieces of the
-software, may still refer to this older name.</p>
+<a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot/CHANGELOG.md">changelog</a>.</p>
 <div class="section" id="contributing">
 <h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
 <p>If you’d like to contribute to this project please read <a class="reference external" href="https://certbot.eff.org/docs/contributing.html">Developer Guide</a>.</p>
@@ -234,9 +232,9 @@ the User Guide.</p>
 <p>Main Website: <a class="reference external" href="https://certbot.eff.org">https://certbot.eff.org</a></p>
 <p>Let’s Encrypt Website: <a class="reference external" href="https://letsencrypt.org">https://letsencrypt.org</a></p>
 <p>Community: <a class="reference external" href="https://community.letsencrypt.org">https://community.letsencrypt.org</a></p>
-<p>ACME spec: <a class="reference external" href="http://ietf-wg-acme.github.io/acme/">http://ietf-wg-acme.github.io/acme/</a></p>
-<p>ACME working area in github: <a class="reference external" href="https://github.com/ietf-wg-acme/acme">https://github.com/ietf-wg-acme/acme</a></p>
-<p><a class="reference external" href="https://travis-ci.com/certbot/certbot"><img alt="Travis CI status" src="https://travis-ci.com/certbot/certbot.svg?branch=master" /></a> <a class="reference external" href="https://codecov.io/gh/certbot/certbot"><img alt="Coverage status" src="https://codecov.io/gh/certbot/certbot/branch/master/graph/badge.svg" /></a> <a class="reference external" href="https://readthedocs.org/projects/letsencrypt/"><img alt="Documentation status" src="https://readthedocs.org/projects/letsencrypt/badge/" /></a> <a class="reference external" href="https://quay.io/repository/letsencrypt/letsencrypt"><img alt="Docker Repository on Quay.io" src="https://quay.io/repository/letsencrypt/letsencrypt/status" /></a></p>
+<p>ACME spec: <a class="reference external" href="https://tools.ietf.org/html/rfc8555">RFC 8555</a></p>
+<p>ACME working area in github (archived): <a class="reference external" href="https://github.com/ietf-wg-acme/acme">https://github.com/ietf-wg-acme/acme</a></p>
+<p><a class="reference external" href="https://dev.azure.com/certbot/certbot/_build?definitionId=5"><img alt="Azure Pipelines CI status" src="https://img.shields.io/azure-devops/build/certbot/ba534f81-a483-4b9b-9b4e-a60bec8fee72/5/master" /></a></p>
 </div>
 <div class="section" id="system-requirements">
 <h3>System Requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h3>
@@ -266,7 +264,7 @@ the User Guide.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
         </div>
@@ -300,7 +298,7 @@ the User Guide.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.38.0.dev0',
+            VERSION:'1.15.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -327,7 +325,7 @@ the User Guide.</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Introduction%E2%80%94%20Certbot%200.38.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=Introduction%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
