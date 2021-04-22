@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.ocsp &mdash; Certbot 1.11.0.dev0 documentation</title>
+  <title>certbot.ocsp &mdash; Certbot 1.15.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.ocsp &mdash; Certbot 1.11.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.ocsp &mdash; Certbot 1.15.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.11
+                1.15
               </div>
             
           
@@ -184,35 +184,35 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
   <h1>Source code for certbot.ocsp</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Tools for checking certificate revocation.&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">PIPE</span>
-<span class="kn">from</span> <span class="nn">subprocess</span> <span class="k">import</span> <span class="n">Popen</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">PIPE</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span> <span class="nn">cryptography</span> <span class="k">import</span> <span class="n">x509</span>
-<span class="kn">from</span> <span class="nn">cryptography.exceptions</span> <span class="k">import</span> <span class="n">InvalidSignature</span>
-<span class="kn">from</span> <span class="nn">cryptography.exceptions</span> <span class="k">import</span> <span class="n">UnsupportedAlgorithm</span>
-<span class="kn">from</span> <span class="nn">cryptography.hazmat.backends</span> <span class="k">import</span> <span class="n">default_backend</span>
+<span class="kn">from</span> <span class="nn">cryptography</span> <span class="kn">import</span> <span class="n">x509</span>
+<span class="kn">from</span> <span class="nn">cryptography.exceptions</span> <span class="kn">import</span> <span class="n">InvalidSignature</span>
+<span class="kn">from</span> <span class="nn">cryptography.exceptions</span> <span class="kn">import</span> <span class="n">UnsupportedAlgorithm</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.backends</span> <span class="kn">import</span> <span class="n">default_backend</span>
 <span class="c1"># See https://github.com/pyca/cryptography/issues/4275</span>
-<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="k">import</span> <span class="n">hashes</span>  <span class="c1"># type: ignore</span>
-<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="k">import</span> <span class="n">serialization</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="kn">import</span> <span class="n">hashes</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span> <span class="nn">cryptography.hazmat.primitives</span> <span class="kn">import</span> <span class="n">serialization</span>
 <span class="kn">import</span> <span class="nn">pytz</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Tuple</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">crypto_util</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">util</span>
-<span class="kn">from</span> <span class="nn">certbot.compat.os</span> <span class="k">import</span> <span class="n">getenv</span>
-<span class="kn">from</span> <span class="nn">certbot.interfaces</span> <span class="k">import</span> <span class="n">RenewableCert</span>  <span class="c1"># pylint: disable=unused-import</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">crypto_util</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">certbot.compat.os</span> <span class="kn">import</span> <span class="n">getenv</span>
+<span class="kn">from</span> <span class="nn">certbot.interfaces</span> <span class="kn">import</span> <span class="n">RenewableCert</span>  <span class="c1"># pylint: disable=unused-import</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="c1"># Only cryptography&gt;=2.5 has ocsp module</span>
     <span class="c1"># and signature_hash_algorithm attribute in OCSPResponse class</span>
-    <span class="kn">from</span> <span class="nn">cryptography.x509</span> <span class="k">import</span> <span class="n">ocsp</span>  <span class="c1"># pylint: disable=ungrouped-imports</span>
+    <span class="kn">from</span> <span class="nn">cryptography.x509</span> <span class="kn">import</span> <span class="n">ocsp</span>  <span class="c1"># pylint: disable=ungrouped-imports</span>
     <span class="nb">getattr</span><span class="p">(</span><span class="n">ocsp</span><span class="o">.</span><span class="n">OCSPResponse</span><span class="p">,</span> <span class="s1">&#39;signature_hash_algorithm&#39;</span><span class="p">)</span>
 <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
     <span class="n">ocsp</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
@@ -221,10 +221,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="RevocationChecker"><a class="viewcode-back" href="../../api/certbot.ocsp.html#certbot.ocsp.RevocationChecker">[docs]</a><span class="k">class</span> <span class="nc">RevocationChecker</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="RevocationChecker"><a class="viewcode-back" href="../../api/certbot.ocsp.html#certbot.ocsp.RevocationChecker">[docs]</a><span class="k">class</span> <span class="nc">RevocationChecker</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;This class figures out OCSP checking on this system, and performs it.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enforce_openssl_binary_usage</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enforce_openssl_binary_usage</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">broken</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_openssl_binary</span> <span class="o">=</span> <span class="n">enforce_openssl_binary_usage</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">ocsp</span>
 
@@ -244,8 +244,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">host_args</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">host</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;Host&quot;</span><span class="p">,</span> <span class="n">host</span><span class="p">]</span>
 
-<div class="viewcode-block" id="RevocationChecker.ocsp_revoked"><a class="viewcode-back" href="../../api/certbot.ocsp.html#certbot.ocsp.RevocationChecker.ocsp_revoked">[docs]</a>    <span class="k">def</span> <span class="nf">ocsp_revoked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert</span><span class="p">):</span>
-        <span class="c1"># type: (RenewableCert) -&gt; bool</span>
+<div class="viewcode-block" id="RevocationChecker.ocsp_revoked"><a class="viewcode-back" href="../../api/certbot.ocsp.html#certbot.ocsp.RevocationChecker.ocsp_revoked">[docs]</a>    <span class="k">def</span> <span class="nf">ocsp_revoked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert</span><span class="p">:</span> <span class="n">RenewableCert</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Get revoked status for a particular cert version.</span>
 
 <span class="sd">        .. todo:: Make this a non-blocking call</span>
@@ -257,8 +256,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ocsp_revoked_by_paths</span><span class="p">(</span><span class="n">cert</span><span class="o">.</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">cert</span><span class="o">.</span><span class="n">chain_path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RevocationChecker.ocsp_revoked_by_paths"><a class="viewcode-back" href="../../api/certbot.ocsp.html#certbot.ocsp.RevocationChecker.ocsp_revoked_by_paths">[docs]</a>    <span class="k">def</span> <span class="nf">ocsp_revoked_by_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-        <span class="c1"># type: (str, str, int) -&gt; bool</span>
+<div class="viewcode-block" id="RevocationChecker.ocsp_revoked_by_paths"><a class="viewcode-back" href="../../api/certbot.ocsp.html#certbot.ocsp.RevocationChecker.ocsp_revoked_by_paths">[docs]</a>    <span class="k">def</span> <span class="nf">ocsp_revoked_by_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Performs the OCSP revocation check</span>
 
 <span class="sd">        :param str cert_path: Certificate filepath</span>
@@ -287,8 +285,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_ocsp_openssl_bin</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_check_ocsp_cryptography</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_check_ocsp_openssl_bin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="p">):</span>
-        <span class="c1"># type: (str, str, str, str, int) -&gt; bool</span>
+    <span class="k">def</span> <span class="nf">_check_ocsp_openssl_bin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                                <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="c1"># Minimal implementation of proxy selection logic as seen in, e.g., cURL</span>
         <span class="c1"># Some things that won&#39;t work, but may well be in use somewhere:</span>
         <span class="c1"># - username and password for proxy authentication</span>
@@ -325,8 +323,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">return</span> <span class="n">_translate_ocsp_query</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_determine_ocsp_server</span><span class="p">(</span><span class="n">cert_path</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; Tuple[Optional[str], Optional[str]]</span>
+<span class="k">def</span> <span class="nf">_determine_ocsp_server</span><span class="p">(</span><span class="n">cert_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;Extract the OCSP server host from a certificate.</span>
 
 <span class="sd">    :param str cert_path: Path to the cert we&#39;re checking OCSP for</span>
@@ -352,12 +349,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="k">if</span> <span class="n">host</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">url</span><span class="p">,</span> <span class="n">host</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cannot process OCSP host from URL (</span><span class="si">%s</span><span class="s2">) in cert at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Cannot process OCSP host from URL (</span><span class="si">%s</span><span class="s2">) in certificate at </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">)</span>
     <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 
 
-<span class="k">def</span> <span class="nf">_check_ocsp_cryptography</span><span class="p">(</span><span class="n">cert_path</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="p">):</span>
-    <span class="c1"># type: (str, str, str, int) -&gt; bool</span>
+<span class="k">def</span> <span class="nf">_check_ocsp_cryptography</span><span class="p">(</span><span class="n">cert_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="c1"># Retrieve OCSP response</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">chain_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file_handler</span><span class="p">:</span>
         <span class="n">issuer</span> <span class="o">=</span> <span class="n">x509</span><span class="o">.</span><span class="n">load_pem_x509_certificate</span><span class="p">(</span><span class="n">file_handler</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">default_backend</span><span class="p">())</span>
@@ -407,7 +403,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <span class="k">def</span> <span class="nf">_check_ocsp_response</span><span class="p">(</span><span class="n">response_ocsp</span><span class="p">,</span> <span class="n">request_ocsp</span><span class="p">,</span> <span class="n">issuer_cert</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Verify that the OCSP is valid for serveral criteria&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Verify that the OCSP is valid for several criteria&quot;&quot;&quot;</span>
     <span class="c1"># Assert OCSP response corresponds to the certificate we are talking about</span>
     <span class="k">if</span> <span class="n">response_ocsp</span><span class="o">.</span><span class="n">serial_number</span> <span class="o">!=</span> <span class="n">request_ocsp</span><span class="o">.</span><span class="n">serial_number</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s1">&#39;the certificate in response does not correspond &#39;</span>
@@ -574,7 +570,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'1.11.0.dev0',
+            VERSION:'1.15.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -601,7 +597,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.ocsp%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.ocsp%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

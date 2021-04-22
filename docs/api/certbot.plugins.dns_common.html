@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.dns_common module &mdash; Certbot 1.11.0.dev0 documentation</title>
+  <title>certbot.plugins.dns_common module &mdash; Certbot 1.15.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.dns_common module &mdash; Certbot 1.11.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.dns_common module &mdash; Certbot 1.15.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="certbot.plugins package" href="certbot.plugins.html"/>
         <link rel="next" title="certbot.plugins.dns_common_lexicon module" href="certbot.plugins.dns_common_lexicon.html"/>
         <link rel="prev" title="certbot.plugins.common module" href="certbot.plugins.common.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.11
+                1.15
               </div>
             
           
@@ -204,131 +204,125 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <div class="section" id="module-certbot.plugins.dns_common">
 <span id="certbot-plugins-dns-common-module"></span><h1>certbot.plugins.dns_common module<a class="headerlink" href="#module-certbot.plugins.dns_common" title="Permalink to this headline">¶</a></h1>
 <p>Common code for DNS Authenticator Plugins.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator">
-<em class="property">class </em><code class="descclassname">certbot.plugins.dns_common.</code><code class="descname">DNSAuthenticator</code><span class="sig-paren">(</span><em>config</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.plugins.dns_common.</span></code><code class="sig-name descname"><span class="pre">DNSAuthenticator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="certbot.plugins.common.html#certbot.plugins.common.Plugin" title="certbot.plugins.common.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.plugins.common.Plugin</span></code></a></p>
 <p>Base class for DNS  Authenticators</p>
-<dl class="classmethod">
+<dl class="py method">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator.add_parser_arguments">
-<em class="property">classmethod </em><code class="descname">add_parser_arguments</code><span class="sig-paren">(</span><em>add</em>, <em>default_propagation_seconds=10</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.add_parser_arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.add_parser_arguments" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">add_parser_arguments</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">add</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_propagation_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.add_parser_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.add_parser_arguments" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add plugin arguments to the CLI argument parser.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>add</strong> (<em>callable</em>) – Function that proxies calls to
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>add</strong> (<em>callable</em>) – Function that proxies calls to
 <a class="reference external" href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser.add_argument" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">argparse.ArgumentParser.add_argument</span></code></a> prepending options
-with unique plugin name prefix.</td>
-</tr>
-</tbody>
-</table>
+with unique plugin name prefix.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator.get_chall_pref">
-<code class="descname">get_chall_pref</code><span class="sig-paren">(</span><em>unused_domain</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.get_chall_pref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.get_chall_pref" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get_chall_pref</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unused_domain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.get_chall_pref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.get_chall_pref" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator.prepare">
-<code class="descname">prepare</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.prepare"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.prepare" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">prepare</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.prepare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.prepare" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
+<dt id="certbot.plugins.dns_common.DNSAuthenticator.more_info">
+<code class="sig-name descname"><span class="pre">more_info</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.more_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.more_info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator.perform">
-<code class="descname">perform</code><span class="sig-paren">(</span><em>achalls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.perform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.perform" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">perform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">achalls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.perform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.perform" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator.cleanup">
-<code class="descname">cleanup</code><span class="sig-paren">(</span><em>achalls</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.cleanup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.cleanup" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">cleanup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">achalls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.cleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.cleanup" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="certbot.plugins.dns_common.CredentialsConfiguration">
-<em class="property">class </em><code class="descclassname">certbot.plugins.dns_common.</code><code class="descname">CredentialsConfiguration</code><span class="sig-paren">(</span><em>filename</em>, <em>mapper=&lt;function CredentialsConfiguration.&lt;lambda&gt;&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#CredentialsConfiguration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.dns_common.CredentialsConfiguration" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.plugins.dns_common.</span></code><code class="sig-name descname"><span class="pre">CredentialsConfiguration</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">filename</span></em>, <em class="sig-param"><span class="pre">mapper=&lt;function</span> <span class="pre">CredentialsConfiguration.&lt;lambda&gt;&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#CredentialsConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.CredentialsConfiguration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Represents a user-supplied filed which stores API credentials.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="certbot.plugins.dns_common.CredentialsConfiguration.require">
-<code class="descname">require</code><span class="sig-paren">(</span><em>required_variables</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#CredentialsConfiguration.require"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.dns_common.CredentialsConfiguration.require" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">require</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_variables</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#CredentialsConfiguration.require"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.CredentialsConfiguration.require" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ensures that the supplied set of variables are all present in the file.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>required_variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – Map of variable which must be present to error to display.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="certbot.errors.html#certbot.errors.PluginError" title="certbot.errors.PluginError"><strong>errors.PluginError</strong></a> – If one or more are missing.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>required_variables</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – Map of variable which must be present to error to display.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.PluginError" title="certbot.errors.PluginError"><strong>errors.PluginError</strong></a> – If one or more are missing.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="certbot.plugins.dns_common.CredentialsConfiguration.conf">
-<code class="descname">conf</code><span class="sig-paren">(</span><em>var</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#CredentialsConfiguration.conf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.dns_common.CredentialsConfiguration.conf" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">conf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#CredentialsConfiguration.conf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.CredentialsConfiguration.conf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find a configuration value for variable <code class="xref py py-obj docutils literal notranslate"><span class="pre">var</span></code>, as transformed by <code class="xref py py-obj docutils literal notranslate"><span class="pre">mapper</span></code>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>var</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The variable to get.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The value of the variable.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>var</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The variable to get.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value of the variable.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.plugins.dns_common.validate_file">
-<code class="descclassname">certbot.plugins.dns_common.</code><code class="descname">validate_file</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#validate_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.dns_common.validate_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.plugins.dns_common.</span></code><code class="sig-name descname"><span class="pre">validate_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#validate_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.validate_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ensure that the specified file exists.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.plugins.dns_common.validate_file_permissions">
-<code class="descclassname">certbot.plugins.dns_common.</code><code class="descname">validate_file_permissions</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#validate_file_permissions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.dns_common.validate_file_permissions" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.plugins.dns_common.</span></code><code class="sig-name descname"><span class="pre">validate_file_permissions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#validate_file_permissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.validate_file_permissions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ensure that the specified file exists and warn about unsafe permissions.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.plugins.dns_common.base_domain_name_guesses">
-<code class="descclassname">certbot.plugins.dns_common.</code><code class="descname">base_domain_name_guesses</code><span class="sig-paren">(</span><em>domain</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#base_domain_name_guesses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.dns_common.base_domain_name_guesses" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.plugins.dns_common.</span></code><code class="sig-name descname"><span class="pre">base_domain_name_guesses</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#base_domain_name_guesses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.base_domain_name_guesses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of progressively less-specific domain names.</p>
 <p>One of these will probably be the domain name known to the DNS provider.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">base_domain_name_guesses</span><span class="p">(</span><span class="s1">&#39;foo.bar.baz.example.com&#39;</span><span class="p">)</span>
+<dl class="field-list simple">
+<dt class="field-odd">Example</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">base_domain_name_guesses</span><span class="p">(</span><span class="s1">&#39;foo.bar.baz.example.com&#39;</span><span class="p">)</span>
 <span class="go">[&#39;foo.bar.baz.example.com&#39;, &#39;bar.baz.example.com&#39;, &#39;baz.example.com&#39;, &#39;example.com&#39;, &#39;com&#39;]</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>domain</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The domain for which to return guesses.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The a list of less specific domain names.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>domain</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The domain for which to return guesses.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The a list of less specific domain names.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -388,7 +382,7 @@ with unique plugin name prefix.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.11.0.dev0',
+            VERSION:'1.15.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -415,7 +409,7 @@ with unique plugin name prefix.</td>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.dns_common%20module%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.dns_common%20module%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

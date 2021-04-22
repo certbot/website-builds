@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; Certbot 1.11.0.dev0 documentation</title>
+  <title>&lt;no title&gt; &mdash; Certbot 1.15.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="&lt;no title&gt; &mdash; Certbot 1.11.0.dev0 documentation">
+<meta name="twitter:title" content="&lt;no title&gt; &mdash; Certbot 1.15.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../index.html"/> 
+    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../index.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -96,7 +96,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.11
+                1.15
               </div>
             
           
@@ -280,9 +280,9 @@ optional arguments:
                         before submitting to CA (default: False)
   --preferred-chain PREFERRED_CHAIN
                         If the CA offers multiple certificate chains, prefer
-                        the chain with an issuer matching this Subject Common
-                        Name. If no match, the default offered chain will be
-                        used. (default: None)
+                        the chain whose topmost certificate was issued from
+                        this Subject Common Name. If no match, the default
+                        offered chain will be used. (default: None)
   --preferred-challenges PREF_CHALLS
                         A sorted, comma delimited list of the preferred
                         challenge to use during authorization with the most
@@ -299,7 +299,7 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/1.10.1
+                        &quot;&quot;. (default: CertbotACMEClient/1.14.0
                         (certbot(-auto); OS_NAME OS_VERSION) Authenticator/XXX
                         Installer/YYY (SUBCOMMAND; flags: FLAGS)
                         Py/major.minor.patchlevel). The flags encoded in the
@@ -348,19 +348,6 @@ automation:
   --duplicate           Allow making a certificate lineage that duplicates an
                         existing one (both can be renewed in parallel)
                         (default: False)
-  --os-packages-only    (certbot-auto only) install OS package dependencies
-                        and then stop (default: False)
-  --no-self-upgrade     (certbot-auto only) prevent the certbot-auto script
-                        from upgrading itself to newer released versions
-                        (default: Upgrade automatically)
-  --no-bootstrap        (certbot-auto only) prevent the certbot-auto script
-                        from installing OS-level dependencies (default: Prompt
-                        to install OS-wide dependencies, but exit if the user
-                        says &#39;No&#39;)
-  --no-permissions-check
-                        (certbot-auto only) skip the check on the file system
-                        permissions of the certbot-auto script (default:
-                        False)
   -q, --quiet           Silence all output except errors. Useful for
                         automation via cron. Implies --non-interactive.
                         (default: False)
@@ -435,8 +422,8 @@ paths:
   Flags for changing execution paths &amp; servers
 
   --cert-path CERT_PATH
-                        Path to where certificate is saved (with auth --csr),
-                        installed from, or revoked. (default: None)
+                        Path to where certificate is saved (with certonly
+                        --csr), installed from, or revoked (default: None)
   --key-path KEY_PATH   Path to private key for certificate installation or
                         revocation (if account key is missing) (default: None)
   --fullchain-path FULLCHAIN_PATH
@@ -720,8 +707,8 @@ dns-cloudxns:
                         CloudXNS credentials INI file. (default: None)
 
 dns-digitalocean:
-  Obtain certs using a DNS TXT record (if you are using DigitalOcean for
-  DNS).
+  Obtain certificates using a DNS TXT record (if you are using DigitalOcean
+  for DNS).
 
   --dns-digitalocean-propagation-seconds DNS_DIGITALOCEAN_PROPAGATION_SECONDS
                         The number of seconds to wait for DNS to propagate
@@ -782,7 +769,8 @@ dns-google:
                         therequired permissions.) (default: None)
 
 dns-linode:
-  Obtain certs using a DNS TXT record (if you are using Linode for DNS).
+  Obtain certificates using a DNS TXT record (if you are using Linode for
+  DNS).
 
   --dns-linode-propagation-seconds DNS_LINODE_PROPAGATION_SECONDS
                         The number of seconds to wait for DNS to propagate
@@ -973,7 +961,7 @@ webroot:
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.11.0.dev0',
+            VERSION:'1.15.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1000,7 +988,7 @@ webroot:
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=%3Cno%20title%3E%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=%3Cno%20title%3E%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

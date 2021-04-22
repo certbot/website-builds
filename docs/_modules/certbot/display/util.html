@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.display.util &mdash; Certbot 1.11.0.dev0 documentation</title>
+  <title>certbot.display.util &mdash; Certbot 1.15.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.display.util &mdash; Certbot 1.11.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.display.util &mdash; Certbot 1.15.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.11
+                1.15
               </div>
             
           
@@ -197,17 +197,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">import</span> <span class="nn">zope.interface</span>
 <span class="kn">import</span> <span class="nn">zope.component</span>
+<span class="kn">import</span> <span class="nn">zope.interface</span>
 
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
-<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">constants</span>
-<span class="kn">from</span> <span class="nn">certbot._internal.display</span> <span class="k">import</span> <span class="n">completer</span>
-<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">misc</span>
-<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">interfaces</span>
+<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="kn">import</span> <span class="n">constants</span>
+<span class="kn">from</span> <span class="nn">certbot._internal.display</span> <span class="kn">import</span> <span class="n">completer</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="kn">import</span> <span class="n">misc</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="kn">import</span> <span class="n">os</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -256,7 +256,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="viewcode-block" id="input_with_timeout"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.input_with_timeout">[docs]</a><span class="k">def</span> <span class="nf">input_with_timeout</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">36000.0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get user input with a timeout.</span>
 
-<span class="sd">    Behaves the same as six.moves.input, however, an error is raised if</span>
+<span class="sd">    Behaves the same as the builtin input, however, an error is raised if</span>
 <span class="sd">    a user doesn&#39;t answer after timeout seconds. The default timeout</span>
 <span class="sd">    value was chosen to place it just under 12 hours for users following</span>
 <span class="sd">    our advice and running Certbot twice a day.</span>
@@ -270,7 +270,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :raises errors.Error if no answer is given before the timeout</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># use of sys.stdin and sys.stdout to mimic six.moves.input based on</span>
+    <span class="c1"># use of sys.stdin and sys.stdout to mimic the builtin input based on</span>
     <span class="c1"># https://github.com/python/cpython/blob/baf7bb30a02aabde260143136bdf5b3738a1d409/Lib/getpass.py#L129</span>
     <span class="k">if</span> <span class="n">prompt</span><span class="p">:</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
@@ -283,8 +283,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="notify"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.notify">[docs]</a><span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; None</span>
+<div class="viewcode-block" id="notify"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.notify">[docs]</a><span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Display a basic status message.</span>
 
 <span class="sd">    :param str msg: message to display</span>
@@ -296,12 +295,12 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <div class="viewcode-block" id="FileDisplay"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.FileDisplay">[docs]</a><span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">FileDisplay</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">FileDisplay</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;File-based display.&quot;&quot;&quot;</span>
     <span class="c1"># see https://github.com/certbot/certbot/issues/3915</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">FileDisplay</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span> <span class="o">=</span> <span class="n">outfile</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">force_interactive</span> <span class="o">=</span> <span class="n">force_interactive</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">skipped_interaction</span> <span class="o">=</span> <span class="kc">False</span>
@@ -663,11 +662,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <div class="viewcode-block" id="NoninteractiveDisplay"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.NoninteractiveDisplay">[docs]</a><span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">NoninteractiveDisplay</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">NoninteractiveDisplay</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;An iDisplay implementation that never asks for interactive user input&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="o">*</span><span class="n">unused_args</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">NoninteractiveDisplay</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="o">*</span><span class="n">unused_args</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span> <span class="o">=</span> <span class="n">outfile</span>
 
     <span class="k">def</span> <span class="nf">_interaction_fail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
@@ -821,8 +820,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="s2">&quot;(</span><span class="si">{first}</span><span class="s2">)</span><span class="si">{rest}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">first</span><span class="o">=</span><span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rest</span><span class="o">=</span><span class="n">label</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 
 
-<div class="viewcode-block" id="summarize_domain_list"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.summarize_domain_list">[docs]</a><span class="k">def</span> <span class="nf">summarize_domain_list</span><span class="p">(</span><span class="n">domains</span><span class="p">):</span>
-    <span class="c1"># type: (List[str]) -&gt; str</span>
+<div class="viewcode-block" id="summarize_domain_list"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.summarize_domain_list">[docs]</a><span class="k">def</span> <span class="nf">summarize_domain_list</span><span class="p">(</span><span class="n">domains</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Summarizes a list of domains in the format of:</span>
 <span class="sd">        example.com.com and N more domains</span>
 <span class="sd">    or if there is are only two domains:</span>
@@ -900,7 +898,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.11.0.dev0',
+            VERSION:'1.15.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -927,7 +925,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.util%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.util%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

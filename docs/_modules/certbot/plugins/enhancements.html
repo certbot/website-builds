@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.enhancements &mdash; Certbot 1.11.0.dev0 documentation</title>
+  <title>certbot.plugins.enhancements &mdash; Certbot 1.15.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.enhancements &mdash; Certbot 1.11.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.enhancements &mdash; Certbot 1.15.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.11
+                1.15
               </div>
             
           
@@ -185,13 +185,11 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <h1>Source code for certbot.plugins.enhancements</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;New interface style Certbot enhancements&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
-<span class="kn">import</span> <span class="nn">six</span>
-
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="k">import</span> <span class="n">constants</span>
+<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="kn">import</span> <span class="n">constants</span>
 
 <span class="n">ENHANCEMENTS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;redirect&quot;</span><span class="p">,</span> <span class="s2">&quot;ensure-http-header&quot;</span><span class="p">,</span> <span class="s2">&quot;ocsp-stapling&quot;</span><span class="p">]</span>
 <span class="sd">&quot;&quot;&quot;List of possible :class:`certbot.interfaces.IInstaller`</span>
@@ -276,8 +274,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">help</span><span class="o">=</span><span class="n">enh</span><span class="p">[</span><span class="s2">&quot;cli_help&quot;</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="AutoHSTSEnhancement"><a class="viewcode-back" href="../../../api/certbot.plugins.enhancements.html#certbot.plugins.enhancements.AutoHSTSEnhancement">[docs]</a><span class="nd">@six</span><span class="o">.</span><span class="n">add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">AutoHSTSEnhancement</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="AutoHSTSEnhancement"><a class="viewcode-back" href="../../../api/certbot.plugins.enhancements.html#certbot.plugins.enhancements.AutoHSTSEnhancement">[docs]</a><span class="k">class</span> <span class="nc">AutoHSTSEnhancement</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enhancement interface that installer plugins can implement in order to</span>
 <span class="sd">    provide functionality that configures the software to have a</span>
@@ -344,7 +341,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># This is used to configure internal new style enhancements in Certbot. These</span>
 <span class="c1"># enhancement interfaces need to be defined in this file. Please do not modify</span>
 <span class="c1"># this list from plugin code.</span>
-<span class="n">_INDEX</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">_INDEX</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">{</span>
         <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AutoHSTS&quot;</span><span class="p">,</span>
         <span class="s2">&quot;cli_help&quot;</span><span class="p">:</span> <span class="s2">&quot;Gradually increasing max-age value for HTTP Strict Transport &quot;</span><span class="o">+</span>
@@ -359,7 +356,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="s2">&quot;deployer_function&quot;</span><span class="p">:</span> <span class="s2">&quot;deploy_autohsts&quot;</span><span class="p">,</span>
         <span class="s2">&quot;enable_function&quot;</span><span class="p">:</span> <span class="s2">&quot;enable_autohsts&quot;</span>
     <span class="p">}</span>
-<span class="p">]</span>  <span class="c1"># type: List[Dict[str, Any]]</span>
+<span class="p">]</span>
 </pre></div>
 
            </div>
@@ -416,7 +413,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.11.0.dev0',
+            VERSION:'1.15.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -443,7 +440,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.enhancements%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.enhancements%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

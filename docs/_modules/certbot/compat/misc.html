@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.compat.misc &mdash; Certbot 1.11.0.dev0 documentation</title>
+  <title>certbot.compat.misc &mdash; Certbot 1.15.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.compat.misc &mdash; Certbot 1.11.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.compat.misc &mdash; Certbot 1.15.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.11
+                1.15
               </div>
             
           
@@ -187,20 +187,20 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">This compat module handles various platform specific calls that do not fall into one</span>
 <span class="sd">particular category.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">select</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
-<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
-
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="kn">import</span> <span class="n">os</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">win32com.shell</span> <span class="k">import</span> <span class="n">shell</span> <span class="k">as</span> <span class="n">shellwin32</span>
+    <span class="kn">from</span> <span class="nn">win32com.shell</span> <span class="kn">import</span> <span class="n">shell</span> <span class="k">as</span> <span class="n">shellwin32</span>
     <span class="n">POSIX_MODE</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
     <span class="n">POSIX_MODE</span> <span class="o">=</span> <span class="kc">True</span>
@@ -212,8 +212,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="n">STANDARD_BINARY_DIRS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/usr/sbin&quot;</span><span class="p">,</span> <span class="s2">&quot;/usr/local/bin&quot;</span><span class="p">,</span> <span class="s2">&quot;/usr/local/sbin&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">POSIX_MODE</span> <span class="k">else</span> <span class="p">[]</span>
 
 
-<div class="viewcode-block" id="raise_for_non_administrative_windows_rights"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.raise_for_non_administrative_windows_rights">[docs]</a><span class="k">def</span> <span class="nf">raise_for_non_administrative_windows_rights</span><span class="p">():</span>
-    <span class="c1"># type: () -&gt; None</span>
+<div class="viewcode-block" id="raise_for_non_administrative_windows_rights"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.raise_for_non_administrative_windows_rights">[docs]</a><span class="k">def</span> <span class="nf">raise_for_non_administrative_windows_rights</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    On Windows, raise if current shell does not have the administrative rights.</span>
 <span class="sd">    Do nothing on Linux.</span>
@@ -224,8 +223,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s1">&#39;Error, certbot must be run on a shell with administrative rights.&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="readline_with_timeout"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.readline_with_timeout">[docs]</a><span class="k">def</span> <span class="nf">readline_with_timeout</span><span class="p">(</span><span class="n">timeout</span><span class="p">,</span> <span class="n">prompt</span><span class="p">):</span>
-    <span class="c1"># type: (float, str) -&gt; str</span>
+<div class="viewcode-block" id="readline_with_timeout"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.readline_with_timeout">[docs]</a><span class="k">def</span> <span class="nf">readline_with_timeout</span><span class="p">(</span><span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read user input to return the first line entered, or raise after specified timeout.</span>
 
@@ -266,8 +264,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="get_default_folder"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.get_default_folder">[docs]</a><span class="k">def</span> <span class="nf">get_default_folder</span><span class="p">(</span><span class="n">folder_type</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; str</span>
+<div class="viewcode-block" id="get_default_folder"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.get_default_folder">[docs]</a><span class="k">def</span> <span class="nf">get_default_folder</span><span class="p">(</span><span class="n">folder_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the relevant default folder for the current OS</span>
 
@@ -284,8 +281,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">WINDOWS_DEFAULT_FOLDERS</span><span class="p">[</span><span class="n">folder_type</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="underscores_for_unsupported_characters_in_path"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.underscores_for_unsupported_characters_in_path">[docs]</a><span class="k">def</span> <span class="nf">underscores_for_unsupported_characters_in_path</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; str</span>
+<div class="viewcode-block" id="underscores_for_unsupported_characters_in_path"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.underscores_for_unsupported_characters_in_path">[docs]</a><span class="k">def</span> <span class="nf">underscores_for_unsupported_characters_in_path</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Replace unsupported characters in path for current OS by underscores.</span>
 <span class="sd">    :param str path: the path to normalize</span>
@@ -301,8 +297,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">drive</span> <span class="o">+</span> <span class="n">tail</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="execute_command"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.execute_command">[docs]</a><span class="k">def</span> <span class="nf">execute_command</span><span class="p">(</span><span class="n">cmd_name</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="c1"># type: (str, str, Optional[dict]) -&gt; Tuple[str, str]</span>
+<div class="viewcode-block" id="execute_command"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.execute_command">[docs]</a><span class="k">def</span> <span class="nf">execute_command</span><span class="p">(</span><span class="n">cmd_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a command:</span>
 <span class="sd">        - on Linux command will be run by the standard shell selected with Popen(shell=True)</span>
@@ -393,7 +388,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'1.11.0.dev0',
+            VERSION:'1.15.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -420,7 +415,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.misc%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.misc%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

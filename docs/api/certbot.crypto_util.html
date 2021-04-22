@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.crypto_util module &mdash; Certbot 1.11.0.dev0 documentation</title>
+  <title>certbot.crypto_util module &mdash; Certbot 1.15.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.crypto_util module &mdash; Certbot 1.11.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.crypto_util module &mdash; Certbot 1.15.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="certbot package" href="certbot.html"/>
         <link rel="next" title="certbot.errors module" href="certbot.errors.html"/>
         <link rel="prev" title="certbot.achallenges module" href="certbot.achallenges.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.11
+                1.15
               </div>
             
           
@@ -206,487 +206,420 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <div class="section" id="module-certbot.crypto_util">
 <span id="certbot-crypto-util-module"></span><h1>certbot.crypto_util module<a class="headerlink" href="#module-certbot.crypto_util" title="Permalink to this headline">¶</a></h1>
 <p>Certbot client crypto utility functions.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.init_save_key">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">init_save_key</code><span class="sig-paren">(</span><em>key_size</em>, <em>key_dir</em>, <em>key_type='rsa'</em>, <em>elliptic_curve='secp256r1'</em>, <em>keyname='key-certbot.pem'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#init_save_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.init_save_key" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">init_save_key</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rsa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elliptic_curve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'secp256r1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'key-certbot.pem'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#init_save_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.init_save_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes and saves a privkey.</p>
 <p>Inits key and saves it in PEM format on the filesystem.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">keyname is the attempted filename, it may be different if a file
+<p class="admonition-title">Note</p>
+<p>keyname is the attempted filename, it may be different if a file
 already exists at the path.</p>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>key_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – key size in bits if key size is rsa.</li>
-<li><strong>key_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Key save directory.</li>
-<li><strong>key_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Key Type [rsa, ecdsa]</li>
-<li><strong>elliptic_curve</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Name of the elliptic curve if key type is ecdsa.</li>
-<li><strong>keyname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Filename of key</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – key size in bits if key size is rsa.</p></li>
+<li><p><strong>key_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Key save directory.</p></li>
+<li><p><strong>key_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Key Type [rsa, ecdsa]</p></li>
+<li><p><strong>elliptic_curve</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Name of the elliptic curve if key type is ecdsa.</p></li>
+<li><p><strong>keyname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Filename of key</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Key</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference internal" href="certbot.util.html#certbot.util.Key" title="certbot.util.Key"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.util.Key</span></code></a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If unable to generate the key given key_size.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Key</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="certbot.util.html#certbot.util.Key" title="certbot.util.Key"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.util.Key</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If unable to generate the key given key_size.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.init_save_csr">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">init_save_csr</code><span class="sig-paren">(</span><em>privkey</em>, <em>names</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#init_save_csr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.init_save_csr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">init_save_csr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">privkey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#init_save_csr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.init_save_csr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize a CSR with the given private key.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>privkey</strong> (<a class="reference internal" href="certbot.util.html#certbot.util.Key" title="certbot.util.Key"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.util.Key</span></code></a>) – Key to include in the CSR</li>
-<li><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.9)"><em>set</em></a>) – <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> names to include in the CSR</li>
-<li><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Certificate save directory.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>privkey</strong> (<a class="reference internal" href="certbot.util.html#certbot.util.Key" title="certbot.util.Key"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.util.Key</span></code></a>) – Key to include in the CSR</p></li>
+<li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.9)"><em>set</em></a>) – <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> names to include in the CSR</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Certificate save directory.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">CSR</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="certbot.util.html#certbot.util.CSR" title="certbot.util.CSR"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.util.CSR</span></code></a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>CSR</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="certbot.util.html#certbot.util.CSR" title="certbot.util.CSR"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.util.CSR</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.valid_csr">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">valid_csr</code><span class="sig-paren">(</span><em>csr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#valid_csr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.valid_csr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">valid_csr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#valid_csr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.valid_csr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validate CSR.</p>
 <p>Check if <code class="xref py py-obj docutils literal notranslate"><span class="pre">csr</span></code> is a valid CSR for the given domains.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>csr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – CSR in PEM.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Validity of CSR.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>csr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – CSR in PEM.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Validity of CSR.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.csr_matches_pubkey">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">csr_matches_pubkey</code><span class="sig-paren">(</span><em>csr</em>, <em>privkey</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#csr_matches_pubkey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.csr_matches_pubkey" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">csr_matches_pubkey</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">privkey</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#csr_matches_pubkey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.csr_matches_pubkey" title="Permalink to this definition">¶</a></dt>
 <dd><p>Does private key correspond to the subject public key in the CSR?</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>csr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – CSR in PEM.</li>
-<li><strong>privkey</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Private key file contents (PEM)</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>csr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – CSR in PEM.</p></li>
+<li><p><strong>privkey</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Private key file contents (PEM)</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Correspondence of private key to CSR subject public key.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Correspondence of private key to CSR subject public key.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.import_csr_file">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">import_csr_file</code><span class="sig-paren">(</span><em>csrfile</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#import_csr_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.import_csr_file" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">import_csr_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csrfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#import_csr_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.import_csr_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Import a CSR file, which can be either PEM or DER.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>csrfile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – CSR filename</li>
-<li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – contents of the CSR file</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>csrfile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – CSR filename</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – contents of the CSR file</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(<code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.FILETYPE_PEM</span></code>,
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(<code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.FILETYPE_PEM</span></code>,
 util.CSR object representing the CSR,
 list of domains requested in the CSR)</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.make_key">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">make_key</code><span class="sig-paren">(</span><em>bits=1024</em>, <em>key_type='rsa'</em>, <em>elliptic_curve=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#make_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.make_key" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">make_key</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rsa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elliptic_curve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#make_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.make_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate PEM encoded RSA|EC key.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>bits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of bits if key_type=rsa. At least 1024 for RSA.</li>
-<li><strong>ec_curve</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The elliptic curve to use.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of bits if key_type=rsa. At least 1024 for RSA.</p></li>
+<li><p><strong>ec_curve</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The elliptic curve to use.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">new RSA or ECDSA key in PEM form with specified number of bits
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>new RSA or ECDSA key in PEM form with specified number of bits
 or of type ec_curve when key_type ecdsa is used.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.valid_privkey">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">valid_privkey</code><span class="sig-paren">(</span><em>privkey</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#valid_privkey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.valid_privkey" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">valid_privkey</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">privkey</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#valid_privkey"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.valid_privkey" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is valid RSA private key?</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>privkey</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Private key file contents in PEM</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Validity of private key.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>privkey</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Private key file contents in PEM</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Validity of private key.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.verify_renewable_cert">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">verify_renewable_cert</code><span class="sig-paren">(</span><em>renewable_cert</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#verify_renewable_cert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.verify_renewable_cert" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">verify_renewable_cert</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">renewable_cert</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#verify_renewable_cert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.verify_renewable_cert" title="Permalink to this definition">¶</a></dt>
 <dd><p>For checking that your certs were not corrupted on disk.</p>
-<dl class="docutils">
-<dt>Several things are checked:</dt>
-<dd><ol class="first last arabic simple">
-<li>Signature verification for the cert.</li>
-<li>That fullchain matches cert and chain when concatenated.</li>
-<li>Check that the private key matches the certificate.</li>
+<dl class="simple">
+<dt>Several things are checked:</dt><dd><ol class="arabic simple">
+<li><p>Signature verification for the cert.</p></li>
+<li><p>That fullchain matches cert and chain when concatenated.</p></li>
+<li><p>Check that the private key matches the certificate.</p></li>
 </ol>
 </dd>
 </dl>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>renewable_cert</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.RenewableCert" title="certbot.interfaces.RenewableCert"><em>certbot.interfaces.RenewableCert</em></a>) – cert to verify</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If verification fails.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="certbot.crypto_util.verify_renewable_cert_sig">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">verify_renewable_cert_sig</code><span class="sig-paren">(</span><em>renewable_cert</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#verify_renewable_cert_sig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.verify_renewable_cert_sig" title="Permalink to this definition">¶</a></dt>
-<dd><p>Verifies the signature of a RenewableCert object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>renewable_cert</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.RenewableCert" title="certbot.interfaces.RenewableCert"><em>certbot.interfaces.RenewableCert</em></a>) – cert to verify</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If signature verification fails.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="certbot.crypto_util.verify_signed_payload">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">verify_signed_payload</code><span class="sig-paren">(</span><em>public_key</em>, <em>signature</em>, <em>payload</em>, <em>signature_hash_algorithm</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#verify_signed_payload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.verify_signed_payload" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check the signature of a payload.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>public_key</strong> (<em>RSAPublicKey/EllipticCurvePublicKey</em>) – the public_key to check signature</li>
-<li><strong>signature</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a>) – the signature bytes</li>
-<li><strong>payload</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a>) – the payload bytes</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="docutils">
-<dt>:param cryptography.hazmat.primitives.hashes.HashAlgorithm</dt>
-<dd>signature_hash_algorithm: algorithm used to hash the payload</dd>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>renewable_cert</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.RenewableCert" title="certbot.interfaces.RenewableCert"><em>certbot.interfaces.RenewableCert</em></a>) – cert to verify</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If verification fails.</p>
+</dd>
 </dl>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
-<li><strong>InvalidSignature</strong> – If signature verification fails.</li>
-<li><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If public key type is not supported</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
+<dt id="certbot.crypto_util.verify_renewable_cert_sig">
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">verify_renewable_cert_sig</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">renewable_cert</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#verify_renewable_cert_sig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.verify_renewable_cert_sig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verifies the signature of a RenewableCert object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>renewable_cert</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.RenewableCert" title="certbot.interfaces.RenewableCert"><em>certbot.interfaces.RenewableCert</em></a>) – cert to verify</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If signature verification fails.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="certbot.crypto_util.verify_signed_payload">
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">verify_signed_payload</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">public_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature_hash_algorithm</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#verify_signed_payload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.verify_signed_payload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the signature of a payload.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>public_key</strong> (<em>RSAPublicKey/EllipticCurvePublicKey</em>) – the public_key to check signature</p></li>
+<li><p><strong>signature</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a>) – the signature bytes</p></li>
+<li><p><strong>payload</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a>) – the payload bytes</p></li>
+<li><p><strong>signature_hash_algorithm</strong> (<em>cryptography.hazmat.primitives.hashes.HashAlgorithm</em>) – algorithm used to hash the payload</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>InvalidSignature</strong> – If signature verification fails.</p></li>
+<li><p><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If public key type is not supported</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="certbot.crypto_util.verify_cert_matches_priv_key">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">verify_cert_matches_priv_key</code><span class="sig-paren">(</span><em>cert_path</em>, <em>key_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#verify_cert_matches_priv_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.verify_cert_matches_priv_key" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">verify_cert_matches_priv_key</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cert_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#verify_cert_matches_priv_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.verify_cert_matches_priv_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verifies that the private key and cert match.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to a cert in PEM format</li>
-<li><strong>key_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to a private key file</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to a cert in PEM format</p></li>
+<li><p><strong>key_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to a private key file</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If they don’t match.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If they don’t match.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.verify_fullchain">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">verify_fullchain</code><span class="sig-paren">(</span><em>renewable_cert</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#verify_fullchain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.verify_fullchain" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">verify_fullchain</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">renewable_cert</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#verify_fullchain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.verify_fullchain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verifies that fullchain is indeed cert concatenated with chain.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>renewable_cert</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.RenewableCert" title="certbot.interfaces.RenewableCert"><em>certbot.interfaces.RenewableCert</em></a>) – cert to verify</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If cert and chain do not combine to fullchain.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>renewable_cert</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.RenewableCert" title="certbot.interfaces.RenewableCert"><em>certbot.interfaces.RenewableCert</em></a>) – cert to verify</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If cert and chain do not combine to fullchain.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.pyopenssl_load_certificate">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">pyopenssl_load_certificate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#pyopenssl_load_certificate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.pyopenssl_load_certificate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">pyopenssl_load_certificate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#pyopenssl_load_certificate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.pyopenssl_load_certificate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load PEM/DER certificate.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – </td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – </p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.get_sans_from_cert">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">get_sans_from_cert</code><span class="sig-paren">(</span><em>cert</em>, <em>typ=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#get_sans_from_cert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.get_sans_from_cert" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">get_sans_from_cert</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cert</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typ</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#get_sans_from_cert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.get_sans_from_cert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of Subject Alternative Names from a certificate.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>cert</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Certificate (encoded).</li>
-<li><strong>typ</strong> – <code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.FILETYPE_PEM</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.FILETYPE_ASN1</span></code></li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cert</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Certificate (encoded).</p></li>
+<li><p><strong>typ</strong> – <code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.FILETYPE_PEM</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.FILETYPE_ASN1</span></code></p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of Subject Alternative Names.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of Subject Alternative Names.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.get_names_from_cert">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">get_names_from_cert</code><span class="sig-paren">(</span><em>csr</em>, <em>typ=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#get_names_from_cert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.get_names_from_cert" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">get_names_from_cert</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typ</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#get_names_from_cert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.get_names_from_cert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of domains from a cert, including the CN if it is set.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>cert</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Certificate (encoded).</li>
-<li><strong>typ</strong> – <code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.FILETYPE_PEM</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.FILETYPE_ASN1</span></code></li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cert</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Certificate (encoded).</p></li>
+<li><p><strong>typ</strong> – <code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.FILETYPE_PEM</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.FILETYPE_ASN1</span></code></p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of domain names.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of domain names.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.dump_pyopenssl_chain">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">dump_pyopenssl_chain</code><span class="sig-paren">(</span><em>chain</em>, <em>filetype=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#dump_pyopenssl_chain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.dump_pyopenssl_chain" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">dump_pyopenssl_chain</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#dump_pyopenssl_chain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.dump_pyopenssl_chain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dump certificate chain into a bundle.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>chain</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – List of <code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.X509</span></code> (or wrapped in
-<code class="xref py py-class docutils literal notranslate"><span class="pre">josepy.util.ComparableX509</span></code>).</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>chain</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – List of <code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.X509</span></code> (or wrapped in
+<code class="xref py py-class docutils literal notranslate"><span class="pre">josepy.util.ComparableX509</span></code>).</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.notBefore">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">notBefore</code><span class="sig-paren">(</span><em>cert_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#notBefore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.notBefore" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">notBefore</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cert_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#notBefore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.notBefore" title="Permalink to this definition">¶</a></dt>
 <dd><p>When does the cert at cert_path start being valid?</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to a cert in PEM format</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the notBefore value from the cert at cert_path</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.datetime</span></code></a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to a cert in PEM format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the notBefore value from the cert at cert_path</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.datetime</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.notAfter">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">notAfter</code><span class="sig-paren">(</span><em>cert_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#notAfter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.notAfter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">notAfter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cert_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#notAfter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.notAfter" title="Permalink to this definition">¶</a></dt>
 <dd><p>When does the cert at cert_path stop being valid?</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to a cert in PEM format</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the notAfter value from the cert at cert_path</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.datetime</span></code></a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to a cert in PEM format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the notAfter value from the cert at cert_path</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.datetime</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.sha256sum">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">sha256sum</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#sha256sum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.sha256sum" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">sha256sum</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#sha256sum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.sha256sum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a sha256sum of a file.</p>
 <p>NB: In given file, platform specific newlines characters will be converted
 into their equivalent unicode counterparts before calculating the hash.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to the file whose hash will be computed</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">sha256 digest of the file in hexadecimal</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to the file whose hash will be computed</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>sha256 digest of the file in hexadecimal</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.cert_and_chain_from_fullchain">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">cert_and_chain_from_fullchain</code><span class="sig-paren">(</span><em>fullchain_pem</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#cert_and_chain_from_fullchain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.cert_and_chain_from_fullchain" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">cert_and_chain_from_fullchain</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullchain_pem</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#cert_and_chain_from_fullchain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.cert_and_chain_from_fullchain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split fullchain_pem into cert_pem and chain_pem</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fullchain_pem</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – concatenated cert + chain</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tuple of string cert_pem and chain_pem</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If there are less than 2 certificates in the chain.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fullchain_pem</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – concatenated cert + chain</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tuple of string cert_pem and chain_pem</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – If there are less than 2 certificates in the chain.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.get_serial_from_cert">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">get_serial_from_cert</code><span class="sig-paren">(</span><em>cert_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#get_serial_from_cert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.get_serial_from_cert" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">get_serial_from_cert</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cert_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#get_serial_from_cert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.get_serial_from_cert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the serial number of a certificate from certificate path</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to a cert in PEM format</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">serial number of the certificate</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – path to a cert in PEM format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>serial number of the certificate</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.crypto_util.find_chain_with_issuer">
-<code class="descclassname">certbot.crypto_util.</code><code class="descname">find_chain_with_issuer</code><span class="sig-paren">(</span><em>fullchains</em>, <em>issuer_cn</em>, <em>warn_on_no_match=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#find_chain_with_issuer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.crypto_util.find_chain_with_issuer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chooses the first certificate chain from fullchains which contains an
-Issuer Subject Common Name matching issuer_cn.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>fullchains</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The list of fullchains in PEM chain format.</li>
-<li><strong>issuer_cn</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The exact Subject Common Name to match against any
-issuer in the certificate chain.</li>
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">find_chain_with_issuer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fullchains</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">issuer_cn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warn_on_no_match</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#find_chain_with_issuer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.find_chain_with_issuer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chooses the first certificate chain from fullchains whose topmost
+intermediate has an Issuer Common Name matching issuer_cn (in other words
+the first chain which chains to a root whose name matches issuer_cn).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fullchains</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The list of fullchains in PEM chain format.</p></li>
+<li><p><strong>issuer_cn</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The exact Subject Common Name to match against any
+issuer in the certificate chain.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The best-matching fullchain, PEM-encoded, or the first if none match.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The best-matching fullchain, PEM-encoded, or the first if none match.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -746,7 +679,7 @@ issuer in the certificate chain.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.11.0.dev0',
+            VERSION:'1.15.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -773,7 +706,7 @@ issuer in the certificate chain.</li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%20module%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%20module%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

@@ -28,7 +28,7 @@ your system.
 System Requirements
 ===================
 
-Certbot currently requires Python 2.7 or 3.6+ running on a UNIX-like operating
+Certbot currently requires Python 3.6+ running on a UNIX-like operating
 system. By default, it requires root access in order to write to
 ``/etc/letsencrypt``, ``/var/log/letsencrypt``, ``/var/lib/letsencrypt``; to
 bind to port 80 (if you use the ``standalone`` plugin) and to read and
@@ -82,7 +82,7 @@ Docker if you are sure you know what you are doing and have a good reason to do
 so.
 
 You should definitely read the :ref:`where-certs` section, in order to
-know how to manage the certs
+know how to manage the certificates
 manually. `Our ciphersuites page <ciphers.html>`__
 provides some information about recommended ciphersuites. If none of
 these make much sense to you, you should definitely use the installation method
@@ -191,23 +191,23 @@ Optionally to install the Certbot Apache plugin, you can use:
 
 .. code-block:: shell
 
-   sudo apt-get install python-certbot-apache
+   sudo apt-get install python3-certbot-apache
 
 **Fedora**
 
 .. code-block:: shell
 
-    sudo dnf install certbot python2-certbot-apache
+    sudo dnf install certbot python3-certbot-apache
 
 **FreeBSD**
 
   * Port: ``cd /usr/ports/security/py-certbot && make install clean``
-  * Package: ``pkg install py27-certbot``
+  * Package: ``pkg install py37-certbot``
 
 **Gentoo**
 
-The official Certbot client is available in Gentoo Portage. From the 
-official Certbot plugins, three of them are also available in Portage. 
+The official Certbot client is available in Gentoo Portage. From the
+official Certbot plugins, three of them are also available in Portage.
 They need to be installed separately if you require their functionality.
 
 .. code-block:: shell
@@ -217,13 +217,13 @@ They need to be installed separately if you require their functionality.
    emerge -av app-crypt/certbot-nginx
    emerge -av app-crypt/certbot-dns-nsone
 
-.. Note:: The ``app-crypt/certbot-dns-nsone`` package has a different 
+.. Note:: The ``app-crypt/certbot-dns-nsone`` package has a different
    maintainer than the other packages and can lag behind in version.
 
 **NetBSD**
 
   * Build from source: ``cd /usr/pkgsrc/security/py-certbot && make install clean``
-  * Install pre-compiled package: ``pkg_add py27-certbot``
+  * Install pre-compiled package: ``pkg_add py37-certbot``
 
 **OpenBSD**
 
@@ -240,40 +240,21 @@ look at the :doc:`packaging`.
 
 Certbot-Auto
 ------------
+.. toctree::
+   :hidden:
+
+   uninstall
+
 
 We used to have a shell script named ``certbot-auto`` to help people install
 Certbot on UNIX operating systems, however, this script is no longer supported.
 If you want to uninstall ``certbot-auto``, you can follow our instructions
 :doc:`here <uninstall>`.
 
-Problems with Python virtual environment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Pip
+---
 
-When using ``certbot-auto`` on a low memory system such as VPS with less than
-512MB of RAM, the required dependencies of Certbot may fail to build.  This can
-be identified if the pip outputs contains something like ``internal compiler
-error: Killed (program cc1)``.  You can workaround this restriction by creating
-a temporary swapfile::
-
-  user@webserver:~$ sudo fallocate -l 1G /tmp/swapfile
-  user@webserver:~$ sudo chmod 600 /tmp/swapfile
-  user@webserver:~$ sudo mkswap /tmp/swapfile
-  user@webserver:~$ sudo swapon /tmp/swapfile
-
-Disable and remove the swapfile once the virtual environment is constructed::
-
-  user@webserver:~$ sudo swapoff /tmp/swapfile
-  user@webserver:~$ sudo rm /tmp/swapfile
-
-Installing from source
-----------------------
-
-Installation from source is only supported for developers and the
-whole process is described in the :doc:`contributing`.
-
-.. warning:: Please do **not** use ``python certbot/setup.py install``, ``python pip
-   install certbot``, or ``easy_install certbot``. Please do **not** attempt the
-   installation commands as superuser/root and/or without virtual environment,
-   e.g. ``sudo python certbot/setup.py install``, ``sudo pip install``, ``sudo
-   ./venv/bin/...``. These modes of operation might corrupt your operating
-   system and are **not supported** by the Certbot team!
+Installing Certbot through pip is only supported on a best effort basis and
+when using a virtual environment. Instructions for installing Certbot through
+pip can be found at https://certbot.eff.org/instructions by selecting your
+server software and then choosing "pip" in the "System" dropdown menu.

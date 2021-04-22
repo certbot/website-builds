@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.display.ops module &mdash; Certbot 1.11.0.dev0 documentation</title>
+  <title>certbot.display.ops module &mdash; Certbot 1.15.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.display.ops module &mdash; Certbot 1.11.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.display.ops module &mdash; Certbot 1.15.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="certbot.display package" href="certbot.display.html"/>
         <link rel="next" title="certbot.display.util module" href="certbot.display.util.html"/>
         <link rel="prev" title="certbot.display package" href="certbot.display.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.11
+                1.15
               </div>
             
           
@@ -204,209 +204,179 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <div class="section" id="module-certbot.display.ops">
 <span id="certbot-display-ops-module"></span><h1>certbot.display.ops module<a class="headerlink" href="#module-certbot.display.ops" title="Permalink to this headline">¶</a></h1>
 <p>Contains UI methods for LE user operations.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.display.ops.get_email">
-<code class="descclassname">certbot.display.ops.</code><code class="descname">get_email</code><span class="sig-paren">(</span><em>invalid=False</em>, <em>optional=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#get_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.ops.get_email" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.display.ops.</span></code><code class="sig-name descname"><span class="pre">get_email</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">invalid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optional</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#get_email"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.display.ops.get_email" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prompt for valid email address.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>invalid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – True if an invalid address was provided by the user</li>
-<li><strong>optional</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – True if the user can use
-–register-unsafely-without-email to avoid providing an e-mail</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>invalid</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – True if an invalid address was provided by the user</p></li>
+<li><p><strong>optional</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – True if the user can use
+–register-unsafely-without-email to avoid providing an e-mail</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">e-mail address</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – if the user cancels</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>e-mail address</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.Error" title="certbot.errors.Error"><strong>errors.Error</strong></a> – if the user cancels</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.display.ops.choose_account">
-<code class="descclassname">certbot.display.ops.</code><code class="descname">choose_account</code><span class="sig-paren">(</span><em>accounts</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#choose_account"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.ops.choose_account" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.display.ops.</span></code><code class="sig-name descname"><span class="pre">choose_account</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">accounts</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#choose_account"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.display.ops.choose_account" title="Permalink to this definition">¶</a></dt>
 <dd><p>Choose an account.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>accounts</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Containing at least one
-<code class="xref py py-class docutils literal notranslate"><span class="pre">Account</span></code></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>accounts</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Containing at least one
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Account</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.display.ops.choose_values">
-<code class="descclassname">certbot.display.ops.</code><code class="descname">choose_values</code><span class="sig-paren">(</span><em>values</em>, <em>question=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#choose_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.ops.choose_values" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.display.ops.</span></code><code class="sig-name descname"><span class="pre">choose_values</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">question</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#choose_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.display.ops.choose_values" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display screen to let user pick one or multiple values from the provided
 list.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Values to select from</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of selected values</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="certbot.display.ops.choose_names">
-<code class="descclassname">certbot.display.ops.</code><code class="descname">choose_names</code><span class="sig-paren">(</span><em>installer</em>, <em>question=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#choose_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.ops.choose_names" title="Permalink to this definition">¶</a></dt>
-<dd><p>Display screen to select domains to validate.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>installer</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.IInstaller</span></code></a>) – An installer object</li>
-<li><strong>question</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Overriding default question to ask the user if asked
-to choose from domain names.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">List of selected names</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="certbot.display.ops.get_valid_domains">
-<code class="descclassname">certbot.display.ops.</code><code class="descname">get_valid_domains</code><span class="sig-paren">(</span><em>domains</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#get_valid_domains"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.ops.get_valid_domains" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Helper method for choose_names that implements basic checks</dt>
-<dd>on domain names</dd>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Values to select from</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of selected values</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+</dd>
 </dl>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>domains</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Domain names to validate</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of valid domains</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
+<dt id="certbot.display.ops.choose_names">
+<code class="sig-prename descclassname"><span class="pre">certbot.display.ops.</span></code><code class="sig-name descname"><span class="pre">choose_names</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">installer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">question</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#choose_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.display.ops.choose_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display screen to select domains to validate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>installer</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.IInstaller</span></code></a>) – An installer object</p></li>
+<li><p><strong>question</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Overriding default question to ask the user if asked
+to choose from domain names.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of selected names</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="certbot.display.ops.get_valid_domains">
+<code class="sig-prename descclassname"><span class="pre">certbot.display.ops.</span></code><code class="sig-name descname"><span class="pre">get_valid_domains</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domains</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#get_valid_domains"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.display.ops.get_valid_domains" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Helper method for choose_names that implements basic checks</dt><dd><p>on domain names</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>domains</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Domain names to validate</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of valid domains</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="certbot.display.ops.success_installation">
-<code class="descclassname">certbot.display.ops.</code><code class="descname">success_installation</code><span class="sig-paren">(</span><em>domains</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#success_installation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.ops.success_installation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.display.ops.</span></code><code class="sig-name descname"><span class="pre">success_installation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domains</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#success_installation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.display.ops.success_installation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a box confirming the installation of HTTPS.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>domains</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – domain names which were enabled</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>domains</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – domain names which were enabled</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.display.ops.success_renewal">
-<code class="descclassname">certbot.display.ops.</code><code class="descname">success_renewal</code><span class="sig-paren">(</span><em>domains</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#success_renewal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.ops.success_renewal" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.display.ops.</span></code><code class="sig-name descname"><span class="pre">success_renewal</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domains</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#success_renewal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.display.ops.success_renewal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a box confirming the renewal of an existing certificate.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>domains</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – domain names which were renewed</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>domains</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – domain names which were renewed</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.display.ops.success_revocation">
-<code class="descclassname">certbot.display.ops.</code><code class="descname">success_revocation</code><span class="sig-paren">(</span><em>cert_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#success_revocation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.ops.success_revocation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.display.ops.</span></code><code class="sig-name descname"><span class="pre">success_revocation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cert_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#success_revocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.display.ops.success_revocation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a message confirming a certificate has been revoked.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – path to certificate which was revoked.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cert_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – path to certificate which was revoked.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.display.ops.validated_input">
-<code class="descclassname">certbot.display.ops.</code><code class="descname">validated_input</code><span class="sig-paren">(</span><em>validator</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#validated_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.ops.validated_input" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.display.ops.</span></code><code class="sig-name descname"><span class="pre">validated_input</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validator</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#validated_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.display.ops.validated_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>Like <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.input" title="certbot.interfaces.IDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a>, but with validation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>validator</strong> (<em>callable</em>) – A method which will be called on the
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>validator</strong> (<em>callable</em>) – A method which will be called on the
 supplied input. If the method raises an <code class="xref py py-obj docutils literal notranslate"><span class="pre">errors.Error</span></code>, its
-text will be displayed and the user will be re-prompted.</li>
-<li><strong>*args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Arguments to be passed to <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.input" title="certbot.interfaces.IDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a>.</li>
-<li><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – Arguments to be passed to <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.input" title="certbot.interfaces.IDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a>.</li>
+text will be displayed and the user will be re-prompted.</p></li>
+<li><p><strong>*args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Arguments to be passed to <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.input" title="certbot.interfaces.IDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a>.</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – Arguments to be passed to <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.input" title="certbot.interfaces.IDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a>.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">as <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.input" title="certbot.interfaces.IDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>as <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.input" title="certbot.interfaces.IDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.display.ops.validated_directory">
-<code class="descclassname">certbot.display.ops.</code><code class="descname">validated_directory</code><span class="sig-paren">(</span><em>validator</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#validated_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.display.ops.validated_directory" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.display.ops.</span></code><code class="sig-name descname"><span class="pre">validated_directory</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">validator</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/display/ops.html#validated_directory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.display.ops.validated_directory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Like <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.directory_select" title="certbot.interfaces.IDisplay.directory_select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">directory_select</span></code></a>, but with validation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>validator</strong> (<em>callable</em>) – A method which will be called on the
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>validator</strong> (<em>callable</em>) – A method which will be called on the
 supplied input. If the method raises an <code class="xref py py-obj docutils literal notranslate"><span class="pre">errors.Error</span></code>, its
-text will be displayed and the user will be re-prompted.</li>
-<li><strong>*args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Arguments to be passed to <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.directory_select" title="certbot.interfaces.IDisplay.directory_select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">directory_select</span></code></a>.</li>
-<li><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – Arguments to be passed to
-<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.directory_select" title="certbot.interfaces.IDisplay.directory_select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">directory_select</span></code></a>.</li>
+text will be displayed and the user will be re-prompted.</p></li>
+<li><p><strong>*args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Arguments to be passed to <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.directory_select" title="certbot.interfaces.IDisplay.directory_select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">directory_select</span></code></a>.</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – Arguments to be passed to
+<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.directory_select" title="certbot.interfaces.IDisplay.directory_select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">directory_select</span></code></a>.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">as <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.directory_select" title="certbot.interfaces.IDisplay.directory_select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">directory_select</span></code></a></p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>as <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IDisplay.directory_select" title="certbot.interfaces.IDisplay.directory_select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">directory_select</span></code></a></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -466,7 +436,7 @@ text will be displayed and the user will be re-prompted.</li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.11.0.dev0',
+            VERSION:'1.15.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -493,7 +463,7 @@ text will be displayed and the user will be re-prompted.</li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.ops%20module%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.display.ops%20module%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

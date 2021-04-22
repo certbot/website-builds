@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.util module &mdash; Certbot 1.11.0.dev0 documentation</title>
+  <title>certbot.plugins.util module &mdash; Certbot 1.15.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.util module &mdash; Certbot 1.11.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.util module &mdash; Certbot 1.15.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 1.11.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="certbot.plugins package" href="certbot.plugins.html"/>
         <link rel="next" title="certbot.tests package" href="certbot.tests.html"/>
         <link rel="prev" title="certbot.plugins.storage module" href="certbot.plugins.storage.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.11
+                1.15
               </div>
             
           
@@ -204,43 +204,43 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <div class="section" id="module-certbot.plugins.util">
 <span id="certbot-plugins-util-module"></span><h1>certbot.plugins.util module<a class="headerlink" href="#module-certbot.plugins.util" title="Permalink to this headline">¶</a></h1>
 <p>Plugin utilities.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.plugins.util.get_prefixes">
-<code class="descclassname">certbot.plugins.util.</code><code class="descname">get_prefixes</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/util.html#get_prefixes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.util.get_prefixes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.plugins.util.</span></code><code class="sig-name descname"><span class="pre">get_prefixes</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/util.html#get_prefixes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.util.get_prefixes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieves all possible path prefixes of a path, in descending order
-of length. For instance,</p>
+of length. For instance:</p>
 <blockquote>
-<div>(linux) /a/b/c returns [‘/a/b/c’, ‘/a/b’, ‘/a’, ‘/’]
-(windows) C:abc returns [‘C:abc’, ‘C:ab’, ‘C:a’, ‘C:’]</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the path to break into prefixes</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">all possible path prefixes of given path in descending order</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></td>
-</tr>
-</tbody>
-</table>
+<div><ul class="simple">
+<li><p>(Linux) <code class="xref py py-obj docutils literal notranslate"><span class="pre">/a/b/c</span></code> returns <code class="xref py py-obj docutils literal notranslate"><span class="pre">['/a/b/c',</span> <span class="pre">'/a/b',</span> <span class="pre">'/a',</span> <span class="pre">'/']</span></code></p></li>
+<li><p>(Windows) <code class="xref py py-obj docutils literal notranslate"><span class="pre">C:abc</span></code> returns <code class="xref py py-obj docutils literal notranslate"><span class="pre">['C:abc',</span> <span class="pre">'C:ab',</span> <span class="pre">'C:a',</span> <span class="pre">'C:']</span></code></p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the path to break into prefixes</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>all possible path prefixes of given path in descending order</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="certbot.plugins.util.path_surgery">
-<code class="descclassname">certbot.plugins.util.</code><code class="descname">path_surgery</code><span class="sig-paren">(</span><em>cmd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/util.html#path_surgery"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#certbot.plugins.util.path_surgery" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">certbot.plugins.util.</span></code><code class="sig-name descname"><span class="pre">path_surgery</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/util.html#path_surgery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.util.path_surgery" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attempt to perform PATH surgery to find cmd</p>
 <p>Mitigates <a class="reference external" href="https://github.com/certbot/certbot/issues/1833">https://github.com/certbot/certbot/issues/1833</a></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the command that is being searched for in the PATH</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the operation succeeded, False otherwise</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cmd</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the command that is being searched for in the PATH</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the operation succeeded, False otherwise</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -300,7 +300,7 @@ of length. For instance,</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'1.11.0.dev0',
+            VERSION:'1.15.0.dev0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -327,7 +327,7 @@ of length. For instance,</p>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.util%20module%E2%80%94%20Certbot%201.11.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.util%20module%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
