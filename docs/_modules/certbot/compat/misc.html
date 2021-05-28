@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.compat.misc &mdash; Certbot 1.15.0.dev0 documentation</title>
+  <title>certbot.compat.misc &mdash; Certbot 1.16.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.compat.misc &mdash; Certbot 1.15.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.compat.misc &mdash; Certbot 1.16.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.16.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.15
+                1.16
               </div>
             
           
@@ -193,6 +193,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">select</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
@@ -201,6 +202,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">win32com.shell</span> <span class="kn">import</span> <span class="n">shell</span> <span class="k">as</span> <span class="n">shellwin32</span>
+    <span class="kn">from</span> <span class="nn">win32console</span> <span class="kn">import</span> <span class="n">GetStdHandle</span><span class="p">,</span> <span class="n">STD_OUTPUT_HANDLE</span>
+    <span class="kn">from</span> <span class="nn">pywintypes</span> <span class="kn">import</span> <span class="n">error</span> <span class="k">as</span> <span class="n">pywinerror</span>
     <span class="n">POSIX_MODE</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
     <span class="n">POSIX_MODE</span> <span class="o">=</span> <span class="kc">True</span>
@@ -221,6 +224,26 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">POSIX_MODE</span> <span class="ow">and</span> <span class="n">shellwin32</span><span class="o">.</span><span class="n">IsUserAnAdmin</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s1">&#39;Error, certbot must be run on a shell with administrative rights.&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="prepare_virtual_console"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.prepare_virtual_console">[docs]</a><span class="k">def</span> <span class="nf">prepare_virtual_console</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    On Windows, ensure that Console Virtual Terminal Sequences are enabled.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">POSIX_MODE</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># https://docs.microsoft.com/en-us/windows/console/setconsolemode</span>
+    <span class="n">ENABLE_VIRTUAL_TERMINAL_PROCESSING</span> <span class="o">=</span> <span class="mh">0x0004</span>
+
+    <span class="c1"># stdout/stderr will be the same console screen buffer, but this could return None or raise</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">GetStdHandle</span><span class="p">(</span><span class="n">STD_OUTPUT_HANDLE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">h</span><span class="p">:</span>
+            <span class="n">h</span><span class="o">.</span><span class="n">SetConsoleMode</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">GetConsoleMode</span><span class="p">()</span> <span class="o">|</span> <span class="n">ENABLE_VIRTUAL_TERMINAL_PROCESSING</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">pywinerror</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Failed to set console mode&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="readline_with_timeout"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.readline_with_timeout">[docs]</a><span class="k">def</span> <span class="nf">readline_with_timeout</span><span class="p">(</span><span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -297,38 +320,68 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">drive</span> <span class="o">+</span> <span class="n">tail</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="execute_command"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.execute_command">[docs]</a><span class="k">def</span> <span class="nf">execute_command</span><span class="p">(</span><span class="n">cmd_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="execute_command_status"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.execute_command_status">[docs]</a><span class="k">def</span> <span class="nf">execute_command_status</span><span class="p">(</span><span class="n">cmd_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                           <span class="n">env</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a command:</span>
-<span class="sd">        - on Linux command will be run by the standard shell selected with Popen(shell=True)</span>
+<span class="sd">        - on Linux command will be run by the standard shell selected with</span>
+<span class="sd">          subprocess.run(shell=True)</span>
 <span class="sd">        - on Windows command will be run in a Powershell shell</span>
+
+<span class="sd">    This differs from execute_command: it returns the exit code, and does not log the result</span>
+<span class="sd">    and output of the command.</span>
 
 <span class="sd">    :param str cmd_name: the user facing name of the hook being run</span>
 <span class="sd">    :param str shell_cmd: shell command to execute</span>
-<span class="sd">    :param dict env: environ to pass into Popen</span>
+<span class="sd">    :param dict env: environ to pass into subprocess.run</span>
 
-<span class="sd">    :returns: `tuple` (`str` stderr, `str` stdout)</span>
+<span class="sd">    :returns: `tuple` (`int` returncode, `str` stderr, `str` stdout)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running </span><span class="si">%s</span><span class="s2"> command: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cmd_name</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">POSIX_MODE</span><span class="p">:</span>
-        <span class="n">cmd</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">shell_cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-                               <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                               <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">shell_cmd</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                              <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                              <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">line</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;powershell.exe&#39;</span><span class="p">,</span> <span class="s1">&#39;-Command&#39;</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">]</span>
-        <span class="n">cmd</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-                               <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                              <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">)</span>
 
-    <span class="c1"># universal_newlines causes Popen.communicate()</span>
-    <span class="c1"># to return str objects instead of bytes in Python 3</span>
-    <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">cmd</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+    <span class="c1"># universal_newlines causes stdout and stderr to be str objects instead of</span>
+    <span class="c1"># bytes in Python 3</span>
+    <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">proc</span><span class="o">.</span><span class="n">stderr</span>
+    <span class="k">return</span> <span class="n">proc</span><span class="o">.</span><span class="n">returncode</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="execute_command"><a class="viewcode-back" href="../../../api/certbot.compat.misc.html#certbot.compat.misc.execute_command">[docs]</a><span class="k">def</span> <span class="nf">execute_command</span><span class="p">(</span><span class="n">cmd_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run a command:</span>
+<span class="sd">        - on Linux command will be run by the standard shell selected with</span>
+<span class="sd">          subprocess.run(shell=True)</span>
+<span class="sd">        - on Windows command will be run in a Powershell shell</span>
+
+<span class="sd">    This differs from execute_command: it returns the exit code, and does not log the result</span>
+<span class="sd">    and output of the command.</span>
+
+<span class="sd">    :param str cmd_name: the user facing name of the hook being run</span>
+<span class="sd">    :param str shell_cmd: shell command to execute</span>
+<span class="sd">    :param dict env: environ to pass into subprocess.run</span>
+
+<span class="sd">    :returns: `tuple` (`str` stderr, `str` stdout)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Deprecation per https://github.com/certbot/certbot/issues/8854</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+        <span class="s2">&quot;execute_command will be deprecated in the future, use execute_command_status instead&quot;</span><span class="p">,</span>
+        <span class="ne">PendingDeprecationWarning</span>
+    <span class="p">)</span>
+    <span class="n">returncode</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">out</span> <span class="o">=</span> <span class="n">execute_command_status</span><span class="p">(</span><span class="n">cmd_name</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
     <span class="n">base_cmd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">shell_cmd</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">out</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Output from </span><span class="si">%s</span><span class="s1"> command </span><span class="si">%s</span><span class="s1">:</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cmd_name</span><span class="p">,</span> <span class="n">base_cmd</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">cmd</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> command &quot;</span><span class="si">%s</span><span class="s1">&quot; returned error code </span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">,</span>
-                     <span class="n">cmd_name</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">,</span> <span class="n">cmd</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
+                     <span class="n">cmd_name</span><span class="p">,</span> <span class="n">shell_cmd</span><span class="p">,</span> <span class="n">returncode</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">err</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Error output from </span><span class="si">%s</span><span class="s1"> command </span><span class="si">%s</span><span class="s1">:</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">cmd_name</span><span class="p">,</span> <span class="n">base_cmd</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">err</span><span class="p">,</span> <span class="n">out</span></div>
@@ -406,7 +459,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.misc%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.misc%E2%80%94%20Certbot%201.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

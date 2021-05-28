@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.dns_test_common_lexicon &mdash; Certbot 1.15.0.dev0 documentation</title>
+  <title>certbot.plugins.dns_test_common_lexicon &mdash; Certbot 1.16.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.dns_test_common_lexicon &mdash; Certbot 1.15.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.dns_test_common_lexicon &mdash; Certbot 1.16.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.16.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.15
+                1.16
               </div>
             
           
@@ -252,7 +252,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <div class="viewcode-block" id="BaseLexiconAuthenticatorTest"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_test_common_lexicon.html#certbot.plugins.dns_test_common_lexicon.BaseLexiconAuthenticatorTest">[docs]</a><span class="k">class</span> <span class="nc">BaseLexiconAuthenticatorTest</span><span class="p">(</span><span class="n">dns_test_common</span><span class="o">.</span><span class="n">BaseAuthenticatorTest</span><span class="p">):</span>
 
-<div class="viewcode-block" id="BaseLexiconAuthenticatorTest.test_perform"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_test_common_lexicon.html#certbot.plugins.dns_test_common_lexicon.BaseLexiconAuthenticatorTest.test_perform">[docs]</a>    <span class="k">def</span> <span class="nf">test_perform</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">_AuthenticatorCallableLexiconTestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseLexiconAuthenticatorTest.test_perform"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_test_common_lexicon.html#certbot.plugins.dns_test_common_lexicon.BaseLexiconAuthenticatorTest.test_perform">[docs]</a>    <span class="nd">@test_util</span><span class="o">.</span><span class="n">patch_get_utility</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">test_perform</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">_AuthenticatorCallableLexiconTestCase</span><span class="p">,</span> <span class="n">unused_mock_get_utility</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">auth</span><span class="o">.</span><span class="n">perform</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">achall</span><span class="p">])</span>
 
         <span class="n">expected</span> <span class="o">=</span> <span class="p">[</span><span class="n">mock</span><span class="o">.</span><span class="n">call</span><span class="o">.</span><span class="n">add_txt_record</span><span class="p">(</span><span class="n">DOMAIN</span><span class="p">,</span> <span class="s1">&#39;_acme-challenge.&#39;</span><span class="o">+</span><span class="n">DOMAIN</span><span class="p">,</span> <span class="n">mock</span><span class="o">.</span><span class="n">ANY</span><span class="p">)]</span>
@@ -279,7 +280,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="viewcode-block" id="BaseLexiconClientTest.test_add_txt_record"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_test_common_lexicon.html#certbot.plugins.dns_test_common_lexicon.BaseLexiconClientTest.test_add_txt_record">[docs]</a>    <span class="k">def</span> <span class="nf">test_add_txt_record</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">_LexiconAwareTestCase</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">add_txt_record</span><span class="p">(</span><span class="n">DOMAIN</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">record_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">record_content</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">provider_mock</span><span class="o">.</span><span class="n">create_record</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;TXT&#39;</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">provider_mock</span><span class="o">.</span><span class="n">create_record</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="n">rtype</span><span class="o">=</span><span class="s1">&#39;TXT&#39;</span><span class="p">,</span>
                                                             <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">record_name</span><span class="p">,</span>
                                                             <span class="n">content</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">record_content</span><span class="p">)</span></div>
 
@@ -288,7 +289,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">add_txt_record</span><span class="p">(</span><span class="n">DOMAIN</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">record_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">record_content</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">provider_mock</span><span class="o">.</span><span class="n">create_record</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;TXT&#39;</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">provider_mock</span><span class="o">.</span><span class="n">create_record</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="n">rtype</span><span class="o">=</span><span class="s1">&#39;TXT&#39;</span><span class="p">,</span>
                                                             <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">record_name</span><span class="p">,</span>
                                                             <span class="n">content</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">record_content</span><span class="p">)</span></div>
 
@@ -332,7 +333,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <div class="viewcode-block" id="BaseLexiconClientTest.test_del_txt_record"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_test_common_lexicon.html#certbot.plugins.dns_test_common_lexicon.BaseLexiconClientTest.test_del_txt_record">[docs]</a>    <span class="k">def</span> <span class="nf">test_del_txt_record</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">_LexiconAwareTestCase</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">del_txt_record</span><span class="p">(</span><span class="n">DOMAIN</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">record_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">record_content</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">provider_mock</span><span class="o">.</span><span class="n">delete_record</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;TXT&#39;</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">provider_mock</span><span class="o">.</span><span class="n">delete_record</span><span class="o">.</span><span class="n">assert_called_with</span><span class="p">(</span><span class="n">rtype</span><span class="o">=</span><span class="s1">&#39;TXT&#39;</span><span class="p">,</span>
                                                             <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">record_name</span><span class="p">,</span>
                                                             <span class="n">content</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">record_content</span><span class="p">)</span></div>
 
@@ -436,7 +437,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.dns_test_common_lexicon%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.dns_test_common_lexicon%E2%80%94%20Certbot%201.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

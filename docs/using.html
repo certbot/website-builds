@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>User Guide &mdash; Certbot 1.15.0.dev0 documentation</title>
+  <title>User Guide &mdash; Certbot 1.16.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="User Guide &mdash; Certbot 1.15.0.dev0 documentation">
+<meta name="twitter:title" content="User Guide &mdash; Certbot 1.16.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="index.html"/>
+    <link rel="top" title="Certbot 1.16.0.dev0 documentation" href="index.html"/>
         <link rel="next" title="Developer Guide" href="contributing.html"/>
         <link rel="prev" title="Uninstalling certbot-auto" href="uninstall.html"/> 
 
@@ -98,7 +98,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.15
+                1.16
               </div>
             
           
@@ -150,7 +150,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#renewing-certificates">Renewing certificates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#modifying-the-renewal-configuration-file">Modifying the Renewal Configuration File</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#automated-renewals">Automated Renewals</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#automated-renewals">Automated Renewals</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-automated-renewal">Setting up automated renewal</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#where-are-my-certificates">Where are my certificates?</a></li>
@@ -223,7 +226,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   <div class="section" id="user-guide">
 <h1>User Guide<a class="headerlink" href="#user-guide" title="Permalink to this headline">¶</a></h1>
 <div class="contents local topic" id="table-of-contents">
-<p class="topic-title">Table of Contents</p>
+<p class="topic-title first">Table of Contents</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="#certbot-commands" id="id7">Certbot Commands</a></p></li>
 <li><p><a class="reference internal" href="#getting-certificates-and-choosing-plugins" id="id8">Getting certificates (and choosing plugins)</a></p>
@@ -255,17 +258,21 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </li>
 <li><p><a class="reference internal" href="#renewing-certificates" id="id25">Renewing certificates</a></p></li>
 <li><p><a class="reference internal" href="#modifying-the-renewal-configuration-file" id="id26">Modifying the Renewal Configuration File</a></p></li>
-<li><p><a class="reference internal" href="#automated-renewals" id="id27">Automated Renewals</a></p></li>
+<li><p><a class="reference internal" href="#automated-renewals" id="id27">Automated Renewals</a></p>
+<ul>
+<li><p><a class="reference internal" href="#setting-up-automated-renewal" id="id28">Setting up automated renewal</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#where-are-my-certificates" id="id28">Where are my certificates?</a></p></li>
-<li><p><a class="reference internal" href="#pre-and-post-validation-hooks" id="id29">Pre and Post Validation Hooks</a></p></li>
-<li><p><a class="reference internal" href="#changing-the-acme-server" id="id30">Changing the ACME Server</a></p></li>
-<li><p><a class="reference internal" href="#id5" id="id31">Lock Files</a></p></li>
-<li><p><a class="reference internal" href="#configuration-file" id="id32">Configuration file</a></p></li>
-<li><p><a class="reference internal" href="#log-rotation" id="id33">Log Rotation</a></p></li>
-<li><p><a class="reference internal" href="#certbot-command-line-options" id="id34">Certbot command-line options</a></p></li>
-<li><p><a class="reference internal" href="#getting-help" id="id35">Getting help</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#where-are-my-certificates" id="id29">Where are my certificates?</a></p></li>
+<li><p><a class="reference internal" href="#pre-and-post-validation-hooks" id="id30">Pre and Post Validation Hooks</a></p></li>
+<li><p><a class="reference internal" href="#changing-the-acme-server" id="id31">Changing the ACME Server</a></p></li>
+<li><p><a class="reference internal" href="#id5" id="id32">Lock Files</a></p></li>
+<li><p><a class="reference internal" href="#configuration-file" id="id33">Configuration file</a></p></li>
+<li><p><a class="reference internal" href="#log-rotation" id="id34">Log Rotation</a></p></li>
+<li><p><a class="reference internal" href="#certbot-command-line-options" id="id35">Certbot command-line options</a></p></li>
+<li><p><a class="reference internal" href="#getting-help" id="id36">Getting help</a></p></li>
 </ul>
 </div>
 <div class="section" id="certbot-commands">
@@ -391,7 +398,7 @@ the circumstances in which each plugin can be used, and how to use it.</p>
 <div class="section" id="apache">
 <h3><a class="toc-backref" href="#id9">Apache</a><a class="headerlink" href="#apache" title="Permalink to this headline">¶</a></h3>
 <p>The Apache plugin currently <a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot-apache/certbot_apache/_internal/entrypoint.py">supports</a>
-modern OSes based on Debian, Fedora, SUSE, Gentoo and Darwin.
+modern OSes based on Debian, Fedora, SUSE, Gentoo, CentOS and Darwin.
 This automates both obtaining <em>and</em> installing certificates on an Apache
 webserver. To specify this plugin on the command line, simply include
 <code class="docutils literal notranslate"><span class="pre">--apache</span></code>.</p>
@@ -422,7 +429,7 @@ domains in <code class="docutils literal notranslate"><span class="pre">${webroo
 validation server makes HTTP requests to validate that the DNS for each
 requested domain resolves to the server running certbot. An example request
 made to your web server would look like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">66.133</span><span class="o">.</span><span class="mf">109.36</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">05</span><span class="o">/</span><span class="n">Jan</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">24</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="s2">&quot;GET /.well-known/acme-challenge/HGr8U1IeTW4kY_Z6UIyaakzOkyQgPr_7ArlLgtZE8SX HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="mi">87</span> <span class="s2">&quot;-&quot;</span> <span class="s2">&quot;Mozilla/5.0 (compatible; Let&#39;s Encrypt validation server; +https://www.letsencrypt.org)&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">66.133.109.36</span> <span class="o">-</span> <span class="o">-</span> <span class="p">[</span><span class="mi">05</span><span class="o">/</span><span class="n">Jan</span><span class="o">/</span><span class="mi">2016</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">24</span> <span class="o">-</span><span class="mi">0500</span><span class="p">]</span> <span class="s2">&quot;GET /.well-known/acme-challenge/HGr8U1IeTW4kY_Z6UIyaakzOkyQgPr_7ArlLgtZE8SX HTTP/1.1&quot;</span> <span class="mi">200</span> <span class="mi">87</span> <span class="s2">&quot;-&quot;</span> <span class="s2">&quot;Mozilla/5.0 (compatible; Let&#39;s Encrypt validation server; +https://www.letsencrypt.org)&quot;</span>
 </pre></div>
 </div>
 <p>Note that to use the webroot plugin, your server must be configured to serve
@@ -611,6 +618,16 @@ widespread use:</p>
 <td><p>Y</p></td>
 <td><p>Y</p></td>
 <td><p>DNS Authentication for INWX through the XML API</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/binkhq/certbot-dns-azure">dns-azure</a></p></td>
+<td><p>Y</p></td>
+<td><p>N</p></td>
+<td><p>DNS Authentication using Azure DNS</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/miigotu/certbot-dns-godaddy">dns-godaddy</a></p></td>
+<td><p>Y</p></td>
+<td><p>N</p></td>
+<td><p>DNS Authentication using Godaddy DNS</p></td>
 </tr>
 </tbody>
 </table>
@@ -953,15 +970,47 @@ directives:</p>
 is done by means of a scheduled task which runs <code class="docutils literal notranslate"><span class="pre">certbot</span> <span class="pre">renew</span></code> periodically.</p>
 <p>If you are unsure whether you need to configure automated renewal:</p>
 <ol class="arabic simple">
-<li><p>Review the instructions for your system at <a class="reference external" href="https://certbot.eff.org/instructions">https://certbot.eff.org/instructions</a>.
-They will describe how to set up a scheduled task, if necessary.</p></li>
-<li><p>(Linux/BSD): Check your system’s crontab (typically <code class="xref py py-obj docutils literal notranslate"><span class="pre">/etc/crontab</span></code> and
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">/etc/cron.*/*</span></code>) and systemd timers (<code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">list-timers</span></code>).</p></li>
+<li><p>Review the instructions for your system and installation method at
+<a class="reference external" href="https://certbot.eff.org/instructions">https://certbot.eff.org/instructions</a>. They will describe how to set up a scheduled task,
+if necessary. If no step is listed, your system comes with automated renewal pre-installed,
+and you should not need to take any additional actions.</p></li>
+<li><p>On Linux and BSD, you can check to see if your installation method has pre-installed a timer
+for you. To do so, look for the <code class="docutils literal notranslate"><span class="pre">certbot</span> <span class="pre">renew</span></code> command in either your system’s crontab
+(typically <code class="xref py py-obj docutils literal notranslate"><span class="pre">/etc/crontab</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">/etc/cron.*/*</span></code>) or systemd timers (<code class="docutils literal notranslate"><span class="pre">systemctl</span> <span class="pre">list-timers</span></code>).</p></li>
+<li><p>If you’re still not sure, you can configure automated renewal manually by following the steps
+in the next section. Certbot has been carefully engineered to handle the case where both manual
+automated renewal and pre-installed automated renewal are set up.</p></li>
 </ol>
+<div class="section" id="setting-up-automated-renewal">
+<h4><a class="toc-backref" href="#id28">Setting up automated renewal</a><a class="headerlink" href="#setting-up-automated-renewal" title="Permalink to this headline">¶</a></h4>
+<p>If you think you may need to set up automated renewal, follow these instructions to set up a
+scheduled task to automatically renew your certificates in the background. If you are unsure
+whether your system has a pre-installed scheduled task for Certbot, it is safe to follow these
+instructions to create one.</p>
+<p>If you’re using Windows, these instructions are not neccessary as Certbot on Windows comes with
+a scheduled task for automated renewal pre-installed.</p>
+<p>Run the following line, which will add a cron job to <code class="xref py py-obj docutils literal notranslate"><span class="pre">/etc/crontab</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nv">SLEEPTIME</span><span class="o">=</span><span class="k">$(</span>awk <span class="s1">&#39;BEGIN{srand(); print int(rand()*(3600+1))}&#39;</span><span class="k">)</span><span class="p">;</span> <span class="nb">echo</span> <span class="s2">&quot;0 0,12 * * * root sleep </span><span class="nv">$SLEEPTIME</span><span class="s2"> &amp;&amp; certbot renew -q&quot;</span> <span class="p">|</span> sudo tee -a /etc/crontab &gt; /dev/null
+</pre></div>
+</div>
+<p>If you needed to stop your webserver to run Certbot, you’ll want to
+add <code class="docutils literal notranslate"><span class="pre">pre</span></code> and <code class="docutils literal notranslate"><span class="pre">post</span></code> hooks to stop and start your webserver automatically.
+For example, if your webserver is HAProxy, run the following commands to create the hook files
+in the appropriate directory:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo sh -c <span class="s1">&#39;printf &quot;#!/bin/sh\nservice haproxy stop\n&quot; &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh&#39;</span>
+sudo sh -c <span class="s1">&#39;printf &quot;#!/bin/sh\nservice haproxy start\n&quot; &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh&#39;</span>
+sudo chmod <span class="m">755</span> /etc/letsencrypt/renewal-hooks/pre/haproxy.sh
+sudo chmod <span class="m">755</span> /etc/letsencrypt/renewal-hooks/post/haproxy.sh
+</pre></div>
+</div>
+<p>Congratulations, Certbot will now automatically renew your certificates in the background.</p>
+<p>If you are interested in learning more about how Certbot renews your certificates, see the
+<a class="reference internal" href="#renewing-certificates">Renewing certificates</a> section above.</p>
+</div>
 </div>
 </div>
 <div class="section" id="where-are-my-certificates">
-<span id="where-certs"></span><h2><a class="toc-backref" href="#id28">Where are my certificates?</a><a class="headerlink" href="#where-are-my-certificates" title="Permalink to this headline">¶</a></h2>
+<span id="where-certs"></span><h2><a class="toc-backref" href="#id29">Where are my certificates?</a><a class="headerlink" href="#where-are-my-certificates" title="Permalink to this headline">¶</a></h2>
 <p>All generated keys and issued certificates can be found in
 <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt/live/$domain</span></code>, where <code class="docutils literal notranslate"><span class="pre">$domain</span></code> is the certificate
 name (see the note below). Rather than copying, please point your (web)
@@ -1046,7 +1095,7 @@ could convert using <code class="docutils literal notranslate"><span class="pre"
 </div>
 </div>
 <div class="section" id="pre-and-post-validation-hooks">
-<span id="hooks"></span><h2><a class="toc-backref" href="#id29">Pre and Post Validation Hooks</a><a class="headerlink" href="#pre-and-post-validation-hooks" title="Permalink to this headline">¶</a></h2>
+<span id="hooks"></span><h2><a class="toc-backref" href="#id30">Pre and Post Validation Hooks</a><a class="headerlink" href="#pre-and-post-validation-hooks" title="Permalink to this headline">¶</a></h2>
 <p>Certbot allows for the specification of pre and post validation hooks when run
 in manual mode. The flags to specify these scripts are <code class="docutils literal notranslate"><span class="pre">--manual-auth-hook</span></code>
 and <code class="docutils literal notranslate"><span class="pre">--manual-cleanup-hook</span></code> respectively and can be used as follows:</p>
@@ -1151,7 +1200,7 @@ fi
 </div>
 </div>
 <div class="section" id="changing-the-acme-server">
-<span id="lock-files"></span><h2><a class="toc-backref" href="#id30">Changing the ACME Server</a><a class="headerlink" href="#changing-the-acme-server" title="Permalink to this headline">¶</a></h2>
+<span id="lock-files"></span><h2><a class="toc-backref" href="#id31">Changing the ACME Server</a><a class="headerlink" href="#changing-the-acme-server" title="Permalink to this headline">¶</a></h2>
 <p>By default, Certbot uses Let’s Encrypt’s production server at
 <a class="reference external" href="https://acme-v02.api.letsencrypt.org/directory">https://acme-v02.api.letsencrypt.org/directory</a>. You can tell Certbot to use a
 different CA by providing <code class="docutils literal notranslate"><span class="pre">--server</span></code> on the command line or in a
@@ -1168,7 +1217,7 @@ see a list of Certbot plugins that support this challenge type and how
 to use them, see <a class="reference internal" href="#plugins">plugins</a>.</p>
 </div>
 <div class="section" id="id5">
-<h2><a class="toc-backref" href="#id31">Lock Files</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id32">Lock Files</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>When processing a validation Certbot writes a number of lock files on your system
 to prevent multiple instances from overwriting each other’s changes. This means
 that by default two instances of Certbot will not be able to run in parallel.</p>
@@ -1186,7 +1235,7 @@ as the <code class="docutils literal notranslate"><span class="pre">--work-dir</
 of Certbot that you would like to run.</p>
 </div>
 <div class="section" id="configuration-file">
-<span id="config-file"></span><h2><a class="toc-backref" href="#id32">Configuration file</a><a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
+<span id="config-file"></span><h2><a class="toc-backref" href="#id33">Configuration file</a><a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
 <p>Certbot accepts a global configuration file that applies its options to all invocations
 of Certbot. Certificate specific configuration choices should be set in the <code class="docutils literal notranslate"><span class="pre">.conf</span></code>
 files that can be found in <code class="docutils literal notranslate"><span class="pre">/etc/letsencrypt/renewal</span></code>.</p>
@@ -1246,7 +1295,7 @@ as being set to true by older versions of Certbot, since they have been listed
 in the config file.</p>
 </div>
 <div class="section" id="log-rotation">
-<span id="id6"></span><h2><a class="toc-backref" href="#id33">Log Rotation</a><a class="headerlink" href="#log-rotation" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2><a class="toc-backref" href="#id34">Log Rotation</a><a class="headerlink" href="#log-rotation" title="Permalink to this headline">¶</a></h2>
 <p>By default certbot stores status logs in <code class="docutils literal notranslate"><span class="pre">/var/log/letsencrypt</span></code>. By default
 certbot will begin rotating logs once there are 1000 logs in the log directory.
 Meaning that once 1000 files are in <code class="docutils literal notranslate"><span class="pre">/var/log/letsencrypt</span></code> Certbot will delete
@@ -1263,7 +1312,7 @@ certbot rotation script.</p>
 </div>
 </div>
 <div class="section" id="certbot-command-line-options">
-<span id="command-line"></span><h2><a class="toc-backref" href="#id34">Certbot command-line options</a><a class="headerlink" href="#certbot-command-line-options" title="Permalink to this headline">¶</a></h2>
+<span id="command-line"></span><h2><a class="toc-backref" href="#id35">Certbot command-line options</a><a class="headerlink" href="#certbot-command-line-options" title="Permalink to this headline">¶</a></h2>
 <p>Certbot supports a lot of command line options. Here’s the full list, from
 <code class="docutils literal notranslate"><span class="pre">certbot</span> <span class="pre">--help</span> <span class="pre">all</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage: 
@@ -1386,12 +1435,12 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/1.14.0
-                        (certbot(-auto); OS_NAME OS_VERSION) Authenticator/XXX
-                        Installer/YYY (SUBCOMMAND; flags: FLAGS)
-                        Py/major.minor.patchlevel). The flags encoded in the
-                        user agent are: --duplicate, --force-renew, --allow-
-                        subset-of-names, -n, and whether any hooks are set.
+                        &quot;&quot;. (default: CertbotACMEClient/1.15.0 (certbot;
+                        OS_NAME OS_VERSION) Authenticator/XXX Installer/YYY
+                        (SUBCOMMAND; flags: FLAGS) Py/major.minor.patchlevel).
+                        The flags encoded in the user agent are: --duplicate,
+                        --force-renew, --allow-subset-of-names, -n, and
+                        whether any hooks are set.
   --user-agent-comment USER_AGENT_COMMENT
                         Add a comment to the default user agent string. May be
                         used when repackaging Certbot or calling it from
@@ -1484,9 +1533,7 @@ testing:
                         (invalid) certificates; equivalent to --server
                         https://acme-staging-v02.api.letsencrypt.org/directory
                         (default: False)
-  --debug               Show tracebacks in case of errors, and allow certbot-
-                        auto execution on experimental platforms (default:
-                        False)
+  --debug               Show tracebacks in case of errors (default: False)
   --no-verify-ssl       Disable verification of the ACME server&#39;s certificate.
                         (default: False)
   --http-01-port HTTP01_PORT
@@ -1994,7 +2041,7 @@ webroot:
 </div>
 </div>
 <div class="section" id="getting-help">
-<h2><a class="toc-backref" href="#id35">Getting help</a><a class="headerlink" href="#getting-help" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id36">Getting help</a><a class="headerlink" href="#getting-help" title="Permalink to this headline">¶</a></h2>
 <p>If you’re having problems, we recommend posting on the Let’s Encrypt
 <a class="reference external" href="https://community.letsencrypt.org">Community Forum</a>.</p>
 <p>If you find a bug in the software, please do report it in our <a class="reference external" href="https://github.com/certbot/certbot/issues">issue
@@ -2086,7 +2133,7 @@ also might contain personally identifiable information)</p></li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=User%20Guide%E2%80%94%20Certbot%201.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
