@@ -662,28 +662,32 @@ You should never share these credentials publicly or with an unauthorized person
           </p>
       </li>
 
-
       <li>
         Set up automatic renewal
         <p>
-        We recommend running the following line, which will add a cron job to the default crontab.
+        Run the following line, which will add a cron job to <code>/etc/crontab</code>.
         <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
+
         <p>
         If you needed to stop your webserver to run Certbot, you'll want to
-        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
-        and start your webserver automatically. For example, if your webserver is HAProxy, modify the
-        command as follows:
-
-        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        add <code>pre</code> and <code>post</code> hooks to stop and start your webserver automatically.
+        For example, if your webserver is HAProxy, run the following commands to create the hook files
+        in the appropriate directory:
         </p>
+
+        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
+          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
 
         <p>
         More information is available in the
         <a href="/docs/using.html?highlight=hooks#renewing-certificates">
         Certbot documentation on renewing certificates</a>.
         </p>
+
       </li>
 
       <li>
@@ -747,28 +751,32 @@ You should never share these credentials publicly or with an unauthorized person
           </p>
       </li>
 
-
       <li>
         Set up automatic renewal
         <p>
-        We recommend running the following line, which will add a cron job to the default crontab.
+        Run the following line, which will add a cron job to <code>/etc/crontab</code>.
         <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
         </p>
 
+
         <p>
         If you needed to stop your webserver to run Certbot, you'll want to
-        add <tt>--pre-hook</tt> and <tt>--post-hook</tt> flags after <tt>certbot renew</tt> to stop
-        and start your webserver automatically. For example, if your webserver is HAProxy, modify the
-        command as follows:
-
-        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q --pre-hook 'service haproxy stop' --post-hook 'service haproxy start'" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        add <code>pre</code> and <code>post</code> hooks to stop and start your webserver automatically.
+        For example, if your webserver is HAProxy, run the following commands to create the hook files
+        in the appropriate directory:
         </p>
+
+        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
+          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
 
         <p>
         More information is available in the
         <a href="/docs/using.html?highlight=hooks#renewing-certificates">
         Certbot documentation on renewing certificates</a>.
         </p>
+
       </li>
 
       <li>
