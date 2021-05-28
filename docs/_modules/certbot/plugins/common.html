@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.common &mdash; Certbot 1.15.0.dev0 documentation</title>
+  <title>certbot.plugins.common &mdash; Certbot 1.16.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.common &mdash; Certbot 1.15.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.common &mdash; Certbot 1.16.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../../../index.html"/>
+    <link rel="top" title="Certbot 1.16.0.dev0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.15
+                1.16
               </div>
             
           
@@ -280,7 +280,34 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <div class="viewcode-block" id="Plugin.conf"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Plugin.conf">[docs]</a>    <span class="k">def</span> <span class="nf">conf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Find a configuration value for variable ``var``.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">(</span><span class="n">var</span><span class="p">))</span></div></div>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">(</span><span class="n">var</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Plugin.auth_hint"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Plugin.auth_hint">[docs]</a>    <span class="k">def</span> <span class="nf">auth_hint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failed_achalls</span><span class="p">):</span>
+        <span class="c1"># type: (List[achallenges.AnnotatedChallenge]) -&gt; str</span>
+        <span class="sd">&quot;&quot;&quot;Human-readable string to help the user troubleshoot the authenticator.</span>
+
+<span class="sd">        Shown to the user if one or more of the attempted challenges were not a success.</span>
+
+<span class="sd">        Should describe, in simple language, what the authenticator tried to do, what went</span>
+<span class="sd">        wrong and what the user should try as their &quot;next steps&quot;.</span>
+
+<span class="sd">        TODO: auth_hint belongs in IAuthenticator but can&#39;t be added until the next major</span>
+<span class="sd">        version of Certbot. For now, it lives in .Plugin and auth_handler will only call it</span>
+<span class="sd">        on authenticators that subclass .Plugin. For now, inherit from `.Plugin` to implement</span>
+<span class="sd">        and/or override the method.</span>
+
+<span class="sd">        :param list failed_achalls: List of one or more failed challenges</span>
+<span class="sd">                                    (:class:`achallenges.AnnotatedChallenge` subclasses).</span>
+
+<span class="sd">        :rtype str:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># This is a fallback hint. Authenticators should implement their own auth_hint that</span>
+        <span class="c1"># addresses the specific mechanics of that authenticator.</span>
+        <span class="n">challs</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">({</span><span class="n">achall</span><span class="o">.</span><span class="n">typ</span> <span class="k">for</span> <span class="n">achall</span> <span class="ow">in</span> <span class="n">failed_achalls</span><span class="p">}))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;The Certificate Authority couldn&#39;t exterally verify that the </span><span class="si">{name}</span><span class="s2"> plugin &quot;</span>
+                <span class="s2">&quot;completed the required </span><span class="si">{challs}</span><span class="s2"> challenges. Ensure the plugin is configured &quot;</span>
+                <span class="s2">&quot;correctly and that the changes it makes are accessible from the internet.&quot;</span>
+                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">challs</span><span class="o">=</span><span class="n">challs</span><span class="p">))</span></div></div>
 
 
 <div class="viewcode-block" id="Installer"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Installer">[docs]</a><span class="k">class</span> <span class="nc">Installer</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
@@ -676,7 +703,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%E2%80%94%20Certbot%201.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

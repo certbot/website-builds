@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.crypto_util &mdash; Certbot 1.15.0.dev0 documentation</title>
+  <title>certbot.crypto_util &mdash; Certbot 1.16.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.crypto_util &mdash; Certbot 1.15.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.crypto_util &mdash; Certbot 1.16.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 1.16.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.15
+                1.16
               </div>
             
           
@@ -194,6 +194,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span>
 <span class="c1"># See https://github.com/pyca/cryptography/issues/4275</span>
 <span class="kn">from</span> <span class="nn">cryptography</span> <span class="kn">import</span> <span class="n">x509</span>  <span class="c1"># type: ignore</span>
 <span class="kn">from</span> <span class="nn">cryptography.exceptions</span> <span class="kn">import</span> <span class="n">InvalidSignature</span>
@@ -222,15 +223,66 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 <span class="c1"># High level functions</span>
-<div class="viewcode-block" id="init_save_key"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.init_save_key">[docs]</a><span class="k">def</span> <span class="nf">init_save_key</span><span class="p">(</span>
-        <span class="n">key_size</span><span class="p">,</span> <span class="n">key_dir</span><span class="p">,</span> <span class="n">key_type</span><span class="o">=</span><span class="s2">&quot;rsa&quot;</span><span class="p">,</span> <span class="n">elliptic_curve</span><span class="o">=</span><span class="s2">&quot;secp256r1&quot;</span><span class="p">,</span> <span class="n">keyname</span><span class="o">=</span><span class="s2">&quot;key-certbot.pem&quot;</span>
-<span class="p">):</span>
+
+<div class="viewcode-block" id="generate_key"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.generate_key">[docs]</a><span class="k">def</span> <span class="nf">generate_key</span><span class="p">(</span><span class="n">key_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;rsa&quot;</span><span class="p">,</span>
+                 <span class="n">elliptic_curve</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;secp256r1&quot;</span><span class="p">,</span> <span class="n">keyname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;key-certbot.pem&quot;</span><span class="p">,</span>
+                 <span class="n">strict_permissions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">util</span><span class="o">.</span><span class="n">Key</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Initializes and saves a privkey.</span>
 
 <span class="sd">    Inits key and saves it in PEM format on the filesystem.</span>
 
 <span class="sd">    .. note:: keyname is the attempted filename, it may be different if a file</span>
 <span class="sd">        already exists at the path.</span>
+
+<span class="sd">    :param int key_size: key size in bits if key size is rsa.</span>
+<span class="sd">    :param str key_dir: Key save directory.</span>
+<span class="sd">    :param str key_type: Key Type [rsa, ecdsa]</span>
+<span class="sd">    :param str elliptic_curve: Name of the elliptic curve if key type is ecdsa.</span>
+<span class="sd">    :param str keyname: Filename of key</span>
+<span class="sd">    :param bool strict_permissions: If true and key_dir exists, an exception is raised if</span>
+<span class="sd">        the directory doesn&#39;t have 0700 permissions or isn&#39;t owned by the current user.</span>
+
+<span class="sd">    :returns: Key</span>
+<span class="sd">    :rtype: :class:`certbot.util.Key`</span>
+
+<span class="sd">    :raises ValueError: If unable to generate the key given key_size.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">key_pem</span> <span class="o">=</span> <span class="n">make_key</span><span class="p">(</span>
+            <span class="n">bits</span><span class="o">=</span><span class="n">key_size</span><span class="p">,</span> <span class="n">elliptic_curve</span><span class="o">=</span><span class="n">elliptic_curve</span> <span class="ow">or</span> <span class="s2">&quot;secp256r1&quot;</span><span class="p">,</span> <span class="n">key_type</span><span class="o">=</span><span class="n">key_type</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Encountered error while making key: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="n">err</span>
+
+    <span class="c1"># Save file</span>
+    <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span><span class="n">key_dir</span><span class="p">,</span> <span class="mo">0o700</span><span class="p">,</span> <span class="n">strict_permissions</span><span class="p">)</span>
+    <span class="n">key_f</span><span class="p">,</span> <span class="n">key_path</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">unique_file</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">key_dir</span><span class="p">,</span> <span class="n">keyname</span><span class="p">),</span> <span class="mo">0o600</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">key_f</span><span class="p">:</span>
+        <span class="n">key_f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">key_pem</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">key_type</span> <span class="o">==</span> <span class="s1">&#39;rsa&#39;</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Generating RSA key (</span><span class="si">%d</span><span class="s2"> bits): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">key_path</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Generating ECDSA key (</span><span class="si">%d</span><span class="s2"> bits): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">key_path</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">Key</span><span class="p">(</span><span class="n">key_path</span><span class="p">,</span> <span class="n">key_pem</span><span class="p">)</span></div>
+
+
+<span class="c1"># TODO: Remove this call once zope dependencies are removed from Certbot.</span>
+<div class="viewcode-block" id="init_save_key"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.init_save_key">[docs]</a><span class="k">def</span> <span class="nf">init_save_key</span><span class="p">(</span><span class="n">key_size</span><span class="p">,</span> <span class="n">key_dir</span><span class="p">,</span> <span class="n">key_type</span><span class="o">=</span><span class="s2">&quot;rsa&quot;</span><span class="p">,</span> <span class="n">elliptic_curve</span><span class="o">=</span><span class="s2">&quot;secp256r1&quot;</span><span class="p">,</span>
+                  <span class="n">keyname</span><span class="o">=</span><span class="s2">&quot;key-certbot.pem&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Initializes and saves a privkey.</span>
+
+<span class="sd">    Inits key and saves it in PEM format on the filesystem.</span>
+
+<span class="sd">    .. note:: keyname is the attempted filename, it may be different if a file</span>
+<span class="sd">        already exists at the path.</span>
+
+<span class="sd">    .. deprecated:: 1.16.0</span>
+<span class="sd">       Use :func:`generate_key` instead.</span>
 
 <span class="sd">    :param int key_size: key size in bits if key size is rsa.</span>
 <span class="sd">    :param str key_dir: Key save directory.</span>
@@ -244,31 +296,51 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :raises ValueError: If unable to generate the key given key_size.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">key_pem</span> <span class="o">=</span> <span class="n">make_key</span><span class="p">(</span>
-            <span class="n">bits</span><span class="o">=</span><span class="n">key_size</span><span class="p">,</span> <span class="n">elliptic_curve</span><span class="o">=</span><span class="n">elliptic_curve</span> <span class="ow">or</span> <span class="s2">&quot;secp256r1&quot;</span><span class="p">,</span> <span class="n">key_type</span><span class="o">=</span><span class="n">key_type</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">err</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;certbot.crypto_util.init_save_key is deprecated, please use &quot;</span>
+                  <span class="s2">&quot;certbot.crypto_util.generate_key instead.&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
 
     <span class="n">config</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IConfig</span><span class="p">)</span>
-    <span class="c1"># Save file</span>
-    <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span><span class="n">key_dir</span><span class="p">,</span> <span class="mo">0o700</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
-    <span class="n">key_f</span><span class="p">,</span> <span class="n">key_path</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">unique_file</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">key_dir</span><span class="p">,</span> <span class="n">keyname</span><span class="p">),</span> <span class="mo">0o600</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">key_f</span><span class="p">:</span>
-        <span class="n">key_f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">key_pem</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">key_type</span> <span class="o">==</span> <span class="s1">&#39;rsa&#39;</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Generating RSA key (</span><span class="si">%d</span><span class="s2"> bits): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">key_path</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Generating ECDSA key (</span><span class="si">%d</span><span class="s2"> bits): </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">key_path</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">Key</span><span class="p">(</span><span class="n">key_path</span><span class="p">,</span> <span class="n">key_pem</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">generate_key</span><span class="p">(</span><span class="n">key_size</span><span class="p">,</span> <span class="n">key_dir</span><span class="p">,</span> <span class="n">key_type</span><span class="o">=</span><span class="n">key_type</span><span class="p">,</span> <span class="n">elliptic_curve</span><span class="o">=</span><span class="n">elliptic_curve</span><span class="p">,</span>
+                        <span class="n">keyname</span><span class="o">=</span><span class="n">keyname</span><span class="p">,</span> <span class="n">strict_permissions</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="generate_csr"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.generate_csr">[docs]</a><span class="k">def</span> <span class="nf">generate_csr</span><span class="p">(</span><span class="n">privkey</span><span class="p">:</span> <span class="n">util</span><span class="o">.</span><span class="n">Key</span><span class="p">,</span> <span class="n">names</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">must_staple</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">strict_permissions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">util</span><span class="o">.</span><span class="n">CSR</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Initialize a CSR with the given private key.</span>
+
+<span class="sd">    :param privkey: Key to include in the CSR</span>
+<span class="sd">    :type privkey: :class:`certbot.util.Key`</span>
+<span class="sd">    :param set names: `str` names to include in the CSR</span>
+<span class="sd">    :param str path: Certificate save directory.</span>
+<span class="sd">    :param bool must_staple: If true, include the TLS Feature extension &quot;OCSP Must Staple&quot;</span>
+<span class="sd">    :param bool strict_permissions: If true and path exists, an exception is raised if</span>
+<span class="sd">        the directory doesn&#39;t have 0755 permissions or isn&#39;t owned by the current user.</span>
+
+<span class="sd">    :returns: CSR</span>
+<span class="sd">    :rtype: :class:`certbot.util.CSR`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">csr_pem</span> <span class="o">=</span> <span class="n">acme_crypto_util</span><span class="o">.</span><span class="n">make_csr</span><span class="p">(</span>
+        <span class="n">privkey</span><span class="o">.</span><span class="n">pem</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">must_staple</span><span class="o">=</span><span class="n">must_staple</span><span class="p">)</span>
+
+    <span class="c1"># Save CSR</span>
+    <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="mo">0o755</span><span class="p">,</span> <span class="n">strict_permissions</span><span class="p">)</span>
+    <span class="n">csr_f</span><span class="p">,</span> <span class="n">csr_filename</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">unique_file</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;csr-certbot.pem&quot;</span><span class="p">),</span> <span class="mo">0o644</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">csr_f</span><span class="p">:</span>
+        <span class="n">csr_f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">csr_pem</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Creating CSR: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">csr_filename</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">CSR</span><span class="p">(</span><span class="n">csr_filename</span><span class="p">,</span> <span class="n">csr_pem</span><span class="p">,</span> <span class="s2">&quot;pem&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1"># TODO: Remove this call once zope dependencies are removed from Certbot.</span>
 <div class="viewcode-block" id="init_save_csr"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.init_save_csr">[docs]</a><span class="k">def</span> <span class="nf">init_save_csr</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Initialize a CSR with the given private key.</span>
+
+<span class="sd">    .. deprecated:: 1.16.0</span>
+<span class="sd">       Use :func:`generate_csr` instead.</span>
 
 <span class="sd">    :param privkey: Key to include in the CSR</span>
 <span class="sd">    :type privkey: :class:`certbot.util.Key`</span>
@@ -281,20 +353,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :rtype: :class:`certbot.util.CSR`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;certbot.crypto_util.init_save_csr is deprecated, please use &quot;</span>
+                  <span class="s2">&quot;certbot.crypto_util.generate_csr instead.&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+
     <span class="n">config</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IConfig</span><span class="p">)</span>
 
-    <span class="n">csr_pem</span> <span class="o">=</span> <span class="n">acme_crypto_util</span><span class="o">.</span><span class="n">make_csr</span><span class="p">(</span>
-        <span class="n">privkey</span><span class="o">.</span><span class="n">pem</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">must_staple</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">must_staple</span><span class="p">)</span>
-
-    <span class="c1"># Save CSR</span>
-    <span class="n">util</span><span class="o">.</span><span class="n">make_or_verify_dir</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="mo">0o755</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span>
-    <span class="n">csr_f</span><span class="p">,</span> <span class="n">csr_filename</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">unique_file</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;csr-certbot.pem&quot;</span><span class="p">),</span> <span class="mo">0o644</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">csr_f</span><span class="p">:</span>
-        <span class="n">csr_f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">csr_pem</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Creating CSR: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">csr_filename</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">CSR</span><span class="p">(</span><span class="n">csr_filename</span><span class="p">,</span> <span class="n">csr_pem</span><span class="p">,</span> <span class="s2">&quot;pem&quot;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">generate_csr</span><span class="p">(</span><span class="n">privkey</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">must_staple</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">must_staple</span><span class="p">,</span>
+                        <span class="n">strict_permissions</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">strict_permissions</span><span class="p">)</span></div>
 
 
 <span class="c1"># WARNING: the csr and private key file are possible attack vectors for TOCTOU</span>
@@ -572,8 +637,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                       <span class="n">typ</span><span class="o">=</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">load_func</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">cert_or_req_str</span><span class="p">)</span>
-    <span class="k">except</span> <span class="n">crypto</span><span class="o">.</span><span class="n">Error</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">crypto</span><span class="o">.</span><span class="n">Error</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Encountered error while loading certificate or csr: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
         <span class="k">raise</span>
 
 
@@ -620,6 +686,18 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_get_names_from_cert_or_req</span><span class="p">(</span>
         <span class="n">csr</span><span class="p">,</span> <span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate</span><span class="p">,</span> <span class="n">typ</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_names_from_req"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.get_names_from_req">[docs]</a><span class="k">def</span> <span class="nf">get_names_from_req</span><span class="p">(</span><span class="n">csr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of domains from a CSR, including the CN if it is set.</span>
+
+<span class="sd">    :param str cert: CSR (encoded).</span>
+<span class="sd">    :param typ: `crypto.FILETYPE_PEM` or `crypto.FILETYPE_ASN1`</span>
+<span class="sd">    :returns: A list of domain names.</span>
+<span class="sd">    :rtype: list</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_get_names_from_cert_or_req</span><span class="p">(</span><span class="n">csr</span><span class="p">,</span> <span class="n">crypto</span><span class="o">.</span><span class="n">load_certificate_request</span><span class="p">,</span> <span class="n">typ</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="dump_pyopenssl_chain"><a class="viewcode-back" href="../../api/certbot.crypto_util.html#certbot.crypto_util.dump_pyopenssl_chain">[docs]</a><span class="k">def</span> <span class="nf">dump_pyopenssl_chain</span><span class="p">(</span><span class="n">chain</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="n">crypto</span><span class="o">.</span><span class="n">FILETYPE_PEM</span><span class="p">):</span>
@@ -774,7 +852,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     <span class="c1"># Nothing matched, return whatever was first in the list.</span>
     <span class="k">if</span> <span class="n">warn_on_no_match</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Certbot has been configured to prefer certificate chains with &quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Certbot has been configured to prefer certificate chains with &quot;</span>
                     <span class="s2">&quot;issuer &#39;</span><span class="si">%s</span><span class="s2">&#39;, but no chain from the CA matched this issuer. Using &quot;</span>
                     <span class="s2">&quot;the default certificate chain instead.&quot;</span><span class="p">,</span> <span class="n">issuer_cn</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">fullchains</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
@@ -852,7 +930,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%E2%80%94%20Certbot%201.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
