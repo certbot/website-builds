@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.crypto_util module &mdash; Certbot 1.15.0.dev0 documentation</title>
+  <title>certbot.crypto_util module &mdash; Certbot 1.16.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.crypto_util module &mdash; Certbot 1.15.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.crypto_util module &mdash; Certbot 1.16.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 1.16.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="certbot package" href="certbot.html"/>
         <link rel="next" title="certbot.errors module" href="certbot.errors.html"/>
         <link rel="prev" title="certbot.achallenges module" href="certbot.achallenges.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.15
+                1.16
               </div>
             
           
@@ -207,6 +207,40 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span id="certbot-crypto-util-module"></span><h1>certbot.crypto_util module<a class="headerlink" href="#module-certbot.crypto_util" title="Permalink to this headline">¶</a></h1>
 <p>Certbot client crypto utility functions.</p>
 <dl class="py function">
+<dt id="certbot.crypto_util.generate_key">
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">generate_key</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_dir</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_type</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'rsa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elliptic_curve</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'secp256r1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyname</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'key-certbot.pem'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_permissions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="certbot.util.html#certbot.util.Key" title="certbot.util.Key"><span class="pre">certbot.util.Key</span></a><a class="reference internal" href="../_modules/certbot/crypto_util.html#generate_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.generate_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes and saves a privkey.</p>
+<p>Inits key and saves it in PEM format on the filesystem.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>keyname is the attempted filename, it may be different if a file
+already exists at the path.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – key size in bits if key size is rsa.</p></li>
+<li><p><strong>key_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Key save directory.</p></li>
+<li><p><strong>key_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Key Type [rsa, ecdsa]</p></li>
+<li><p><strong>elliptic_curve</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Name of the elliptic curve if key type is ecdsa.</p></li>
+<li><p><strong>keyname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Filename of key</p></li>
+<li><p><strong>strict_permissions</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If true and key_dir exists, an exception is raised if
+the directory doesn’t have 0700 permissions or isn’t owned by the current user.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Key</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="certbot.util.html#certbot.util.Key" title="certbot.util.Key"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.util.Key</span></code></a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – If unable to generate the key given key_size.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="certbot.crypto_util.init_save_key">
 <code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">init_save_key</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'rsa'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elliptic_curve</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'secp256r1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keyname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'key-certbot.pem'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#init_save_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.init_save_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes and saves a privkey.</p>
@@ -215,6 +249,9 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <p class="admonition-title">Note</p>
 <p>keyname is the attempted filename, it may be different if a file
 already exists at the path.</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 1.16.0: </span>Use <a class="reference internal" href="#certbot.crypto_util.generate_key" title="certbot.crypto_util.generate_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">generate_key()</span></code></a> instead.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -239,9 +276,36 @@ already exists at the path.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="certbot.crypto_util.generate_csr">
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">generate_csr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">privkey</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="certbot.util.html#certbot.util.Key" title="certbot.util.Key"><span class="pre">certbot.util.Key</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Set</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">must_staple</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_permissions</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="certbot.util.html#certbot.util.CSR" title="certbot.util.CSR"><span class="pre">certbot.util.CSR</span></a><a class="reference internal" href="../_modules/certbot/crypto_util.html#generate_csr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.generate_csr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a CSR with the given private key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>privkey</strong> (<a class="reference internal" href="certbot.util.html#certbot.util.Key" title="certbot.util.Key"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.util.Key</span></code></a>) – Key to include in the CSR</p></li>
+<li><p><strong>names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.9)"><em>set</em></a>) – <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> names to include in the CSR</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Certificate save directory.</p></li>
+<li><p><strong>must_staple</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If true, include the TLS Feature extension “OCSP Must Staple”</p></li>
+<li><p><strong>strict_permissions</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If true and path exists, an exception is raised if
+the directory doesn’t have 0755 permissions or isn’t owned by the current user.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>CSR</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="certbot.util.html#certbot.util.CSR" title="certbot.util.CSR"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.util.CSR</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="certbot.crypto_util.init_save_csr">
 <code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">init_save_csr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">privkey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#init_save_csr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.init_save_csr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize a CSR with the given private key.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 1.16.0: </span>Use <a class="reference internal" href="#certbot.crypto_util.generate_csr" title="certbot.crypto_util.generate_csr"><code class="xref py py-func docutils literal notranslate"><span class="pre">generate_csr()</span></code></a> instead.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -498,6 +562,26 @@ or of type ec_curve when key_type ecdsa is used.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt id="certbot.crypto_util.get_names_from_req">
+<code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">get_names_from_req</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">csr</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">typ</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/certbot/crypto_util.html#get_names_from_req"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.get_names_from_req" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of domains from a CSR, including the CN if it is set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cert</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – CSR (encoded).</p></li>
+<li><p><strong>typ</strong> – <code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.FILETYPE_PEM</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">crypto.FILETYPE_ASN1</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of domain names.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="certbot.crypto_util.dump_pyopenssl_chain">
 <code class="sig-prename descclassname"><span class="pre">certbot.crypto_util.</span></code><code class="sig-name descname"><span class="pre">dump_pyopenssl_chain</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filetype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/crypto_util.html#dump_pyopenssl_chain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.crypto_util.dump_pyopenssl_chain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dump certificate chain into a bundle.</p>
@@ -697,7 +781,7 @@ issuer in the certificate chain.</p></li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%20module%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.crypto_util%20module%E2%80%94%20Certbot%201.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

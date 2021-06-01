@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.plugins.common module &mdash; Certbot 1.15.0.dev0 documentation</title>
+  <title>certbot.plugins.common module &mdash; Certbot 1.16.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.common module &mdash; Certbot 1.15.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.plugins.common module &mdash; Certbot 1.16.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../index.html"/>
+    <link rel="top" title="Certbot 1.16.0.dev0 documentation" href="../index.html"/>
         <link rel="up" title="certbot.plugins package" href="certbot.plugins.html"/>
         <link rel="next" title="certbot.plugins.dns_common module" href="certbot.plugins.dns_common.html"/>
         <link rel="prev" title="certbot.plugins package" href="certbot.plugins.html"/> 
@@ -99,7 +99,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.15
+                1.16
               </div>
             
           
@@ -269,6 +269,27 @@ with unique plugin name prefix.</p>
 <dt id="certbot.plugins.common.Plugin.conf">
 <code class="sig-name descname"><span class="pre">conf</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/common.html#Plugin.conf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.common.Plugin.conf" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find a configuration value for variable <code class="docutils literal notranslate"><span class="pre">var</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="certbot.plugins.common.Plugin.auth_hint">
+<code class="sig-name descname"><span class="pre">auth_hint</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">failed_achalls</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="certbot.achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><span class="pre">certbot.achallenges.AnnotatedChallenge</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><a class="reference internal" href="../_modules/certbot/plugins/common.html#Plugin.auth_hint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.common.Plugin.auth_hint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Human-readable string to help the user troubleshoot the authenticator.</p>
+<p>Shown to the user if one or more of the attempted challenges were not a success.</p>
+<p>Should describe, in simple language, what the authenticator tried to do, what went
+wrong and what the user should try as their “next steps”.</p>
+<p>TODO: auth_hint belongs in IAuthenticator but can’t be added until the next major
+version of Certbot. For now, it lives in .Plugin and auth_handler will only call it
+on authenticators that subclass .Plugin. For now, inherit from <a class="reference internal" href="#certbot.plugins.common.Plugin" title="certbot.plugins.common.Plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Plugin</span></code></a> to implement
+and/or override the method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>failed_achalls</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – List of one or more failed challenges
+(<code class="xref py py-class docutils literal notranslate"><span class="pre">achallenges.AnnotatedChallenge</span></code> subclasses).</p>
+</dd>
+<dt class="field-even">Rtype str</dt>
+<dd class="field-even"><p></p></dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -565,7 +586,7 @@ challenge.</p></li>
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%20module%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.common%20module%E2%80%94%20Certbot%201.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';

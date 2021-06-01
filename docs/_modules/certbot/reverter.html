@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>certbot.reverter &mdash; Certbot 1.15.0.dev0 documentation</title>
+  <title>certbot.reverter &mdash; Certbot 1.16.0.dev0 documentation</title>
   
 <!--
 
@@ -29,7 +29,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.reverter &mdash; Certbot 1.15.0.dev0 documentation">
+<meta name="twitter:title" content="certbot.reverter &mdash; Certbot 1.16.0.dev0 documentation">
 <meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
 <meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
 <meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
@@ -53,7 +53,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="Certbot 1.15.0.dev0 documentation" href="../../index.html"/>
+    <link rel="top" title="Certbot 1.16.0.dev0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -97,7 +97,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.15
+                1.16
               </div>
             
           
@@ -383,6 +383,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        Read the file returning the lines, and a pointer to the end of the file.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># pylint: disable=consider-using-with</span>
         <span class="c1"># Open up filepath differently depending on if it already exists</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
             <span class="n">op_fd</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r+&quot;</span><span class="p">)</span>
@@ -533,26 +534,18 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">commands_fp</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_cp_dir</span><span class="p">(</span><span class="n">temporary</span><span class="p">),</span> <span class="s2">&quot;COMMANDS&quot;</span><span class="p">)</span>
-        <span class="n">command_file</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="c1"># It is strongly advised to set newline = &#39;&#39; on Python 3 with CSV,</span>
         <span class="c1"># and it fixes problems on Windows.</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;newline&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">):</span>
-                <span class="n">command_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">command_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
-
-            <span class="n">csvwriter</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">command_file</span><span class="p">)</span>
-            <span class="n">csvwriter</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-
+            <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;a&quot;</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;w&quot;</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">commands_fp</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+                <span class="n">csvwriter</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+                <span class="n">csvwriter</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">IOError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Unable to register undo command&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ReverterError</span><span class="p">(</span>
-                <span class="s2">&quot;Unable to register undo command.&quot;</span><span class="p">)</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">command_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">command_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+                <span class="s2">&quot;Unable to register undo command.&quot;</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_get_cp_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temporary</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return the proper reverter directory.&quot;&quot;&quot;</span>
@@ -706,7 +699,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
                 <span class="n">filesystem</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">in_progress_dir</span><span class="p">,</span> <span class="n">final_dir</span><span class="p">)</span>
                 <span class="k">return</span>
             <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Extreme, unexpected race condition, retrying (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Unexpected race condition, retrying (</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
 
         <span class="c1"># After 10 attempts... something is probably wrong here...</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
@@ -788,7 +781,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
   </script>
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%E2%80%94%20Certbot%201.15.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
+<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.reverter%E2%80%94%20Certbot%201.16.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
 <div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
 <script type="text/javascript">
 document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
