@@ -660,6 +660,29 @@ You should never share these credentials publicly or with an unauthorized person
         </p>
 
 
+        <p>
+        Next, you'll want to add <code>pre</code> and <code>post</code> hooks to stop and start your
+        webserver automatically. Run the following commands to create the hook files in the appropriate
+        directory:
+        </p>
+
+
+        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
+          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
+
+        <p>
+        More information is available in the
+        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
+        Certbot documentation on renewing certificates</a>.
+        </p>
+
+        <p>You can test automatic renewal for your certificates by running this command:
+        <pre>sudo certbot renew --dry-run</pre></p>
+        <p>
+        If that command completes without errors, your certificates will renew automatically in the background.
+        </p>
 
       </li>
 
@@ -741,6 +764,29 @@ You should never share these credentials publicly or with an unauthorized person
         </p>
 
 
+        <p>
+        Next, you'll want to add <code>pre</code> and <code>post</code> hooks to stop and start your
+        webserver automatically. Run the following commands to create the hook files in the appropriate
+        directory:
+        </p>
+
+
+        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
+          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
+
+        <p>
+        More information is available in the
+        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
+        Certbot documentation on renewing certificates</a>.
+        </p>
+
+        <p>You can test automatic renewal for your certificates by running this command:
+        <pre>sudo certbot renew --dry-run</pre></p>
+        <p>
+        If that command completes without errors, your certificates will renew automatically in the background.
+        </p>
 
       </li>
 
@@ -752,25 +798,6 @@ You should never share these credentials publicly or with an unauthorized person
         </p>
       </li>
 
-
-      <li>
-          Need more HAProxy-specific information?
-          <p>
-              Certificate installation with HAProxy is complicated. You can find more information
-              in of these guides:
-              <ul>
-                  <li>
-                      <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-haproxy-with-let-s-encrypt-on-ubuntu-14-04">Digital Ocean's guide</a>
-                  </li>
-                  <li>
-                      <a href="https://skarlso.github.io/2017/02/15/how-to-https-with-hugo-letsencrypt-haproxy/">Skarlso's guide</a>
-                  </li>
-              </ul>
-          </p>
-          <p>
-          Or you might be interested in using the experimental <a href="https://code.greenhost.net/open/letsencrypt-haproxy">third-party HAProxy plugin</a> from Greenhost.
-          </p>
-      </li>
     </ol>
   </div>
 
