@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.plugins.dns_common &mdash; Certbot 1.16.0.dev0 documentation</title>
+  <title>certbot.plugins.dns_common &mdash; Certbot 1.19.0.dev0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.16
+                1.19
               </div>
             
           
@@ -171,7 +171,6 @@
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
 
 <span class="kn">import</span> <span class="nn">configobj</span>
-<span class="kn">import</span> <span class="nn">zope.interface</span>
 
 <span class="kn">from</span> <span class="nn">acme</span> <span class="kn">import</span> <span class="n">challenges</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">errors</span>
@@ -185,10 +184,8 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="DNSAuthenticator"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator">[docs]</a><span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IAuthenticator</span><span class="p">)</span>
-<span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">provider</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IPluginFactory</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">DNSAuthenticator</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">Plugin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base class for DNS  Authenticators&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DNSAuthenticator"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator">[docs]</a><span class="k">class</span> <span class="nc">DNSAuthenticator</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">Plugin</span><span class="p">,</span> <span class="n">interfaces</span><span class="o">.</span><span class="n">Authenticator</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for DNS Authenticators&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
@@ -204,6 +201,7 @@
                  <span class="s1">&#39;to verify the DNS record.&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DNSAuthenticator.auth_hint"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator.auth_hint">[docs]</a>    <span class="k">def</span> <span class="nf">auth_hint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failed_achalls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;See certbot.plugins.common.Plugin.auth_hint.&quot;&quot;&quot;</span>
         <span class="n">delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s1">&#39;propagation-seconds&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="s1">&#39;The Certificate Authority failed to verify the DNS TXT records created by --</span><span class="si">{name}</span><span class="s1">. &#39;</span>
@@ -335,7 +333,7 @@
 <span class="sd">            indicate any issue.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">__validator</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__validator</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span> <span class="c1"># pylint: disable=unused-private-member</span>
             <span class="n">configuration</span> <span class="o">=</span> <span class="n">CredentialsConfiguration</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">required_variables</span><span class="p">:</span>
@@ -365,7 +363,7 @@
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">__validator</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__validator</span><span class="p">(</span><span class="n">i</span><span class="p">):</span> <span class="c1"># pylint: disable=unused-private-member</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;Please enter your </span><span class="si">{0}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
 
@@ -391,7 +389,7 @@
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">__validator</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__validator</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span> <span class="c1"># pylint: disable=unused-private-member</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;Please enter a valid path to your </span><span class="si">{0}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
 

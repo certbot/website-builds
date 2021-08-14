@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.display.ops &mdash; Certbot 1.16.0.dev0 documentation</title>
+  <title>certbot.display.ops &mdash; Certbot 1.19.0.dev0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.16
+                1.19
               </div>
             
           
@@ -168,18 +168,13 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">indent</span>
 
-<span class="kn">import</span> <span class="nn">zope.component</span>
-
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">errors</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">certbot._internal.display</span> <span class="kn">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">internal_display_util</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="kn">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="kn">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">display_util</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-<span class="c1"># Define a helper function to avoid verbose code</span>
-<span class="n">z_util</span> <span class="o">=</span> <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span>
 
 
 <div class="viewcode-block" id="get_email"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.get_email">[docs]</a><span class="k">def</span> <span class="nf">get_email</span><span class="p">(</span><span class="n">invalid</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">optional</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -214,9 +209,8 @@
 
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">code</span><span class="p">,</span> <span class="n">email</span> <span class="o">=</span> <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span>
-                <span class="n">invalid_prefix</span> <span class="o">+</span> <span class="n">msg</span> <span class="k">if</span> <span class="n">invalid</span> <span class="k">else</span> <span class="n">msg</span><span class="p">,</span>
-                <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">code</span><span class="p">,</span> <span class="n">email</span> <span class="o">=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">input_text</span><span class="p">(</span><span class="n">invalid_prefix</span> <span class="o">+</span> <span class="n">msg</span> <span class="k">if</span> <span class="n">invalid</span> <span class="k">else</span> <span class="n">msg</span><span class="p">,</span>
+                                                  <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">errors</span><span class="o">.</span><span class="n">MissingCommandlineFlag</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;You should register before running non-interactively, &quot;</span>
                    <span class="s2">&quot;or provide --agree-tos and --email &lt;email_address&gt; flags.&quot;</span><span class="p">)</span>
@@ -247,11 +241,11 @@
     <span class="c1"># Note this will get more complicated once we start recording authorizations</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">acc</span><span class="o">.</span><span class="n">slug</span> <span class="k">for</span> <span class="n">acc</span> <span class="ow">in</span> <span class="n">accounts</span><span class="p">]</span>
 
-    <span class="n">code</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">menu</span><span class="p">(</span>
-        <span class="s2">&quot;Please choose an account&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">code</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">menu</span><span class="p">(</span><span class="s2">&quot;Please choose an account&quot;</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">accounts</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
     <span class="k">return</span> <span class="kc">None</span></div>
+
 
 <div class="viewcode-block" id="choose_values"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.choose_values">[docs]</a><span class="k">def</span> <span class="nf">choose_values</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Display screen to let user pick one or multiple values from the provided</span>
@@ -262,11 +256,11 @@
 <span class="sd">    :returns: List of selected values</span>
 <span class="sd">    :rtype: list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">code</span><span class="p">,</span> <span class="n">items</span> <span class="o">=</span> <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">checklist</span><span class="p">(</span>
-        <span class="n">question</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">code</span><span class="p">,</span> <span class="n">items</span> <span class="o">=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">checklist</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">code</span> <span class="o">==</span> <span class="n">display_util</span><span class="o">.</span><span class="n">OK</span> <span class="ow">and</span> <span class="n">items</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">items</span>
     <span class="k">return</span> <span class="p">[]</span></div>
+
 
 <div class="viewcode-block" id="choose_names"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.choose_names">[docs]</a><span class="k">def</span> <span class="nf">choose_names</span><span class="p">(</span><span class="n">installer</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Display screen to select domains to validate.</span>
@@ -313,6 +307,7 @@
             <span class="k">continue</span>
     <span class="k">return</span> <span class="n">valid_domains</span></div>
 
+
 <span class="k">def</span> <span class="nf">_sort_names</span><span class="p">(</span><span class="n">FQDNs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Sort FQDNs by SLD (and if many, by their subdomains)</span>
 
@@ -335,13 +330,13 @@
 <span class="sd">    :rtype: tuple</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1">#Sort by domain first, and then by subdomain</span>
+    <span class="c1"># Sort by domain first, and then by subdomain</span>
     <span class="n">sorted_names</span> <span class="o">=</span> <span class="n">_sort_names</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">override_question</span><span class="p">:</span>
         <span class="n">question</span> <span class="o">=</span> <span class="n">override_question</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;Which names would you like to activate HTTPS for?&quot;</span>
-    <span class="n">code</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">checklist</span><span class="p">(</span>
+    <span class="n">code</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">checklist</span><span class="p">(</span>
         <span class="n">question</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">sorted_names</span><span class="p">,</span> <span class="n">cli_flag</span><span class="o">=</span><span class="s2">&quot;--domains&quot;</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
 
@@ -355,7 +350,7 @@
 <span class="sd">    :rtype: `list` of `str`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">code</span><span class="p">,</span> <span class="n">input_</span> <span class="o">=</span> <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">(</span>
+    <span class="n">code</span><span class="p">,</span> <span class="n">input_</span> <span class="o">=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">input_text</span><span class="p">(</span>
         <span class="n">prompt_prefix</span> <span class="o">+</span>
         <span class="s2">&quot;Please enter the domain name(s) you would like on your certificate &quot;</span>
         <span class="s2">&quot;(comma and/or space separated)&quot;</span><span class="p">,</span>
@@ -365,7 +360,7 @@
         <span class="n">invalid_domains</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">retry_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">domain_list</span> <span class="o">=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">separate_list_input</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
+            <span class="n">domain_list</span> <span class="o">=</span> <span class="n">internal_display_util</span><span class="o">.</span><span class="n">separate_list_input</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">UnicodeEncodeError</span><span class="p">:</span>
             <span class="n">domain_list</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">retry_message</span> <span class="o">=</span> <span class="p">(</span>
@@ -383,17 +378,16 @@
             <span class="n">retry_message</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">&quot;One or more of the entered domain names was not valid:&quot;</span>
                 <span class="s2">&quot;</span><span class="si">{0}{0}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">domain</span> <span class="ow">in</span> <span class="n">invalid_domains</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">invalid_domain</span><span class="p">,</span> <span class="n">err</span> <span class="ow">in</span> <span class="n">invalid_domains</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">retry_message</span> <span class="o">=</span> <span class="n">retry_message</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{1}</span><span class="s2">: </span><span class="si">{2}{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">invalid_domains</span><span class="p">[</span><span class="n">domain</span><span class="p">])</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">invalid_domain</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
             <span class="n">retry_message</span> <span class="o">=</span> <span class="n">retry_message</span> <span class="o">+</span> <span class="p">(</span>
                 <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">Would you like to re-enter the names?</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">retry_message</span><span class="p">:</span>
             <span class="c1"># We had error in input</span>
-            <span class="n">retry</span> <span class="o">=</span> <span class="n">z_util</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">yesno</span><span class="p">(</span><span class="n">retry_message</span><span class="p">,</span>
-                                                      <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">retry</span> <span class="o">=</span> <span class="n">display_util</span><span class="o">.</span><span class="n">yesno</span><span class="p">(</span><span class="n">retry_message</span><span class="p">,</span> <span class="n">force_interactive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">retry</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">_choose_names_manually</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
@@ -498,7 +492,7 @@
                              <span class="n">raw</span><span class="p">,</span>
                              <span class="n">message</span><span class="p">,</span>
                              <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">display_util</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">),</span> <span class="n">pause</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="n">raw</span>
 
@@ -514,8 +508,7 @@
 <span class="sd">    :return: as `~certbot.interfaces.IDisplay.input`</span>
 <span class="sd">    :rtype: tuple</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">_get_validated</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">input</span><span class="p">,</span>
-                          <span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_get_validated</span><span class="p">(</span><span class="n">display_util</span><span class="o">.</span><span class="n">input_text</span><span class="p">,</span> <span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="validated_directory"><a class="viewcode-back" href="../../../api/certbot.display.ops.html#certbot.display.ops.validated_directory">[docs]</a><span class="k">def</span> <span class="nf">validated_directory</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -530,8 +523,7 @@
 <span class="sd">    :return: as `~certbot.interfaces.IDisplay.directory_select`</span>
 <span class="sd">    :rtype: tuple</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">_get_validated</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">component</span><span class="o">.</span><span class="n">getUtility</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="p">)</span><span class="o">.</span><span class="n">directory_select</span><span class="p">,</span>
-                          <span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_get_validated</span><span class="p">(</span><span class="n">display_util</span><span class="o">.</span><span class="n">directory_select</span><span class="p">,</span> <span class="n">validator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.plugins.dns_common module &mdash; Certbot 1.16.0.dev0 documentation</title>
+  <title>certbot.plugins.dns_common module &mdash; Certbot 1.19.0.dev0 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                1.16
+                1.19
               </div>
             
           
@@ -192,8 +192,8 @@
 <dl class="py class">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.plugins.dns_common.</span></code><code class="sig-name descname"><span class="pre">DNSAuthenticator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="certbot.plugins.common.html#certbot.plugins.common.Plugin" title="certbot.plugins.common.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.plugins.common.Plugin</span></code></a></p>
-<p>Base class for DNS  Authenticators</p>
+<dd><p>Bases: <a class="reference internal" href="certbot.plugins.common.html#certbot.plugins.common.Plugin" title="certbot.plugins.common.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.plugins.common.Plugin</span></code></a>, <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.Authenticator" title="certbot.interfaces.Authenticator"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.Authenticator</span></code></a></p>
+<p>Base class for DNS Authenticators</p>
 <dl class="py method">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator.add_parser_arguments">
 <em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">add_parser_arguments</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">add</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_propagation_seconds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.add_parser_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.add_parser_arguments" title="Permalink to this definition">¶</a></dt>
@@ -210,48 +210,106 @@ with unique plugin name prefix.</p>
 <dl class="py method">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator.auth_hint">
 <code class="sig-name descname"><span class="pre">auth_hint</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">failed_achalls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.auth_hint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.auth_hint" title="Permalink to this definition">¶</a></dt>
-<dd><p>Human-readable string to help the user troubleshoot the authenticator.</p>
-<p>Shown to the user if one or more of the attempted challenges were not a success.</p>
-<p>Should describe, in simple language, what the authenticator tried to do, what went
-wrong and what the user should try as their “next steps”.</p>
-<p>TODO: auth_hint belongs in IAuthenticator but can’t be added until the next major
-version of Certbot. For now, it lives in .Plugin and auth_handler will only call it
-on authenticators that subclass .Plugin. For now, inherit from <a class="reference internal" href="certbot.plugins.common.html#certbot.plugins.common.Plugin" title="certbot.plugins.common.Plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Plugin</span></code></a> to implement
-and/or override the method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>failed_achalls</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – List of one or more failed challenges
-(<code class="xref py py-class docutils literal notranslate"><span class="pre">achallenges.AnnotatedChallenge</span></code> subclasses).</p>
-</dd>
-<dt class="field-even">Rtype str</dt>
-<dd class="field-even"><p></p></dd>
-</dl>
+<dd><p>See certbot.plugins.common.Plugin.auth_hint.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator.get_chall_pref">
 <code class="sig-name descname"><span class="pre">get_chall_pref</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unused_domain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.get_chall_pref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.get_chall_pref" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return <code class="xref py py-obj docutils literal notranslate"><span class="pre">collections.Iterable</span></code> of challenge preferences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>domain</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Domain for which challenge preferences are sought.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">collections.Iterable</span></code> of challenge types (subclasses of
+<a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.Challenge" title="(in acme-python v0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">acme.challenges.Challenge</span></code></a>) with the most
+preferred challenges first. If a type is not specified, it means the
+Authenticator cannot perform the challenge.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">collections.Iterable</span></code></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator.prepare">
 <code class="sig-name descname"><span class="pre">prepare</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.prepare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.prepare" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Prepare the plugin.</p>
+<p>Finish up any additional initialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="certbot.errors.html#certbot.errors.PluginError" title="certbot.errors.PluginError"><strong>PluginError</strong></a> – when full initialization cannot be completed.</p></li>
+<li><p><a class="reference internal" href="certbot.errors.html#certbot.errors.MisconfigurationError" title="certbot.errors.MisconfigurationError"><strong>MisconfigurationError</strong></a> – when full initialization cannot be completed. Plugin will
+be displayed on a list of available plugins.</p></li>
+<li><p><a class="reference internal" href="certbot.errors.html#certbot.errors.NoInstallationError" title="certbot.errors.NoInstallationError"><strong>NoInstallationError</strong></a> – when the necessary programs/files cannot be located. Plugin
+will NOT be displayed on a list of available plugins.</p></li>
+<li><p><a class="reference internal" href="certbot.errors.html#certbot.errors.NotSupportedError" title="certbot.errors.NotSupportedError"><strong>NotSupportedError</strong></a> – when the installation is recognized, but the version is not
+currently supported.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator.more_info">
 <code class="sig-name descname"><span class="pre">more_info</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.more_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.more_info" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Human-readable string to help the user.</p>
+<p>Should describe the steps taken and any relevant info to help the user
+decide which plugin to use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Rtype str</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator.perform">
 <code class="sig-name descname"><span class="pre">perform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">achalls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.perform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.perform" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Perform the given challenge.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>achalls</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Non-empty (guaranteed) list of
+<a class="reference internal" href="certbot.achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatedChallenge</span></code></a>
+instances, such that it contains types found within
+<a class="reference internal" href="#certbot.plugins.dns_common.DNSAuthenticator.get_chall_pref" title="certbot.plugins.dns_common.DNSAuthenticator.get_chall_pref"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_chall_pref()</span></code></a> only.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">collections.Iterable</span></code> of ACME
+<a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.ChallengeResponse" title="(in acme-python v0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChallengeResponse</span></code></a> instances corresponding to each provided
+<a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.Challenge" title="(in acme-python v0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Challenge</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.Iterable</span></code> of
+<a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.ChallengeResponse" title="(in acme-python v0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">acme.challenges.ChallengeResponse</span></code></a>,
+where responses are required to be returned in
+the same order as corresponding input challenges</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.PluginError" title="certbot.errors.PluginError"><strong>PluginError</strong></a> – If some or all challenges cannot be performed</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="certbot.plugins.dns_common.DNSAuthenticator.cleanup">
 <code class="sig-name descname"><span class="pre">cleanup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">achalls</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/dns_common.html#DNSAuthenticator.cleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.dns_common.DNSAuthenticator.cleanup" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Revert changes and shutdown after challenges complete.</p>
+<p>This method should be able to revert all changes made by
+perform, even if perform exited abnormally.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>achalls</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Non-empty (guaranteed) list of
+<a class="reference internal" href="certbot.achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatedChallenge</span></code></a>
+instances, a subset of those previously passed to <a class="reference internal" href="#certbot.plugins.dns_common.DNSAuthenticator.perform" title="certbot.plugins.dns_common.DNSAuthenticator.perform"><code class="xref py py-func docutils literal notranslate"><span class="pre">perform()</span></code></a>.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.PluginError" title="certbot.errors.PluginError"><strong>PluginError</strong></a> – if original configuration cannot be restored</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

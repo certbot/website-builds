@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.interfaces module &mdash; Certbot 1.16.0.dev0 documentation</title>
+  <title>certbot.interfaces module &mdash; Certbot 1.19.0.dev0 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                1.16
+                1.19
               </div>
             
           
@@ -238,9 +238,28 @@
 </dd></dl>
 
 <dl class="py interface">
+<dt id="certbot.interfaces.IConfig">
+<em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IConfig</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deprecated, use certbot.configuration.NamespaceConfig instead.</p>
+</dd></dl>
+
+<dl class="py interface">
 <dt id="certbot.interfaces.IPluginFactory">
 <em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IPluginFactory</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IPluginFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IPluginFactory" title="Permalink to this definition">¶</a></dt>
-<dd><p>IPlugin factory.</p>
+<dd><p>Deprecated, use certbot.interfaces.Plugin as ABC instead.</p>
+</dd></dl>
+
+<dl class="py interface">
+<dt id="certbot.interfaces.IPlugin">
+<em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IPlugin</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IPlugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deprecated, use certbot.interfaces.Plugin as ABC instead.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="certbot.interfaces.Plugin">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">Plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">certbot.configuration.NamespaceConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#Plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Certbot plugin.</p>
 <p>Objects providing this interface will be called without satisfying
 any entry point “extras” (extra dependencies) you might have defined
 for your plugin, e.g (excerpt from <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> script):</p>
@@ -263,58 +282,20 @@ extras. This is necessary, because CLI does the following operations
 <blockquote>
 <div><ul class="simple">
 <li><p>loads an entry point,</p></li>
-<li><p>calls <a class="reference internal" href="#certbot.interfaces.IPluginFactory.inject_parser_options" title="certbot.interfaces.IPluginFactory.inject_parser_options"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inject_parser_options</span></code></a>,</p></li>
+<li><p>calls <a class="reference internal" href="#certbot.interfaces.Plugin.inject_parser_options" title="certbot.interfaces.Plugin.inject_parser_options"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inject_parser_options</span></code></a>,</p></li>
 <li><p>requires an entry point,</p></li>
-<li><p>creates plugin instance (<a class="reference internal" href="#certbot.interfaces.IPluginFactory.__call__" title="certbot.interfaces.IPluginFactory.__call__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code></a>).</p></li>
+<li><p>creates plugin instance (<code class="xref py py-obj docutils literal notranslate"><span class="pre">__call__</span></code>).</p></li>
 </ul>
 </div></blockquote>
 <dl class="py attribute">
-<dt id="certbot.interfaces.IPluginFactory.description">
-<code class="sig-name descname"><span class="pre">description</span></code><a class="headerlink" href="#certbot.interfaces.IPluginFactory.description" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Plugin.description">
+<code class="sig-name descname"><span class="pre">description</span></code><em class="property"><span class="pre">:</span> <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">NotImplemented</span></em><a class="headerlink" href="#certbot.interfaces.Plugin.description" title="Permalink to this definition">¶</a></dt>
 <dd><p>Short plugin description</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.IPluginFactory.__call__">
-<code class="sig-name descname"><span class="pre">__call__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IPluginFactory.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create new <a class="reference internal" href="#certbot.interfaces.IPlugin" title="certbot.interfaces.IPlugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IPlugin</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>config</strong> (<em>IConfig</em>) – Configuration.</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Unique plugin name.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="certbot.interfaces.IPluginFactory.inject_parser_options">
-<code class="sig-name descname"><span class="pre">inject_parser_options</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IPluginFactory.inject_parser_options" title="Permalink to this definition">¶</a></dt>
-<dd><p>Inject argument parser options (flags).</p>
-<p>1. Be nice and prepend all options and destinations with
-<a class="reference internal" href="certbot.plugins.common.html#certbot.plugins.common.option_namespace" title="certbot.plugins.common.option_namespace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">option_namespace</span></code></a> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">dest_namespace</span></code>.</p>
-<p>2. Inject options (flags) only. Positional arguments are not
-allowed, as this would break the CLI.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>parser</strong> (<em>ArgumentParser</em>) – (Almost) top-level CLI parser.</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Unique plugin name.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py interface">
-<dt id="certbot.interfaces.IPlugin">
-<em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IPlugin</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IPlugin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Certbot plugin.</p>
-<dl class="py method">
-<dt id="certbot.interfaces.IPlugin.prepare">
-<code class="sig-name descname"><span class="pre">prepare</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IPlugin.prepare" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Plugin.prepare">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">prepare</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Plugin.prepare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Plugin.prepare" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare the plugin.</p>
 <p>Finish up any additional initialization.</p>
 <dl class="field-list simple">
@@ -333,8 +314,8 @@ currently supported.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.IPlugin.more_info">
-<code class="sig-name descname"><span class="pre">more_info</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IPlugin.more_info" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Plugin.more_info">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">more_info</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Plugin.more_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Plugin.more_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Human-readable string to help the user.</p>
 <p>Should describe the steps taken and any relevant info to help the user
 decide which plugin to use.</p>
@@ -344,18 +325,43 @@ decide which plugin to use.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt id="certbot.interfaces.Plugin.inject_parser_options">
+<em class="property"><span class="pre">abstract</span> <span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">inject_parser_options</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser" title="(in Python v3.9)"><span class="pre">argparse.ArgumentParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Plugin.inject_parser_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Plugin.inject_parser_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inject argument parser options (flags).</p>
+<p>1. Be nice and prepend all options and destinations with
+<a class="reference internal" href="certbot.plugins.common.html#certbot.plugins.common.option_namespace" title="certbot.plugins.common.option_namespace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">option_namespace</span></code></a> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">dest_namespace</span></code>.</p>
+<p>2. Inject options (flags) only. Positional arguments are not
+allowed, as this would break the CLI.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parser</strong> (<em>ArgumentParser</em>) – (Almost) top-level CLI parser.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Unique plugin name.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py interface">
 <dt id="certbot.interfaces.IAuthenticator">
 <em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IAuthenticator</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IAuthenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IAuthenticator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extends: <a class="reference internal" href="#certbot.interfaces.IPlugin" title="certbot.interfaces.IPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.IPlugin</span></code></a></p>
+<p>Deprecated, use certbot.interfaces.Authenticator as ABC instead.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="certbot.interfaces.Authenticator">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">Authenticator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">certbot.configuration.NamespaceConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#Authenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Authenticator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#certbot.interfaces.Plugin" title="certbot.interfaces.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.Plugin</span></code></a></p>
 <p>Generic Certbot Authenticator.</p>
 <p>Class represents all possible tools processes that have the
 ability to perform challenges and attain a certificate.</p>
 <dl class="py method">
-<dt id="certbot.interfaces.IAuthenticator.get_chall_pref">
-<code class="sig-name descname"><span class="pre">get_chall_pref</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IAuthenticator.get_chall_pref" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Authenticator.get_chall_pref">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">get_chall_pref</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.Challenge" title="(in acme-python v0)"><span class="pre">acme.challenges.Challenge</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Authenticator.get_chall_pref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Authenticator.get_chall_pref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="xref py py-obj docutils literal notranslate"><span class="pre">collections.Iterable</span></code> of challenge preferences.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -374,15 +380,15 @@ Authenticator cannot perform the challenge.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.IAuthenticator.perform">
-<code class="sig-name descname"><span class="pre">perform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">achalls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IAuthenticator.perform" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Authenticator.perform">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">perform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">achalls</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="certbot.achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><span class="pre">certbot.achallenges.AnnotatedChallenge</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.ChallengeResponse" title="(in acme-python v0)"><span class="pre">acme.challenges.ChallengeResponse</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Authenticator.perform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Authenticator.perform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform the given challenge.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>achalls</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Non-empty (guaranteed) list of
 <a class="reference internal" href="certbot.achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatedChallenge</span></code></a>
 instances, such that it contains types found within
-<a class="reference internal" href="#certbot.interfaces.IAuthenticator.get_chall_pref" title="certbot.interfaces.IAuthenticator.get_chall_pref"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_chall_pref()</span></code></a> only.</p>
+<a class="reference internal" href="#certbot.interfaces.Authenticator.get_chall_pref" title="certbot.interfaces.Authenticator.get_chall_pref"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_chall_pref()</span></code></a> only.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">collections.Iterable</span></code> of ACME
@@ -402,8 +408,8 @@ the same order as corresponding input challenges</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.IAuthenticator.cleanup">
-<code class="sig-name descname"><span class="pre">cleanup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">achalls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IAuthenticator.cleanup" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Authenticator.cleanup">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">cleanup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">achalls</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="certbot.achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><span class="pre">certbot.achallenges.AnnotatedChallenge</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Authenticator.cleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Authenticator.cleanup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Revert changes and shutdown after challenges complete.</p>
 <p>This method should be able to revert all changes made by
 perform, even if perform exited abnormally.</p>
@@ -411,7 +417,7 @@ perform, even if perform exited abnormally.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>achalls</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – Non-empty (guaranteed) list of
 <a class="reference internal" href="certbot.achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatedChallenge</span></code></a>
-instances, a subset of those previously passed to <a class="reference internal" href="#certbot.interfaces.IAuthenticator.perform" title="certbot.interfaces.IAuthenticator.perform"><code class="xref py py-func docutils literal notranslate"><span class="pre">perform()</span></code></a>.</p>
+instances, a subset of those previously passed to <a class="reference internal" href="#certbot.interfaces.Authenticator.perform" title="certbot.interfaces.Authenticator.perform"><code class="xref py py-func docutils literal notranslate"><span class="pre">perform()</span></code></a>.</p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.PluginError" title="certbot.errors.PluginError"><strong>PluginError</strong></a> – if original configuration cannot be restored</p>
@@ -422,169 +428,27 @@ instances, a subset of those previously passed to <a class="reference internal" 
 </dd></dl>
 
 <dl class="py interface">
-<dt id="certbot.interfaces.IConfig">
-<em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IConfig</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IConfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>Certbot user-supplied configuration.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>The values stored in the configuration have not been
-filtered, stripped or sanitized.</p>
-</div>
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.server">
-<code class="sig-name descname"><span class="pre">server</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.server" title="Permalink to this definition">¶</a></dt>
-<dd><p>ACME Directory Resource URI.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.email">
-<code class="sig-name descname"><span class="pre">email</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.email" title="Permalink to this definition">¶</a></dt>
-<dd><p>Email used for registration and recovery contact. Use comma to register multiple emails, ex: <a class="reference external" href="mailto:u1&#37;&#52;&#48;example&#46;com">u1<span>&#64;</span>example<span>&#46;</span>com</a>,u2&#64;example.com. (default: Ask).</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.rsa_key_size">
-<code class="sig-name descname"><span class="pre">rsa_key_size</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.rsa_key_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>Size of the RSA key.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.elliptic_curve">
-<code class="sig-name descname"><span class="pre">elliptic_curve</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.elliptic_curve" title="Permalink to this definition">¶</a></dt>
-<dd><p>The SECG elliptic curve name to use. Please see RFC 8446 for supported values.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.key_type">
-<code class="sig-name descname"><span class="pre">key_type</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.key_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Type of generated private key(Only <em>ONE</em> per invocation can be provided at this time)</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.must_staple">
-<code class="sig-name descname"><span class="pre">must_staple</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.must_staple" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds the OCSP Must Staple extension to the certificate. Autoconfigures OCSP Stapling for supported setups (Apache version &gt;= 2.3.3 ).</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.config_dir">
-<code class="sig-name descname"><span class="pre">config_dir</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.config_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configuration directory.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.work_dir">
-<code class="sig-name descname"><span class="pre">work_dir</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.work_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Working directory.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.accounts_dir">
-<code class="sig-name descname"><span class="pre">accounts_dir</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.accounts_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Directory where all account information is stored.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.backup_dir">
-<code class="sig-name descname"><span class="pre">backup_dir</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.backup_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configuration backups directory.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.csr_dir">
-<code class="sig-name descname"><span class="pre">csr_dir</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.csr_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Directory where newly generated Certificate Signing Requests (CSRs) are saved.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.in_progress_dir">
-<code class="sig-name descname"><span class="pre">in_progress_dir</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.in_progress_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Directory used before a permanent checkpoint is finalized.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.key_dir">
-<code class="sig-name descname"><span class="pre">key_dir</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.key_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Keys storage.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.temp_checkpoint_dir">
-<code class="sig-name descname"><span class="pre">temp_checkpoint_dir</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.temp_checkpoint_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Temporary checkpoint directory.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.no_verify_ssl">
-<code class="sig-name descname"><span class="pre">no_verify_ssl</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.no_verify_ssl" title="Permalink to this definition">¶</a></dt>
-<dd><p>Disable verification of the ACME server’s certificate.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.http01_port">
-<code class="sig-name descname"><span class="pre">http01_port</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.http01_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Port used in the http-01 challenge. This only affects the port Certbot listens on. A conforming ACME server will still attempt to connect on port 80.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.http01_address">
-<code class="sig-name descname"><span class="pre">http01_address</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.http01_address" title="Permalink to this definition">¶</a></dt>
-<dd><p>The address the server listens to during http-01 challenge.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.https_port">
-<code class="sig-name descname"><span class="pre">https_port</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.https_port" title="Permalink to this definition">¶</a></dt>
-<dd><p>Port used to serve HTTPS. This affects which port Nginx will listen on after a LE certificate is installed.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.pref_challs">
-<code class="sig-name descname"><span class="pre">pref_challs</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.pref_challs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sorted user specified preferred challengestype strings with the most preferred challenge listed first</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.allow_subset_of_names">
-<code class="sig-name descname"><span class="pre">allow_subset_of_names</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.allow_subset_of_names" title="Permalink to this definition">¶</a></dt>
-<dd><p>When performing domain validation, do not consider it a failure if authorizations can not be obtained for a strict subset of the requested domains. This may be useful for allowing renewals for multiple domains to succeed even if some domains no longer point at this system. This is a boolean</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.strict_permissions">
-<code class="sig-name descname"><span class="pre">strict_permissions</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.strict_permissions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Require that all configuration files are owned by the current user; only needed if your config is somewhere unsafe like /tmp/.This is a boolean</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.disable_renew_updates">
-<code class="sig-name descname"><span class="pre">disable_renew_updates</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.disable_renew_updates" title="Permalink to this definition">¶</a></dt>
-<dd><p>If updates provided by installer enhancements when Certbot is being run with “renew” verb should be disabled.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IConfig.preferred_chain">
-<code class="sig-name descname"><span class="pre">preferred_chain</span></code><a class="headerlink" href="#certbot.interfaces.IConfig.preferred_chain" title="Permalink to this definition">¶</a></dt>
-<dd><p>If the CA offers multiple certificate chains, prefer the chain whose topmost certificate was issued from this Subject Common Name. If no match, the default offered chain will be used.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py interface">
 <dt id="certbot.interfaces.IInstaller">
 <em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IInstaller</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IInstaller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IInstaller" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extends: <a class="reference internal" href="#certbot.interfaces.IPlugin" title="certbot.interfaces.IPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.IPlugin</span></code></a></p>
+<p>Deprecated, use certbot.interfaces.Installer as ABC instead.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="certbot.interfaces.Installer">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">Installer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">certbot.configuration.NamespaceConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#certbot.interfaces.Plugin" title="certbot.interfaces.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.Plugin</span></code></a></p>
 <p>Generic Certbot Installer Interface.</p>
 <p>Represents any server that an X509 certificate can be placed.</p>
-<p>It is assumed that <a class="reference internal" href="#certbot.interfaces.IInstaller.save" title="certbot.interfaces.IInstaller.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">save()</span></code></a> is the only method that finalizes a
+<p>It is assumed that <a class="reference internal" href="#certbot.interfaces.Installer.save" title="certbot.interfaces.Installer.save"><code class="xref py py-func docutils literal notranslate"><span class="pre">save()</span></code></a> is the only method that finalizes a
 checkpoint. This is important to ensure that checkpoints are
 restored in a consistent manner if requested by the user or in case
 of an error.</p>
 <p>Using <a class="reference internal" href="certbot.reverter.html#certbot.reverter.Reverter" title="certbot.reverter.Reverter"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.reverter.Reverter</span></code></a> to implement checkpoints,
 rollback, and recovery can dramatically simplify plugin development.</p>
 <dl class="py method">
-<dt id="certbot.interfaces.IInstaller.get_all_names">
-<code class="sig-name descname"><span class="pre">get_all_names</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IInstaller.get_all_names" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Installer.get_all_names">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">get_all_names</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.get_all_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.get_all_names" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all names that may be authenticated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -594,8 +458,8 @@ rollback, and recovery can dramatically simplify plugin development.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.IInstaller.deploy_cert">
-<code class="sig-name descname"><span class="pre">deploy_cert</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fullchain_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IInstaller.deploy_cert" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Installer.deploy_cert">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">deploy_cert</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fullchain_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.deploy_cert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.deploy_cert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deploy certificate.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -615,8 +479,8 @@ file (cert plus chain)</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.IInstaller.enhance">
-<code class="sig-name descname"><span class="pre">enhance</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enhancement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IInstaller.enhance" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Installer.enhance">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">enhance</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">enhancement</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.enhance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.enhance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform a configuration enhancement.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -638,8 +502,8 @@ an error occurs during the enhancement.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.IInstaller.supported_enhancements">
-<code class="sig-name descname"><span class="pre">supported_enhancements</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IInstaller.supported_enhancements" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Installer.supported_enhancements">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">supported_enhancements</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.supported_enhancements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.supported_enhancements" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a <code class="xref py py-obj docutils literal notranslate"><span class="pre">collections.Iterable</span></code> of supported enhancements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -653,8 +517,8 @@ an error occurs during the enhancement.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.IInstaller.save">
-<code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temporary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IInstaller.save" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Installer.save">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temporary</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves all changes to the configuration files.</p>
 <p>Both title and temporary are needed because a save may be
 intended to be permanent, but the save is not ready to be a full
@@ -679,8 +543,8 @@ be quickly reversed in the future (challenges)</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.IInstaller.rollback_checkpoints">
-<code class="sig-name descname"><span class="pre">rollback_checkpoints</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rollback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IInstaller.rollback_checkpoints" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Installer.rollback_checkpoints">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">rollback_checkpoints</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rollback</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.rollback_checkpoints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.rollback_checkpoints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Revert <code class="xref py py-obj docutils literal notranslate"><span class="pre">rollback</span></code> number of configuration checkpoints.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -690,8 +554,8 @@ be quickly reversed in the future (challenges)</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.IInstaller.recovery_routine">
-<code class="sig-name descname"><span class="pre">recovery_routine</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IInstaller.recovery_routine" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Installer.recovery_routine">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">recovery_routine</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.recovery_routine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.recovery_routine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Revert configuration to most recent finalized checkpoint.</p>
 <p>Remove all changes (temporary and permanent) that have not been
 finalized. This is useful to protect against crashes and other
@@ -704,8 +568,8 @@ execution interruptions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.IInstaller.config_test">
-<code class="sig-name descname"><span class="pre">config_test</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IInstaller.config_test" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Installer.config_test">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">config_test</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.config_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.config_test" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make sure the configuration is valid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -715,8 +579,8 @@ execution interruptions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.IInstaller.restart">
-<code class="sig-name descname"><span class="pre">restart</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IInstaller.restart" title="Permalink to this definition">¶</a></dt>
+<dt id="certbot.interfaces.Installer.restart">
+<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">restart</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.restart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.restart" title="Permalink to this definition">¶</a></dt>
 <dd><p>Restart or refresh the server content.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -730,223 +594,13 @@ execution interruptions.</p>
 <dl class="py interface">
 <dt id="certbot.interfaces.IDisplay">
 <em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IDisplay</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IDisplay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IDisplay" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generic display.</p>
-<dl class="py method">
-<dt id="certbot.interfaces.IDisplay.notification">
-<code class="sig-name descname"><span class="pre">notification</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pause</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wrap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IDisplay.notification" title="Permalink to this definition">¶</a></dt>
-<dd><p>Displays a string message</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Message to display</p></li>
-<li><p><strong>pause</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether or not the application should pause for
-confirmation (if available)</p></li>
-<li><p><strong>wrap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether or not the application should wrap text</p></li>
-<li><p><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – True if it’s safe to prompt the user
-because it won’t cause any workflow regressions</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="certbot.interfaces.IDisplay.menu">
-<code class="sig-name descname"><span class="pre">menu</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ok_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancel_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cli_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IDisplay.menu" title="Permalink to this definition">¶</a></dt>
-<dd><p>Displays a generic menu.</p>
-<p>When not setting force_interactive=True, you must provide a
-default value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – message to display</p></li>
-<li><p><strong>choices</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of <code class="xref py py-func docutils literal notranslate"><span class="pre">tuple()</span></code> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – choices</p></li>
-<li><p><strong>ok_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – label for OK button (UNUSED)</p></li>
-<li><p><strong>cancel_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – label for Cancel button (UNUSED)</p></li>
-<li><p><strong>help_label</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – label for Help button (UNUSED)</p></li>
-<li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – default (non-interactive) choice from the menu</p></li>
-<li><p><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – to automate choice from the menu, eg “–keep”</p></li>
-<li><p><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – True if it’s safe to prompt the user
-because it won’t cause any workflow regressions</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>tuple of (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code>) where
-<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a> - str display exit code
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">index</span></code> - int index of the user’s selection</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.MissingCommandlineFlag" title="certbot.errors.MissingCommandlineFlag"><strong>errors.MissingCommandlineFlag</strong></a> – if called in non-interactive
-mode without a default set</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="certbot.interfaces.IDisplay.input">
-<code class="sig-name descname"><span class="pre">input</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cli_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IDisplay.input" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accept input from the user.</p>
-<p>When not setting force_interactive=True, you must provide a
-default value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – message to display to the user</p></li>
-<li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – default (non-interactive) response to prompt</p></li>
-<li><p><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – True if it’s safe to prompt the user
-because it won’t cause any workflow regressions</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>tuple of (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a>, <a class="reference internal" href="#certbot.interfaces.IDisplay.input" title="certbot.interfaces.IDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a>) where
-<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a> - str display exit code
-<a class="reference internal" href="#certbot.interfaces.IDisplay.input" title="certbot.interfaces.IDisplay.input"><code class="xref py py-obj docutils literal notranslate"><span class="pre">input</span></code></a> - str of the user’s input</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.MissingCommandlineFlag" title="certbot.errors.MissingCommandlineFlag"><strong>errors.MissingCommandlineFlag</strong></a> – if called in non-interactive
-mode without a default set</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="certbot.interfaces.IDisplay.yesno">
-<code class="sig-name descname"><span class="pre">yesno</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yes_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Yes'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">no_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'No'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cli_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IDisplay.yesno" title="Permalink to this definition">¶</a></dt>
-<dd><p>Query the user with a yes/no question.</p>
-<p>Yes and No label must begin with different letters.</p>
-<p>When not setting force_interactive=True, you must provide a
-default value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – question for the user</p></li>
-<li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – default (non-interactive) choice from the menu</p></li>
-<li><p><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – to automate choice from the menu, eg “–redirect / –no-redirect”</p></li>
-<li><p><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – True if it’s safe to prompt the user
-because it won’t cause any workflow regressions</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>True for “Yes”, False for “No”</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.MissingCommandlineFlag" title="certbot.errors.MissingCommandlineFlag"><strong>errors.MissingCommandlineFlag</strong></a> – if called in non-interactive
-mode without a default set</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="certbot.interfaces.IDisplay.checklist">
-<code class="sig-name descname"><span class="pre">checklist</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cli_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IDisplay.checklist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Allow for multiple selections from a menu.</p>
-<p>When not setting force_interactive=True, you must provide a
-default value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – message to display to the user</p></li>
-<li><p><strong>tags</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – where each is of type <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> len(tags) &gt; 0</p></li>
-<li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – default (non-interactive) state of the checklist</p></li>
-<li><p><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – to automate choice from the menu, eg “–domains”</p></li>
-<li><p><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – True if it’s safe to prompt the user
-because it won’t cause any workflow regressions</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>tuple of the form (code, list_tags) where
-<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a> - int display exit code
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">list_tags</span></code> - list of str tags selected by the user</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="certbot.errors.html#certbot.errors.MissingCommandlineFlag" title="certbot.errors.MissingCommandlineFlag"><strong>errors.MissingCommandlineFlag</strong></a> – if called in non-interactive
-mode without a default set</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="certbot.interfaces.IDisplay.directory_select">
-<code class="sig-name descname"><span class="pre">directory_select</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cli_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_interactive</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IDisplay.directory_select" title="Permalink to this definition">¶</a></dt>
-<dd><p>Display a directory selection screen.</p>
-<p>When not setting force_interactive=True, you must provide a
-default value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>message</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – prompt to give the user</p></li>
-<li><p><strong>default</strong> – the default value to return, if one exists, when
-using the NoninteractiveDisplay</p></li>
-<li><p><strong>cli_flag</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – option used to set this value with the CLI,
-if one exists, to be included in error messages given by
-NoninteractiveDisplay</p></li>
-<li><p><strong>force_interactive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – True if it’s safe to prompt the user
-because it won’t cause any workflow regressions</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>tuple of the form (<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a>) where
-<a class="reference external" href="https://docs.python.org/3/library/code.html#module-code" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">code</span></code></a> - int display exit code
-<a class="reference external" href="https://docs.python.org/3/library/string.html#module-string" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">string</span></code></a> - input entered by the user</p>
-</dd>
-</dl>
-</dd></dl>
-
+<dd><p>Deprecated, use your own Display implementation instead.</p>
 </dd></dl>
 
 <dl class="py interface">
 <dt id="certbot.interfaces.IReporter">
 <em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IReporter</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IReporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IReporter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Interface to collect and display information to the user.</p>
-<dl class="py attribute">
-<dt id="certbot.interfaces.IReporter.HIGH_PRIORITY">
-<code class="sig-name descname"><span class="pre">HIGH_PRIORITY</span></code><a class="headerlink" href="#certbot.interfaces.IReporter.HIGH_PRIORITY" title="Permalink to this definition">¶</a></dt>
-<dd><p>Used to denote high priority messages</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IReporter.MEDIUM_PRIORITY">
-<code class="sig-name descname"><span class="pre">MEDIUM_PRIORITY</span></code><a class="headerlink" href="#certbot.interfaces.IReporter.MEDIUM_PRIORITY" title="Permalink to this definition">¶</a></dt>
-<dd><p>Used to denote medium priority messages</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt id="certbot.interfaces.IReporter.LOW_PRIORITY">
-<code class="sig-name descname"><span class="pre">LOW_PRIORITY</span></code><a class="headerlink" href="#certbot.interfaces.IReporter.LOW_PRIORITY" title="Permalink to this definition">¶</a></dt>
-<dd><p>Used to denote low priority messages</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="certbot.interfaces.IReporter.add_message">
-<code class="sig-name descname"><span class="pre">add_message</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_crash</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IReporter.add_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds msg to the list of messages to be printed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Message to be displayed to the user.</p></li>
-<li><p><strong>priority</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – One of HIGH_PRIORITY, MEDIUM_PRIORITY, or
-LOW_PRIORITY.</p></li>
-<li><p><strong>on_crash</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – Whether or not the message should be printed if
-the program exits abnormally.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="certbot.interfaces.IReporter.print_messages">
-<code class="sig-name descname"><span class="pre">print_messages</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#certbot.interfaces.IReporter.print_messages" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prints messages to the user and clears the message queue.</p>
-</dd></dl>
-
+<dd><p>Deprecated, use your own Reporter implementation instead.</p>
 </dd></dl>
 
 <dl class="py class">

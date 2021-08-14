@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.util &mdash; Certbot 1.16.0.dev0 documentation</title>
+  <title>certbot.util &mdash; Certbot 1.19.0.dev0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.16
+                1.19
               </div>
             
           
@@ -556,13 +556,14 @@
     <span class="n">os_type</span><span class="p">,</span> <span class="n">os_ver</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">info</span>
     <span class="n">os_type</span> <span class="o">=</span> <span class="n">os_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">os_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;linux&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">_USE_DISTRO</span><span class="p">:</span>
-        <span class="n">info</span> <span class="o">=</span> <span class="n">distro</span><span class="o">.</span><span class="n">linux_distribution</span><span class="p">(</span><span class="n">pretty</span><span class="p">)</span>
-        <span class="c1"># On arch, distro.linux_distribution() is reportedly (&#39;&#39;,&#39;&#39;,&#39;&#39;),</span>
+        <span class="n">distro_name</span><span class="p">,</span> <span class="n">distro_version</span> <span class="o">=</span> <span class="n">distro</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="k">if</span> <span class="n">pretty</span> <span class="k">else</span> <span class="n">distro</span><span class="o">.</span><span class="n">id</span><span class="p">(),</span> <span class="n">distro</span><span class="o">.</span><span class="n">version</span><span class="p">()</span>
+        <span class="c1"># On arch, these values are reportedly empty strings so handle it</span>
+        <span class="c1"># defensively</span>
         <span class="c1"># so handle it defensively</span>
-        <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="n">os_type</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">os_ver</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">distro_name</span><span class="p">:</span>
+            <span class="n">os_type</span> <span class="o">=</span> <span class="n">distro_name</span>
+        <span class="k">if</span> <span class="n">distro_version</span><span class="p">:</span>
+            <span class="n">os_ver</span> <span class="o">=</span> <span class="n">distro_version</span>
     <span class="k">elif</span> <span class="n">os_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;darwin&#39;</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>

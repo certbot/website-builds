@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.tests.util &mdash; Certbot 1.16.0.dev0 documentation</title>
+  <title>certbot.tests.util &mdash; Certbot 1.19.0.dev0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.16
+                1.19
               </div>
             
           
@@ -173,6 +173,9 @@
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
@@ -182,15 +185,16 @@
 <span class="kn">import</span> <span class="nn">OpenSSL</span>
 <span class="kn">import</span> <span class="nn">pkg_resources</span>
 
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">interfaces</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">configuration</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">util</span>
-<span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="kn">import</span> <span class="n">configuration</span>
 <span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="kn">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="kn">import</span> <span class="n">lock</span>
 <span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="kn">import</span> <span class="n">storage</span>
+<span class="kn">from</span> <span class="nn">certbot._internal.display</span> <span class="kn">import</span> <span class="n">obj</span> <span class="k">as</span> <span class="n">display_obj</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="kn">import</span> <span class="n">filesystem</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="kn">import</span> <span class="n">os</span>
 <span class="kn">from</span> <span class="nn">certbot.display</span> <span class="kn">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">display_util</span>
+<span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="kn">import</span> <span class="n">common</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="c1"># When we remove this deprecated import, we should also remove the</span>
@@ -203,9 +207,43 @@
         <span class="s2">&quot;use unittest.mock. Be sure to update your code accordingly.&quot;</span><span class="p">,</span>
         <span class="ne">PendingDeprecationWarning</span>
     <span class="p">)</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span> <span class="c1"># pragma: no cover</span>
-    <span class="kn">from</span> <span class="nn">unittest</span> <span class="kn">import</span> <span class="n">mock</span> <span class="c1"># type: ignore</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="kn">from</span> <span class="nn">unittest</span> <span class="kn">import</span> <span class="n">mock</span>  <span class="c1"># type: ignore</span>
 
+
+<div class="viewcode-block" id="DummyInstaller"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.DummyInstaller">[docs]</a><span class="k">class</span> <span class="nc">DummyInstaller</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">Installer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Dummy installer plugin for test purpose.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DummyInstaller.get_all_names"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.DummyInstaller.get_all_names">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DummyInstaller.deploy_cert"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.DummyInstaller.deploy_cert">[docs]</a>    <span class="k">def</span> <span class="nf">deploy_cert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cert_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">key_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">chain_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                    <span class="n">fullchain_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DummyInstaller.enhance"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.DummyInstaller.enhance">[docs]</a>    <span class="k">def</span> <span class="nf">enhance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">domain</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">enhancement</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DummyInstaller.supported_enhancements"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.DummyInstaller.supported_enhancements">[docs]</a>    <span class="k">def</span> <span class="nf">supported_enhancements</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DummyInstaller.save"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.DummyInstaller.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">temporary</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DummyInstaller.config_test"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.DummyInstaller.config_test">[docs]</a>    <span class="k">def</span> <span class="nf">config_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DummyInstaller.restart"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.DummyInstaller.restart">[docs]</a>    <span class="k">def</span> <span class="nf">restart</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DummyInstaller.add_parser_arguments"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.DummyInstaller.add_parser_arguments">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">add_parser_arguments</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">add</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DummyInstaller.prepare"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.DummyInstaller.prepare">[docs]</a>    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DummyInstaller.more_info"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.DummyInstaller.more_info">[docs]</a>    <span class="k">def</span> <span class="nf">more_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">pass</span></div></div>
 
 
 <div class="viewcode-block" id="vector_path"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.vector_path">[docs]</a><span class="k">def</span> <span class="nf">vector_path</span><span class="p">(</span><span class="o">*</span><span class="n">names</span><span class="p">):</span>
@@ -316,10 +354,7 @@
 
 
 <div class="viewcode-block" id="patch_get_utility"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.patch_get_utility">[docs]</a><span class="k">def</span> <span class="nf">patch_get_utility</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s1">&#39;zope.component.getUtility&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Patch zope.component.getUtility to use a special mock IDisplay.</span>
-
-<span class="sd">    The mock IDisplay works like a regular mock object, except it also</span>
-<span class="sd">    also asserts that methods are called with valid arguments.</span>
+    <span class="sd">&quot;&quot;&quot;Deprecated, patch certbot.display.util directly or use patch_display_util instead.</span>
 
 <span class="sd">    :param str target: path to patch</span>
 
@@ -327,18 +362,16 @@
 <span class="sd">    :rtype: mock.MagicMock</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">new_callable</span><span class="o">=</span><span class="n">_create_get_utility_mock</span><span class="p">)</span></div>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Decorator certbot.tests.util.patch_get_utility is deprecated. You should now &#39;</span>
+                  <span class="s1">&#39;patch certbot.display.util yourself directly or use &#39;</span>
+                  <span class="s1">&#39;certbot.tests.util.patch_display_util as a temporary workaround.&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">new_callable</span><span class="o">=</span><span class="n">_create_display_util_mock</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="patch_get_utility_with_stdout"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.patch_get_utility_with_stdout">[docs]</a><span class="k">def</span> <span class="nf">patch_get_utility_with_stdout</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s1">&#39;zope.component.getUtility&#39;</span><span class="p">,</span>
                                   <span class="n">stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Patch zope.component.getUtility to use a special mock IDisplay.</span>
-
-<span class="sd">    The mock IDisplay works like a regular mock object, except it also</span>
-<span class="sd">    also asserts that methods are called with valid arguments.</span>
-
-<span class="sd">    The `message` argument passed to the IDisplay methods is passed to</span>
-<span class="sd">    stdout&#39;s write method.</span>
+    <span class="sd">&quot;&quot;&quot;Deprecated, patch certbot.display.util directly</span>
+<span class="sd">    or use patch_display_util_with_stdout instead.</span>
 
 <span class="sd">    :param str target: path to patch</span>
 <span class="sd">    :param object stdout: object to write standard output to; it is</span>
@@ -348,10 +381,70 @@
 <span class="sd">    :rtype: mock.MagicMock</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Decorator certbot.tests.util.patch_get_utility_with_stdout is deprecated. You &#39;</span>
+                  <span class="s1">&#39;should now patch certbot.display.util yourself directly or use &#39;</span>
+                  <span class="s1">&#39;use certbot.tests.util.patch_display_util_with_stdout as a temporary &#39;</span>
+                  <span class="s1">&#39;workaround.&#39;</span><span class="p">)</span>
+    <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span> <span class="k">if</span> <span class="n">stdout</span> <span class="k">else</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+    <span class="n">freezable_mock</span> <span class="o">=</span> <span class="n">_create_display_util_mock_with_stdout</span><span class="p">(</span><span class="n">stdout</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="n">freezable_mock</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="patch_display_util"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.patch_display_util">[docs]</a><span class="k">def</span> <span class="nf">patch_display_util</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Patch certbot.display.util to use a special mock IDisplay.</span>
+
+<span class="sd">    The mock IDisplay works like a regular mock object, except it also</span>
+<span class="sd">    also asserts that methods are called with valid arguments.</span>
+
+<span class="sd">    The mock created by this patch mocks out Certbot internals so this can be</span>
+<span class="sd">    used like the old patch_get_utility function. That is, the mock object will</span>
+<span class="sd">    be called by the certbot.display.util functions and the mock returned by</span>
+<span class="sd">    that call will be used as the IDisplay object. This was done to simplify</span>
+<span class="sd">    the transition from zope.component and mocking certbot.display.util</span>
+<span class="sd">    functions directly in test code should be preferred over using this</span>
+<span class="sd">    function in the future.</span>
+
+<span class="sd">    See https://github.com/certbot/certbot/issues/8948</span>
+
+<span class="sd">    :returns: patch on the function used internally by certbot.display.util to</span>
+<span class="sd">        get an IDisplay object</span>
+<span class="sd">    :rtype: unittest.mock._patch</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;certbot._internal.display.obj.get_display&#39;</span><span class="p">,</span>
+                      <span class="n">new_callable</span><span class="o">=</span><span class="n">_create_display_util_mock</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="patch_display_util_with_stdout"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.patch_display_util_with_stdout">[docs]</a><span class="k">def</span> <span class="nf">patch_display_util_with_stdout</span><span class="p">(</span><span class="n">stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Patch certbot.display.util to use a special mock IDisplay.</span>
+
+<span class="sd">    The mock IDisplay works like a regular mock object, except it also</span>
+<span class="sd">    asserts that methods are called with valid arguments.</span>
+
+<span class="sd">    The mock created by this patch mocks out Certbot internals so this can be</span>
+<span class="sd">    used like the old patch_get_utility function. That is, the mock object will</span>
+<span class="sd">    be called by the certbot.display.util functions and the mock returned by</span>
+<span class="sd">    that call will be used as the IDisplay object. This was done to simplify</span>
+<span class="sd">    the transition from zope.component and mocking certbot.display.util</span>
+<span class="sd">    functions directly in test code should be preferred over using this</span>
+<span class="sd">    function in the future.</span>
+
+<span class="sd">    See https://github.com/certbot/certbot/issues/8948</span>
+
+<span class="sd">    The `message` argument passed to the IDisplay methods is passed to</span>
+<span class="sd">    stdout&#39;s write method.</span>
+
+<span class="sd">    :param object stdout: object to write standard output to; it is</span>
+<span class="sd">        expected to have a `write` method</span>
+<span class="sd">    :returns: patch on the function used internally by certbot.display.util to</span>
+<span class="sd">        get an IDisplay object</span>
+<span class="sd">    :rtype: unittest.mock._patch</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span> <span class="k">if</span> <span class="n">stdout</span> <span class="k">else</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
 
-    <span class="n">freezable_mock</span> <span class="o">=</span> <span class="n">_create_get_utility_mock_with_stdout</span><span class="p">(</span><span class="n">stdout</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="n">freezable_mock</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">mock</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;certbot._internal.display.obj.get_display&#39;</span><span class="p">,</span>
+                      <span class="n">new</span><span class="o">=</span><span class="n">_create_display_util_mock_with_stdout</span><span class="p">(</span><span class="n">stdout</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="FreezableMock"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.FreezableMock">[docs]</a><span class="k">class</span> <span class="nc">FreezableMock</span><span class="p">:</span>
@@ -422,18 +515,21 @@
         <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_create_get_utility_mock</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">_create_display_util_mock</span><span class="p">():</span>
     <span class="n">display</span> <span class="o">=</span> <span class="n">FreezableMock</span><span class="p">()</span>
     <span class="c1"># Use pylint code for disable to keep on single line under line length limit</span>
-    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="o">.</span><span class="n">names</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;notification&#39;</span><span class="p">:</span>
+    <span class="n">method_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span> <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">display_obj</span><span class="o">.</span><span class="n">FileDisplay</span><span class="p">)</span>
+                   <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">display_obj</span><span class="o">.</span><span class="n">FileDisplay</span><span class="p">,</span> <span class="n">func</span><span class="p">))</span>
+                   <span class="ow">and</span> <span class="ow">not</span> <span class="n">func</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">method_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">!=</span> <span class="s1">&#39;notification&#39;</span><span class="p">:</span>
             <span class="n">frozen_mock</span> <span class="o">=</span> <span class="n">FreezableMock</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="n">_assert_valid_call</span><span class="p">)</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">display</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">frozen_mock</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">display</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">frozen_mock</span><span class="p">)</span>
     <span class="n">display</span><span class="o">.</span><span class="n">freeze</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">FreezableMock</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="n">display</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_create_get_utility_mock_with_stdout</span><span class="p">(</span><span class="n">stdout</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_create_display_util_mock_with_stdout</span><span class="p">(</span><span class="n">stdout</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">_write_msg</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">unused_args</span><span class="p">,</span> <span class="o">**</span><span class="n">unused_kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Write to message to stdout.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -447,20 +543,20 @@
         <span class="n">_assert_valid_call</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
         <span class="n">_write_msg</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-
     <span class="n">display</span> <span class="o">=</span> <span class="n">FreezableMock</span><span class="p">()</span>
     <span class="c1"># Use pylint code for disable to keep on single line under line length limit</span>
-    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">interfaces</span><span class="o">.</span><span class="n">IDisplay</span><span class="o">.</span><span class="n">names</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;notification&#39;</span><span class="p">:</span>
+    <span class="n">method_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">func</span> <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">display_obj</span><span class="o">.</span><span class="n">FileDisplay</span><span class="p">)</span>
+                   <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">display_obj</span><span class="o">.</span><span class="n">FileDisplay</span><span class="p">,</span> <span class="n">func</span><span class="p">))</span>
+                   <span class="ow">and</span> <span class="ow">not</span> <span class="n">func</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;__&quot;</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">method_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;notification&#39;</span><span class="p">:</span>
             <span class="n">frozen_mock</span> <span class="o">=</span> <span class="n">FreezableMock</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                         <span class="n">func</span><span class="o">=</span><span class="n">_write_msg</span><span class="p">)</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">display</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">frozen_mock</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">frozen_mock</span> <span class="o">=</span> <span class="n">FreezableMock</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                         <span class="n">func</span><span class="o">=</span><span class="n">mock_method</span><span class="p">)</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">display</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">frozen_mock</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">display</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">frozen_mock</span><span class="p">)</span>
     <span class="n">display</span><span class="o">.</span><span class="n">freeze</span><span class="p">()</span>
-
     <span class="k">return</span> <span class="n">FreezableMock</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_value</span><span class="o">=</span><span class="n">display</span><span class="p">)</span>
 
 
@@ -504,14 +600,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">configuration</span><span class="o">.</span><span class="n">NamespaceConfig</span><span class="p">(</span>
             <span class="n">mock</span><span class="o">.</span><span class="n">MagicMock</span><span class="p">(</span><span class="o">**</span><span class="n">constants</span><span class="o">.</span><span class="n">CLI_DEFAULTS</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">verb</span> <span class="o">=</span> <span class="s2">&quot;certonly&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">config_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempdir</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">work_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempdir</span><span class="p">,</span> <span class="s1">&#39;work&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">logs_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempdir</span><span class="p">,</span> <span class="s1">&#39;logs&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">cert_path</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">CLI_DEFAULTS</span><span class="p">[</span><span class="s1">&#39;auth_cert_path&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fullchain_path</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">CLI_DEFAULTS</span><span class="p">[</span><span class="s1">&#39;auth_chain_path&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">chain_path</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">CLI_DEFAULTS</span><span class="p">[</span><span class="s1">&#39;auth_chain_path&#39;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;https://example.com&quot;</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">namespace</span><span class="o">.</span><span class="n">verb</span> <span class="o">=</span> <span class="s2">&quot;certonly&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">namespace</span><span class="o">.</span><span class="n">config_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempdir</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">namespace</span><span class="o">.</span><span class="n">work_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempdir</span><span class="p">,</span> <span class="s1">&#39;work&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">namespace</span><span class="o">.</span><span class="n">logs_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tempdir</span><span class="p">,</span> <span class="s1">&#39;logs&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">namespace</span><span class="o">.</span><span class="n">cert_path</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">CLI_DEFAULTS</span><span class="p">[</span><span class="s1">&#39;auth_cert_path&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">namespace</span><span class="o">.</span><span class="n">fullchain_path</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">CLI_DEFAULTS</span><span class="p">[</span><span class="s1">&#39;auth_chain_path&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">namespace</span><span class="o">.</span><span class="n">chain_path</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">CLI_DEFAULTS</span><span class="p">[</span><span class="s1">&#39;auth_chain_path&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">namespace</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="s2">&quot;https://example.com&quot;</span></div></div>
 
 
 <span class="k">def</span> <span class="nf">_handle_lock</span><span class="p">(</span><span class="n">event_in</span><span class="p">,</span> <span class="n">event_out</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>

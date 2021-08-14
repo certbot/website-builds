@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.plugins.common module &mdash; Certbot 1.16.0.dev0 documentation</title>
+  <title>certbot.plugins.common module &mdash; Certbot 1.19.0.dev0 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                1.16
+                1.19
               </div>
             
           
@@ -204,7 +204,7 @@
 <dl class="py class">
 <dt id="certbot.plugins.common.Plugin">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.plugins.common.</span></code><code class="sig-name descname"><span class="pre">Plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/common.html#Plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.common.Plugin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.Plugin" title="certbot.interfaces.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.Plugin</span></code></a></p>
 <p>Generic plugin.</p>
 <dl class="py method">
 <dt id="certbot.plugins.common.Plugin.add_parser_arguments">
@@ -263,7 +263,7 @@ with unique plugin name prefix.</p>
 <p>Shown to the user if one or more of the attempted challenges were not a success.</p>
 <p>Should describe, in simple language, what the authenticator tried to do, what went
 wrong and what the user should try as their “next steps”.</p>
-<p>TODO: auth_hint belongs in IAuthenticator but can’t be added until the next major
+<p>TODO: auth_hint belongs in Authenticator but can’t be added until the next major
 version of Certbot. For now, it lives in .Plugin and auth_handler will only call it
 on authenticators that subclass .Plugin. For now, inherit from <a class="reference internal" href="#certbot.plugins.common.Plugin" title="certbot.plugins.common.Plugin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Plugin</span></code></a> to implement
 and/or override the method.</p>
@@ -282,7 +282,7 @@ and/or override the method.</p>
 <dl class="py class">
 <dt id="certbot.plugins.common.Installer">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.plugins.common.</span></code><code class="sig-name descname"><span class="pre">Installer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/common.html#Installer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.common.Installer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#certbot.plugins.common.Plugin" title="certbot.plugins.common.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.plugins.common.Plugin</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.Installer" title="certbot.interfaces.Installer"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.Installer</span></code></a>, <a class="reference internal" href="#certbot.plugins.common.Plugin" title="certbot.plugins.common.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.plugins.common.Plugin</span></code></a></p>
 <p>An installer base class with reverter and ssl_dhparam methods defined.</p>
 <p>Installer plugins do not have to inherit from this class.</p>
 <dl class="py method">

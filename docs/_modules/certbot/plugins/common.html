@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.plugins.common &mdash; Certbot 1.16.0.dev0 documentation</title>
+  <title>certbot.plugins.common &mdash; Certbot 1.19.0.dev0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.16
+                1.19
               </div>
             
           
@@ -165,6 +165,7 @@
             
   <h1>Source code for certbot.plugins.common</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Plugin common functions.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
@@ -173,16 +174,16 @@
 
 <span class="kn">from</span> <span class="nn">josepy</span> <span class="kn">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">jose_util</span>
 <span class="kn">import</span> <span class="nn">pkg_resources</span>
-<span class="kn">import</span> <span class="nn">zope.interface</span>
 
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">achallenges</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">crypto_util</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">errors</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">interfaces</span>
 <span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">reverter</span>
 <span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="kn">import</span> <span class="n">constants</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="kn">import</span> <span class="n">filesystem</span>
 <span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="kn">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="nn">certbot.interfaces</span> <span class="kn">import</span> <span class="n">Installer</span> <span class="k">as</span> <span class="n">AbstractInstaller</span>
+<span class="kn">from</span> <span class="nn">certbot.interfaces</span> <span class="kn">import</span> <span class="n">Plugin</span> <span class="k">as</span> <span class="n">AbstractPlugin</span>
 <span class="kn">from</span> <span class="nn">certbot.plugins.storage</span> <span class="kn">import</span> <span class="n">PluginStorage</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -205,13 +206,11 @@
     <span class="sa">r</span><span class="s2">&quot;^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*[a-z]+$&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Plugin"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Plugin">[docs]</a><span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IPlugin</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">Plugin</span><span class="p">:</span>
+<div class="viewcode-block" id="Plugin"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Plugin">[docs]</a><span class="k">class</span> <span class="nc">Plugin</span><span class="p">(</span><span class="n">AbstractPlugin</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Generic plugin.&quot;&quot;&quot;</span>
-    <span class="c1"># provider is not inherited, subclasses must define it on their own</span>
-    <span class="c1"># @zope.interface.provider(interfaces.IPluginFactory)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 
@@ -272,7 +271,7 @@
 <span class="sd">        Should describe, in simple language, what the authenticator tried to do, what went</span>
 <span class="sd">        wrong and what the user should try as their &quot;next steps&quot;.</span>
 
-<span class="sd">        TODO: auth_hint belongs in IAuthenticator but can&#39;t be added until the next major</span>
+<span class="sd">        TODO: auth_hint belongs in Authenticator but can&#39;t be added until the next major</span>
 <span class="sd">        version of Certbot. For now, it lives in .Plugin and auth_handler will only call it</span>
 <span class="sd">        on authenticators that subclass .Plugin. For now, inherit from `.Plugin` to implement</span>
 <span class="sd">        and/or override the method.</span>
@@ -285,13 +284,13 @@
         <span class="c1"># This is a fallback hint. Authenticators should implement their own auth_hint that</span>
         <span class="c1"># addresses the specific mechanics of that authenticator.</span>
         <span class="n">challs</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">({</span><span class="n">achall</span><span class="o">.</span><span class="n">typ</span> <span class="k">for</span> <span class="n">achall</span> <span class="ow">in</span> <span class="n">failed_achalls</span><span class="p">}))</span>
-        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;The Certificate Authority couldn&#39;t exterally verify that the </span><span class="si">{name}</span><span class="s2"> plugin &quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s2">&quot;The Certificate Authority couldn&#39;t externally verify that the </span><span class="si">{name}</span><span class="s2"> plugin &quot;</span>
                 <span class="s2">&quot;completed the required </span><span class="si">{challs}</span><span class="s2"> challenges. Ensure the plugin is configured &quot;</span>
                 <span class="s2">&quot;correctly and that the changes it makes are accessible from the internet.&quot;</span>
                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">challs</span><span class="o">=</span><span class="n">challs</span><span class="p">))</span></div></div>
 
 
-<div class="viewcode-block" id="Installer"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Installer">[docs]</a><span class="k">class</span> <span class="nc">Installer</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
+<div class="viewcode-block" id="Installer"><a class="viewcode-back" href="../../../api/certbot.plugins.common.html#certbot.plugins.common.Installer">[docs]</a><span class="k">class</span> <span class="nc">Installer</span><span class="p">(</span><span class="n">AbstractInstaller</span><span class="p">,</span> <span class="n">Plugin</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;An installer base class with reverter and ssl_dhparam methods defined.</span>
 
 <span class="sd">    Installer plugins do not have to inherit from this class.</span>

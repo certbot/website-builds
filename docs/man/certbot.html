@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>&lt;no title&gt; &mdash; Certbot 1.16.0.dev0 documentation</title>
+  <title>&lt;no title&gt; &mdash; Certbot 1.19.0.dev0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                1.16
+                1.19
               </div>
             
           
@@ -208,7 +208,7 @@ optional arguments:
                         and ~/.config/letsencrypt/cli.ini)
   -v, --verbose         This flag can be used multiple times to incrementally
                         increase the verbosity of output, e.g. -vvv. (default:
-                        -2)
+                        0)
   --max-log-backups MAX_LOG_BACKUPS
                         Specifies the maximum number of backup logs that
                         should be kept by Certbot&#39;s built in log rotation.
@@ -265,10 +265,11 @@ optional arguments:
   --debug-challenges    After setting up challenges, wait for user input
                         before submitting to CA (default: False)
   --preferred-chain PREFERRED_CHAIN
-                        If the CA offers multiple certificate chains, prefer
-                        the chain whose topmost certificate was issued from
-                        this Subject Common Name. If no match, the default
-                        offered chain will be used. (default: None)
+                        Set the preferred certificate chain. If the CA offers
+                        multiple certificate chains, prefer the chain whose
+                        topmost certificate was issued from this Subject
+                        Common Name. If no match, the default offered chain
+                        will be used. (default: None)
   --preferred-challenges PREF_CHALLS
                         A sorted, comma delimited list of the preferred
                         challenge to use during authorization with the most
@@ -285,7 +286,7 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/1.15.0 (certbot;
+                        &quot;&quot;. (default: CertbotACMEClient/1.18.0 (certbot;
                         OS_NAME OS_VERSION) Authenticator/XXX Installer/YYY
                         (SUBCOMMAND; flags: FLAGS) Py/major.minor.patchlevel).
                         The flags encoded in the user agent are: --duplicate,
@@ -343,8 +344,8 @@ security:
 
   --rsa-key-size N      Size of the RSA key. (default: 2048)
   --key-type {rsa,ecdsa}
-                        Type of generated private key(Only *ONE* per
-                        invocation can be provided at this time) (default:
+                        Type of generated private key. Only *ONE* per
+                        invocation can be provided at this time. (default:
                         rsa)
   --elliptic-curve N    The SECG elliptic curve name to use. Please see RFC
                         8446 for supported values. (default: secp256r1)
