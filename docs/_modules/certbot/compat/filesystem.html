@@ -1,93 +1,60 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.compat.filesystem &mdash; Certbot 1.7.0.dev0 documentation</title>
+  <title>certbot.compat.filesystem &mdash; Certbot 1.21.0.dev0 documentation</title>
   
-<!--
 
- ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
-██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
-██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
-██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
-╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
- ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
-
-Like looking at code? Help us! https://github.com/certbot/certbot
--->
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
 
-  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
-<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.compat.filesystem &mdash; Certbot 1.7.0.dev0 documentation">
-<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
-<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
-<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+  
+  
 
   
 
   
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../../genindex.html"/>
-        <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.7.0.dev0 documentation" href="../../../index.html"/>
-        <link rel="up" title="Module code" href="../../index.html"/> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
-
-  <nav class="main-nav fixed">
-  <ul>
-    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
-    <li><a href="/">Home</a></li>
-    <li><a href="/about/">About Certbot</a></li>
-    <li><a href="/faq/">FAQ</a></li>
-    <li><a href="/docs/">Documentation</a></li>
-    <li><a href="/support/">Support</a></li>
-    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
-    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
-    <li id="hamburger">&#x2261;</li>
-  </ul>
-</nav>
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
-            <a href="../../../../" class="icon icon-home"> Certbot
+            <a href="../../../index.html" class="icon icon-home"> Certbot
           
 
           
@@ -97,7 +64,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.7
+                1.21
               </div>
             
           
@@ -114,11 +81,15 @@ Like looking at code? Help us! https://github.com/certbot/certbot
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../what.html">What is a Certificate?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Get Certbot</a></li>
@@ -135,21 +106,25 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../../../">Certbot</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Certbot</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -162,21 +137,30 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../../index.html">Docs</a> &raquo;</li>
-      
-        <li><a href="../../index.html">Module code</a> &raquo;</li>
-      
-    <li>certbot.compat.filesystem</li>
-    <li class="wy-breadcrumbs-aside">
-      
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/_modules/certbot/compat/filesystem" class="fa fa-github"> Edit on GitHub</a>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      
-    </li>
+      <li>certbot.compat.filesystem</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -184,13 +168,13 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
   <h1>Source code for certbot.compat.filesystem</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;Compat module to handle files security on Windows and Linux&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 
 <span class="kn">import</span> <span class="nn">errno</span>
 <span class="kn">import</span> <span class="nn">os</span>  <span class="c1"># pylint: disable=os-module-forbidden</span>
 <span class="kn">import</span> <span class="nn">stat</span>
-
-<span class="kn">from</span> <span class="nn">acme.magic_typing</span> <span class="k">import</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">ntsecuritycon</span>
@@ -213,15 +197,14 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># that could happen with this kind of pattern.</span>
 <span class="k">class</span> <span class="nc">_WindowsUmask</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Store the current umask to apply on Windows&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="mo">0o022</span>
 
 
 <span class="n">_WINDOWS_UMASK</span> <span class="o">=</span> <span class="n">_WindowsUmask</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="chmod"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.chmod">[docs]</a><span class="k">def</span> <span class="nf">chmod</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
-    <span class="c1"># type: (str, int) -&gt; None</span>
+<div class="viewcode-block" id="chmod"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.chmod">[docs]</a><span class="k">def</span> <span class="nf">chmod</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Apply a POSIX mode on given file_path:</span>
 
@@ -242,8 +225,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">_apply_win_mode</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="umask"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.umask">[docs]</a><span class="k">def</span> <span class="nf">umask</span><span class="p">(</span><span class="n">mask</span><span class="p">):</span>
-    <span class="c1"># type: (int) -&gt; int</span>
+<div class="viewcode-block" id="umask"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.umask">[docs]</a><span class="k">def</span> <span class="nf">umask</span><span class="p">(</span><span class="n">mask</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set the current numeric umask and return the previous umask. On Linux, the built-in umask</span>
 <span class="sd">    method is used. On Windows, our Certbot-side implementation is used.</span>
@@ -269,8 +251,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># Since copying and editing arbitrary DACL is very difficult, and since we actually know</span>
 <span class="c1"># the mode to apply at the time the owner of a file should change, it is easier to just</span>
 <span class="c1"># change the owner, then reapply the known mode, as copy_ownership_and_apply_mode() does.</span>
-<div class="viewcode-block" id="copy_ownership_and_apply_mode"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.copy_ownership_and_apply_mode">[docs]</a><span class="k">def</span> <span class="nf">copy_ownership_and_apply_mode</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">copy_user</span><span class="p">,</span> <span class="n">copy_group</span><span class="p">):</span>
-    <span class="c1"># type: (str, str, int, bool, bool) -&gt; None</span>
+<div class="viewcode-block" id="copy_ownership_and_apply_mode"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.copy_ownership_and_apply_mode">[docs]</a><span class="k">def</span> <span class="nf">copy_ownership_and_apply_mode</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dst</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                                  <span class="n">copy_user</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">copy_group</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Copy ownership (user and optionally group on Linux) from the source to the</span>
 <span class="sd">    destination, then apply given mode in compatible way for Linux and Windows.</span>
@@ -302,8 +284,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="c1"># equivalent POSIX mode, because ownership and mode are copied altogether on the destination</span>
 <span class="c1"># file, so no recomputing of the DACL against the new owner is needed, as it would be</span>
 <span class="c1"># for a copy_ownership alone method.</span>
-<div class="viewcode-block" id="copy_ownership_and_mode"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.copy_ownership_and_mode">[docs]</a><span class="k">def</span> <span class="nf">copy_ownership_and_mode</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">copy_user</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">copy_group</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="c1"># type: (str, str, bool, bool) -&gt; None</span>
+<div class="viewcode-block" id="copy_ownership_and_mode"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.copy_ownership_and_mode">[docs]</a><span class="k">def</span> <span class="nf">copy_ownership_and_mode</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dst</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                            <span class="n">copy_user</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">copy_group</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Copy ownership (user and optionally group on Linux) and mode/DACL</span>
 <span class="sd">    from the source to the destination.</span>
@@ -327,8 +309,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">_copy_win_mode</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="check_mode"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.check_mode">[docs]</a><span class="k">def</span> <span class="nf">check_mode</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
-    <span class="c1"># type: (str, int) -&gt; bool</span>
+<div class="viewcode-block" id="check_mode"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.check_mode">[docs]</a><span class="k">def</span> <span class="nf">check_mode</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if the given mode matches the permissions of the given file.</span>
 <span class="sd">    On Linux, will make a direct comparison, on Windows, mode will be compared against</span>
@@ -345,8 +326,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">_check_win_mode</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="check_owner"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.check_owner">[docs]</a><span class="k">def</span> <span class="nf">check_owner</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; bool</span>
+<div class="viewcode-block" id="check_owner"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.check_owner">[docs]</a><span class="k">def</span> <span class="nf">check_owner</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if given file is owned by current user.</span>
 
@@ -355,10 +335,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :return: True if given file is owned by current user, False otherwise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">POSIX_MODE</span><span class="p">:</span>
-        <span class="c1"># On Windows, os.getuid does not exist. This is checked through POSIX_MODE value,</span>
-        <span class="c1"># but MyPy/PyLint does not know it and raises an error here on Windows.</span>
-        <span class="c1"># We disable specifically the check to fix the issue.</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">st_uid</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">getuid</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">st_uid</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">getuid</span><span class="p">()</span>
 
     <span class="c1"># Get owner sid of the file</span>
     <span class="n">security</span> <span class="o">=</span> <span class="n">win32security</span><span class="o">.</span><span class="n">GetFileSecurity</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">win32security</span><span class="o">.</span><span class="n">OWNER_SECURITY_INFORMATION</span><span class="p">)</span>
@@ -368,8 +345,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">_get_current_user</span><span class="p">()</span> <span class="o">==</span> <span class="n">user</span></div>
 
 
-<div class="viewcode-block" id="check_permissions"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.check_permissions">[docs]</a><span class="k">def</span> <span class="nf">check_permissions</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
-    <span class="c1"># type: (str, int) -&gt; bool</span>
+<div class="viewcode-block" id="check_permissions"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.check_permissions">[docs]</a><span class="k">def</span> <span class="nf">check_permissions</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if given file has the given mode and is owned by current user.</span>
 
@@ -381,8 +357,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">check_owner</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">check_mode</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="open"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.open">[docs]</a><span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o777</span><span class="p">):</span>  <span class="c1"># pylint: disable=redefined-builtin</span>
-    <span class="c1"># type: (str, int, int) -&gt; int</span>
+<div class="viewcode-block" id="open"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.open">[docs]</a><span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">flags</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mo">0o777</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>  <span class="c1"># pylint: disable=redefined-builtin</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wrapper of original os.open function, that will ensure on Windows that given mode</span>
 <span class="sd">    is correctly applied.</span>
@@ -451,8 +426,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">handle</span></div>
 
 
-<div class="viewcode-block" id="makedirs"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.makedirs">[docs]</a><span class="k">def</span> <span class="nf">makedirs</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o777</span><span class="p">):</span>
-    <span class="c1"># type: (str, int) -&gt; None</span>
+<div class="viewcode-block" id="makedirs"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.makedirs">[docs]</a><span class="k">def</span> <span class="nf">makedirs</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mo">0o777</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Rewrite of original os.makedirs function, that will ensure on Windows that given mode</span>
 <span class="sd">    is correctly applied.</span>
@@ -484,8 +458,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="n">umask</span><span class="p">(</span><span class="n">current_umask</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="mkdir"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.mkdir">[docs]</a><span class="k">def</span> <span class="nf">mkdir</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o777</span><span class="p">):</span>
-    <span class="c1"># type: (str, int) -&gt; None</span>
+<div class="viewcode-block" id="mkdir"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.mkdir">[docs]</a><span class="k">def</span> <span class="nf">mkdir</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mo">0o777</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Rewrite of original os.mkdir function, that will ensure on Windows that given mode</span>
 <span class="sd">    is correctly applied.</span>
@@ -516,8 +489,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="replace"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.replace">[docs]</a><span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">):</span>
-    <span class="c1"># type: (str, str) -&gt; None</span>
+<div class="viewcode-block" id="replace"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.replace">[docs]</a><span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dst</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Rename a file to a destination path and handles situations where the destination exists.</span>
 
@@ -525,16 +497,16 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    :param str dst: The new file path.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s1">&#39;replace&#39;</span><span class="p">):</span>
-        <span class="c1"># Use replace if possible. On Windows, only Python &gt;= 3.5 is supported</span>
-        <span class="c1"># so we can assume that os.replace() is always available for this platform.</span>
+        <span class="c1"># Use replace if possible. Since we don&#39;t support Python 2 on Windows</span>
+        <span class="c1"># and os.replace() was added in Python 3.3, we can assume that</span>
+        <span class="c1"># os.replace() is always available on Windows.</span>
         <span class="nb">getattr</span><span class="p">(</span><span class="n">os</span><span class="p">,</span> <span class="s1">&#39;replace&#39;</span><span class="p">)(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Otherwise, use os.rename() that behaves like os.replace() on Linux.</span>
         <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="realpath"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.realpath">[docs]</a><span class="k">def</span> <span class="nf">realpath</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; str</span>
+<div class="viewcode-block" id="realpath"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.realpath">[docs]</a><span class="k">def</span> <span class="nf">realpath</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find the real path for the given path. This method resolves symlinks, including</span>
 <span class="sd">    recursive symlinks, and is protected against symlinks that creates an infinite loop.</span>
@@ -545,7 +517,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">original_path</span> <span class="o">=</span> <span class="n">file_path</span>
 
-    <span class="k">if</span> <span class="n">POSIX_MODE</span><span class="p">:</span>
+    <span class="c1"># Since Python 3.8, os.path.realpath also resolves symlinks on Windows.</span>
+    <span class="k">if</span> <span class="n">POSIX_MODE</span> <span class="ow">or</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">islink</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
             <span class="c1"># If path returned by realpath is still a link, it means that it failed to</span>
@@ -554,7 +527,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Error, link </span><span class="si">{0}</span><span class="s1"> is a loop!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">original_path</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">path</span>
 
-    <span class="n">inspected_paths</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># type: List[str]</span>
+    <span class="n">inspected_paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">while</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">islink</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
         <span class="n">link_path</span> <span class="o">=</span> <span class="n">file_path</span>
         <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">readlink</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
@@ -567,15 +540,41 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="readlink"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.readlink">[docs]</a><span class="k">def</span> <span class="nf">readlink</span><span class="p">(</span><span class="n">link_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return a string representing the path to which the symbolic link points.</span>
+
+<span class="sd">    :param str link_path: The symlink path to resolve</span>
+<span class="sd">    :return: The path the symlink points to</span>
+<span class="sd">    :returns: str</span>
+<span class="sd">    :raise: ValueError if a long path (260&gt; characters) is encountered on Windows</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">readlink</span><span class="p">(</span><span class="n">link_path</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">POSIX_MODE</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\\\</span><span class="s1">?</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">path</span>
+
+    <span class="c1"># At this point, we know we are on Windows and that the path returned uses</span>
+    <span class="c1"># the extended form which is done for all paths in Python 3.8+</span>
+
+    <span class="c1"># Max length of a normal path is 260 characters on Windows, including the non printable</span>
+    <span class="c1"># termination character &quot;&lt;NUL&gt;&quot;. The termination character is not included in Python</span>
+    <span class="c1"># strings, giving a max length of 259 characters, + 4 characters for the extended form</span>
+    <span class="c1"># prefix, to an effective max length 263 characters on a string representing a normal path.</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">264</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">path</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Long paths are not supported by Certbot on Windows.&quot;</span><span class="p">)</span></div>
+
+
 <span class="c1"># On Windows is_executable run from an unprivileged shell may claim that a path is</span>
-<span class="c1"># executable when it is excutable only if run from a privileged shell. This result</span>
+<span class="c1"># executable when it is executable only if run from a privileged shell. This result</span>
 <span class="c1"># is due to the fact that GetEffectiveRightsFromAcl calculate effective rights</span>
 <span class="c1"># without taking into consideration if the target user has currently required the</span>
 <span class="c1"># elevated privileges or not. However this is not a problem since certbot always</span>
 <span class="c1"># requires to be run under a privileged shell, so the user will always benefit</span>
 <span class="c1"># from the highest (privileged one) set of permissions on a given file.</span>
-<div class="viewcode-block" id="is_executable"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.is_executable">[docs]</a><span class="k">def</span> <span class="nf">is_executable</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; bool</span>
+<div class="viewcode-block" id="is_executable"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.is_executable">[docs]</a><span class="k">def</span> <span class="nf">is_executable</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Is path an executable file?</span>
 
@@ -589,8 +588,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">_win_is_executable</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="has_world_permissions"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.has_world_permissions">[docs]</a><span class="k">def</span> <span class="nf">has_world_permissions</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; bool</span>
+<div class="viewcode-block" id="has_world_permissions"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.has_world_permissions">[docs]</a><span class="k">def</span> <span class="nf">has_world_permissions</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if everybody/world has any right (read/write/execute) on a file given its path.</span>
 
@@ -611,8 +609,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="p">}))</span></div>
 
 
-<div class="viewcode-block" id="compute_private_key_mode"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.compute_private_key_mode">[docs]</a><span class="k">def</span> <span class="nf">compute_private_key_mode</span><span class="p">(</span><span class="n">old_key</span><span class="p">,</span> <span class="n">base_mode</span><span class="p">):</span>
-    <span class="c1"># type: (str, int) -&gt; int</span>
+<div class="viewcode-block" id="compute_private_key_mode"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.compute_private_key_mode">[docs]</a><span class="k">def</span> <span class="nf">compute_private_key_mode</span><span class="p">(</span><span class="n">old_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">base_mode</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the POSIX mode to apply to a private key given the previous private key.</span>
 
@@ -633,8 +630,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">base_mode</span></div>
 
 
-<div class="viewcode-block" id="has_same_ownership"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.has_same_ownership">[docs]</a><span class="k">def</span> <span class="nf">has_same_ownership</span><span class="p">(</span><span class="n">path1</span><span class="p">,</span> <span class="n">path2</span><span class="p">):</span>
-    <span class="c1"># type: (str, str) -&gt; bool</span>
+<div class="viewcode-block" id="has_same_ownership"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.has_same_ownership">[docs]</a><span class="k">def</span> <span class="nf">has_same_ownership</span><span class="p">(</span><span class="n">path1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">path2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return True if the ownership of two files given their respective path is the same.</span>
 <span class="sd">    On Windows, ownership is checked against owner only, since files do not have a group owner.</span>
@@ -659,8 +655,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
     <span class="k">return</span> <span class="n">user1</span> <span class="o">==</span> <span class="n">user2</span></div>
 
 
-<div class="viewcode-block" id="has_min_permissions"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.has_min_permissions">[docs]</a><span class="k">def</span> <span class="nf">has_min_permissions</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">min_mode</span><span class="p">):</span>
-    <span class="c1"># type: (str, int) -&gt; bool</span>
+<div class="viewcode-block" id="has_min_permissions"><a class="viewcode-back" href="../../../api/certbot.compat.filesystem.html#certbot.compat.filesystem.has_min_permissions">[docs]</a><span class="k">def</span> <span class="nf">has_min_permissions</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">min_mode</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if a file given its path has at least the permissions defined by the given minimal mode.</span>
 <span class="sd">    On Windows, group permissions are ignored since files do not have a group owner.</span>
@@ -900,6 +895,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </pre></div>
 
            </div>
+           
           </div>
           <footer>
   
@@ -919,7 +915,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
         </div>
@@ -929,61 +925,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
   </div>
   
-  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      <span class="fa fa-book"> Other Versions</span>
-      v: 
-      <span class="fa fa-caret-down"></span>
-    </span>
-    <div class="rst-other-versions">
-      <dl>
-        <dt>Downloads</dt>
-        <dd><a href="../../../certbot.pdf">PDF</a></dd>
-        <dd><a href="../../../certbot.zip">HTML</a></dd>
-        <dd><a href="../../../certbot.epub">Epub</a></dd>
-      </dl>
-      <hr/>
 
-    </div>
-  </div>
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../../',
-            VERSION:'1.7.0.dev0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.compat.filesystem%E2%80%94%20Certbot%201.7.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
-<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
-<script type="text/javascript">
-document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
-</script>
 </body>
 </html>

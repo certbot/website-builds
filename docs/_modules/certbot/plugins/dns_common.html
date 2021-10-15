@@ -1,93 +1,60 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.plugins.dns_common &mdash; Certbot 1.7.0.dev0 documentation</title>
+  <title>certbot.plugins.dns_common &mdash; Certbot 1.21.0.dev0 documentation</title>
   
-<!--
 
- ██████╗███████╗██████╗ ████████╗██████╗  ██████╗ ████████╗
-██╔════╝██╔════╝██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
-██║     █████╗  ██████╔╝   ██║   ██████╔╝██║   ██║   ██║
-██║     ██╔══╝  ██╔══██╗   ██║   ██╔══██╗██║   ██║   ██║
-╚██████╗███████╗██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║
- ╚═════╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝
-
-Like looking at code? Help us! https://github.com/certbot/certbot
--->
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
 
-  <meta name="description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
-<meta property="og:image" content="https://certbot.eff.org/images/certbot-OG.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@EFF">
-<meta name="twitter:title" content="certbot.plugins.dns_common &mdash; Certbot 1.7.0.dev0 documentation">
-<meta name="twitter:description" content="Automatically enable HTTPS on your website with EFF's Certbot, deploying Let's Encrypt certificates.">
-<meta name="twitter:image" content="https://certbot.eff.org/images/certbot-OG.png">
-<meta name="twitter:image:alt" content="Certbot: An automatic client for enabling HTTPS on your website.">
+  
+  
 
   
 
   
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-
-  
-  
-    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../../genindex.html"/>
-        <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="Certbot 1.7.0.dev0 documentation" href="../../../index.html"/>
-        <link rel="up" title="Module code" href="../../index.html"/> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
-
-  <nav class="main-nav fixed">
-  <ul>
-    <li><a href="/"><img src="/images/EFF-logo-plain.svg" alt="Electronic Frontier Foundation"></a></li>
-    <li><a href="/">Home</a></li>
-    <li><a href="/about/">About Certbot</a></li>
-    <li><a href="/faq/">FAQ</a></li>
-    <li><a href="/docs/">Documentation</a></li>
-    <li><a href="/support/">Support</a></li>
-    <li><a target="_blank" rel="noreferrer" href="https://github.com/certbot/certbot">Source Code</a></li>
-    <li class="donate"><a target="_blank" href="https://supporters.eff.org/donate/support-work-on-certbot">donate to EFF</a></li>
-    <li id="hamburger">&#x2261;</li>
-  </ul>
-</nav>
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
-            <a href="../../../../" class="icon icon-home"> Certbot
+            <a href="../../../index.html" class="icon icon-home"> Certbot
           
 
           
@@ -97,7 +64,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
             
               <div class="version">
-                1.7
+                1.21
               </div>
             
           
@@ -114,11 +81,15 @@ Like looking at code? Help us! https://github.com/certbot/certbot
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../what.html">What is a Certificate?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Get Certbot</a></li>
@@ -135,21 +106,25 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             
           
         </div>
+        
       </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../../../">Certbot</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Certbot</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -162,21 +137,30 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 
 
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../../index.html">Docs</a> &raquo;</li>
-      
-        <li><a href="../../index.html">Module code</a> &raquo;</li>
-      
-    <li>certbot.plugins.dns_common</li>
-    <li class="wy-breadcrumbs-aside">
-      
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <a href="https://github.com/certbot/certbot/blob/master/certbot/docs/_modules/certbot/plugins/dns_common" class="fa fa-github"> Edit on GitHub</a>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      
-    </li>
+      <li>certbot.plugins.dns_common</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -187,30 +171,27 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
 <span class="kn">import</span> <span class="nn">abc</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">sleep</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
 
 <span class="kn">import</span> <span class="nn">configobj</span>
-<span class="kn">import</span> <span class="nn">zope.interface</span>
 
-<span class="kn">from</span> <span class="nn">acme</span> <span class="k">import</span> <span class="n">challenges</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">errors</span>
-<span class="kn">from</span> <span class="nn">certbot</span> <span class="k">import</span> <span class="n">interfaces</span>
-<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">filesystem</span>
-<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="k">import</span> <span class="n">os</span>
-<span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">ops</span>
-<span class="kn">from</span> <span class="nn">certbot.display</span> <span class="k">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">display_util</span>
-<span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="k">import</span> <span class="n">common</span>
+<span class="kn">from</span> <span class="nn">acme</span> <span class="kn">import</span> <span class="n">challenges</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">errors</span>
+<span class="kn">from</span> <span class="nn">certbot</span> <span class="kn">import</span> <span class="n">interfaces</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="kn">import</span> <span class="n">filesystem</span>
+<span class="kn">from</span> <span class="nn">certbot.compat</span> <span class="kn">import</span> <span class="n">os</span>
+<span class="kn">from</span> <span class="nn">certbot.display</span> <span class="kn">import</span> <span class="n">ops</span>
+<span class="kn">from</span> <span class="nn">certbot.display</span> <span class="kn">import</span> <span class="n">util</span> <span class="k">as</span> <span class="n">display_util</span>
+<span class="kn">from</span> <span class="nn">certbot.plugins</span> <span class="kn">import</span> <span class="n">common</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="DNSAuthenticator"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator">[docs]</a><span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">implementer</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IAuthenticator</span><span class="p">)</span>
-<span class="nd">@zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">provider</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">IPluginFactory</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">DNSAuthenticator</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">Plugin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base class for DNS  Authenticators&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="DNSAuthenticator"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator">[docs]</a><span class="k">class</span> <span class="nc">DNSAuthenticator</span><span class="p">(</span><span class="n">common</span><span class="o">.</span><span class="n">Plugin</span><span class="p">,</span> <span class="n">interfaces</span><span class="o">.</span><span class="n">Authenticator</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for DNS Authenticators&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">DNSAuthenticator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_attempt_cleanup</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -222,11 +203,24 @@ Like looking at code? Help us! https://github.com/certbot/certbot
             <span class="n">help</span><span class="o">=</span><span class="s1">&#39;The number of seconds to wait for DNS to propagate before asking the ACME server &#39;</span>
                  <span class="s1">&#39;to verify the DNS record.&#39;</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="DNSAuthenticator.auth_hint"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator.auth_hint">[docs]</a>    <span class="k">def</span> <span class="nf">auth_hint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failed_achalls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;See certbot.plugins.common.Plugin.auth_hint.&quot;&quot;&quot;</span>
+        <span class="n">delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s1">&#39;propagation-seconds&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="s1">&#39;The Certificate Authority failed to verify the DNS TXT records created by --</span><span class="si">{name}</span><span class="s1">. &#39;</span>
+            <span class="s1">&#39;Ensure the above domains are hosted by this DNS provider, or try increasing &#39;</span>
+            <span class="s1">&#39;--</span><span class="si">{name}</span><span class="s1">-propagation-seconds (currently </span><span class="si">{secs}</span><span class="s1"> second</span><span class="si">{suffix}</span><span class="s1">).&#39;</span>
+            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">secs</span><span class="o">=</span><span class="n">delay</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;s&#39;</span> <span class="k">if</span> <span class="n">delay</span> <span class="o">!=</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
 <div class="viewcode-block" id="DNSAuthenticator.get_chall_pref"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator.get_chall_pref">[docs]</a>    <span class="k">def</span> <span class="nf">get_chall_pref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unused_domain</span><span class="p">):</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">challenges</span><span class="o">.</span><span class="n">DNS01</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="DNSAuthenticator.prepare"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator.prepare">[docs]</a>    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># pylint: disable=missing-function-docstring</span>
         <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="DNSAuthenticator.more_info"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator.more_info">[docs]</a>    <span class="k">def</span> <span class="nf">more_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># pylint: disable=missing-function-docstring</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="DNSAuthenticator.perform"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.DNSAuthenticator.perform">[docs]</a>    <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">achalls</span><span class="p">):</span> <span class="c1"># pylint: disable=missing-function-docstring</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setup_credentials</span><span class="p">()</span>
@@ -245,7 +239,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="c1"># DNS updates take time to propagate and checking to see if the update has occurred is not</span>
         <span class="c1"># reliable (the machine this code is running on might be able to see an update before</span>
         <span class="c1"># the ACME server). So: we sleep for a short amount of time we believe to be long enough.</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Waiting </span><span class="si">%d</span><span class="s2"> seconds for DNS changes to propagate&quot;</span><span class="p">,</span>
+        <span class="n">display_util</span><span class="o">.</span><span class="n">notify</span><span class="p">(</span><span class="s2">&quot;Waiting </span><span class="si">%d</span><span class="s2"> seconds for DNS changes to propagate&quot;</span> <span class="o">%</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s1">&#39;propagation-seconds&#39;</span><span class="p">))</span>
         <span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conf</span><span class="p">(</span><span class="s1">&#39;propagation-seconds&#39;</span><span class="p">))</span>
 
@@ -324,7 +318,8 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">new_value</span><span class="p">)))</span>
 
-    <span class="k">def</span> <span class="nf">_configure_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">required_variables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_configure_credentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">required_variables</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">validator</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;CredentialsConfiguration&#39;</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        As `_configure_file`, but for a credential configuration file.</span>
 
@@ -341,7 +336,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">            indicate any issue.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">__validator</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__validator</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span> <span class="c1"># pylint: disable=unused-private-member</span>
             <span class="n">configuration</span> <span class="o">=</span> <span class="n">CredentialsConfiguration</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dest</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">required_variables</span><span class="p">:</span>
@@ -371,7 +366,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">__validator</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__validator</span><span class="p">(</span><span class="n">i</span><span class="p">):</span> <span class="c1"># pylint: disable=unused-private-member</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;Please enter your </span><span class="si">{0}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
 
@@ -397,7 +392,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 <span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span> <span class="nf">__validator</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__validator</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span> <span class="c1"># pylint: disable=unused-private-member</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;Please enter a valid path to your </span><span class="si">{0}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
 
@@ -418,10 +413,10 @@ Like looking at code? Help us! https://github.com/certbot/certbot
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">PluginError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> required to proceed.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">label</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="CredentialsConfiguration"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.CredentialsConfiguration">[docs]</a><span class="k">class</span> <span class="nc">CredentialsConfiguration</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="CredentialsConfiguration"><a class="viewcode-back" href="../../../api/certbot.plugins.dns_common.html#certbot.plugins.dns_common.CredentialsConfiguration">[docs]</a><span class="k">class</span> <span class="nc">CredentialsConfiguration</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Represents a user-supplied filed which stores API credentials.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">mapper</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">mapper</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param str filename: A path to the configuration file.</span>
 <span class="sd">        :param callable mapper: A transformation to apply to configuration key names</span>
@@ -518,6 +513,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 </pre></div>
 
            </div>
+           
           </div>
           <footer>
   
@@ -537,7 +533,7 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
         </div>
@@ -547,61 +543,17 @@ Like looking at code? Help us! https://github.com/certbot/certbot
 
   </div>
   
-  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      <span class="fa fa-book"> Other Versions</span>
-      v: 
-      <span class="fa fa-caret-down"></span>
-    </span>
-    <div class="rst-other-versions">
-      <dl>
-        <dt>Downloads</dt>
-        <dd><a href="../../../certbot.pdf">PDF</a></dd>
-        <dd><a href="../../../certbot.zip">HTML</a></dd>
-        <dd><a href="../../../certbot.epub">Epub</a></dd>
-      </dl>
-      <hr/>
 
-    </div>
-  </div>
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../../',
-            VERSION:'1.7.0.dev0',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
-<noscript><img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;action_name=certbot.plugins.dns_common%E2%80%94%20Certbot%201.7.0.dev0%20documentation" style="border:0" height="0" width="0" alt="" /></noscript>
-<div style="height: 0; width: 0; position: absolute" id="anon-stats"></div>
-<script type="text/javascript">
-document.getElementById('anon-stats').innerHTML = '<img src="https://anon-stats.eff.org/piwik.php?idsite=24&amp;rec=1&amp;urlref=' + encodeURIComponent(document.referrer) + '&amp;action_name=' + encodeURIComponent(document.title) + '" style="border:0" height="0" width="0" alt="" />';
-</script>
 </body>
 </html>

@@ -104,7 +104,11 @@
       
         <option value="sharedhost" data-distro="sharedhost" data-version="0">Web Hosting Service</option>
       
+        <option value="bitnami" data-distro="bitnami" data-version="0">Bitnami</option>
+      
         <option value="snap" data-distro="snap" data-version="0">snapd</option>
+      
+        <option value="pip" data-distro="pip" data-version="0">pip</option>
       
         <option value="debianstretch" data-distro="debian" data-version="9">Debian 9 (stretch)</option>
       
@@ -126,10 +130,6 @@
       
         <option value="fedora" data-distro="fedora" data-version="0">Fedora</option>
       
-        <option value="centos6" data-distro="centos" data-version="6">CentOS 6</option>
-      
-        <option value="centosrhel6" data-distro="rhel" data-version="6">RHEL 6</option>
-      
         <option value="centosrhel7" data-distro="centos" data-version="7">CentOS/RHEL 7</option>
       
         <option value="centosrhel8" data-distro="centos" data-version="8">CentOS/RHEL 8</option>
@@ -142,13 +142,17 @@
       
         <option value="devuanascii" data-distro="devuan" data-version="2">Devuan ASCII 2.0</option>
       
-        <option value="devuanother" data-distro="devuan" data-version="3">Devuan testing/unstable</option>
+        <option value="devuanbeowulf" data-distro="devuan" data-version="3">Devuan Beowulf 3.0</option>
+      
+        <option value="devuanother" data-distro="devuan" data-version="4">Devuan testing/unstable</option>
       
         <option value="tumbleweed" data-distro="opensuse" data-version="0">openSUSE Tumbleweed</option>
       
-        <option value="leap" data-distro="opensuse" data-version="15.0">openSUSE Leap 15.0</option>
+        <option value="leap" data-distro="opensuse" data-version="15">openSUSE Leap 15.x</option>
       
-        <option value="pip" data-distro="python" data-version="0">Other UNIX</option>
+        <option value="othersnap" data-distro="snap" data-version="0">Other Linux (snapd)</option>
+      
+        <option value="otherpip" data-distro="pip" data-version="0">Other Linux (pip)</option>
       
         <option value="windows" data-distro="windows" data-version="0">Windows</option>
       
@@ -469,13 +473,16 @@ If you’re logged in to your server as a user other than root, you’ll likely 
       <a href="/glossary#wildcard-certificate">Wildcard Certificate</a>
     </div>
     <div class="mobile-hidden">
-    <p>A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.</p>
+    <p>A wildcard certificate is a certificate that includes one or more names starting with <code class="language-plaintext highlighter-rouge">*.</code>. Browsers will accept any label in place of the asterisk (<code class="language-plaintext highlighter-rouge">*</code>). For example, a certificate for <code class="language-plaintext highlighter-rouge">*.example.com</code> will be valid for <code class="language-plaintext highlighter-rouge">www.example.com</code>, <code class="language-plaintext highlighter-rouge">mail.example.com</code>, <code class="language-plaintext highlighter-rouge">hello.example.com</code>, and <code class="language-plaintext highlighter-rouge">goodbye.example.com</code>.</p>
+
+<p>However, a wildcard certificate including <em>only</em> the name <code class="language-plaintext highlighter-rouge">*.example.com</code> will <strong>not</strong> be valid for <code class="language-plaintext highlighter-rouge">example.com</code>: the substituted label can not be empty. If you want the certificate to be valid for <code class="language-plaintext highlighter-rouge">example.com</code>, you also need to include <code class="language-plaintext highlighter-rouge">example.com</code> (i.e. without the <code class="language-plaintext highlighter-rouge">*.</code> part) on the certificate.</p>
+
+<p>Additionally, the asterisk can only be substituted by a <em>single</em> label and not by <em>multiple</em> labels. For example, the name <code class="language-plaintext highlighter-rouge">hello.goodbye.example.com</code> will not be covered by a certificate including only the name <code class="language-plaintext highlighter-rouge">*.example.com</code>. It <em>will</em> be covered however, by <code class="language-plaintext highlighter-rouge">*.goodbye.example.com</code>. Note that a wildcard name can not contain multiple asterisks. For example, <code class="language-plaintext highlighter-rouge">*.*.example.com</code> is not valid.</p>
 
     </div>
     <div class="mobile-only">
       <p>
-      A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.
-
+      A wildcard certificate is a certificate that includes one or more names starting with *.. Browsers will accept any label in place of the asterisk (*). For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, and goodbye.example.com. However, a wildcard certificate including only the name *.example.com will not be valid for example.com: the substituted label can not be empty. If you want the certificate to be valid for example.com, you also need to include example.com (i.e. without the *. part) on the certificate. Additionally, the asterisk can only be substituted by a single label and not...
       </p>
     </div>
     <div class="bottom-text">
@@ -486,7 +493,11 @@ If you’re logged in to your server as a user other than root, you’ll likely 
   <a class="glossary-link no-js">wildcard cert</a>
   <div class="tooltip no-js">
     <a class="tooltip-title" href="/glossary#wildcard-certificate">Wildcard Certificate</a>
-    <p>A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.</p>
+    <p>A wildcard certificate is a certificate that includes one or more names starting with <code class="language-plaintext highlighter-rouge">*.</code>. Browsers will accept any label in place of the asterisk (<code class="language-plaintext highlighter-rouge">*</code>). For example, a certificate for <code class="language-plaintext highlighter-rouge">*.example.com</code> will be valid for <code class="language-plaintext highlighter-rouge">www.example.com</code>, <code class="language-plaintext highlighter-rouge">mail.example.com</code>, <code class="language-plaintext highlighter-rouge">hello.example.com</code>, and <code class="language-plaintext highlighter-rouge">goodbye.example.com</code>.</p>
+
+<p>However, a wildcard certificate including <em>only</em> the name <code class="language-plaintext highlighter-rouge">*.example.com</code> will <strong>not</strong> be valid for <code class="language-plaintext highlighter-rouge">example.com</code>: the substituted label can not be empty. If you want the certificate to be valid for <code class="language-plaintext highlighter-rouge">example.com</code>, you also need to include <code class="language-plaintext highlighter-rouge">example.com</code> (i.e. without the <code class="language-plaintext highlighter-rouge">*.</code> part) on the certificate.</p>
+
+<p>Additionally, the asterisk can only be substituted by a <em>single</em> label and not by <em>multiple</em> labels. For example, the name <code class="language-plaintext highlighter-rouge">hello.goodbye.example.com</code> will not be covered by a certificate including only the name <code class="language-plaintext highlighter-rouge">*.example.com</code>. It <em>will</em> be covered however, by <code class="language-plaintext highlighter-rouge">*.goodbye.example.com</code>. Note that a wildcard name can not contain multiple asterisks. For example, <code class="language-plaintext highlighter-rouge">*.*.example.com</code> is not valid.</p>
 
     <div class="bottom-text">
       From our <a href="/glossary">Certbot Glossary</a>
@@ -557,13 +568,16 @@ You should never share these credentials publicly or with an unauthorized person
       <a href="/glossary#wildcard-certificate">Wildcard Certificate</a>
     </div>
     <div class="mobile-hidden">
-    <p>A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.</p>
+    <p>A wildcard certificate is a certificate that includes one or more names starting with <code class="language-plaintext highlighter-rouge">*.</code>. Browsers will accept any label in place of the asterisk (<code class="language-plaintext highlighter-rouge">*</code>). For example, a certificate for <code class="language-plaintext highlighter-rouge">*.example.com</code> will be valid for <code class="language-plaintext highlighter-rouge">www.example.com</code>, <code class="language-plaintext highlighter-rouge">mail.example.com</code>, <code class="language-plaintext highlighter-rouge">hello.example.com</code>, and <code class="language-plaintext highlighter-rouge">goodbye.example.com</code>.</p>
+
+<p>However, a wildcard certificate including <em>only</em> the name <code class="language-plaintext highlighter-rouge">*.example.com</code> will <strong>not</strong> be valid for <code class="language-plaintext highlighter-rouge">example.com</code>: the substituted label can not be empty. If you want the certificate to be valid for <code class="language-plaintext highlighter-rouge">example.com</code>, you also need to include <code class="language-plaintext highlighter-rouge">example.com</code> (i.e. without the <code class="language-plaintext highlighter-rouge">*.</code> part) on the certificate.</p>
+
+<p>Additionally, the asterisk can only be substituted by a <em>single</em> label and not by <em>multiple</em> labels. For example, the name <code class="language-plaintext highlighter-rouge">hello.goodbye.example.com</code> will not be covered by a certificate including only the name <code class="language-plaintext highlighter-rouge">*.example.com</code>. It <em>will</em> be covered however, by <code class="language-plaintext highlighter-rouge">*.goodbye.example.com</code>. Note that a wildcard name can not contain multiple asterisks. For example, <code class="language-plaintext highlighter-rouge">*.*.example.com</code> is not valid.</p>
 
     </div>
     <div class="mobile-only">
       <p>
-      A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.
-
+      A wildcard certificate is a certificate that includes one or more names starting with *.. Browsers will accept any label in place of the asterisk (*). For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, and goodbye.example.com. However, a wildcard certificate including only the name *.example.com will not be valid for example.com: the substituted label can not be empty. If you want the certificate to be valid for example.com, you also need to include example.com (i.e. without the *. part) on the certificate. Additionally, the asterisk can only be substituted by a single label and not...
       </p>
     </div>
     <div class="bottom-text">
@@ -574,7 +588,11 @@ You should never share these credentials publicly or with an unauthorized person
   <a class="glossary-link no-js">*</a>
   <div class="tooltip no-js">
     <a class="tooltip-title" href="/glossary#wildcard-certificate">Wildcard Certificate</a>
-    <p>A wildcard certificate is a certificate that covers one or more names starting with *. and that will be accepted by a web browser for any subdomain name with any label in place of the * character. For example, a certificate for *.example.com will be valid for www.example.com, mail.example.com, hello.example.com, or goodbye.example.com, but not for example.com.</p>
+    <p>A wildcard certificate is a certificate that includes one or more names starting with <code class="language-plaintext highlighter-rouge">*.</code>. Browsers will accept any label in place of the asterisk (<code class="language-plaintext highlighter-rouge">*</code>). For example, a certificate for <code class="language-plaintext highlighter-rouge">*.example.com</code> will be valid for <code class="language-plaintext highlighter-rouge">www.example.com</code>, <code class="language-plaintext highlighter-rouge">mail.example.com</code>, <code class="language-plaintext highlighter-rouge">hello.example.com</code>, and <code class="language-plaintext highlighter-rouge">goodbye.example.com</code>.</p>
+
+<p>However, a wildcard certificate including <em>only</em> the name <code class="language-plaintext highlighter-rouge">*.example.com</code> will <strong>not</strong> be valid for <code class="language-plaintext highlighter-rouge">example.com</code>: the substituted label can not be empty. If you want the certificate to be valid for <code class="language-plaintext highlighter-rouge">example.com</code>, you also need to include <code class="language-plaintext highlighter-rouge">example.com</code> (i.e. without the <code class="language-plaintext highlighter-rouge">*.</code> part) on the certificate.</p>
+
+<p>Additionally, the asterisk can only be substituted by a <em>single</em> label and not by <em>multiple</em> labels. For example, the name <code class="language-plaintext highlighter-rouge">hello.goodbye.example.com</code> will not be covered by a certificate including only the name <code class="language-plaintext highlighter-rouge">*.example.com</code>. It <em>will</em> be covered however, by <code class="language-plaintext highlighter-rouge">*.goodbye.example.com</code>. Note that a wildcard name can not contain multiple asterisks. For example, <code class="language-plaintext highlighter-rouge">*.*.example.com</code> is not valid.</p>
 
     <div class="bottom-text">
       From our <a href="/glossary">Certbot Glossary</a>
@@ -589,35 +607,72 @@ You should never share these credentials publicly or with an unauthorized person
     <ol>
       <aside class="note">
         <div class="note-header">
-          <h3>Join our beta test!</h3>
+          <h3>Snap Support</h3>
         </div>
-      <p>If you would like to help test a new way to install Certbot that automatically renews your certificates and stays up-to-date, please choose "snapd" in the system dropdown above.</p>
+        <p>
+        The Certbot snap supports the x86_64, ARMv7, and ARMv8 architectures.
+        While we strongly recommend that most users install Certbot through the snap,
+        you can find alternate installation instructions
+        <a href="/docs/install.html">here</a>.
+        </p>
       </aside>
-
-      <aside class="note">
-        <div class="note-header">
-          <h3>Important Note:</h3>
-        </div>
-      <p>
-      For more extensive instructions on how to use Certbot on Arch linux you can refer to the documentation on the
-      <a href="https://wiki.archlinux.org/index.php/Let%E2%80%99s_Encrypt">Arch wiki</a>
-      </p>
-      </aside>
-      <br />
-
 
       <li>
           SSH into the server
           <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
+      </li>
+      <li>
+          Install snapd
+          <p>
+          You'll need to install snapd and make sure you follow any instructions to enable classic snap support.<br />
+          Follow these instructions on <a href="https://snapcraft.io/docs/installing-snapd/">snapcraft's site to install snapd</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="https://snapcraft.io/docs/installing-snapd/">install snapd</a>
+          </p>
+      </li>
+      <li>
+        Ensure that your version of snapd is up to date
+        <p>
+        Execute the following instructions on the command line on the machine to ensure
+        that you have the latest version of <tt>snapd</tt>.
+        </p>
+        <pre>sudo snap install core; sudo snap refresh core</pre>
+      </li>
+      <li>
+          Remove certbot-auto and any Certbot OS packages
+          <p>
+          If you have any Certbot packages installed using an OS package manager like
+          <tt>apt</tt>, <tt>dnf</tt>, or <tt>yum</tt>, you should remove them before
+          installing the Certbot snap to ensure that when you run the command
+          <tt>certbot</tt> the snap is used rather than the installation from your OS
+          package manager. The exact command to do this depends on your OS, but
+          common examples are <tt>sudo apt-get remove certbot</tt>, <tt>sudo dnf
+          remove certbot</tt>, or <tt>sudo yum remove certbot</tt>.
+          </p>
+          <p>
+          If you previously used Certbot through the certbot-auto script, you should
+          also remove its installation by following the instructions <a href="/docs/uninstall.html">here</a>.
+          </p>
       </li>
 
       <li>
         Install Certbot
         <p>
           Run this command on the command line on the machine to install Certbot.
-          <pre>sudo pacman -S certbot</pre>
+          <pre>sudo snap install --classic certbot</pre>
         </p>
       </li>
+      <li>
+        Prepare the Certbot command
+        <p>
+        Execute the following instruction on the command line on the machine to ensure
+        that the <tt>certbot</tt> command can be run.
+        </p>
+        <pre>sudo ln -s /snap/bin/certbot /usr/bin/certbot</pre>
+      </li>
+
+
 
       <li>
           Choose how you'd like to run Certbot
@@ -654,12 +709,36 @@ You should never share these credentials publicly or with an unauthorized person
           </p>
       </li>
 
-
       <li>
-        Set up automatic renewal
+        Test automatic renewal
         <p>
-        We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
+        automatically before they expire. You will not need to run Certbot again, unless you change your
+        configuration.</p>
+
+
+        <p>
+        Next, you'll want to add <code>pre</code> and <code>post</code> hooks to stop and start your
+        webserver automatically. Run the following commands to create the hook files in the appropriate
+        directory:
+        </p>
+
+
+        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
+          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
+
+        <p>
+        More information is available in the
+        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
+        Certbot documentation on renewing certificates</a>.
+        </p>
+
+        <p>You can test automatic renewal for your certificates by running this command:
+        <pre>sudo certbot renew --dry-run</pre></p>
+        <p>
+        If that command completes without errors, your certificates will renew automatically in the background.
         </p>
 
       </li>
@@ -669,13 +748,9 @@ You should never share these credentials publicly or with an unauthorized person
         <p>
         To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
         look for the lock icon in the URL bar.
-        If you want to check that you have the top-of-the-line installation, you can head to
-        <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
-        </p>
-        <p class="centered">
-        <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's <img src="/images/Lock.svg" /> https:// at SSL Labs</a>.
         </p>
       </li>
+
 
       <li>
           Need more HAProxy-specific information?
@@ -700,18 +775,17 @@ You should never share these credentials publicly or with an unauthorized person
 
   <div class="instruction-pane advanced">
     <ol>
-      
       <aside class="note">
         <div class="note-header">
-          <h3>Important Note:</h3>
+          <h3>Snap Support</h3>
         </div>
-      <p>
-      For more extensive instructions on how to use Certbot on Arch linux you can refer to the documentation on the
-      <a href="https://wiki.archlinux.org/index.php/Let%E2%80%99s_Encrypt">Arch wiki</a>
-      </p>
+        <p>
+        The Certbot snap supports the x86_64, ARMv7, and ARMv8 architectures.
+        While we strongly recommend that most users install Certbot through the snap,
+        you can find alternate installation instructions
+        <a href="/docs/install.html">here</a>.
+        </p>
       </aside>
-      <br />
-
       <li>
           Check if your DNS provider is supported
           <p>
@@ -737,12 +811,68 @@ You should never share these credentials publicly or with an unauthorized person
           SSH into the server
           <p>SSH into the server running your HTTP website as a user with sudo privileges.</p>
       </li>
+      <li>
+          Install snapd
+          <p>
+          You'll need to install snapd and make sure you follow any instructions to enable classic snap support.<br />
+          Follow these instructions on <a href="https://snapcraft.io/docs/installing-snapd/">snapcraft's site to install snapd</a>.
+          </p>
+          <p class="centered">
+          <a class="link-button" href="https://snapcraft.io/docs/installing-snapd/">install snapd</a>
+          </p>
+      </li>
+      <li>
+        Ensure that your version of snapd is up to date
+        <p>
+        Execute the following instructions on the command line on the machine to ensure
+        that you have the latest version of <tt>snapd</tt>.
+        </p>
+        <pre>sudo snap install core; sudo snap refresh core</pre>
+      </li>
+      <li>
+          Remove certbot-auto and any Certbot OS packages
+          <p>
+          If you have any Certbot packages installed using an OS package manager like
+          <tt>apt</tt>, <tt>dnf</tt>, or <tt>yum</tt>, you should remove them before
+          installing the Certbot snap to ensure that when you run the command
+          <tt>certbot</tt> the snap is used rather than the installation from your OS
+          package manager. The exact command to do this depends on your OS, but
+          common examples are <tt>sudo apt-get remove certbot</tt>, <tt>sudo dnf
+          remove certbot</tt>, or <tt>sudo yum remove certbot</tt>.
+          </p>
+          <p>
+          If you previously used Certbot through the certbot-auto script, you should
+          also remove its installation by following the instructions <a href="/docs/uninstall.html">here</a>.
+          </p>
+      </li>
 
       <li>
         Install Certbot
         <p>
           Run this command on the command line on the machine to install Certbot.
-          <pre>sudo pacman -S certbot</pre>
+          <pre>sudo snap install --classic certbot</pre>
+        </p>
+      </li>
+      <li>
+        Prepare the Certbot command
+        <p>
+        Execute the following instruction on the command line on the machine to ensure
+        that the <tt>certbot</tt> command can be run.
+        </p>
+        <pre>sudo ln -s /snap/bin/certbot /usr/bin/certbot</pre>
+      </li>
+
+      <li>
+        Confirm plugin containment level
+        <p>
+        Run this command on the command line on the machine to acknowledge that the installed
+        plugin will have the same <tt>classic</tt> containment as the Certbot snap.
+        </p>
+        <pre>sudo snap set certbot trust-plugin-with-root=ok</pre>
+
+        <p>
+        If you encounter issues with running Certbot, you may need to follow this step, then
+        the "Install correct DNS plugin" step, again.
         </p>
       </li>
 
@@ -751,11 +881,11 @@ You should never share these credentials publicly or with an unauthorized person
           <p>
           Run the following command, replacing &lt;PLUGIN&gt; with the name of your DNS provider.
           </p>
-          <pre>sudo pacman -S certbot-dns-&lt;PLUGIN&gt;</pre>
+          <pre>sudo snap install certbot-dns-&lt;PLUGIN&gt;</pre>
           <p>
           For example, if your DNS provider is Cloudflare, you'd run the following command:
           </p>
-          <pre>sudo pacman -S certbot-dns-cloudflare</pre>
+          <pre>sudo snap install certbot-dns-cloudflare</pre>
       </li>
       <li>
           Set up credentials
@@ -769,6 +899,7 @@ You should never share these credentials publicly or with an unauthorized person
           <a class="link-button" href="/docs/using.html#dns-plugins">find your DNS plugin's Credential steps</a>
           </p>
       </li>
+
       <li>
           Get a certificate
           <p>
@@ -784,12 +915,36 @@ You should never share these credentials publicly or with an unauthorized person
           </p>
       </li>
 
-
       <li>
-        Set up automatic renewal
+        Test automatic renewal
         <p>
-        We recommend running the following line, which will add a cron job to the default crontab.
-        <pre class="one-line">echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' &amp;&amp; certbot renew -q" | sudo tee -a /etc/crontab &gt; /dev/null</pre>
+        The Certbot packages on your system come with a cron job or systemd timer that will renew your certificates
+        automatically before they expire. You will not need to run Certbot again, unless you change your
+        configuration.</p>
+
+
+        <p>
+        Next, you'll want to add <code>pre</code> and <code>post</code> hooks to stop and start your
+        webserver automatically. Run the following commands to create the hook files in the appropriate
+        directory:
+        </p>
+
+
+        <pre class="no-before"><ol><li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy stop\n" &gt; /etc/letsencrypt/renewal-hooks/pre/haproxy.sh'</li>
+          <li>sudo sh -c 'printf "#!/bin/sh\nservice haproxy start\n" &gt; /etc/letsencrypt/renewal-hooks/post/haproxy.sh'</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/pre/haproxy.sh</li>
+          <li>sudo chmod 755 /etc/letsencrypt/renewal-hooks/post/haproxy.sh</li></ol></pre>
+
+        <p>
+        More information is available in the
+        <a href="/docs/using.html?highlight=hooks#renewing-certificates">
+        Certbot documentation on renewing certificates</a>.
+        </p>
+
+        <p>You can test automatic renewal for your certificates by running this command:
+        <pre>sudo certbot renew --dry-run</pre></p>
+        <p>
+        If that command completes without errors, your certificates will renew automatically in the background.
         </p>
 
       </li>
@@ -799,32 +954,9 @@ You should never share these credentials publicly or with an unauthorized person
         <p>
         To confirm that your site is set up properly, visit <tt>https://yourwebsite.com/</tt> in your browser and
         look for the lock icon in the URL bar.
-        If you want to check that you have the top-of-the-line installation, you can head to
-        <a href="https://www.ssllabs.com/ssltest/">https://www.ssllabs.com/ssltest/</a>.
-        </p>
-        <p class="centered">
-        <a class="link-button" href="https://www.ssllabs.com/ssltest/">check your site's <img src="/images/Lock.svg" /> https:// at SSL Labs</a>.
         </p>
       </li>
 
-      <li>
-          Need more HAProxy-specific information?
-          <p>
-              Certificate installation with HAProxy is complicated. You can find more information
-              in of these guides:
-              <ul>
-                  <li>
-                      <a href="https://www.digitalocean.com/community/tutorials/how-to-secure-haproxy-with-let-s-encrypt-on-ubuntu-14-04">Digital Ocean's guide</a>
-                  </li>
-                  <li>
-                      <a href="https://skarlso.github.io/2017/02/15/how-to-https-with-hugo-letsencrypt-haproxy/">Skarlso's guide</a>
-                  </li>
-              </ul>
-          </p>
-          <p>
-          Or you might be interested in using the experimental <a href="https://code.greenhost.net/open/letsencrypt-haproxy">third-party HAProxy plugin</a> from Greenhost.
-          </p>
-      </li>
     </ol>
   </div>
 
