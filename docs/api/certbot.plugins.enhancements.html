@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.plugins.enhancements module &mdash; Certbot 1.19.0.dev0 documentation</title>
+  <title>certbot.plugins.enhancements module &mdash; Certbot 1.21.0.dev0 documentation</title>
   
 
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                1.19
+                1.21
               </div>
             
           
@@ -190,9 +193,9 @@
 <span id="certbot-plugins-enhancements-module"></span><h1>certbot.plugins.enhancements module<a class="headerlink" href="#module-certbot.plugins.enhancements" title="Permalink to this headline">¶</a></h1>
 <p>New interface style Certbot enhancements</p>
 <dl class="py data">
-<dt id="certbot.plugins.enhancements.ENHANCEMENTS">
-<code class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></code><code class="sig-name descname"><span class="pre">ENHANCEMENTS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">['redirect',</span> <span class="pre">'ensure-http-header',</span> <span class="pre">'ocsp-stapling']</span></em><a class="headerlink" href="#certbot.plugins.enhancements.ENHANCEMENTS" title="Permalink to this definition">¶</a></dt>
-<dd><p>List of possible <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.IInstaller</span></code></a>
+<dt class="sig sig-object py" id="certbot.plugins.enhancements.ENHANCEMENTS">
+<span class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></span><span class="sig-name descname"><span class="pre">ENHANCEMENTS</span></span><em class="property"> <span class="pre">=</span> <span class="pre">['redirect',</span> <span class="pre">'ensure-http-header',</span> <span class="pre">'ocsp-stapling']</span></em><a class="headerlink" href="#certbot.plugins.enhancements.ENHANCEMENTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of possible <a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.Installer" title="certbot.interfaces.Installer"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.Installer</span></code></a>
 enhancements.</p>
 <p>List of expected options parameters:
 - redirect: None
@@ -201,38 +204,38 @@ enhancements.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="certbot.plugins.enhancements.enabled_enhancements">
-<code class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></code><code class="sig-name descname"><span class="pre">enabled_enhancements</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#enabled_enhancements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.enabled_enhancements" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.plugins.enhancements.enabled_enhancements">
+<span class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></span><span class="sig-name descname"><span class="pre">enabled_enhancements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#enabled_enhancements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.enabled_enhancements" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generator to yield the enabled new style enhancements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>config</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IConfig" title="certbot.interfaces.IConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.IConfig</span></code></a>) – Configuration.</p>
+<dd class="field-odd"><p><strong>config</strong> (<em>certbot.configuration.NamespaceConfig</em>) – Configuration.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="certbot.plugins.enhancements.are_requested">
-<code class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></code><code class="sig-name descname"><span class="pre">are_requested</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#are_requested"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.are_requested" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.plugins.enhancements.are_requested">
+<span class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></span><span class="sig-name descname"><span class="pre">are_requested</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#are_requested"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.are_requested" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if one or more of the requested enhancements are those of the new
 enhancement interfaces.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>config</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IConfig" title="certbot.interfaces.IConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.IConfig</span></code></a>) – Configuration.</p>
+<dd class="field-odd"><p><strong>config</strong> (<em>certbot.configuration.NamespaceConfig</em>) – Configuration.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="certbot.plugins.enhancements.are_supported">
-<code class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></code><code class="sig-name descname"><span class="pre">are_supported</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">installer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#are_supported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.are_supported" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.plugins.enhancements.are_supported">
+<span class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></span><span class="sig-name descname"><span class="pre">are_supported</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">installer</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#are_supported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.are_supported" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that all of the requested enhancements are supported by the
 installer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>config</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IConfig" title="certbot.interfaces.IConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.IConfig</span></code></a>) – Configuration.</p></li>
-<li><p><strong>installer</strong> (<em>interfaces.IInstaller</em>) – Installer object</p></li>
+<li><p><strong>config</strong> (<em>certbot.configuration.NamespaceConfig</em>) – Configuration.</p></li>
+<li><p><strong>installer</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.Installer" title="certbot.interfaces.Installer"><em>interfaces.Installer</em></a>) – Installer object</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -245,24 +248,24 @@ installer.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="certbot.plugins.enhancements.enable">
-<code class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></code><code class="sig-name descname"><span class="pre">enable</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domains</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">installer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#enable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.enable" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.plugins.enhancements.enable">
+<span class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></span><span class="sig-name descname"><span class="pre">enable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domains</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">installer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#enable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.enable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run enable method for each requested enhancement that is supported.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>lineage</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.RenewableCert" title="certbot.interfaces.RenewableCert"><em>certbot.interfaces.RenewableCert</em></a>) – Certificate lineage object</p></li>
 <li><p><strong>domains</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – List of domains in certificate to enhance</p></li>
-<li><p><strong>installer</strong> (<em>interfaces.IInstaller</em>) – Installer object</p></li>
-<li><p><strong>config</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IConfig" title="certbot.interfaces.IConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.IConfig</span></code></a>) – Configuration.</p></li>
+<li><p><strong>installer</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.Installer" title="certbot.interfaces.Installer"><em>interfaces.Installer</em></a>) – Installer object</p></li>
+<li><p><strong>config</strong> (<em>certbot.configuration.NamespaceConfig</em>) – Configuration.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt id="certbot.plugins.enhancements.populate_cli">
-<code class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></code><code class="sig-name descname"><span class="pre">populate_cli</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">add</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#populate_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.populate_cli" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.plugins.enhancements.populate_cli">
+<span class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></span><span class="sig-name descname"><span class="pre">populate_cli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">add</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#populate_cli"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.populate_cli" title="Permalink to this definition">¶</a></dt>
 <dd><p>Populates the command line flags for certbot._internal.cli.HelpfulParser</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -272,8 +275,8 @@ installer.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="certbot.plugins.enhancements.AutoHSTSEnhancement">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></code><code class="sig-name descname"><span class="pre">AutoHSTSEnhancement</span></code><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#AutoHSTSEnhancement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.AutoHSTSEnhancement" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.plugins.enhancements.AutoHSTSEnhancement">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">certbot.plugins.enhancements.</span></span><span class="sig-name descname"><span class="pre">AutoHSTSEnhancement</span></span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#AutoHSTSEnhancement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.AutoHSTSEnhancement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Enhancement interface that installer plugins can implement in order to
 provide functionality that configures the software to have a
@@ -294,8 +297,8 @@ confident that the user is able to automatically renew their certificates.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="certbot.plugins.enhancements.AutoHSTSEnhancement.update_autohsts">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">update_autohsts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineage</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#AutoHSTSEnhancement.update_autohsts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.AutoHSTSEnhancement.update_autohsts" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.plugins.enhancements.AutoHSTSEnhancement.update_autohsts">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">update_autohsts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineage</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#AutoHSTSEnhancement.update_autohsts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.AutoHSTSEnhancement.update_autohsts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets called for each lineage every time Certbot is run with ‘renew’ verb.
 Implementation of this method should increase the max-age value.</p>
 <dl class="field-list simple">
@@ -305,15 +308,15 @@ Implementation of this method should increase the max-age value.</p>
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>prepare() method inherited from <code class="xref py py-obj docutils literal notranslate"><span class="pre">interfaces.IPlugin</span></code> might need
+<p>prepare() method inherited from <code class="xref py py-obj docutils literal notranslate"><span class="pre">interfaces.Plugin</span></code> might need
 to be called manually within implementation of this interface method
 to finalize the plugin initialization.</p>
 </div>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.plugins.enhancements.AutoHSTSEnhancement.deploy_autohsts">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">deploy_autohsts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineage</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#AutoHSTSEnhancement.deploy_autohsts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.AutoHSTSEnhancement.deploy_autohsts" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.plugins.enhancements.AutoHSTSEnhancement.deploy_autohsts">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">deploy_autohsts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineage</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#AutoHSTSEnhancement.deploy_autohsts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.AutoHSTSEnhancement.deploy_autohsts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets called for a lineage when its certificate is successfully renewed.
 Long max-age value should be set in implementation of this method.</p>
 <dl class="field-list simple">
@@ -324,8 +327,8 @@ Long max-age value should be set in implementation of this method.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.plugins.enhancements.AutoHSTSEnhancement.enable_autohsts">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">enable_autohsts</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domains</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#AutoHSTSEnhancement.enable_autohsts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.AutoHSTSEnhancement.enable_autohsts" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.plugins.enhancements.AutoHSTSEnhancement.enable_autohsts">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">enable_autohsts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domains</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/plugins/enhancements.html#AutoHSTSEnhancement.enable_autohsts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.plugins.enhancements.AutoHSTSEnhancement.enable_autohsts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enables the AutoHSTS enhancement, installing
 Strict-Transport-Security header with a low initial value to be increased
 over the subsequent runs of Certbot renew.</p>

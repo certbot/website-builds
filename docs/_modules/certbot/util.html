@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.util &mdash; Certbot 1.19.0.dev0 documentation</title>
+  <title>certbot.util &mdash; Certbot 1.21.0.dev0 documentation</title>
   
 
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
@@ -61,7 +64,7 @@
             
             
               <div class="version">
-                1.19
+                1.21
               </div>
             
           
@@ -179,6 +182,7 @@
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">IO</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Text</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
@@ -373,7 +377,7 @@
             <span class="k">raise</span></div>
 
 
-<div class="viewcode-block" id="safe_open"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.safe_open">[docs]</a><span class="k">def</span> <span class="nf">safe_open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="safe_open"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.safe_open">[docs]</a><span class="k">def</span> <span class="nf">safe_open</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">chmod</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IO</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Safely open a file.</span>
 
 <span class="sd">    :param str path: Path to a file.</span>
@@ -648,6 +652,7 @@
 <span class="sd">                                Encrypt currently will not issue certificates</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">domain</span> <span class="o">=</span> <span class="n">enforce_domain_sanity</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;^[A-Za-z0-9.-]*$&quot;</span><span class="p">,</span> <span class="n">domain</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">(</span>
@@ -693,7 +698,7 @@
     <span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
     <span class="c1"># Remove trailing dot</span>
-    <span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">domain</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">domain</span>
+    <span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">domain</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">domain</span>
 
     <span class="c1"># Separately check for odd &quot;domains&quot; like &quot;http://example.com&quot; to fail</span>
     <span class="c1"># fast and provide a clear error message</span>
@@ -706,17 +711,11 @@
                 <span class="p">)</span>
             <span class="p">)</span>
 
-    <span class="c1"># Explain separately that IP addresses aren&#39;t allowed (apart from not</span>
-    <span class="c1"># being FQDNs) because hope springs eternal concerning this point</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">socket</span><span class="o">.</span><span class="n">inet_aton</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_ipaddress</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">errors</span><span class="o">.</span><span class="n">ConfigurationError</span><span class="p">(</span>
             <span class="s2">&quot;Requested name </span><span class="si">{0}</span><span class="s2"> is an IP address. The Let&#39;s Encrypt &quot;</span>
             <span class="s2">&quot;certificate authority will not issue certificates for a &quot;</span>
             <span class="s2">&quot;bare IP address.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">domain</span><span class="p">))</span>
-    <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
-        <span class="c1"># It wasn&#39;t an IP address, so that&#39;s good</span>
-        <span class="k">pass</span>
 
     <span class="c1"># FQDN checks according to RFC 2181: domain name should be less than 255</span>
     <span class="c1"># octets (inclusive). And each label is 1 - 63 octets (inclusive).</span>
@@ -734,6 +733,29 @@
     <span class="k">return</span> <span class="n">domain</span></div>
 
 
+<div class="viewcode-block" id="is_ipaddress"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.is_ipaddress">[docs]</a><span class="k">def</span> <span class="nf">is_ipaddress</span><span class="p">(</span><span class="n">address</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Is given address string form of IP(v4 or v6) address?</span>
+
+<span class="sd">    :param address: address to check</span>
+<span class="sd">    :type address: `str` or `unicode`</span>
+
+<span class="sd">    :returns: True if address is valid IP address, otherwise return False.</span>
+<span class="sd">    :rtype: bool</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">socket</span><span class="o">.</span><span class="n">inet_pton</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
+        <span class="c1"># If this line runs it was ip address (ipv4)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+        <span class="c1"># It wasn&#39;t an IPv4 address, so try ipv6</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">socket</span><span class="o">.</span><span class="n">inet_pton</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET6</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+
 <div class="viewcode-block" id="is_wildcard_domain"><a class="viewcode-back" href="../../api/certbot.util.html#certbot.util.is_wildcard_domain">[docs]</a><span class="k">def</span> <span class="nf">is_wildcard_domain</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;&quot;Is domain a wildcard domain?</span>
 
@@ -746,7 +768,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">wildcard_marker</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Text</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">]</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;*.&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">wildcard_marker</span> <span class="o">=</span> <span class="sa">u</span><span class="s2">&quot;*.&quot;</span>
+        <span class="n">wildcard_marker</span> <span class="o">=</span> <span class="s2">&quot;*.&quot;</span>
     <span class="k">return</span> <span class="n">domain</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">wildcard_marker</span><span class="p">)</span></div>
 
 

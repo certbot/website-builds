@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.interfaces module &mdash; Certbot 1.19.0.dev0 documentation</title>
+  <title>certbot.interfaces module &mdash; Certbot 1.21.0.dev0 documentation</title>
   
 
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                1.19
+                1.21
               </div>
             
           
@@ -190,15 +193,16 @@
             
   <div class="section" id="module-certbot.interfaces">
 <span id="certbot-interfaces-module"></span><h1>certbot.interfaces module<a class="headerlink" href="#module-certbot.interfaces" title="Permalink to this headline">¶</a></h1>
-<p>Certbot client interfaces.</p>
+<p>Internal class delegating to a module, and displaying warnings when
+attributes related to Zope interfaces are accessed.</p>
 <dl class="py class">
-<dt id="certbot.interfaces.AccountStorage">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">AccountStorage</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#AccountStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.AccountStorage" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.AccountStorage">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></span><span class="sig-name descname"><span class="pre">AccountStorage</span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#AccountStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.AccountStorage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Accounts storage interface.</p>
 <dl class="py method">
-<dt id="certbot.interfaces.AccountStorage.find_all">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">find_all</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#AccountStorage.find_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.AccountStorage.find_all" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.AccountStorage.find_all">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">find_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#AccountStorage.find_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.AccountStorage.find_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find all accounts.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -211,8 +215,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.AccountStorage.load">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">load</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#AccountStorage.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.AccountStorage.load" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.AccountStorage.load">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#AccountStorage.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.AccountStorage.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load an account by its id.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -225,8 +229,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.AccountStorage.save">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#AccountStorage.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.AccountStorage.save" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.AccountStorage.save">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">account</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#AccountStorage.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.AccountStorage.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save account.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -237,27 +241,9 @@
 
 </dd></dl>
 
-<dl class="py interface">
-<dt id="certbot.interfaces.IConfig">
-<em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IConfig</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IConfig" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deprecated, use certbot.configuration.NamespaceConfig instead.</p>
-</dd></dl>
-
-<dl class="py interface">
-<dt id="certbot.interfaces.IPluginFactory">
-<em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IPluginFactory</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IPluginFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IPluginFactory" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deprecated, use certbot.interfaces.Plugin as ABC instead.</p>
-</dd></dl>
-
-<dl class="py interface">
-<dt id="certbot.interfaces.IPlugin">
-<em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IPlugin</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IPlugin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deprecated, use certbot.interfaces.Plugin as ABC instead.</p>
-</dd></dl>
-
 <dl class="py class">
-<dt id="certbot.interfaces.Plugin">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">Plugin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">certbot.configuration.NamespaceConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#Plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Plugin" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Plugin">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></span><span class="sig-name descname"><span class="pre">Plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">certbot.configuration.NamespaceConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#Plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Plugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Certbot plugin.</p>
 <p>Objects providing this interface will be called without satisfying
@@ -288,14 +274,14 @@ extras. This is necessary, because CLI does the following operations
 </ul>
 </div></blockquote>
 <dl class="py attribute">
-<dt id="certbot.interfaces.Plugin.description">
-<code class="sig-name descname"><span class="pre">description</span></code><em class="property"><span class="pre">:</span> <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">NotImplemented</span></em><a class="headerlink" href="#certbot.interfaces.Plugin.description" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Plugin.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="pre">:</span> <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><em class="property"> <span class="pre">=</span> <span class="pre">NotImplemented</span></em><a class="headerlink" href="#certbot.interfaces.Plugin.description" title="Permalink to this definition">¶</a></dt>
 <dd><p>Short plugin description</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Plugin.prepare">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">prepare</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Plugin.prepare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Plugin.prepare" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Plugin.prepare">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">prepare</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Plugin.prepare"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Plugin.prepare" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prepare the plugin.</p>
 <p>Finish up any additional initialization.</p>
 <dl class="field-list simple">
@@ -314,8 +300,8 @@ currently supported.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Plugin.more_info">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">more_info</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Plugin.more_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Plugin.more_info" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Plugin.more_info">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">more_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Plugin.more_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Plugin.more_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Human-readable string to help the user.</p>
 <p>Should describe the steps taken and any relevant info to help the user
 decide which plugin to use.</p>
@@ -326,8 +312,8 @@ decide which plugin to use.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Plugin.inject_parser_options">
-<em class="property"><span class="pre">abstract</span> <span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">inject_parser_options</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser" title="(in Python v3.10)"><span class="pre">argparse.ArgumentParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Plugin.inject_parser_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Plugin.inject_parser_options" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Plugin.inject_parser_options">
+<em class="property"><span class="pre">abstract</span> <span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">inject_parser_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser" title="(in Python v3.10)"><span class="pre">argparse.ArgumentParser</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Plugin.inject_parser_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Plugin.inject_parser_options" title="Permalink to this definition">¶</a></dt>
 <dd><p>Inject argument parser options (flags).</p>
 <p>1. Be nice and prepend all options and destinations with
 <a class="reference internal" href="certbot.plugins.common.html#certbot.plugins.common.option_namespace" title="certbot.plugins.common.option_namespace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">option_namespace</span></code></a> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">dest_namespace</span></code>.</p>
@@ -345,23 +331,16 @@ allowed, as this would break the CLI.</p>
 
 </dd></dl>
 
-<dl class="py interface">
-<dt id="certbot.interfaces.IAuthenticator">
-<em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IAuthenticator</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IAuthenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IAuthenticator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extends: <a class="reference internal" href="#certbot.interfaces.IPlugin" title="certbot.interfaces.IPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.IPlugin</span></code></a></p>
-<p>Deprecated, use certbot.interfaces.Authenticator as ABC instead.</p>
-</dd></dl>
-
 <dl class="py class">
-<dt id="certbot.interfaces.Authenticator">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">Authenticator</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">certbot.configuration.NamespaceConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#Authenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Authenticator" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Authenticator">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></span><span class="sig-name descname"><span class="pre">Authenticator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">certbot.configuration.NamespaceConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#Authenticator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Authenticator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#certbot.interfaces.Plugin" title="certbot.interfaces.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.Plugin</span></code></a></p>
 <p>Generic Certbot Authenticator.</p>
 <p>Class represents all possible tools processes that have the
 ability to perform challenges and attain a certificate.</p>
 <dl class="py method">
-<dt id="certbot.interfaces.Authenticator.get_chall_pref">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">get_chall_pref</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.Challenge" title="(in acme-python v0)"><span class="pre">acme.challenges.Challenge</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Authenticator.get_chall_pref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Authenticator.get_chall_pref" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Authenticator.get_chall_pref">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">get_chall_pref</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.Challenge" title="(in acme-python v0)"><span class="pre">acme.challenges.Challenge</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Authenticator.get_chall_pref"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Authenticator.get_chall_pref" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="xref py py-obj docutils literal notranslate"><span class="pre">collections.Iterable</span></code> of challenge preferences.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -380,8 +359,8 @@ Authenticator cannot perform the challenge.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Authenticator.perform">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">perform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">achalls</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="certbot.achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><span class="pre">certbot.achallenges.AnnotatedChallenge</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.ChallengeResponse" title="(in acme-python v0)"><span class="pre">acme.challenges.ChallengeResponse</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Authenticator.perform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Authenticator.perform" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Authenticator.perform">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">perform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">achalls</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="certbot.achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><span class="pre">certbot.achallenges.AnnotatedChallenge</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://acme-python.readthedocs.io/en/latest/api/challenges.html#acme.challenges.ChallengeResponse" title="(in acme-python v0)"><span class="pre">acme.challenges.ChallengeResponse</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Authenticator.perform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Authenticator.perform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform the given challenge.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -408,8 +387,8 @@ the same order as corresponding input challenges</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Authenticator.cleanup">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">cleanup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">achalls</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="certbot.achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><span class="pre">certbot.achallenges.AnnotatedChallenge</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Authenticator.cleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Authenticator.cleanup" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Authenticator.cleanup">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">cleanup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">achalls</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="certbot.achallenges.html#certbot.achallenges.AnnotatedChallenge" title="certbot.achallenges.AnnotatedChallenge"><span class="pre">certbot.achallenges.AnnotatedChallenge</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Authenticator.cleanup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Authenticator.cleanup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Revert changes and shutdown after challenges complete.</p>
 <p>This method should be able to revert all changes made by
 perform, even if perform exited abnormally.</p>
@@ -427,16 +406,9 @@ instances, a subset of those previously passed to <a class="reference internal" 
 
 </dd></dl>
 
-<dl class="py interface">
-<dt id="certbot.interfaces.IInstaller">
-<em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IInstaller</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IInstaller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IInstaller" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extends: <a class="reference internal" href="#certbot.interfaces.IPlugin" title="certbot.interfaces.IPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.IPlugin</span></code></a></p>
-<p>Deprecated, use certbot.interfaces.Installer as ABC instead.</p>
-</dd></dl>
-
 <dl class="py class">
-<dt id="certbot.interfaces.Installer">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">Installer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">certbot.configuration.NamespaceConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Installer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></span><span class="sig-name descname"><span class="pre">Installer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">certbot.configuration.NamespaceConfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#certbot.interfaces.Plugin" title="certbot.interfaces.Plugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.Plugin</span></code></a></p>
 <p>Generic Certbot Installer Interface.</p>
 <p>Represents any server that an X509 certificate can be placed.</p>
@@ -447,8 +419,8 @@ of an error.</p>
 <p>Using <a class="reference internal" href="certbot.reverter.html#certbot.reverter.Reverter" title="certbot.reverter.Reverter"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.reverter.Reverter</span></code></a> to implement checkpoints,
 rollback, and recovery can dramatically simplify plugin development.</p>
 <dl class="py method">
-<dt id="certbot.interfaces.Installer.get_all_names">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">get_all_names</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.get_all_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.get_all_names" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Installer.get_all_names">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">get_all_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.get_all_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.get_all_names" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all names that may be authenticated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -458,8 +430,8 @@ rollback, and recovery can dramatically simplify plugin development.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Installer.deploy_cert">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">deploy_cert</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fullchain_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.deploy_cert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.deploy_cert" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Installer.deploy_cert">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">deploy_cert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fullchain_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.deploy_cert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.deploy_cert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deploy certificate.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -479,8 +451,8 @@ file (cert plus chain)</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Installer.enhance">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">enhance</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">enhancement</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.enhance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.enhance" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Installer.enhance">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">enhance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">enhancement</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.enhance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.enhance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform a configuration enhancement.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -502,8 +474,8 @@ an error occurs during the enhancement.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Installer.supported_enhancements">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">supported_enhancements</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.supported_enhancements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.supported_enhancements" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Installer.supported_enhancements">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">supported_enhancements</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.supported_enhancements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.supported_enhancements" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a <code class="xref py py-obj docutils literal notranslate"><span class="pre">collections.Iterable</span></code> of supported enhancements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -517,8 +489,8 @@ an error occurs during the enhancement.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Installer.save">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">save</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temporary</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.save" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Installer.save">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temporary</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves all changes to the configuration files.</p>
 <p>Both title and temporary are needed because a save may be
 intended to be permanent, but the save is not ready to be a full
@@ -543,8 +515,8 @@ be quickly reversed in the future (challenges)</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Installer.rollback_checkpoints">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">rollback_checkpoints</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rollback</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.rollback_checkpoints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.rollback_checkpoints" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Installer.rollback_checkpoints">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">rollback_checkpoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rollback</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.rollback_checkpoints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.rollback_checkpoints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Revert <code class="xref py py-obj docutils literal notranslate"><span class="pre">rollback</span></code> number of configuration checkpoints.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -554,8 +526,8 @@ be quickly reversed in the future (challenges)</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Installer.recovery_routine">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">recovery_routine</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.recovery_routine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.recovery_routine" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Installer.recovery_routine">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">recovery_routine</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.recovery_routine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.recovery_routine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Revert configuration to most recent finalized checkpoint.</p>
 <p>Remove all changes (temporary and permanent) that have not been
 finalized. This is useful to protect against crashes and other
@@ -568,8 +540,8 @@ execution interruptions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Installer.config_test">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">config_test</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.config_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.config_test" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Installer.config_test">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">config_test</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.config_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.config_test" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make sure the configuration is valid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -579,8 +551,8 @@ execution interruptions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.Installer.restart">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">restart</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.restart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.restart" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.Installer.restart">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#Installer.restart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.Installer.restart" title="Permalink to this definition">¶</a></dt>
 <dd><p>Restart or refresh the server content.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Raises</dt>
@@ -591,26 +563,14 @@ execution interruptions.</p>
 
 </dd></dl>
 
-<dl class="py interface">
-<dt id="certbot.interfaces.IDisplay">
-<em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IDisplay</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IDisplay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IDisplay" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deprecated, use your own Display implementation instead.</p>
-</dd></dl>
-
-<dl class="py interface">
-<dt id="certbot.interfaces.IReporter">
-<em class="property"><span class="pre">interface</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">IReporter</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#IReporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.IReporter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deprecated, use your own Reporter implementation instead.</p>
-</dd></dl>
-
 <dl class="py class">
-<dt id="certbot.interfaces.RenewableCert">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">RenewableCert</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#RenewableCert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.RenewableCert" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.RenewableCert">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></span><span class="sig-name descname"><span class="pre">RenewableCert</span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#RenewableCert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.RenewableCert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Interface to a certificate lineage.</p>
-<dl class="py method">
-<dt id="certbot.interfaces.RenewableCert.cert_path">
-<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">cert_path</span></code><a class="headerlink" href="#certbot.interfaces.RenewableCert.cert_path" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="certbot.interfaces.RenewableCert.cert_path">
+<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">cert_path</span></span><a class="headerlink" href="#certbot.interfaces.RenewableCert.cert_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Path to the certificate file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -619,9 +579,9 @@ execution interruptions.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="certbot.interfaces.RenewableCert.key_path">
-<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">key_path</span></code><a class="headerlink" href="#certbot.interfaces.RenewableCert.key_path" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="certbot.interfaces.RenewableCert.key_path">
+<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">key_path</span></span><a class="headerlink" href="#certbot.interfaces.RenewableCert.key_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Path to the private key file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -630,9 +590,9 @@ execution interruptions.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="certbot.interfaces.RenewableCert.chain_path">
-<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">chain_path</span></code><a class="headerlink" href="#certbot.interfaces.RenewableCert.chain_path" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="certbot.interfaces.RenewableCert.chain_path">
+<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">chain_path</span></span><a class="headerlink" href="#certbot.interfaces.RenewableCert.chain_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Path to the certificate chain file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -641,9 +601,9 @@ execution interruptions.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="certbot.interfaces.RenewableCert.fullchain_path">
-<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">fullchain_path</span></code><a class="headerlink" href="#certbot.interfaces.RenewableCert.fullchain_path" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="certbot.interfaces.RenewableCert.fullchain_path">
+<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">fullchain_path</span></span><a class="headerlink" href="#certbot.interfaces.RenewableCert.fullchain_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Path to the full chain file.</p>
 <p>The full chain is the certificate file plus the chain file.</p>
 <dl class="field-list simple">
@@ -653,9 +613,9 @@ execution interruptions.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="certbot.interfaces.RenewableCert.lineagename">
-<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">lineagename</span></code><a class="headerlink" href="#certbot.interfaces.RenewableCert.lineagename" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="certbot.interfaces.RenewableCert.lineagename">
+<em class="property"><span class="pre">abstract</span> <span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">lineagename</span></span><a class="headerlink" href="#certbot.interfaces.RenewableCert.lineagename" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name given to the certificate lineage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
@@ -665,8 +625,8 @@ execution interruptions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.interfaces.RenewableCert.names">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">names</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#RenewableCert.names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.RenewableCert.names" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.RenewableCert.names">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#RenewableCert.names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.RenewableCert.names" title="Permalink to this definition">¶</a></dt>
 <dd><p>What are the subject names of this certificate?</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -684,8 +644,8 @@ execution interruptions.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="certbot.interfaces.GenericUpdater">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">GenericUpdater</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#GenericUpdater"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.GenericUpdater" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.GenericUpdater">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></span><span class="sig-name descname"><span class="pre">GenericUpdater</span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#GenericUpdater"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.GenericUpdater" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Interface for update types not currently specified by Certbot.</p>
 <p>This class allows plugins to perform types of updates that Certbot hasn’t
@@ -695,10 +655,10 @@ methods, and interfaces.GenericUpdater.register(InstallerClass) should
 be called from the installer code.</p>
 <p>The plugins implementing this enhancement are responsible of handling
 the saving of configuration checkpoints as well as other calls to
-interface methods of <code class="xref py py-obj docutils literal notranslate"><span class="pre">interfaces.IInstaller</span></code> such as prepare() and restart()</p>
+interface methods of <code class="xref py py-obj docutils literal notranslate"><span class="pre">interfaces.Installer</span></code> such as prepare() and restart()</p>
 <dl class="py method">
-<dt id="certbot.interfaces.GenericUpdater.generic_updates">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">generic_updates</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineage</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#GenericUpdater.generic_updates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.GenericUpdater.generic_updates" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.GenericUpdater.generic_updates">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">generic_updates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineage</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#GenericUpdater.generic_updates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.GenericUpdater.generic_updates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform any update types defined by the installer.</p>
 <p>If an installer is a subclass of the class containing this method, this
 function will always be called when “certbot renew” is run. If the
@@ -715,8 +675,8 @@ installer needs to handle checking the conditions itself.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="certbot.interfaces.RenewDeployer">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></code><code class="sig-name descname"><span class="pre">RenewDeployer</span></code><a class="reference internal" href="../_modules/certbot/interfaces.html#RenewDeployer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.RenewDeployer" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.RenewDeployer">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">certbot.interfaces.</span></span><span class="sig-name descname"><span class="pre">RenewDeployer</span></span><a class="reference internal" href="../_modules/certbot/interfaces.html#RenewDeployer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.RenewDeployer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Interface for update types run when a lineage is renewed</p>
 <p>This class allows plugins to perform types of updates that need to run at
@@ -725,11 +685,11 @@ lineage renewal that Certbot hasn’t defined (yet).</p>
 methods, and interfaces.RenewDeployer.register(InstallerClass) should
 be called from the installer code.</p>
 <dl class="py method">
-<dt id="certbot.interfaces.RenewDeployer.renew_deploy">
-<em class="property"><span class="pre">abstract</span> </em><code class="sig-name descname"><span class="pre">renew_deploy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineage</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#RenewDeployer.renew_deploy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.RenewDeployer.renew_deploy" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.interfaces.RenewDeployer.renew_deploy">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">renew_deploy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lineage</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/interfaces.html#RenewDeployer.renew_deploy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.interfaces.RenewDeployer.renew_deploy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform updates defined by installer when a certificate has been renewed</p>
 <p>If an installer is a subclass of the class containing this method, this
-function will always be called when a certficate has been renewed by
+function will always be called when a certificate has been renewed by
 running “certbot renew”. For example if a plugin needs to copy a
 certificate over, or change configuration based on the new certificate.</p>
 <p>This method is called once for each lineage renewed</p>

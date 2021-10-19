@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.reverter module &mdash; Certbot 1.19.0.dev0 documentation</title>
+  <title>certbot.reverter module &mdash; Certbot 1.21.0.dev0 documentation</title>
   
 
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                1.19
+                1.21
               </div>
             
           
@@ -192,8 +195,8 @@
 <span id="certbot-reverter-module"></span><h1>certbot.reverter module<a class="headerlink" href="#module-certbot.reverter" title="Permalink to this headline">¶</a></h1>
 <p>Reverter class saves configuration checkpoints and allows for recovery.</p>
 <dl class="py class">
-<dt id="certbot.reverter.Reverter">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.reverter.</span></code><code class="sig-name descname"><span class="pre">Reverter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.reverter.Reverter">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">certbot.reverter.</span></span><span class="sig-name descname"><span class="pre">Reverter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Reverter Class - save and revert configuration checkpoints.</p>
 <p>This class can be used by the plugins, especially Installers, to
@@ -230,12 +233,12 @@ temporary or in progress changes.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>config</strong> (<a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.IConfig" title="certbot.interfaces.IConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.interfaces.IConfig</span></code></a>) – Configuration.</p>
+<dd class="field-odd"><p><strong>config</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">certbot.configuration.NamespaceConfig</span></code>) – Configuration.</p>
 </dd>
 </dl>
 <dl class="py method">
-<dt id="certbot.reverter.Reverter.revert_temporary_config">
-<code class="sig-name descname"><span class="pre">revert_temporary_config</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.revert_temporary_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.revert_temporary_config" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.reverter.Reverter.revert_temporary_config">
+<span class="sig-name descname"><span class="pre">revert_temporary_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.revert_temporary_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.revert_temporary_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reload users original configuration files after a temporary save.</p>
 <p>This function should reinstall the users original configuration files
 for all saves with temporary=True</p>
@@ -247,8 +250,8 @@ for all saves with temporary=True</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.reverter.Reverter.rollback_checkpoints">
-<code class="sig-name descname"><span class="pre">rollback_checkpoints</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rollback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.rollback_checkpoints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.rollback_checkpoints" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.reverter.Reverter.rollback_checkpoints">
+<span class="sig-name descname"><span class="pre">rollback_checkpoints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rollback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.rollback_checkpoints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.rollback_checkpoints" title="Permalink to this definition">¶</a></dt>
 <dd><p>Revert ‘rollback’ number of configuration checkpoints.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -263,8 +266,8 @@ unable to correctly revert the configuration checkpoints</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.reverter.Reverter.add_to_temp_checkpoint">
-<code class="sig-name descname"><span class="pre">add_to_temp_checkpoint</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_notes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.add_to_temp_checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.add_to_temp_checkpoint" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.reverter.Reverter.add_to_temp_checkpoint">
+<span class="sig-name descname"><span class="pre">add_to_temp_checkpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_notes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.add_to_temp_checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.add_to_temp_checkpoint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add files to temporary checkpoint.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -277,8 +280,8 @@ unable to correctly revert the configuration checkpoints</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.reverter.Reverter.add_to_checkpoint">
-<code class="sig-name descname"><span class="pre">add_to_checkpoint</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_notes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.add_to_checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.add_to_checkpoint" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.reverter.Reverter.add_to_checkpoint">
+<span class="sig-name descname"><span class="pre">add_to_checkpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_notes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.add_to_checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.add_to_checkpoint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add files to a permanent checkpoint.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -291,8 +294,8 @@ unable to correctly revert the configuration checkpoints</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.reverter.Reverter.register_file_creation">
-<code class="sig-name descname"><span class="pre">register_file_creation</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temporary</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">files</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.register_file_creation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.register_file_creation" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.reverter.Reverter.register_file_creation">
+<span class="sig-name descname"><span class="pre">register_file_creation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temporary</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">files</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.register_file_creation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.register_file_creation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register the creation of all files during certbot execution.</p>
 <p>Call this method before writing to the file to make sure that the
 file will be cleaned up if the program exits unexpectedly.
@@ -314,8 +317,8 @@ is unable to be registered.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.reverter.Reverter.register_undo_command">
-<code class="sig-name descname"><span class="pre">register_undo_command</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temporary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.register_undo_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.register_undo_command" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.reverter.Reverter.register_undo_command">
+<span class="sig-name descname"><span class="pre">register_undo_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temporary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.register_undo_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.register_undo_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Register a command to be run to undo actions taken.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -338,8 +341,8 @@ IN_PROGRESS or TEMPORARY checkpoints.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.reverter.Reverter.recovery_routine">
-<code class="sig-name descname"><span class="pre">recovery_routine</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.recovery_routine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.recovery_routine" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.reverter.Reverter.recovery_routine">
+<span class="sig-name descname"><span class="pre">recovery_routine</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.recovery_routine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.recovery_routine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Revert configuration to most recent finalized checkpoint.</p>
 <p>Remove all changes (temporary and permanent) that have not been
 finalized. This is useful to protect against crashes and other
@@ -352,8 +355,8 @@ execution interruptions.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.reverter.Reverter.finalize_checkpoint">
-<code class="sig-name descname"><span class="pre">finalize_checkpoint</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.finalize_checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.finalize_checkpoint" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.reverter.Reverter.finalize_checkpoint">
+<span class="sig-name descname"><span class="pre">finalize_checkpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/reverter.html#Reverter.finalize_checkpoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.reverter.Reverter.finalize_checkpoint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finalize the checkpoint.</p>
 <p>Timestamps and permanently saves all changes made through the use
 of <a class="reference internal" href="#certbot.reverter.Reverter.add_to_checkpoint" title="certbot.reverter.Reverter.add_to_checkpoint"><code class="xref py py-func docutils literal notranslate"><span class="pre">add_to_checkpoint()</span></code></a> and <a class="reference internal" href="#certbot.reverter.Reverter.register_file_creation" title="certbot.reverter.Reverter.register_file_creation"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_file_creation()</span></code></a></p>

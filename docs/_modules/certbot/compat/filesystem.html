@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.compat.filesystem &mdash; Certbot 1.19.0.dev0 documentation</title>
+  <title>certbot.compat.filesystem &mdash; Certbot 1.21.0.dev0 documentation</title>
   
 
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -61,7 +64,7 @@
             
             
               <div class="version">
-                1.19
+                1.21
               </div>
             
           
@@ -332,10 +335,7 @@
 <span class="sd">    :return: True if given file is owned by current user, False otherwise.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">POSIX_MODE</span><span class="p">:</span>
-        <span class="c1"># On Windows, os.getuid does not exist. This is checked through POSIX_MODE value,</span>
-        <span class="c1"># but MyPy/PyLint does not know it and raises an error here on Windows.</span>
-        <span class="c1"># We disable specifically the check to fix the issue.</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">st_uid</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">getuid</span><span class="p">()</span>  <span class="c1"># type: ignore</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span><span class="o">.</span><span class="n">st_uid</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">getuid</span><span class="p">()</span>
 
     <span class="c1"># Get owner sid of the file</span>
     <span class="n">security</span> <span class="o">=</span> <span class="n">win32security</span><span class="o">.</span><span class="n">GetFileSecurity</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">win32security</span><span class="o">.</span><span class="n">OWNER_SECURITY_INFORMATION</span><span class="p">)</span>

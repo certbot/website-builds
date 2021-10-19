@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.interfaces &mdash; Certbot 1.19.0.dev0 documentation</title>
+  <title>certbot.interfaces &mdash; Certbot 1.21.0.dev0 documentation</title>
   
 
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/doctools.js"></script>
@@ -61,7 +64,7 @@
             
             
               <div class="version">
-                1.19
+                1.21
               </div>
             
           
@@ -168,9 +171,13 @@
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span>
 <span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
 <span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">ModuleType</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">zope.interface</span>
 
@@ -213,16 +220,16 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
 
 
-<div class="viewcode-block" id="IConfig"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IConfig">[docs]</a><span class="k">class</span> <span class="nc">IConfig</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
-    <span class="sd">&quot;&quot;&quot;Deprecated, use certbot.configuration.NamespaceConfig instead.&quot;&quot;&quot;</span></div>
+<span class="k">class</span> <span class="nc">IConfig</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
+    <span class="sd">&quot;&quot;&quot;Deprecated, use certbot.configuration.NamespaceConfig instead.&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="IPluginFactory"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IPluginFactory">[docs]</a><span class="k">class</span> <span class="nc">IPluginFactory</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
-    <span class="sd">&quot;&quot;&quot;Deprecated, use certbot.interfaces.Plugin as ABC instead.&quot;&quot;&quot;</span></div>
+<span class="k">class</span> <span class="nc">IPluginFactory</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
+    <span class="sd">&quot;&quot;&quot;Deprecated, use certbot.interfaces.Plugin as ABC instead.&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="IPlugin"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IPlugin">[docs]</a><span class="k">class</span> <span class="nc">IPlugin</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
-    <span class="sd">&quot;&quot;&quot;Deprecated, use certbot.interfaces.Plugin as ABC instead.&quot;&quot;&quot;</span></div>
+<span class="k">class</span> <span class="nc">IPlugin</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
+    <span class="sd">&quot;&quot;&quot;Deprecated, use certbot.interfaces.Plugin as ABC instead.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="Plugin"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.Plugin">[docs]</a><span class="k">class</span> <span class="nc">Plugin</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
@@ -316,8 +323,8 @@
 <span class="sd">        &quot;&quot;&quot;</span></div></div>
 
 
-<div class="viewcode-block" id="IAuthenticator"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IAuthenticator">[docs]</a><span class="k">class</span> <span class="nc">IAuthenticator</span><span class="p">(</span><span class="n">IPlugin</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
-    <span class="sd">&quot;&quot;&quot;Deprecated, use certbot.interfaces.Authenticator as ABC instead.&quot;&quot;&quot;</span></div>
+<span class="k">class</span> <span class="nc">IAuthenticator</span><span class="p">(</span><span class="n">IPlugin</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
+    <span class="sd">&quot;&quot;&quot;Deprecated, use certbot.interfaces.Authenticator as ABC instead.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="Authenticator"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.Authenticator">[docs]</a><span class="k">class</span> <span class="nc">Authenticator</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
@@ -379,8 +386,8 @@
 <span class="sd">        &quot;&quot;&quot;</span></div></div>
 
 
-<div class="viewcode-block" id="IInstaller"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IInstaller">[docs]</a><span class="k">class</span> <span class="nc">IInstaller</span><span class="p">(</span><span class="n">IPlugin</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
-    <span class="sd">&quot;&quot;&quot;Deprecated, use certbot.interfaces.Installer as ABC instead.&quot;&quot;&quot;</span></div>
+<span class="k">class</span> <span class="nc">IInstaller</span><span class="p">(</span><span class="n">IPlugin</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
+    <span class="sd">&quot;&quot;&quot;Deprecated, use certbot.interfaces.Installer as ABC instead.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="Installer"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.Installer">[docs]</a><span class="k">class</span> <span class="nc">Installer</span><span class="p">(</span><span class="n">Plugin</span><span class="p">):</span>
@@ -509,12 +516,12 @@
 <span class="sd">        &quot;&quot;&quot;</span></div></div>
 
 
-<div class="viewcode-block" id="IDisplay"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IDisplay">[docs]</a><span class="k">class</span> <span class="nc">IDisplay</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
-    <span class="sd">&quot;&quot;&quot;Deprecated, use your own Display implementation instead.&quot;&quot;&quot;</span></div>
+<span class="k">class</span> <span class="nc">IDisplay</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
+    <span class="sd">&quot;&quot;&quot;Deprecated, use your own Display implementation instead.&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="IReporter"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.IReporter">[docs]</a><span class="k">class</span> <span class="nc">IReporter</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
-    <span class="sd">&quot;&quot;&quot;Deprecated, use your own Reporter implementation instead.&quot;&quot;&quot;</span></div>
+<span class="k">class</span> <span class="nc">IReporter</span><span class="p">(</span><span class="n">zope</span><span class="o">.</span><span class="n">interface</span><span class="o">.</span><span class="n">Interface</span><span class="p">):</span>  <span class="c1"># pylint: disable=inherit-non-class</span>
+    <span class="sd">&quot;&quot;&quot;Deprecated, use your own Reporter implementation instead.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="RenewableCert"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.RenewableCert">[docs]</a><span class="k">class</span> <span class="nc">RenewableCert</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
@@ -600,7 +607,7 @@
 
 <span class="sd">    The plugins implementing this enhancement are responsible of handling</span>
 <span class="sd">    the saving of configuration checkpoints as well as other calls to</span>
-<span class="sd">    interface methods of `interfaces.IInstaller` such as prepare() and restart()</span>
+<span class="sd">    interface methods of `interfaces.Installer` such as prepare() and restart()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="GenericUpdater.generic_updates"><a class="viewcode-back" href="../../api/certbot.interfaces.html#certbot.interfaces.GenericUpdater.generic_updates">[docs]</a>    <span class="nd">@abstractmethod</span>
@@ -636,7 +643,7 @@
         <span class="sd">&quot;&quot;&quot;Perform updates defined by installer when a certificate has been renewed</span>
 
 <span class="sd">        If an installer is a subclass of the class containing this method, this</span>
-<span class="sd">        function will always be called when a certficate has been renewed by</span>
+<span class="sd">        function will always be called when a certificate has been renewed by</span>
 <span class="sd">        running &quot;certbot renew&quot;. For example if a plugin needs to copy a</span>
 <span class="sd">        certificate over, or change configuration based on the new certificate.</span>
 
@@ -646,6 +653,39 @@
 <span class="sd">        :type lineage: RenewableCert</span>
 
 <span class="sd">        &quot;&quot;&quot;</span></div></div>
+
+
+<span class="c1"># This class takes a similar approach to the cryptography project to deprecate attributes</span>
+<span class="c1"># in public modules. See the _ModuleWithDeprecation class here:</span>
+<span class="c1"># https://github.com/pyca/cryptography/blob/91105952739442a74582d3e62b3d2111365b0dc7/src/cryptography/utils.py#L129</span>
+<span class="k">class</span> <span class="nc">_ZopeInterfacesDeprecationModule</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Internal class delegating to a module, and displaying warnings when</span>
+<span class="sd">    attributes related to Zope interfaces are accessed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_module&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">module</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;IConfig&#39;</span><span class="p">,</span> <span class="s1">&#39;IPlugin&#39;</span><span class="p">,</span> <span class="s1">&#39;IPluginFactory&#39;</span><span class="p">,</span> <span class="s1">&#39;IAuthenticator&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;IInstaller&#39;</span><span class="p">,</span> <span class="s1">&#39;IDisplay&#39;</span><span class="p">,</span> <span class="s1">&#39;IReporter&#39;</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> attribute in certbot.interfaces module is deprecated &#39;</span>
+                          <span class="s1">&#39;and will be removed soon.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attr</span><span class="p">),</span>
+                          <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__dir__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;_module&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">)</span>
+
+
+<span class="c1"># Patching ourselves to warn about Zope interfaces deprecation and planned removal.</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">ModuleType</span><span class="p">,</span> <span class="n">_ZopeInterfacesDeprecationModule</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]))</span>
 </pre></div>
 
            </div>

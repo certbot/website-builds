@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Developer Guide &mdash; Certbot 1.19.0.dev0 documentation</title>
+  <title>Developer Guide &mdash; Certbot 1.21.0.dev0 documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                1.19
+                1.21
               </div>
             
           
@@ -433,14 +436,12 @@ Azure setup, a branch whose name starts with <code class="xref py py-obj docutil
 different webservers, other TLS servers, and operating systems.
 The interfaces available for plugins to implement are defined in
 <a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot/certbot/interfaces.py">interfaces.py</a> and <a class="reference external" href="https://github.com/certbot/certbot/blob/master/certbot/certbot/plugins/common.py#L45">plugins/common.py</a>.</p>
-<p>The main two plugin interfaces are <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IAuthenticator" title="certbot.interfaces.IAuthenticator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IAuthenticator</span></code></a>, which
+<p>The main two plugin interfaces are <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.Authenticator" title="certbot.interfaces.Authenticator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Authenticator</span></code></a>, which
 implements various ways of proving domain control to a certificate authority,
-and <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IInstaller</span></code></a>, which configures a server to use a
+and <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.Installer" title="certbot.interfaces.Installer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Installer</span></code></a>, which configures a server to use a
 certificate once it is issued. Some plugins, like the built-in Apache and Nginx
 plugins, implement both interfaces and perform both tasks. Others, like the
 built-in Standalone authenticator, implement just one interface.</p>
-<p>There are also <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IDisplay" title="certbot.interfaces.IDisplay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IDisplay</span></code></a> plugins,
-which can change how prompts are displayed to a user.</p>
 </div>
 <div class="section" id="authenticators">
 <h3><a class="toc-backref" href="#id17">Authenticators</a><a class="headerlink" href="#authenticators" title="Permalink to this headline">¶</a></h3>
@@ -463,7 +464,7 @@ DNS records that were needed only during authentication.</p>
 possibly tweak the security configuration to make it more correct and secure
 (Fix some mixed content problems, turn on HSTS, redirect to HTTPS, etc).
 Installer plugins tell the main client about their abilities to do the latter
-via the <code class="xref py py-meth docutils literal notranslate"><span class="pre">supported_enhancements()</span></code> call. We currently
+via the <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.Installer.supported_enhancements" title="certbot.interfaces.Installer.supported_enhancements"><code class="xref py py-meth docutils literal notranslate"><span class="pre">supported_enhancements()</span></code></a> call. We currently
 have two Installers in the tree, the <code class="xref py py-obj docutils literal notranslate"><span class="pre">ApacheConfigurator</span></code>. and the
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">NginxConfigurator</span></code>.  External projects have made some progress toward
 support for IIS, Icecast and Plesk.</p>
@@ -480,7 +481,7 @@ cannot solve challenges itself (Such as MTA installers).</p>
 <div class="section" id="installer-development">
 <h3><a class="toc-backref" href="#id19">Installer Development</a><a class="headerlink" href="#installer-development" title="Permalink to this headline">¶</a></h3>
 <p>There are a few existing classes that may be beneficial while
-developing a new <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IInstaller</span></code></a>.
+developing a new <a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.Installer" title="certbot.interfaces.Installer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Installer</span></code></a>.
 Installers aimed to reconfigure UNIX servers may use Augeas for
 configuration parsing and can inherit from <code class="xref py py-obj docutils literal notranslate"><span class="pre">AugeasConfigurator</span></code> class
 to handle much of the interface. Installers that are unable to use
@@ -502,8 +503,8 @@ for one example of that.</p>
 <p>Certbot client supports dynamic discovery of plugins through the
 <a class="reference external" href="https://setuptools.readthedocs.io/en/latest/pkg_resources.html#entry-points">setuptools entry points</a> using the <a class="reference internal" href="api/certbot.plugins.html#module-certbot.plugins" title="certbot.plugins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">certbot.plugins</span></code></a> group. This
 way you can, for example, create a custom implementation of
-<a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IAuthenticator" title="certbot.interfaces.IAuthenticator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IAuthenticator</span></code></a> or the
-<a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.IInstaller" title="certbot.interfaces.IInstaller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IInstaller</span></code></a> without having to merge it
+<a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.Authenticator" title="certbot.interfaces.Authenticator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Authenticator</span></code></a> or the
+<a class="reference internal" href="api/certbot.interfaces.html#certbot.interfaces.Installer" title="certbot.interfaces.Installer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Installer</span></code></a> without having to merge it
 with the core upstream source code. An example is provided in
 <code class="docutils literal notranslate"><span class="pre">examples/plugins/</span></code> directory.</p>
 <p>While developing, you can install your plugin into a Certbot development
@@ -619,7 +620,7 @@ to start contributing to Certbot.</p>
 <p>Also note that OpenSSL, which we rely on, has type definitions for crypto but not SSL. We use both.
 Those imports should look like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">OpenSSL</span> <span class="kn">import</span> <span class="n">crypto</span>
-<span class="kn">from</span> <span class="nn">OpenSSL</span> <span class="kn">import</span> <span class="n">SSL</span> <span class="c1"># type: ignore # https://github.com/python/typeshed/issues/2052</span>
+<span class="kn">from</span> <span class="nn">OpenSSL</span> <span class="kn">import</span> <span class="n">SSL</span>
 </pre></div>
 </div>
 </div>

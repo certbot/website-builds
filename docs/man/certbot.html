@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>&lt;no title&gt; &mdash; Certbot 1.19.0.dev0 documentation</title>
+  <title>&lt;no title&gt; &mdash; Certbot 1.21.0.dev0 documentation</title>
   
 
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
@@ -61,7 +64,7 @@
             
             
               <div class="version">
-                1.19
+                1.21
               </div>
             
           
@@ -165,7 +168,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage: 
+  <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage:
   certbot [SUBCOMMAND] [options] [-d DOMAIN] [-d DOMAIN] ...
 
 Certbot can obtain and install HTTPS/TLS/SSL certificates.  By default,
@@ -286,7 +289,7 @@ optional arguments:
                         case, and to know when to deprecate support for past
                         Python versions and flags. If you wish to hide this
                         information from the Let&#39;s Encrypt server, set this to
-                        &quot;&quot;. (default: CertbotACMEClient/1.18.0 (certbot;
+                        &quot;&quot;. (default: CertbotACMEClient/1.20.0 (certbot;
                         OS_NAME OS_VERSION) Authenticator/XXX Installer/YYY
                         (SUBCOMMAND; flags: FLAGS) Py/major.minor.patchlevel).
                         The flags encoded in the user agent are: --duplicate,
@@ -323,6 +326,11 @@ automation:
                         near expiry. (default: False)
   --reuse-key           When renewing, use the same private key as the
                         existing certificate. (default: False)
+  --no-reuse-key        When renewing, do not use the same private key as the
+                        existing certificate. Not reusing private keys is the
+                        default behavior of Certbot. This option may be used
+                        to unset --reuse-key on an existing certificate.
+                        (default: False)
   --allow-subset-of-names
                         When performing domain validation, do not consider it
                         a failure if authorizations can not be obtained for a
@@ -448,13 +456,12 @@ certonly:
                         &#39;certonly&#39; subcommand. (default: None)
 
 renew:
-  The &#39;renew&#39; subcommand will attempt to renew all certificates (or more
-  precisely, certificate lineages) you have previously obtained if they are
-  close to expiry, and print a summary of the results. By default, &#39;renew&#39;
-  will reuse the options used to create obtain or most recently successfully
-  renew each certificate lineage. You can try it with `--dry-run` first. For
-  more fine-grained control, you can renew individual lineages with the
-  `certonly` subcommand. Hooks are available to run commands before and
+  The &#39;renew&#39; subcommand will attempt to renew any certificates previously
+  obtained if they are close to expiry, and print a summary of the results.
+  By default, &#39;renew&#39; will reuse the plugins and options used to obtain or
+  most recently renew each certificate. You can test whether future renewals
+  will succeed with `--dry-run`. Individual certificates can be renewed with
+  the `--cert-name` option. Hooks are available to run commands before and
   after renewal; see https://certbot.eff.org/docs/using.html#renewal for
   more information on these.
 

@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.plugins.enhancements &mdash; Certbot 1.19.0.dev0 documentation</title>
+  <title>certbot.plugins.enhancements &mdash; Certbot 1.21.0.dev0 documentation</title>
   
 
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -61,7 +64,7 @@
             
             
               <div class="version">
-                1.19
+                1.21
               </div>
             
           
@@ -173,7 +176,7 @@
 <span class="kn">from</span> <span class="nn">certbot._internal</span> <span class="kn">import</span> <span class="n">constants</span>
 
 <span class="n">ENHANCEMENTS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;redirect&quot;</span><span class="p">,</span> <span class="s2">&quot;ensure-http-header&quot;</span><span class="p">,</span> <span class="s2">&quot;ocsp-stapling&quot;</span><span class="p">]</span>
-<span class="sd">&quot;&quot;&quot;List of possible :class:`certbot.interfaces.IInstaller`</span>
+<span class="sd">&quot;&quot;&quot;List of possible :class:`certbot.interfaces.Installer`</span>
 <span class="sd">enhancements.</span>
 
 <span class="sd">List of expected options parameters:</span>
@@ -188,7 +191,7 @@
 <span class="sd">    Generator to yield the enabled new style enhancements.</span>
 
 <span class="sd">    :param config: Configuration.</span>
-<span class="sd">    :type config: :class:`certbot.interfaces.IConfig`</span>
+<span class="sd">    :type config: certbot.configuration.NamespaceConfig</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">enh</span> <span class="ow">in</span> <span class="n">_INDEX</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">enh</span><span class="p">[</span><span class="s2">&quot;cli_dest&quot;</span><span class="p">]):</span>
@@ -200,7 +203,7 @@
 <span class="sd">    enhancement interfaces.</span>
 
 <span class="sd">    :param config: Configuration.</span>
-<span class="sd">    :type config: :class:`certbot.interfaces.IConfig`</span>
+<span class="sd">    :type config: certbot.configuration.NamespaceConfig</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">enabled_enhancements</span><span class="p">(</span><span class="n">config</span><span class="p">))</span></div>
 
@@ -210,10 +213,10 @@
 <span class="sd">    installer.</span>
 
 <span class="sd">    :param config: Configuration.</span>
-<span class="sd">    :type config: :class:`certbot.interfaces.IConfig`</span>
+<span class="sd">    :type config: certbot.configuration.NamespaceConfig</span>
 
 <span class="sd">    :param installer: Installer object</span>
-<span class="sd">    :type installer: interfaces.IInstaller</span>
+<span class="sd">    :type installer: interfaces.Installer</span>
 
 <span class="sd">    :returns: If all the requested enhancements are supported by the installer</span>
 <span class="sd">    :rtype: bool</span>
@@ -234,10 +237,10 @@
 <span class="sd">    :type domains: str</span>
 
 <span class="sd">    :param installer: Installer object</span>
-<span class="sd">    :type installer: interfaces.IInstaller</span>
+<span class="sd">    :type installer: interfaces.Installer</span>
 
 <span class="sd">    :param config: Configuration.</span>
-<span class="sd">    :type config: :class:`certbot.interfaces.IConfig`</span>
+<span class="sd">    :type config: certbot.configuration.NamespaceConfig</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">enh</span> <span class="ow">in</span> <span class="n">enabled_enhancements</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
         <span class="nb">getattr</span><span class="p">(</span><span class="n">installer</span><span class="p">,</span> <span class="n">enh</span><span class="p">[</span><span class="s2">&quot;enable_function&quot;</span><span class="p">])(</span><span class="n">lineage</span><span class="p">,</span> <span class="n">domains</span><span class="p">)</span></div>
@@ -290,7 +293,7 @@
 <span class="sd">        :param lineage: Certificate lineage object</span>
 <span class="sd">        :type lineage: certbot.interfaces.RenewableCert</span>
 
-<span class="sd">        .. note:: prepare() method inherited from `interfaces.IPlugin` might need</span>
+<span class="sd">        .. note:: prepare() method inherited from `interfaces.Plugin` might need</span>
 <span class="sd">            to be called manually within implementation of this interface method</span>
 <span class="sd">            to finalize the plugin initialization.</span>
 <span class="sd">        &quot;&quot;&quot;</span></div>

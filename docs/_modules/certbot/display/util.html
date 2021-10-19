@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.display.util &mdash; Certbot 1.19.0.dev0 documentation</title>
+  <title>certbot.display.util &mdash; Certbot 1.21.0.dev0 documentation</title>
   
 
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -61,7 +64,7 @@
             
             
               <div class="version">
-                1.19
+                1.21
               </div>
             
           
@@ -175,10 +178,14 @@
 <span class="sd">Other messages can use the `logging` module. See `log.py`.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">ModuleType</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 
 <span class="c1"># These specific imports from certbot._internal.display.obj and</span>
@@ -353,21 +360,53 @@
 
 
 <div class="viewcode-block" id="assert_valid_call"><a class="viewcode-back" href="../../../api/certbot.display.util.html#certbot.display.util.assert_valid_call">[docs]</a><span class="k">def</span> <span class="nf">assert_valid_call</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">cli_flag</span><span class="p">,</span> <span class="n">force_interactive</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Verify that provided arguments is a valid IDisplay call.</span>
+    <span class="sd">&quot;&quot;&quot;Verify that provided arguments is a valid display call.</span>
 
 <span class="sd">    :param str prompt: prompt for the user</span>
 <span class="sd">    :param default: default answer to prompt</span>
 <span class="sd">    :param str cli_flag: command line option for setting an answer</span>
 <span class="sd">        to this question</span>
-<span class="sd">    :param bool force_interactive: if interactivity is forced by the</span>
-<span class="sd">        IDisplay call</span>
+<span class="sd">    :param bool force_interactive: if interactivity is forced</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Invalid IDisplay call for this prompt:</span><span class="se">\n</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Invalid display call for this prompt:</span><span class="se">\n</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">cli_flag</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">You can set an answer to &quot;</span>
                 <span class="s2">&quot;this prompt with the </span><span class="si">{0}</span><span class="s2"> flag&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cli_flag</span><span class="p">))</span>
     <span class="k">assert</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">force_interactive</span><span class="p">,</span> <span class="n">msg</span></div>
+
+
+<span class="c1"># This class takes a similar approach to the cryptography project to deprecate attributes</span>
+<span class="c1"># in public modules. See the _ModuleWithDeprecation class here:</span>
+<span class="c1"># https://github.com/pyca/cryptography/blob/91105952739442a74582d3e62b3d2111365b0dc7/src/cryptography/utils.py#L129</span>
+<span class="k">class</span> <span class="nc">_DisplayUtilDeprecationModule</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Internal class delegating to a module, and displaying warnings when attributes</span>
+<span class="sd">    related to deprecated attributes in the certbot.display.util module.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_module&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">module</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;FileDisplay&#39;</span><span class="p">,</span> <span class="s1">&#39;NoninteractiveDisplay&#39;</span><span class="p">,</span> <span class="s1">&#39;SIDE_FRAME&#39;</span><span class="p">,</span> <span class="s1">&#39;input_with_timeout&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;separate_list_input&#39;</span><span class="p">,</span> <span class="s1">&#39;summarize_domain_list&#39;</span><span class="p">,</span> <span class="s1">&#39;WIDTH&#39;</span><span class="p">,</span> <span class="s1">&#39;HELP&#39;</span><span class="p">,</span> <span class="s1">&#39;ESC&#39;</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> attribute in certbot.display.util module is deprecated &#39;</span>
+                          <span class="s1">&#39;and will be removed soon.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attr</span><span class="p">),</span>
+                          <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__delattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__dir__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;_module&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_module</span><span class="p">)</span>
+
+
+<span class="c1"># Patching ourselves to warn about deprecation and planned removal of some elements in the module.</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">ModuleType</span><span class="p">,</span> <span class="n">_DisplayUtilDeprecationModule</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">]))</span>
 </pre></div>
 
            </div>

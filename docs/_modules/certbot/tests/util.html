@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.tests.util &mdash; Certbot 1.19.0.dev0 documentation</title>
+  <title>certbot.tests.util &mdash; Certbot 1.21.0.dev0 documentation</title>
   
 
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -61,7 +64,7 @@
             
             
               <div class="version">
-                1.19
+                1.21
               </div>
             
           
@@ -391,15 +394,15 @@
 
 
 <div class="viewcode-block" id="patch_display_util"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.patch_display_util">[docs]</a><span class="k">def</span> <span class="nf">patch_display_util</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Patch certbot.display.util to use a special mock IDisplay.</span>
+    <span class="sd">&quot;&quot;&quot;Patch certbot.display.util to use a special mock display utility.</span>
 
-<span class="sd">    The mock IDisplay works like a regular mock object, except it also</span>
+<span class="sd">    The mock display utility works like a regular mock object, except it also</span>
 <span class="sd">    also asserts that methods are called with valid arguments.</span>
 
 <span class="sd">    The mock created by this patch mocks out Certbot internals so this can be</span>
 <span class="sd">    used like the old patch_get_utility function. That is, the mock object will</span>
 <span class="sd">    be called by the certbot.display.util functions and the mock returned by</span>
-<span class="sd">    that call will be used as the IDisplay object. This was done to simplify</span>
+<span class="sd">    that call will be used as the display utility. This was done to simplify</span>
 <span class="sd">    the transition from zope.component and mocking certbot.display.util</span>
 <span class="sd">    functions directly in test code should be preferred over using this</span>
 <span class="sd">    function in the future.</span>
@@ -407,7 +410,7 @@
 <span class="sd">    See https://github.com/certbot/certbot/issues/8948</span>
 
 <span class="sd">    :returns: patch on the function used internally by certbot.display.util to</span>
-<span class="sd">        get an IDisplay object</span>
+<span class="sd">        get a display utility instance</span>
 <span class="sd">    :rtype: unittest.mock._patch</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -416,28 +419,28 @@
 
 
 <div class="viewcode-block" id="patch_display_util_with_stdout"><a class="viewcode-back" href="../../../api/certbot.tests.util.html#certbot.tests.util.patch_display_util_with_stdout">[docs]</a><span class="k">def</span> <span class="nf">patch_display_util_with_stdout</span><span class="p">(</span><span class="n">stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Patch certbot.display.util to use a special mock IDisplay.</span>
+    <span class="sd">&quot;&quot;&quot;Patch certbot.display.util to use a special mock display utility.</span>
 
-<span class="sd">    The mock IDisplay works like a regular mock object, except it also</span>
+<span class="sd">    The mock display utility works like a regular mock object, except it also</span>
 <span class="sd">    asserts that methods are called with valid arguments.</span>
 
 <span class="sd">    The mock created by this patch mocks out Certbot internals so this can be</span>
 <span class="sd">    used like the old patch_get_utility function. That is, the mock object will</span>
 <span class="sd">    be called by the certbot.display.util functions and the mock returned by</span>
-<span class="sd">    that call will be used as the IDisplay object. This was done to simplify</span>
+<span class="sd">    that call will be used as the display utility. This was done to simplify</span>
 <span class="sd">    the transition from zope.component and mocking certbot.display.util</span>
 <span class="sd">    functions directly in test code should be preferred over using this</span>
 <span class="sd">    function in the future.</span>
 
 <span class="sd">    See https://github.com/certbot/certbot/issues/8948</span>
 
-<span class="sd">    The `message` argument passed to the IDisplay methods is passed to</span>
+<span class="sd">    The `message` argument passed to the display utility methods is passed to</span>
 <span class="sd">    stdout&#39;s write method.</span>
 
 <span class="sd">    :param object stdout: object to write standard output to; it is</span>
 <span class="sd">        expected to have a `write` method</span>
 <span class="sd">    :returns: patch on the function used internally by certbot.display.util to</span>
-<span class="sd">        get an IDisplay object</span>
+<span class="sd">        get a display utility instance</span>
 <span class="sd">    :rtype: unittest.mock._patch</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -538,7 +541,7 @@
 
     <span class="k">def</span> <span class="nf">mock_method</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Mock function for IDisplay methods.</span>
+<span class="sd">        Mock function for display utility methods.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_assert_valid_call</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
         <span class="n">_write_msg</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>

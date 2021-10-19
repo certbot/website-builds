@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>certbot.ocsp package &mdash; Certbot 1.19.0.dev0 documentation</title>
+  <title>certbot.ocsp package &mdash; Certbot 1.21.0.dev0 documentation</title>
   
 
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,6 +31,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
         <script src="../_static/jquery.js"></script>
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
@@ -63,7 +66,7 @@
             
             
               <div class="version">
-                1.19
+                1.21
               </div>
             
           
@@ -192,13 +195,13 @@
 <span id="certbot-ocsp-package"></span><h1>certbot.ocsp package<a class="headerlink" href="#module-certbot.ocsp" title="Permalink to this headline">¶</a></h1>
 <p>Tools for checking certificate revocation.</p>
 <dl class="py class">
-<dt id="certbot.ocsp.RevocationChecker">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">certbot.ocsp.</span></code><code class="sig-name descname"><span class="pre">RevocationChecker</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enforce_openssl_binary_usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/ocsp.html#RevocationChecker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.ocsp.RevocationChecker" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.ocsp.RevocationChecker">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">certbot.ocsp.</span></span><span class="sig-name descname"><span class="pre">RevocationChecker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enforce_openssl_binary_usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/certbot/ocsp.html#RevocationChecker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.ocsp.RevocationChecker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>This class figures out OCSP checking on this system, and performs it.</p>
 <dl class="py method">
-<dt id="certbot.ocsp.RevocationChecker.ocsp_revoked">
-<code class="sig-name descname"><span class="pre">ocsp_revoked</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cert</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.RenewableCert" title="certbot.interfaces.RenewableCert"><span class="pre">certbot.interfaces.RenewableCert</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a><a class="reference internal" href="../_modules/certbot/ocsp.html#RevocationChecker.ocsp_revoked"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.ocsp.RevocationChecker.ocsp_revoked" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.ocsp.RevocationChecker.ocsp_revoked">
+<span class="sig-name descname"><span class="pre">ocsp_revoked</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cert</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="certbot.interfaces.html#certbot.interfaces.RenewableCert" title="certbot.interfaces.RenewableCert"><span class="pre">certbot.interfaces.RenewableCert</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/certbot/ocsp.html#RevocationChecker.ocsp_revoked"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.ocsp.RevocationChecker.ocsp_revoked" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get revoked status for a particular cert version.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -214,8 +217,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="certbot.ocsp.RevocationChecker.ocsp_revoked_by_paths">
-<code class="sig-name descname"><span class="pre">ocsp_revoked_by_paths</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cert_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a><a class="reference internal" href="../_modules/certbot/ocsp.html#RevocationChecker.ocsp_revoked_by_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.ocsp.RevocationChecker.ocsp_revoked_by_paths" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="certbot.ocsp.RevocationChecker.ocsp_revoked_by_paths">
+<span class="sig-name descname"><span class="pre">ocsp_revoked_by_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cert_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain_path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/certbot/ocsp.html#RevocationChecker.ocsp_revoked_by_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#certbot.ocsp.RevocationChecker.ocsp_revoked_by_paths" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs the OCSP revocation check</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
